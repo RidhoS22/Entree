@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi Kewirausahaan/assets/css/dashboardstyle.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/dashboardstyle.css">
 </head>
 
 <body>
@@ -45,7 +45,7 @@
                     </a>
                     <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="/APLIKASI KEWIRAUSAHAAN/auth/login/loginform.php" class="sidebar-link">Login</a>
+                            <a href="/APLIKASI-KEWIRAUSAHAAN/auth/login/loginform.php" class="sidebar-link">Login</a>
                         </li>
                     </ul>
                 </li>
@@ -57,7 +57,7 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <script src="script.js"></script>
-    <script type="text/javascript" src="/Aplikasi Kewirausahaan/assets/js/hamburger.js"></script>
+    <script type="text/javascript" src="/Aplikasi-Kewirausahaan/assets/js/hamburger.js"></script>
 </body>
 
 </html>

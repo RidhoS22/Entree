@@ -2,20 +2,20 @@
 <html>
 <head>
 	<title>Animated Login Form</title>
-	<link rel="stylesheet" href="/Aplikasi Kewirausahaan/assets/css/loginstyle.css">
+	<link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/loginstyle.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-	<img class="wave" src="/Aplikasi Kewirausahaan/assets/img/wave.png">
+	<img class="wave" src="/Aplikasi-Kewirausahaan/assets/img/wave.png">
 	<div class="container">
 		<div class="img">
-			<img src="/Aplikasi Kewirausahaan/assets/img/bg.svg">
+			<img src="/Aplikasi-Kewirausahaan/assets/img/bg.svg">
 		</div>
 		<div class="login-content">
-			<form action="/APlikasi Kewirausahaan/config/ldap.php" method="post">
-				<img src="/Aplikasi Kewirausahaan/assets/img/avatar.svg">
+			<form action="/Aplikasi-Kewirausahaan/config/ldap.php" method="post">
+				<img src="/Aplikasi-Kewirausahaan/assets/img/avatar.svg">
 				<h2 class="title">L O G I N</h2>
            		<div class="input-div one">
            		   <div class="i">
@@ -36,10 +36,10 @@
             	   </div>
             	</div>
             	<input type="submit" class="btnLogin" value="Login">
-				<a href="/Aplikasi Kewirausahaan"></a>
+				<a href="/Aplikasi-Kewirausahaan"></a>
             </form>
         </div>
     </div>
-    <script type="text/javascript" src="/Aplikasi Kewirausahaan/assets/js/login.js"></script>
+    <script type="text/javascript" src="/Aplikasi-Kewirausahaan/assets/js/login.js"></script>
 </body>
 </html>
