@@ -14,7 +14,7 @@
 			<img src="/Aplikasi Kewirausahaan/assets/img/bg.svg">
 		</div>
 		<div class="login-content">
-			<form action="index.html">
+			<form action="/APlikasi Kewirausahaan/config/ldap.php" method="post">
 				<img src="/Aplikasi Kewirausahaan/assets/img/avatar.svg">
 				<h2 class="title">L O G I N</h2>
            		<div class="input-div one">
@@ -23,7 +23,7 @@
            		   </div>
            		   <div class="div">
            		   		<h5>Username</h5>
-           		   		<input type="text" class="input" required oninvalid="this.setCustomValidity('Kolom ini tidak boleh kosong')" oninput="this.setCustomValidity('')">
+           		   		<input type="text" class="input username" name="username" oninvalid="this.setCustomValidity('Kolom ini tidak boleh kosong')" oninput="this.setCustomValidity('')">
            		   </div>
            		</div>
            		<div class="input-div pass">
@@ -32,7 +32,7 @@
            		   </div>
            		   <div class="div">
            		    	<h5>Password</h5>
-           		    	<input type="password" class="input" required oninvalid="this.setCustomValidity('Kolom ini tidak boleh kosong')" oninput="this.setCustomValidity('')">
+           		    	<input type="password" class="input password" name="password" required oninvalid="this.setCustomValidity('Kolom ini tidak boleh kosong')" oninput="this.setCustomValidity('')">
             	   </div>
             	</div>
             	<input type="submit" class="btnLogin" value="Login">

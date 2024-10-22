@@ -1,4 +1,5 @@
-const inputs = document.querySelectorAll(".input");
+const username = document.querySelector(".input.username");
+const password = document.querySelector(".input.password");
 
 
 function addcl(){
@@ -13,8 +14,8 @@ function remcl(){
 	}
 }
 
+	username.addEventListener("focus", addcl);
+	username.addEventListener("blur", remcl);
 
-inputs.forEach(input => {
-	input.addEventListener("focus", addcl);
-	input.addEventListener("blur", remcl);
-});
+	password.addEventListener("focus", addcl);
+	password.addEventListener("blur", remcl);
