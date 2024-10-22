@@ -40,6 +40,6 @@
             </form>
         </div>
     </div>
-    <script type="text/javascript" src="/Aplikasi Kewirausahaan/assets/js/main.js"></script>
+    <script type="text/javascript" src="/Aplikasi Kewirausahaan/assets/js/login.js"></script>
 </body>
 </html>
