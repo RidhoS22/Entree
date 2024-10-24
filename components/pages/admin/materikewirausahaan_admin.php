@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/pagemahasiswa.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan_admin.css">
 </head>
 
 <body>
@@ -31,20 +31,20 @@
                         <span>Profil</span>
                     </a>
                 </li>
-                <li class="sidebar-item active">
-                    <a href="#" class="sidebar-link">
+                <li class="sidebar-item">
+                    <a href="pagemahasiswa.php" class="sidebar-link">
                         <i class="fa-solid fa-house"></i>
                         <span>Beranda</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="materikewirausahaan_mahasiswa.php" class="sidebar-link">
+                <li class="sidebar-item active">
+                    <a href="#" class="sidebar-link">
                         <i class="fa-solid fa-book"></i>
                         <span>Materi Kewirausahaan</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a id="openFormBtn" href="#" class="sidebar-link">
+                    <a href="#" class="sidebar-link">
                         <i class="fa-solid fa-users"></i>
                         <span>Kelompok Bisnis</span>
                     </a>
@@ -79,67 +79,38 @@
 
         <div class="main p-3">
             <div class="main_header">
-                <h1>Beranda</h1>
+                <h1>Materi Kewirausahaan</h1>
                 <a href="#" class="notification">
                     <i class="fa-regular fa-bell"></i>
                 </a>
             </div>
 
             <div class="main_wrapper">
-                <div class="card-container">
-                    <a href="materikewirausahaan_mahasiswa.php" class="card">
-                        <div class="card-content">
-                            <h2>Materi Kewirausahaan</h2>
-                            <p>Materi kewirausahaan adalah materi yang disediakan oleh PIKK untuk para mahasiswa mempelajari secara mandiri materi tentang kewirausahaan.</p>
-                        </div>
-                    </a>
+        
+                <button id="openFormBtn"><i class="fa-solid fa-plus"></i> Tambahkan Materi</button>
 
                 <!-- Modal Form -->
                 <div id="modalForm" class="modal">
                     <div class="modal-content">
                         <span class="close-btn">&times;</span>
-                        <h2>Pengajuan Kelompok Bisnis Kewirausahaan</h2>
+                        <h2>Tambahkan Materi</h2>
 
                         <form method="POST" action="">
-                            <!-- Nama Kelompok -->
+                            <!-- Judul Materi -->
                             <div class="form-group">
-                                <label for="nama_kelompok">Nama Kelompok:</label>
-                                <input type="text" id="nama_kelompok" name="nama_kelompok" required>
+                                <label for="judul">Judul Materi:</label>
+                                <input type="text" id="judul" name="judul" required>
                             </div>
 
-                            <!-- Nama Anggota 1 -->
+                            <!-- Materi (file input) -->
                             <div class="form-group">
-                                <label for="nama_anggota_1">Nama Anggota 1:</label>
-                                <input type="text" id="nama_anggota_1" name="nama_anggota_1" required>
+                                <label for="materi">Materi (Video, Dokumen, PPT, dll):</label>
+                                <input type="file" id="materi" name="materi" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv" required>
                             </div>
 
-                            <!-- Nama Anggota 2 -->
+                            <!-- Deskripsi Materi -->
                             <div class="form-group">
-                                <label for="nama_anggota_2">Nama Anggota 2:</label>
-                                <input type="text" id="nama_anggota_2" name="nama_anggota_2" required>
-                            </div>
-
-                            <!-- Nama Anggota 3 -->
-                            <div class="form-group">
-                                <label for="nama_anggota_3">Nama Anggota 3:</label>
-                                <input type="text" id="nama_anggota_3" name="nama_anggota_3" required>
-                            </div>
-
-                            <!-- Nama Bisnis -->
-                            <div class="form-group">
-                                <label for="nama_bisnis">Nama Bisnis:</label>
-                                <input type="text" id="nama_bisnis" name="nama_bisnis" required>
-                            </div>
-
-                            <!-- Ide Bisnis -->
-                            <div class="form-group">
-                                <label for="ide_bisnis">Ide Bisnis:</label>
-                                <input type="text" id="ide_bisnis" name="ide_bisnis" required>
-                            </div>
-
-                            <!-- Deskripsi Bisnis Kelompok -->
-                            <div class="form-group">
-                                <label for="deskripsi">Deskripsi Singkat Bisnis Kelompok:</label>
+                                <label for="deskripsi">Deskripsi Materi:</label>
                                 <textarea id="deskripsi" name="deskripsi" required></textarea>
                             </div>
 
@@ -180,11 +151,10 @@
                     }
 
                 </script>
-                </div>           
-            </div>
-        </div>
+                        </div>
+                    </div>
 
-    </div>
+                </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
