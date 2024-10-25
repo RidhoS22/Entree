@@ -194,38 +194,7 @@ a.sidebar-link:hover {
   margin-right: 8px;
 }
 
-.card-container {
-  display: flex;
-}
-
-.card {
-  text-decoration: none;
-  display: block;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 50%;
-  padding: 20px;
-  color: black;
-}
-
-.card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.card-content h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.card-content p {
-  font-size: 16px;
-  color: #555;
-}
-
-/* style untuk form kelompok bisnis */
+/* admin */
 /* Gaya untuk modal dan form */
 .modal {
   display: none; /* Modal tersembunyi secara default */
@@ -307,7 +276,7 @@ button:hover {
 
 .close-btn {
   position: absolute;
-  top: 5px;
+  top: 10px;
   right: 15px;
   font-size: 28px;
   color: #aaa;
@@ -344,7 +313,8 @@ form label {
 
 form input[type="text"],
 form input[type="file"],
-form textarea {
+form textarea,
+form select {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
@@ -354,12 +324,21 @@ form textarea {
   transition: border-color 0.3s ease;
 }
 
+form select {
+  appearance: none; /* Menghilangkan tanda panah default di sebagian besar browser */
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIj4KPHBhdGggZmlsbD0iI0NDQyIgZD0iTTIgNGw0IDQgNCA0VjBsLTQtNHoiLz4KPC9zdmc+"); /* Icon untuk panah dropdown */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
 form textarea {
   height: 120px;
   resize: vertical;
 }
 
 form input[type="text"]:focus,
+form input[type="file"]:focus,
 form textarea:focus {
   border-color: #2ea56f;
   outline: none;
@@ -381,6 +360,6 @@ form button:hover {
   background-color: #299363;
 }
 
-.modal h2{
+.modal h2 {
   margin-top: 25px;
 }

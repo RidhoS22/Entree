@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/pagemahasiswa.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/pagemahasiswa.css">
 </head>
 
 <body>
@@ -44,7 +44,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a id="openFormBtn" href="#" class="sidebar-link">
+                    <a href="kelompok_bisnis_mahasiswa.php" class="sidebar-link">
                         <i class="fa-solid fa-users"></i>
                         <span>Kelompok Bisnis</span>
                     </a>
@@ -63,9 +63,9 @@
                 </li>
                 <hr>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="proposal_bisnis_mahasiswa.php" class="sidebar-link">
                         <i class="fa-solid fa-folder"></i>
-                        <span>Ide Bisnis</span>
+                        <span>Proposal Bisnis kelompok</span>
                     </a>
                 </li>
                 <li class="sidebar-item sign-out">
@@ -93,94 +93,7 @@
                             <p>Materi kewirausahaan adalah materi yang disediakan oleh PIKK untuk para mahasiswa mempelajari secara mandiri materi tentang kewirausahaan.</p>
                         </div>
                     </a>
-
-                <!-- Modal Form -->
-                <div id="modalForm" class="modal">
-                    <div class="modal-content">
-                        <span class="close-btn">&times;</span>
-                        <h2>Pengajuan Kelompok Bisnis Kewirausahaan</h2>
-
-                        <form method="POST" action="">
-                            <!-- Nama Kelompok -->
-                            <div class="form-group">
-                                <label for="nama_kelompok">Nama Kelompok:</label>
-                                <input type="text" id="nama_kelompok" name="nama_kelompok" required>
-                            </div>
-
-                            <!-- Nama Anggota 1 -->
-                            <div class="form-group">
-                                <label for="nama_anggota_1">Nama Anggota 1:</label>
-                                <input type="text" id="nama_anggota_1" name="nama_anggota_1" required>
-                            </div>
-
-                            <!-- Nama Anggota 2 -->
-                            <div class="form-group">
-                                <label for="nama_anggota_2">Nama Anggota 2:</label>
-                                <input type="text" id="nama_anggota_2" name="nama_anggota_2" required>
-                            </div>
-
-                            <!-- Nama Anggota 3 -->
-                            <div class="form-group">
-                                <label for="nama_anggota_3">Nama Anggota 3:</label>
-                                <input type="text" id="nama_anggota_3" name="nama_anggota_3" required>
-                            </div>
-
-                            <!-- Nama Bisnis -->
-                            <div class="form-group">
-                                <label for="nama_bisnis">Nama Bisnis:</label>
-                                <input type="text" id="nama_bisnis" name="nama_bisnis" required>
-                            </div>
-
-                            <!-- Ide Bisnis -->
-                            <div class="form-group">
-                                <label for="ide_bisnis">Ide Bisnis:</label>
-                                <input type="text" id="ide_bisnis" name="ide_bisnis" required>
-                            </div>
-
-                            <!-- Deskripsi Bisnis Kelompok -->
-                            <div class="form-group">
-                                <label for="deskripsi">Deskripsi Singkat Bisnis Kelompok:</label>
-                                <textarea id="deskripsi" name="deskripsi" required></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <button type="submit">Kirim</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-
-    <!-- PHP untuk menangani pengiriman form -->
-    <?php
-      
-    ?>
-
-                <script>
-                            // Mengambil elemen-elemen yang diperlukan
-                    var modal = document.getElementById("modalForm");
-                    var openBtn = document.getElementById("openFormBtn");
-                    var closeBtn = document.getElementsByClassName("close-btn")[0];
-
-                    // Ketika tombol "Buka Form" diklik, tampilkan modal
-                    openBtn.onclick = function() {
-                        modal.style.display = "block";
-                    }
-
-                    // Ketika tombol close (x) diklik, sembunyikan modal
-                    closeBtn.onclick = function() {
-                        modal.style.display = "none";
-                    }
-
-                    // Ketika pengguna mengklik di luar modal, sembunyikan modal
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    }
-
-                </script>
-                </div>           
+         
             </div>
         </div>
 
