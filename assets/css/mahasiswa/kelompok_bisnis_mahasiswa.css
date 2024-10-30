@@ -76,7 +76,8 @@ body {
 }
 
 #sidebar:not(.expand) .sidebar-logo,
-#sidebar:not(.expand) a.sidebar-link span {
+#sidebar:not(.expand) a.sidebar-link span,
+#sidebar:not(.expand) .sidebar-header h1 {
   display: none;
 }
 
@@ -194,7 +195,46 @@ a.sidebar-link:hover {
   margin-right: 8px;
 }
 
-/* admin */
+.card-container {
+  display: flex;
+}
+
+.card {
+  text-decoration: none;
+  display: block;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 50%;
+  padding: 20px;
+  color: black;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-content h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.card-content p {
+  font-size: 16px;
+  color: #555;
+}
+
+.sidebar-header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  padding: 1rem 1.625rem;
+  margin: 0;
+}
+
+/* FORM */
 /* Gaya untuk modal dan form */
 .modal {
   display: none; /* Modal tersembunyi secara default */
@@ -216,20 +256,22 @@ a.sidebar-link:hover {
   border-radius: 5px;
 }
 
-.close-btn {
-  color: #aaa;
-  float: right;
+.close-btn,
+.close-btn2 {
+  position: absolute;
+  top: 10px;
+  right: 15px;
   font-size: 28px;
-  font-weight: bold;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-  color: black;
+  color: #aaa;
   cursor: pointer;
 }
 
-button {
+.close-btn:hover,
+.close-btn2:hover {
+  color: #000;
+}
+
+.main_wrapper button {
   background-color: #2ea56f;
   color: white;
   padding: 10px 20px;
@@ -237,10 +279,20 @@ button {
   cursor: pointer;
   font-size: 16px;
   margin-top: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-button:hover {
+.main_wrapper button:hover {
   background-color: #299363;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.main_wrapper button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .message-success {
@@ -249,9 +301,7 @@ button:hover {
   padding: 20px;
   margin-top: 20px;
 }
-/* form */
-/* Styling untuk modal background */
-/* Styling untuk modal background */
+
 .modal {
   display: none;
   position: fixed;

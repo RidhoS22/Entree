@@ -15,7 +15,7 @@
 
 <body>
     <div class="wrapper">
-        <aside id="sidebar">
+    <aside id="sidebar">
             <div class="d-flex">
                 <button class="toggle-btn" type="button">
                     <i class="fa-solid fa-bars"></i>
@@ -37,35 +37,26 @@
                         <span>Beranda</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-book"></i>
-                        <span>Materi Kewirausahaan</span>
-                    </a>
+                <hr>
+                <li class="sidebar-header">
+                    <h1>Mentor Bisnis</h1>
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="fa-solid fa-users"></i>
-                        <span>Kelompok Bisnis</span>
+                        <span>Daftar Kelompok Bisnis</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                    <i class="fa-solid fa-address-card"></i>  
-                    <span>Daftar Mentor Bisnis</span>
+                        <i class="fa-solid fa-file"></i>
+                        <span>Kelola Bisnis Kelompok</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="fa-solid fa-calendar"></i>
                         <span>Jadwal Mentoring</span>
-                    </a>
-                </li>
-                <hr>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-folder"></i>
-                        <span>Ide Bisnis</span>
                     </a>
                 </li>
                 <li class="sidebar-item sign-out">
@@ -85,9 +76,7 @@
                 </a>
             </div>
 
-            <div class="main_wrapper">
-                <h1>ini Beranda mentor</h1>
-            </div>
+            <div class="main_wrapper"></div>
         </div>
 
     </div>

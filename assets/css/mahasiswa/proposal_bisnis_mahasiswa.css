@@ -194,7 +194,7 @@ a.sidebar-link:hover {
   margin-right: 8px;
 }
 
-/* admin */
+/* FORM */
 /* Gaya untuk modal dan form */
 .modal {
   display: none; /* Modal tersembunyi secara default */
@@ -249,9 +249,7 @@ button:hover {
   padding: 20px;
   margin-top: 20px;
 }
-/* form */
-/* Styling untuk modal background */
-/* Styling untuk modal background */
+
 .modal {
   display: none;
   position: fixed;

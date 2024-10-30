@@ -15,7 +15,7 @@
 
 <body>
     <div class="wrapper">
-        <aside id="sidebar">
+    <aside id="sidebar">
             <div class="d-flex">
                 <button class="toggle-btn" type="button">
                     <i class="fa-solid fa-bars"></i>
@@ -43,6 +43,16 @@
                         <span>Materi Kewirausahaan</span>
                     </a>
                 </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link">
+                    <i class="fa-solid fa-address-card"></i>  
+                    <span>Daftar Mentor Bisnis</span>
+                    </a>
+                </li>
+                <hr>
+                <li class="sidebar-header">
+                    <h1>Mahasiswa</h1>
+                </li>
                 <li class="sidebar-item active">
                     <a href="#" class="sidebar-link">
                         <i class="fa-solid fa-users"></i>
@@ -50,22 +60,15 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                    <i class="fa-solid fa-address-card"></i>  
-                    <span>Daftar Mentor Bisnis</span>
+                    <a href="kelola_bisnis_kelompok.php" class="sidebar-link">
+                        <i class="fa-solid fa-file"></i>
+                        <span>Kelola Bisnis Kelompok</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
                         <i class="fa-solid fa-calendar"></i>
                         <span>Jadwal Mentoring</span>
-                    </a>
-                </li>
-                <hr>
-                <li class="sidebar-item">
-                    <a href="proposal_bisnis_mahasiswa.php" class="sidebar-link">
-                        <i class="fa-solid fa-folder"></i>
-                        <span>Proposal Bisnis kelompok</span>
                     </a>
                 </li>
                 <li class="sidebar-item sign-out">
@@ -134,6 +137,12 @@
                             <div class="form-group">
                                 <label for="deskripsi">Deskripsi Singkat Bisnis Kelompok:</label>
                                 <textarea id="deskripsi" name="deskripsi" required></textarea>
+                            </div>
+
+                            <!-- Logo Bisnis -->
+                            <div class="form-group">
+                                <label for="logo_bisnis">Logo Bisnis:</label>
+                                <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv" required>
                             </div>
 
                             <div class="form-group">

@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/admin/pagemahasiswa.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/pagemahasiswa.css">
 </head>
 
 <body>
@@ -37,16 +37,14 @@
                         <span>Beranda</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-book"></i>
-                        <span>Materi Kewirausahaan</span>
-                    </a>
+                <hr>
+                <li class="sidebar-header">
+                    <h1>Admin PIKK</h1>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-users"></i>
-                        <span>Kelompok Bisnis</span>
+                    <a href="materikewirausahaan_admin.php" class="sidebar-link">
+                        <i class="fa-solid fa-book"></i>
+                        <span>Materi Kewirausahaan</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -57,15 +55,14 @@
                 </li>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-calendar"></i>
-                        <span>Jadwal Mentoring</span>
+                        <i class="fa-solid fa-users"></i>
+                        <span>Daftar Kelompok Bisnis</span>
                     </a>
                 </li>
-                <hr>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-folder"></i>
-                        <span>Ide Bisnis</span>
+                        <i class="fa-solid fa-file"></i>
+                        <span>Daftar Bisnis Kelompok</span>
                     </a>
                 </li>
                 <li class="sidebar-item sign-out">
@@ -86,7 +83,14 @@
             </div>
 
             <div class="main_wrapper">
-                <h1>ini Beranda admin</h1>
+                <div class="card-container">
+                    <a href="materikewirausahaan_admin.php" class="card">
+                        <div class="card-content">
+                            <h2>Materi Kewirausahaan</h2>
+                            <p>Materi kewirausahaan adalah materi yang disediakan oleh PIKK untuk para mahasiswa mempelajari secara mandiri materi tentang kewirausahaan.</p>
+                        </div>
+                    </a>
+         
             </div>
         </div>
 
