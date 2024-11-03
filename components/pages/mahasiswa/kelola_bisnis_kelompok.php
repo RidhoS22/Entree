@@ -134,7 +134,7 @@
                         <form method="POST" action="">
                             <!-- Laporan Kemajuan Pengembangan Usaha -->
                             <div class="form-group">
-                                <label for="judul_laporan">Judul Laporan</label>
+                                <label for="judul_laporan">Judul Laporan:</label>
                                 <input type="text" id="judul_laporan" name="judul_laporan" required>
                             </div>
 
@@ -160,6 +160,7 @@
 
                  <!-- PHP untuk menangani pengiriman form -->
                  <?php?>
+
 
                 <script>
                             // Mengambil elemen-elemen yang diperlukan

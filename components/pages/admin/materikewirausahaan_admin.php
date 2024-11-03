@@ -92,7 +92,7 @@
                         <span class="close-btn">&times;</span>
                         <h2>Tambahkan Materi</h2>
 
-                        <form method="POST" action="">
+                        <form method="POST" action="" enctype="multipart/form-data">
                             <!-- Judul Materi -->
                             <div class="form-group">
                                 <label for="judul">Judul Materi:</label>
@@ -112,17 +112,59 @@
                             </div>
 
                             <div class="form-group">
-                                <button type="submit">Kirim</button>
+                                <button type="submit" name="kirim">Kirim</button>
                             </div>
                         </form>
                     </div>
                 </div>
 
 
-    <!-- PHP untuk menangani pengiriman form -->
-    <?php
-      
-    ?>
+                <?php
+                    include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+                    // Cek apakah form telah dikirim
+                    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                        // Ambil data dari form
+                        $judul = $_POST['judul'];
+                        $deskripsi = $_POST['deskripsi'];
+
+                        // Proses unggah file
+                        if (isset($_FILES['materi']) && $_FILES['materi']['error'] === UPLOAD_ERR_OK) {
+                            $fileTmpPath = $_FILES['materi']['tmp_name'];
+                            $fileName = basename($_FILES['materi']['name']);
+                            $uploadFolder = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/admin/uploads/';
+                            $destPath = $uploadFolder . $fileName;
+
+                            // Pindahkan file ke folder 'uploads'
+                            if (move_uploaded_file($fileTmpPath, $destPath)) {
+                                // Buat URL lengkap untuk file yang diunggah
+                                $domain = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
+                                $filePath = $domain . '/Aplikasi-Kewirausahaan/components/pages/admin/uploads/' . $fileName;
+
+                                // Persiapkan dan eksekusi query menggunakan prepared statement untuk keamanan
+                                $sql = "INSERT INTO materi_kewirausahaan (judul, deskripsi, file_path) VALUES (?, ?, ?)";
+                                $stmt = $conn->prepare($sql);
+                                
+                                // Bind parameter
+                                $stmt->bind_param("sss", $judul, $deskripsi, $filePath);
+
+                                // Eksekusi query dan cek hasil
+                                if ($stmt->execute()) {
+                                    echo "<div class='alert alert-success'>Data berhasil disimpan!</div>";
+                                } else {
+                                    echo "<div class='alert alert-danger'>Gagal menyimpan data ke database.</div>";
+                                }
+
+                                // Tutup statement
+                                $stmt->close();
+                            } else {
+                                echo "<div class='alert alert-danger'>Gagal mengunggah file.</div>";
+                            }
+                        } else {
+                            echo "<div class='alert alert-danger'>File tidak valid atau tidak ada file yang diunggah.</div>";
+                        }
+                    }
+                    ?>
 
                 <script>
                             // Mengambil elemen-elemen yang diperlukan
