@@ -50,7 +50,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
+                    <a href="daftar_mentor_mahasiswa.php" class="sidebar-link">
                     <i class="fa-solid fa-address-card"></i>  
                     <span>Daftar Mentor Bisnis</span>
                     </a>

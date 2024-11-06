@@ -37,13 +37,13 @@
                         <span>Beranda</span>
                     </a>
                 </li>
-                <li class="sidebar-item active">
-                    <a href="#" class="sidebar-link">
+                <li class="sidebar-item">
+                    <a href="materikewirausahaan_mahasiswa.php" class="sidebar-link">
                         <i class="fa-solid fa-book"></i>
                         <span>Materi Kewirausahaan</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
+                <li class="sidebar-item active">
                     <a href="#" class="sidebar-link">
                         <i class="fa-solid fa-address-card"></i>  
                         <span>Daftar Mentor Bisnis</span>
@@ -93,7 +93,6 @@
                     <?php
                     include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
-                    // Contoh query ke database
                     $sql = "SELECT * FROM daftar_mentor_bisnis";
                     $result = $conn->query($sql);
 
@@ -107,7 +106,7 @@
                             echo '<h2>' . htmlspecialchars($row["nama"]) . '</h2>';
                             echo '<p>' . htmlspecialchars($row["deskripsi"]) . '</p>';
                             echo '<p class="contact">Contact : ' . htmlspecialchars($row["kontak"]) . '</p>';
-                            echo '<button>Tambahkan</button>';
+                            echo '<button>Pilih Sebagai Mentor Bisnis</button>';
                             echo '</div>';
                         }
                     } else {

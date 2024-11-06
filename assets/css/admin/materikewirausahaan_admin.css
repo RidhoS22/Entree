@@ -22,6 +22,7 @@ h1 {
 
 body {
   font-family: "Poppins", sans-serif;
+  overflow: hidden;
 }
 
 .wrapper {
@@ -157,11 +158,12 @@ a.sidebar-link:hover {
 
 .main_wrapper {
   width: 100%;
-  height: 85%;
+  height: 600px;
   background-color: #f0f0f0;
   box-shadow: -2px 4px 3px rgba(0, 0, 0, 0.3);
   margin: 0 auto;
   padding: 20px;
+  overflow-y: auto;
 }
 
 .sidebar-nav hr {
@@ -324,6 +326,23 @@ a.sidebar-link:hover {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+#detailModal .modal-content {
+  background-color: rgb(255, 255, 255);
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 100vh;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-height: 100vh;
+}
+
+#detailModal #filePreview {
+  max-height: 300px;
+  overflow: hidden;
+  width: auto;
+}
+
 .close-btn {
   position: absolute;
   top: 10px;
@@ -412,4 +431,39 @@ form button:hover {
 
 .modal h2 {
   margin-top: 25px;
+}
+
+/* Tampilan materi kewirausahaan */
+.container_materi {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  padding-right: 25px;
+  background-color: #fff;
+  width: 100%;
+  overflow: hidden;
+  height: 150px;
+}
+.judul_materi {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.deskripsi_materi {
+  font-size: 16px;
+  max-height: fit-content;
+  color: #666;
+  padding-right: 20px;
+}
+
+#detailJudul {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#detailDeskripsi {
+  font-size: 16px;
+  color: #666;
 }
