@@ -10,16 +10,15 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/admin/profil_admin.css">
 </head>
 
 <body>
     <div class="wrapper">
-   
-    <?php 
-    $activePage = 'jadwal_bimbingan_mahasiswa'; // Halaman ini adalah Profil
-    include 'sidebar_mahasiswa.php'; 
-    ?>
+        <?php 
+        $activePage = 'profil_admin'; // Halaman ini aktif
+        include 'sidebar_admin.php'; 
+        ?>
 
         <div class="main p-3">
             <div class="main_header">
@@ -29,10 +28,7 @@
                 </a>
             </div>
 
-            <div class="main_wrapper">
-         
-            </div>
-        </div>
+            <div class="main_wrapper"></div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
