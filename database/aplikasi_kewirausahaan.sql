@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 04 Nov 2024 pada 17.46
--- Versi Server: 10.1.9-MariaDB
--- PHP Version: 5.6.15
+-- Waktu pembuatan: 09 Nov 2024 pada 16.24
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `aplikasi_bimbingan_kewirausahaan`
+-- Database: `aplikasi_kewirausahaan`
 --
 
 -- --------------------------------------------------------
@@ -31,7 +32,7 @@ CREATE TABLE `daftar_mentor_bisnis` (
   `nama` varchar(30) NOT NULL,
   `deskripsi` varchar(30) NOT NULL,
   `kontak` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `daftar_mentor_bisnis`
@@ -47,6 +48,28 @@ INSERT INTO `daftar_mentor_bisnis` (`id`, `nama`, `deskripsi`, `kontak`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `login`
+--
+
+CREATE TABLE `login` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('mahasiswa','mentor bisnis','admin pikk') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `login`
+--
+
+INSERT INTO `login` (`id`, `username`, `password`, `role`) VALUES
+(1, 'akunMahasiswa', '$2y$10$IijNYnS5NsREQ.VRjMgMB..cW.ejLJ5J/dxxhPUZJP7mF9WqxKnR2', 'mahasiswa'),
+(2, 'akunMentor', '$2y$10$DRkDuU5c9x3CjsCTwbBhreMCJGnnJO/eFrDJrSADEKsvuz59Yg2uy', 'mentor bisnis'),
+(3, 'akunAdmin', '$2y$10$2yib7FLRmOSYLMwC4ThuFOAvx5oeSMxGe57iwZ8VHUTcE96Iyd58y', 'admin pikk');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `materi_kewirausahaan`
 --
 
@@ -55,7 +78,7 @@ CREATE TABLE `materi_kewirausahaan` (
   `judul` varchar(30) NOT NULL,
   `file_path` varchar(300) NOT NULL,
   `deskripsi` varchar(1000) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `materi_kewirausahaan`
@@ -72,31 +95,47 @@ INSERT INTO `materi_kewirausahaan` (`id`, `judul`, `file_path`, `deskripsi`) VAL
 --
 
 --
--- Indexes for table `daftar_mentor_bisnis`
+-- Indeks untuk tabel `daftar_mentor_bisnis`
 --
 ALTER TABLE `daftar_mentor_bisnis`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `materi_kewirausahaan`
+-- Indeks untuk tabel `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
+-- Indeks untuk tabel `materi_kewirausahaan`
 --
 ALTER TABLE `materi_kewirausahaan`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `daftar_mentor_bisnis`
+-- AUTO_INCREMENT untuk tabel `daftar_mentor_bisnis`
 --
 ALTER TABLE `daftar_mentor_bisnis`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
--- AUTO_INCREMENT for table `materi_kewirausahaan`
+-- AUTO_INCREMENT untuk tabel `login`
+--
+ALTER TABLE `login`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT untuk tabel `materi_kewirausahaan`
 --
 ALTER TABLE `materi_kewirausahaan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+COMMIT;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
