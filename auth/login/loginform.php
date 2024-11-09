@@ -14,7 +14,7 @@
 			<img src="/Aplikasi-Kewirausahaan/assets/img/bg.svg">
 		</div>
 		<div class="login-content">
-			<form action="/Aplikasi-Kewirausahaan/config/ldap.php" method="post">
+			<form action="/Aplikasi-Kewirausahaan/config/login.php" method="post">
 				<img src="/Aplikasi-Kewirausahaan/assets/img/avatar.svg">
 				<h2 class="title">L O G I N</h2>
            		<div class="input-div one">
