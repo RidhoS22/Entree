@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/profil_mahasiswa.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/profil.css">
 </head>
 
 <body>
@@ -23,14 +23,48 @@
 
         <div class="main p-3">
             <div class="main_header">
-                <h1>Profil</h1>
+                <h1>Profil Mahasiswa</h1>
                 <a href="#" class="notification">
                     <i class="fa-regular fa-bell"></i>
                 </a>
             </div>
 
             <div class="main_wrapper">
-         
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <div class="profile-item">
+                            <h2>Username</h2>
+                            <p>mfadly</p>
+                        </div>
+                        <button class="edit-btn" type="button">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </div>
+                    <div class="profile-item">
+                        <h2>Nama Lengkap</h2>
+                        <p>Muhammad Fadly Abdillah</p>
+                    </div>
+                    <div class="profile-item">
+                        <h2>NPM</h2>
+                        <p>14020242342</p>
+                    </div>
+                    <div class="profile-item">
+                        <h2>Fakultas</h2>
+                        <p>Teknik Informasi</p>
+                    </div>
+                    <div class="profile-item">
+                        <h2>Program Studi</h2>
+                        <p>Teknik Informasi</p>
+                    </div>
+                    <div class="profile-item">
+                        <h2>Alamat Email</h2>
+                        <p>astil@gmailcom</p>
+                    </div>
+                    <div class="profile-item">
+                        <h2>Nomor Telepon</h2>
+                        <p>0898970980</p>
+                    </div>
+                </div>
             </div>
         </div>
 

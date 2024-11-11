@@ -162,6 +162,7 @@ a.sidebar-link:hover {
   box-shadow: -2px 4px 3px rgba(0, 0, 0, 0.3);
   margin: 0 auto;
   padding: 20px;
+  overflow-y: auto;
 }
 
 .sidebar-nav hr {
@@ -232,4 +233,44 @@ a.sidebar-link:hover {
   color: #fff;
   padding: 1rem 1.625rem;
   margin: 0;
+}
+
+/* profil */
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+.profile-container {
+  max-width: 100%;
+}
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: -20px;
+}
+.profile-header h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+.profile-item {
+  margin: 20px 0;
+}
+.profile-item h2 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+.profile-item p {
+  font-size: 16px;
+  margin: 5px 0 0 0;
+}
+
+.edit-btn {
+  font-size: 25px;
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
 }
