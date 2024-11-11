@@ -23,7 +23,7 @@
 
         <div class="main p-3">
             <div class="main_header">
-                <h1>Profil</h1>
+                <h1>Jadwal Bimbingan</h1>
                 <a href="#" class="notification">
                     <i class="fa-regular fa-bell"></i>
                 </a>

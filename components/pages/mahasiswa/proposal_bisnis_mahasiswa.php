@@ -15,67 +15,10 @@
 
 <body>
     <div class="wrapper">
-        <aside id="sidebar">
-            <div class="d-flex">
-                <button class="toggle-btn" type="button">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-                <div class="sidebar-logo">
-                    <a href="#">Yarsi Entree</a>
-                </div>
-            </div>
-            <ul class="sidebar-nav">
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-user"></i>
-                        <span>Profil</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="pagemahasiswa.php" class="sidebar-link">
-                        <i class="fa-solid fa-house"></i>
-                        <span>Beranda</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="materikewirausahaan_mahasiswa.php" class="sidebar-link">
-                        <i class="fa-solid fa-book"></i>
-                        <span>Materi Kewirausahaan</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="kelompok_bisnis_mahasiswa.php" class="sidebar-link">
-                        <i class="fa-solid fa-users"></i>
-                        <span>Kelompok Bisnis</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="daftar_mentor_mahasiswa.php" class="sidebar-link">
-                    <i class="fa-solid fa-address-card"></i>  
-                    <span>Daftar Mentor Bisnis</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-calendar"></i>
-                        <span>Jadwal Mentoring</span>
-                    </a>
-                </li>
-                <hr>
-                <li class="sidebar-item active">
-                    <a href="#" class="sidebar-link">
-                        <i class="fa-solid fa-folder"></i>
-                        <span>Proposal Bisnis kelompok</span>
-                    </a>
-                </li>
-                <li class="sidebar-item sign-out">
-                    <a href="/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php" class="sidebar-link">
-                        <i class="fa-solid fa-sign-out"></i>
-                        <span>Keluar</span>
-                    </a>
-                </li>
-            </ul>
-        </aside>
+        <?php 
+        $activePage = 'proposal_bisnis_mahasiswa'; // Halaman ini aktif
+        include 'sidebar_mahasiswa.php'; 
+        ?>
 
         <div class="main p-3">
             <div class="main_header">
@@ -98,19 +41,68 @@
                         <form method="POST" action="">
                             <!-- Judul Proposal Bisnis -->
                             <div class="form-group">
-                                <label for="judul_proposal">Judul Proposal Bisnis:</label>
+                                <label for="judul_proposal">Judul Proposal Bisnis:<span style="color:red;">*</span></label>
                                 <input type="text" id="judul_proposal" name="judul_proposal" required>
                             </div>
 
+                            <!-- SDG Bisnis -->
+                            <div class="form-group">
+                                <label for="sdg">SDG Bisnis:<span style="color:red;">*</span></label>
+                                <select id="sdg" name="sdg" required>
+                                    <option value="" style="color:darkgrey;">
+                                        ~ Pilih SDG Bisnis Anda ~
+                                    </option>
+                                    <option value="mengakhiri_kemiskinan">Mengakhiri Kemiskinan</option>
+                                    <option value="mengakhiri_kelaparan">Mengakhiri Kelaparan</option>
+                                    <option value="kesehatan_kesejahteraan">Kesehatan dan Kesejahteraan</option>
+                                    <option value="pendidikan_berkualitas">Pendidikan Berkualitas</option>
+                                    <option value="kesetaraan_gender">Kesetaraan Gender</option>
+                                    <option value="air_bersih_sanitasi">Air Bersih dan Sanitasi</option>
+                                    <option value="energi_bersih_terjangkau">Energi Bersih dan Terjangkau</option>
+                                    <option value="pekerjaan_pertumbuhan_ekonomi">Pekerjaan Layak dan Pertumbuhan Ekonomi</option>
+                                    <option value="industri_inovasi_infrastruktur">Industri, Inovasi, dan Infrastruktur</option>
+                                    <option value="mengurangi_ketimpangan">Mengurangi Ketimpangan</option>
+                                    <option value="kota_komunitas_berkelanjutan">Kota dan Komunitas Berkelanjutan</option>
+                                    <option value="konsumsi_produksi_bertanggung_jawab">Konsumsi dan Produksi yang Bertanggung Jawab</option>
+                                    <option value="penanganan_perubahan_iklim">Penanganan Perubahan Iklim</option>
+                                    <option value="ekosistem_lautan">Ekosistem Lautan</option>
+                                    <option value="ekosistem_daratan">Ekosistem Daratan</option>
+                                    <option value="perdamaian_keadilan_institusi_kuat">Perdamaian, Keadilan, dan Kelembagaan yang Kuat</option>
+                                    <option value="kemitraan_tujuan">Kemitraan untuk Mencapai Tujuan</option>
+                                </select>
+                            </div>
+
+
+                            <!-- Kategori Bisnis -->
+                            <div class="form-group">
+                                <label for="kategori">Kategori Bisnis:<span style="color:red;">*</span></label>
+                                <select id="kategori" name="kategori" required>
+                                    <option value="" style="color:darkgrey;">~ Pilih Kategori Bisnis Anda ~</option>
+                                    <option value="jasa">Bisnis Jasa</option>
+                                    <option value="manufaktur">Bisnis Manufaktur</option>
+                                    <option value="perdagangan">Bisnis Dagang (Perdagangan)</option>
+                                    <option value="agrikultur">Bisnis Agrikultur dan Perkebunan</option>
+                                    <option value="kreatif">Bisnis Kreatif dan Industri Kreatif</option>
+                                    <option value="teknologi">Bisnis Teknologi atau Digital</option>
+                                    <option value="energi">Bisnis Energi dan Lingkungan</option>
+                                    <option value="konstruksi">Bisnis Konstruksi dan Real Estate</option>
+                                    <option value="pariwisata">Bisnis Pariwisata dan Perhotelan</option>
+                                    <option value="finansial">Bisnis Finansial</option>
+                                </select>
+                            </div>
+
+
+
                             <!-- Proposal (file input) -->
                             <div class="form-group">
-                                <label for="proposal">Proposal Bisnis Kewirausahaan:</label>
-                                <input type="file" id="proposal" name="proposal" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv" required>
+                                <label for="proposal">Proposal bisnis kewirausahaan (pdf only):<span style="color:red;">*</span></label>
+                                </label>
+                                <input type="file" id="proposal" name="proposal" accept=".pdf" required>
                             </div>
 
                             <!-- Deskripsi Proposal Bisnis Kelompok -->
                             <div class="form-group">
-                                <label for="deskripsi">Deskripsi Singkat Proposal Bisnis Kelompok:</label>
+                                <label for="deskripsi">Deskripsi Proposal Bisnis Kelompok:<span style="color:red;">*</span></label>
                                 <textarea id="deskripsi" name="deskripsi" required></textarea>
                             </div>
 

@@ -59,24 +59,46 @@
                         <span>Kelompok Bisnis</span>
                     </a>
                 </li>
-                <li class="sidebar-item <?php echo ($activePage == 'kelola_bisnis_kelompok') ? 'active' : ''; ?>">
-                    <a href="kelola_bisnis_kelompok.php" class="sidebar-link">
-                        <i class="fa-solid fa-file"></i>
+              
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                    data-bs-target="#kelola_bisnis_kelompok" aria-expanded="false" aria-controls="kelola_bisnis_kelompok">
+                        <i class="fa-solid fa-user-pen"></i>
                         <span>Kelola Bisnis Kelompok</span>
                     </a>
+                    <ul id="kelola_bisnis_kelompok" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                        <li class="sidebar-item <?php echo ($activePage == 'proposal_bisnis_mahasiswa') ? 'active' : ''; ?>">
+                            <a href="proposal_bisnis_mahasiswa.php" class="sidebar-link">
+                                <i class="fa-regular fa-file"></i>
+                                <span>Proposal Bisnis</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item <?php echo ($activePage == 'laporan_bisnis_mahasiswa') ? 'active' : ''; ?>">
+                            <a href="laporan_bisnis_mahasiswa.php" class="sidebar-link">
+                                <i class="fa-solid fa-file-invoice"></i>    
+                                <span>Laporan Kemajuan Bisnis</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">
+                            <a href="jadwal_bimbingan_mahasiswa.php" class="sidebar-link">
+                                <i class="fa-solid fa-calendar"></i>
+                                <span>Jadwal Bimbingan</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">
-                    <a href="jadwal_bimbingan_mahasiswa.php" class="sidebar-link">
-                        <i class="fa-solid fa-calendar"></i>
-                        <span>Jadwal Bimbingan</span>
-                    </a>
-                </li>
+
+                
+
+
+
                 <li class="sidebar-item sign-out">
                     <a href="/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php" class="sidebar-link">
                         <i class="fa-solid fa-sign-out"></i>
                         <span>Keluar</span>
                     </a>
                 </li>
+                
             </ul>
         </aside>
     </div>
