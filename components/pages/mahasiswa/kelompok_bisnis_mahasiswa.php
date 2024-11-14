@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Kewirusahaan</title>
+    <title>Aplikasi Kewirausahaan</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -16,7 +16,7 @@
 <body>
     <div class="wrapper">
         <?php 
-        $activePage = 'kelompok_bisnis_mahasiswa'; // Halaman ini aktif
+        $activePage = 'kelompok_bisnis_mahasiswa';
         include 'sidebar_mahasiswa.php'; 
         ?>
 
@@ -29,7 +29,6 @@
             </div>
 
             <div class="main_wrapper">
-        
                 <button id="openFormBtn"><i class="fa-solid fa-plus"></i> Tambahkan Kelompok Bisnis</button>
 
                 <!-- Modal Form -->
@@ -39,13 +38,11 @@
                         <h2>Pengajuan Kelompok Bisnis Kewirausahaan</h2>
 
                         <form method="POST" action="">
-                            <!-- Nama Kelompok -->
                             <div class="form-group">
                                 <label for="nama_kelompok">Nama Kelompok:</label>
                                 <input type="text" id="nama_kelompok" name="nama_kelompok" required>
                             </div>
 
-                            <!-- Dropdown untuk memilih jumlah anggota -->
                             <div class="form-group">
                                 <label for="jumlah_anggota">Jumlah Anggota:</label>
                                 <select id="jumlah_anggota" name="jumlah_anggota" required>
@@ -58,28 +55,23 @@
                                 </select>
                             </div>
 
-                            <!-- Tempat untuk field nama anggota yang dinamis -->
                             <div id="anggota_fields"></div>
 
-                            <!-- Nama Bisnis -->
                             <div class="form-group">
                                 <label for="nama_bisnis">Nama Bisnis:</label>
                                 <input type="text" id="nama_bisnis" name="nama_bisnis" required>
                             </div>
 
-                            <!-- Ide Bisnis -->
                             <div class="form-group">
                                 <label for="ide_bisnis">Ide Bisnis:</label>
                                 <input type="text" id="ide_bisnis" name="ide_bisnis" required>
                             </div>
 
-                            <!-- Deskripsi Bisnis Kelompok -->
                             <div class="form-group">
                                 <label for="deskripsi">Deskripsi Singkat Bisnis Kelompok:</label>
                                 <textarea id="deskripsi" name="deskripsi" required></textarea>
                             </div>
 
-                            <!-- Logo Bisnis -->
                             <div class="form-group">
                                 <label for="logo_bisnis">Logo Bisnis:</label>
                                 <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv" required>
@@ -92,72 +84,103 @@
                     </div>
                 </div>
 
-
-                 <!-- PHP untuk menangani pengiriman form -->
-                 <?php?>
-
-                <script>
-                            // Mengambil elemen-elemen yang diperlukan
-                    var modal = document.getElementById("modalForm");
-                    var openBtn = document.getElementById("openFormBtn");
-                    var closeBtn = document.getElementsByClassName("close-btn")[0];
-
-                    // Ketika tombol "Buka Form" diklik, tampilkan modal
-                    openBtn.onclick = function() {
-                        modal.style.display = "block";
-                    }
-
-                    // Ketika tombol close (x) diklik, sembunyikan modal
-                    closeBtn.onclick = function() {
-                        modal.style.display = "none";
-                    }
-
-                    // Ketika pengguna mengklik di luar modal, sembunyikan modal
-                    window.onclick = function(event) {
-                        if (event.target == modal) {
-                            modal.style.display = "none";
-                        }
-                    }
-
-                    // Mengambil elemen dropdown dan container field anggota
-                    var jumlahAnggota = document.getElementById("jumlah_anggota");
-                    var anggotaFieldsContainer = document.getElementById("anggota_fields");
-
-                    // Fungsi untuk menampilkan field anggota sesuai dengan jumlah yang dipilih
-                    jumlahAnggota.onchange = function() {
-                        // Menghapus field anggota yang ada sebelumnya
-                        anggotaFieldsContainer.innerHTML = "";
-
-                        // Menambahkan field baru sesuai dengan jumlah yang dipilih
-                        for (var i = 1; i <= jumlahAnggota.value; i++) {
-                            var formGroup = document.createElement("div");
-                            formGroup.className = "form-group";
-                            
-                            var label = document.createElement("label");
-                            label.for = "nama_anggota_" + i;
-                            label.textContent = "Nama Anggota " + i + ":";
-
-                            var input = document.createElement("input");
-                            input.type = "text";
-                            input.id = "nama_anggota_" + i;
-                            input.name = "nama_anggota_" + i;
-                            input.required = true;
-
-                            formGroup.appendChild(label);
-                            formGroup.appendChild(input);
-                            anggotaFieldsContainer.appendChild(formGroup);
-                        }
-                    };
-            
-                </script>
-                      </div>  
+                <div class="container">
+                    <div class="left">
+                        <img alt="Logo of Fish Corporation with a stylized fish graphic" height="400" width="400" src="https://storage.googleapis.com/a1aa/image/KTfOztGxYpSnK6SKheWu6Z3KLGKEoMaCPLrNGyZpwBeqR5hnA.jpg"/>
                     </div>
+
+                    <div class="right">
+                    <div class="right">
+                        <div class="title-edit">
+                            <h1>Nama Bisnis</h1>
+                            <button class="edit-btn" type="button">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                        </div>
+                        <p>Deskripsi Bisnis lorem123</p>
+                        
+                        
+                        <div class="category">
+                            <p><strong>Kategori Bisnis:</strong> StartUp</p>
+                        </div>
+                        <div class="sdg">
+                            <p><strong>Sustainable Development Goals (SDGs):</strong></p>
+                            <p>Pendidikan Berkualitas</p>
+                        </div>
+
+                        <div class="bottom">
+                        <div class="members">
+                            <p><strong>Anggota kelompok Artech:</strong></p>
+                            <p>1. Asril 1402022000</p>
+                            <p>2. Ridho 1402022000</p>
+                            <p>3. Fadly 1402022000</p>
+                        </div>
+
+                        <div class="tutor">
+                            <p><strong>Dosen Tutor Artech:</strong></p>
+                            <p>1. Bapak Suhaeri</p>
+                        </div>
+                    </div>
+                    </div>
+
+                    
                 </div>
+
+                <?php ?>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var modal = document.getElementById("modalForm");
+        var openBtn = document.getElementById("openFormBtn");
+        var closeBtn = document.getElementsByClassName("close-btn")[0];
+
+        openBtn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        var jumlahAnggota = document.getElementById("jumlah_anggota");
+        var anggotaFieldsContainer = document.getElementById("anggota_fields");
+
+        jumlahAnggota.onchange = function() {
+            anggotaFieldsContainer.innerHTML = "";
+            for (var i = 1; i <= jumlahAnggota.value; i++) {
+                var formGroup = document.createElement("div");
+                formGroup.className = "form-group";
+
+                var label = document.createElement("label");
+                label.for = "nama_anggota_" + i;
+                label.textContent = "Nama Anggota " + i + ":";
+
+                var input = document.createElement("input");
+                input.type = "text";
+                input.id = "nama_anggota_" + i;
+                input.name = "nama_anggota_" + i;
+                input.required = true;
+
+                formGroup.appendChild(label);
+                formGroup.appendChild(input);
+                anggotaFieldsContainer.appendChild(formGroup);
+            }
+        };
+    </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <script src="script.js"></script>
     <script type="text/javascript" src="/Aplikasi-Kewirausahaan/assets/js/hamburger.js"></script>
 </body>
 
 </html>
+```
