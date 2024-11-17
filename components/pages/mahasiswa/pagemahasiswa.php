@@ -16,7 +16,7 @@
 <body>
     <div class="wrapper">
         <?php 
-        $activePage = 'pagemahasiswa'; // Halaman ini aktif
+        $activePage = 'pagemahasiswa'; 
         include 'sidebar_mahasiswa.php'; 
         ?>
 

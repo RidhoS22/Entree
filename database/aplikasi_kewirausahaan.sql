@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 09 Nov 2024 pada 16.24
+-- Waktu pembuatan: 17 Nov 2024 pada 13.09
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -24,116 +24,137 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `daftar_mentor_bisnis`
+-- Struktur dari tabel `mahasiswa`
 --
 
-CREATE TABLE `daftar_mentor_bisnis` (
+CREATE TABLE `mahasiswa` (
   `id` int(11) NOT NULL,
-  `nama` varchar(30) NOT NULL,
-  `deskripsi` varchar(30) NOT NULL,
-  `kontak` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data untuk tabel `daftar_mentor_bisnis`
---
-
-INSERT INTO `daftar_mentor_bisnis` (`id`, `nama`, `deskripsi`, `kontak`) VALUES
-(2, 'Asril', 'Mentor Bisnis', '098427928'),
-(3, 'Fadly', 'Dosen pengampu', '08234234242'),
-(4, 'Afandhi', 'Mentor Bisnis', '098427928'),
-(6, 'Ridho', 'Mentor Bisnis', '082125352516'),
-(7, 'Syavero', 'Dosen Pengampu', '08211351I248');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `login`
---
-
-CREATE TABLE `login` (
-  `id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('mahasiswa','mentor bisnis','admin pikk') NOT NULL
+  `user_id` int(11) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `npm` varchar(15) NOT NULL,
+  `program_studi` varchar(100) NOT NULL,
+  `tahun_angkatan` varchar(50) NOT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `contact` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `login`
+-- Dumping data untuk tabel `mahasiswa`
 --
 
-INSERT INTO `login` (`id`, `username`, `password`, `role`) VALUES
-(1, 'akunMahasiswa', '$2y$10$IijNYnS5NsREQ.VRjMgMB..cW.ejLJ5J/dxxhPUZJP7mF9WqxKnR2', 'mahasiswa'),
-(2, 'akunMentor', '$2y$10$DRkDuU5c9x3CjsCTwbBhreMCJGnnJO/eFrDJrSADEKsvuz59Yg2uy', 'mentor bisnis'),
-(3, 'akunAdmin', '$2y$10$2yib7FLRmOSYLMwC4ThuFOAvx5oeSMxGe57iwZ8VHUTcE96Iyd58y', 'admin pikk');
+INSERT INTO `mahasiswa` (`id`, `user_id`, `nama`, `npm`, `program_studi`, `tahun_angkatan`, `email`, `contact`) VALUES
+(1, 1, 'Ridho Syahfero', '1402022055', 'Teknik Informatika', '2022/2023 Teknik Informatika', NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `materi_kewirausahaan`
+-- Struktur dari tabel `mentor`
 --
 
-CREATE TABLE `materi_kewirausahaan` (
+CREATE TABLE `mentor` (
   `id` int(11) NOT NULL,
-  `judul` varchar(30) NOT NULL,
-  `file_path` varchar(300) NOT NULL,
-  `deskripsi` varchar(1000) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `user_id` int(11) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `nidn` varchar(15) NOT NULL,
+  `peran` enum('dosen_pengampu','tutor') DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `contact` varchar(15) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `materi_kewirausahaan`
+-- Dumping data untuk tabel `mentor`
 --
 
-INSERT INTO `materi_kewirausahaan` (`id`, `judul`, `file_path`, `deskripsi`) VALUES
-(96, 'Materi Kewirausahaan', 'http://localhost/Aplikasi-Kewirausahaan/components/pages/admin/uploads/prospek-kerja-kuliah-jurusan-kewirausahaan-ytshorts.savetube.me.mp4', 'Tren wirausaha saat ini memang sedang naik. Semakin banyak pula anak muda yang terjun langsung menjadi seorang wirausahawan setelah menuntaskan masa kuliahnya.  Selama masa perkuliahan, mahasiswa Kewirausahaan akan mempelajari ruang lingkup usaha dan belajar membuat usaha sendiri di mulai dari yang kecil-kecilan. '),
-(97, 'Konsep Kewirausahaan ', 'http://localhost/Aplikasi-Kewirausahaan/components/pages/admin/uploads/konsep-kewirausahaan-kuliah-gratis-prof-rhenald-kasali-ytshorts.savetube.me.mp4', 'Kuliah Gratis Prof Rhenald Kasali'),
-(105, 'Konsep Dasar Kewirausahaan', 'http://localhost/Aplikasi-Kewirausahaan/components/pages/admin/uploads/0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf', 'Entrepreneur berasal dari bahasa Perancis yaitu entreprendre yang artinya memulai atau melaksanakan.'),
-(106, 'Buku Modul Kewirausahaan', 'http://localhost/Aplikasi-Kewirausahaan/components/pages/admin/uploads/Buku-Modul-Kuliah-Kewirausahaan.pdf', 'Tidak ada bangsa yang sejahtera dan dihargai bangsa lain tanpa kemajuan ekonomi. Kemajuan ekonomi akan dapat dicapai jika ada spirit kewirausahaan yang kuat dari warga bangsanya.');
+INSERT INTO `mentor` (`id`, `user_id`, `nama`, `nidn`, `peran`, `email`, `contact`) VALUES
+(1, 2, 'Tes Mentor', '022456788', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` enum('mahasiswa','mentor','admin') NOT NULL,
+  `first_login` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `role`, `first_login`) VALUES
+(1, 'ridho.syahfero', '$2y$10$b3QGkvFZHitvz1OFfRWZLOMtgtLA/fECvebDxcSwnpYupDSIMt93G', 'mahasiswa', 1),
+(2, 'akunMntr', '$2y$10$7aCTxTjDGfzG7N/3eVjrtO5g13wGc/RaqaDZbuZMRo7B/XHzKa3Me', 'mentor', 1),
+(3, 'akunAdmin', '$2y$10$NuIAAIWAu7axw6tIyD1HFuuV5F4hR.q7koI3VQF0KUHJWM7jc2z6K', 'admin', 0);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `daftar_mentor_bisnis`
+-- Indeks untuk tabel `mahasiswa`
 --
-ALTER TABLE `daftar_mentor_bisnis`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `mahasiswa`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `npm` (`npm`),
+  ADD KEY `user_id` (`user_id`);
 
 --
--- Indeks untuk tabel `login`
+-- Indeks untuk tabel `mentor`
 --
-ALTER TABLE `login`
+ALTER TABLE `mentor`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nidn` (`nidn`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indeks untuk tabel `users`
+--
+ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`);
-
---
--- Indeks untuk tabel `materi_kewirausahaan`
---
-ALTER TABLE `materi_kewirausahaan`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT untuk tabel `daftar_mentor_bisnis`
+-- AUTO_INCREMENT untuk tabel `mahasiswa`
 --
-ALTER TABLE `daftar_mentor_bisnis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `mahasiswa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `login`
+-- AUTO_INCREMENT untuk tabel `mentor`
 --
-ALTER TABLE `login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `mentor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `materi_kewirausahaan`
+-- AUTO_INCREMENT untuk tabel `users`
 --
-ALTER TABLE `materi_kewirausahaan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `mahasiswa`
+--
+ALTER TABLE `mahasiswa`
+  ADD CONSTRAINT `mahasiswa_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `mentor`
+--
+ALTER TABLE `mentor`
+  ADD CONSTRAINT `mentor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

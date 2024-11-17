@@ -1,32 +1,47 @@
 <?php
 session_start();
-include 'db_connection.php'; 
+include 'db_connection.php';
 
-$username = $_POST['username'];
-$password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-$query = "SELECT * FROM login WHERE username = '$username'";
-$result = mysqli_query($conn, $query);
+    $query = "SELECT * FROM users WHERE username = '$username'";
+    $result = $conn->query($query);
 
-if (mysqli_num_rows($result) == 1) {
-    $row = mysqli_fetch_assoc($result);
-    if (password_verify($password, $row['password'])) {
-        $_SESSION['username'] = $row['username'];
-        $_SESSION['role'] = $row['role'];
-        
-        if ($row['role'] == 'mahasiswa') {
-            header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/pagemahasiswa.php");
-        } elseif ($row['role'] == 'mentor bisnis') {
-            header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/pagementor.php");
-        } elseif ($row['role'] == 'admin pikk') {
-            header("Location: /Aplikasi-Kewirausahaan/components/pages/admin/pageadmin.php");
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        $_SESSION['user_id'] = $user['id'];
+
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role']; 
+
+            if ($user['role'] == 'admin') {
+                header("Location: /Aplikasi-Kewirausahaan/components/pages/admin/pageadmin.php");
+            } elseif ($user['first_login'] == 1) {
+                if ($user['role'] == 'mahasiswa') {
+                    header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/lengkapi_data_mahasiswa.php");
+                } elseif ($user['role'] == 'mentor') {
+                    header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/lengkapi_data_mentor.php");
+                }
+            } else {
+                if ($user['role'] == 'mahasiswa') {
+                    header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/pagemahasiswa.php");
+                } elseif ($user['role'] == 'mentor') {
+                    header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/pagementor.php");
+                }
+            }
+            exit;
         } else {
-            echo "<script>alert('Role tidak dikenal!'); window.location.href = '/Aplikasi-Kewirausahaan/auth/login/loginform.php';</script>";
+            $_SESSION['error'] = "Password salah!";
         }
     } else {
-        echo "<script>alert('Password salah!'); window.location.href = '/Aplikasi-Kewirausahaan/auth/login/loginform.php';</script>";
+        $_SESSION['error'] = "Username tidak ditemukan!";
     }
+    header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
 } else {
-    echo "<script>alert('Username tidak ditemukan!'); window.location.href = '/Aplikasi-Kewirausahaan/auth/login/loginform.php';</script>";
+    echo "Metode pengiriman tidak valid.";
 }
+$conn->close();
 ?>

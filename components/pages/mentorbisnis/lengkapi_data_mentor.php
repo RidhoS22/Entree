@@ -1,7 +1,96 @@
+<?php
+session_start();
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+// Redirect jika belum login
+if (!isset($_SESSION['username'])) {
+    header("Location: /Aplikasi-Kewirausahaan/loginform.php");
+    exit;
+}
+
+$user_id = $_SESSION['user_id'];
+
+// Query untuk mendapatkan data role dari tabel users
+$query_user = "SELECT role FROM users WHERE id = '$user_id'";
+$result_user = $conn->query($query_user);
+
+if ($result_user && $result_user->num_rows > 0) {
+    $user = $result_user->fetch_assoc();
+    $role = $user['role'];
+} else {
+    die("User tidak ditemukan atau role tidak valid.");
+}
+
+// Cek apakah role adalah 'mentor'
+if ($role == 'mentor') {
+    // Ambil data mentor berdasarkan user_id
+    $query_mentor = "SELECT * FROM mentor WHERE user_id = '$user_id'";
+    $result_mentor = $conn->query($query_mentor);
+
+    if ($result_mentor && $result_mentor->num_rows > 0) {
+        $data = $result_mentor->fetch_assoc();
+    } else {
+        die("Data mentor tidak ditemukan.");
+    }
+} else {
+    die("Role tidak valid.");
+}
+
+// Proses pengiriman form (POST)
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Ambil data dari form
+    $peran = mysqli_real_escape_string($conn, $_POST['peran']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $contact = mysqli_real_escape_string($conn, $_POST['contact']);
+    
+    // Cek apakah peran atau contact kosong
+    if (empty($peran)) {
+        $peran = $data['nama']; // Set peran dengan nama
+    }
+    if (empty($contact)) {
+        $contact = $data['nidn']; // Set contact dengan NIDN
+    }
+
+    // Array untuk menyimpan field yang akan diupdate
+    $update_fields = [];
+
+    // Cek apakah email dan contact kosong, jika tidak update
+    if (!empty($email) && $email != $data['email']) {
+        $update_fields['email'] = $email;
+    }
+    if ($contact != $data['contact']) {
+        $update_fields['contact'] = $contact;
+    }
+    if ($peran != $data['peran']) {
+        $update_fields['peran'] = $peran;
+    }
+
+    // Jika ada perubahan, lakukan update
+    if (!empty($update_fields)) {
+        $set_clause = [];
+        foreach ($update_fields as $key => $value) {
+            $set_clause[] = "$key = '$value'";
+        }
+        $update_query = "UPDATE mentor SET " . implode(', ', $set_clause) . " WHERE user_id = '$user_id'";
+        $conn->query($update_query);
+    }
+
+    // Update status first_login di tabel users
+    $update_user_query = "UPDATE users SET first_login = 0 WHERE id = '$user_id'";
+    $conn->query($update_user_query);
+
+    // Redirect ke halaman profile mentor setelah update
+    header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/profile_mentor.php");
+    exit;
+}
+
+$conn->close();
+?>
+
 <html>
  <head>
   <title>
-   Form Page
+   Form Lengkapi Data Mentor
   </title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
@@ -10,49 +99,41 @@
  <body>
   <div class="container">
    <div class="image-container">
-    <img alt="Illustration of a person holding a key in front of a computer screen with a user login interface" height="500" width="500" src="/Aplikasi-Kewirausahaan\assets\img\user_login.png"/>
+    <img alt="Illustration of a person holding a key in front of a computer screen with a user login interface" height="500" width="500" src="/Aplikasi-Kewirausahaan/assets/img/user_login.png"/>
    </div>
    <div class="form-container">
     <h2>
      Lengkapi Data Anda Sebagai Mentor Bisnis
     </h2>
-    <div class="form-group">
-     <label for="nama">
-      Nama
-     </label>
-     <input id="nama" name="nama" type="text"/>
-    </div>
-    <div class="form-group">
-     <label for="NIDN">
-      NIDN
-     </label>
-     <input id="npm" name="npm" type="text"/>
-    </div>
-    <div class="form-group">
-     <label for="peran">
-      Peran
-     </label>
-     <select id="peran" name="peran">
-      <option value="" style="color:darkgrey;">
-       ~ Pilih Peran Anda ~
-      </option>
-      <option value="dosen_pengampu">
-       Dosen Pengampu
-      </option>
-      <option value="tutor">
-       Tutor
-      </option>
-     </select>
-    </div>
-    <div class="form-group">
-     <label for="contact">
-      Contact
-     </label>
-     <input id="contact" name="contact" type="text"/>
-    </div>
-    <button class="submit-btn">
-     Tambahkan
-    </button>
+        <form method="POST" action="">
+        <div class="form-group">
+            <label for="nama">Nama</label>
+            <input id="nama" name="nama" type="text" value="<?php echo htmlspecialchars($data['nama']); ?>" readonly />
+        </div>
+        <div class="form-group">
+            <label for="NIDN">NIDN</label>
+            <input id="npm" name="npm" type="text" value="<?php echo htmlspecialchars($data['nidn']); ?>" readonly />
+        </div>
+        <div class="form-group">
+            <label for="peran">Peran</label>
+            <select id="peran" name="peran" required>
+                <option value="" style="color:darkgrey;" <?php echo empty($data['peran']) ? 'selected' : ''; ?>>
+                    ~ Pilih Peran Anda ~
+                </option>
+                <option value="dosen_pengampu" <?php echo $data['peran'] == 'dosen_pengampu' ? 'selected' : ''; ?>>
+                    Dosen Pengampu
+                </option>
+                <option value="tutor" <?php echo $data['peran'] == 'tutor' ? 'selected' : ''; ?>>
+                    Tutor
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="contact">Contact</label>
+            <input id="contact" name="contact" type="text" value="<?php echo htmlspecialchars($data['contact']); ?>" required />
+        </div>
+        <button class="submit-btn" type="submit">Tambahkan</button>
+    </form>
    </div>
   </div>
  </body>
