@@ -1,3 +1,8 @@
+<?php
+session_start();
+$error_message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
+unset($_SESSION['error']);
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,6 +45,25 @@
             </form>
         </div>
     </div>
+
+	<!-- Pop-Up Notifikasi -->
+	<div id="errorPopup" class="popup hidden">
+		<p id="errorMessage"></p>
+		<button onclick="closePopup()">Tutup</button>
+	</div>
+
     <script type="text/javascript" src="/Aplikasi-Kewirausahaan/assets/js/login.js"></script>
+    <script>
+        // Menangani pesan error dari sesi PHP
+        const errorMessage = "<?php echo $error_message; ?>";
+        if (errorMessage) {
+            document.getElementById('errorMessage').textContent = errorMessage;
+            document.getElementById('errorPopup').classList.remove('hidden');
+        }
+
+        function closePopup() {
+            document.getElementById('errorPopup').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>

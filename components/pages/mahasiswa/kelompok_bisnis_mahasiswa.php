@@ -1,6 +1,17 @@
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+$query = "SELECT npm, nama FROM mahasiswa";
+$result = mysqli_query($conn, $query);
+
+$mahasiswaList = [];
+while ($row = mysqli_fetch_assoc($result)) {
+    $mahasiswaList[] = $row;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,13 +23,9 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/kelompok_bisnis_mahasiswa.css">
 </head>
-
 <body>
     <div class="wrapper">
-        <?php 
-        $activePage = 'kelompok_bisnis_mahasiswa';
-        include 'sidebar_mahasiswa.php'; 
-        ?>
+        <?php include 'sidebar_mahasiswa.php'; ?>
 
         <div class="main p-3">
             <div class="main_header">
@@ -37,7 +44,7 @@
                         <span class="close-btn">&times;</span>
                         <h2>Pengajuan Kelompok Bisnis Kewirausahaan</h2>
 
-                        <form method="POST" action="">
+                        <form method="POST" action="proses_kelompok_bisnis.php">
                             <div class="form-group">
                                 <label for="nama_kelompok">Nama Kelompok:</label>
                                 <input type="text" id="nama_kelompok" name="nama_kelompok" required>
@@ -90,43 +97,40 @@
                     </div>
 
                     <div class="right">
-                    <div class="right">
-                        <div class="title-edit">
-                            <h1>Nama Bisnis</h1>
-                            <button class="edit-btn" type="button">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </div>
-                        <p>Deskripsi Bisnis lorem123</p>
-                        
-                        
-                        <div class="category">
-                            <p><strong>Kategori Bisnis:</strong> StartUp</p>
-                        </div>
-                        <div class="sdg">
-                            <p><strong>Sustainable Development Goals (SDGs):</strong></p>
-                            <p>Pendidikan Berkualitas</p>
-                        </div>
+                        <div class="right">
+                            <div class="title-edit">
+                                <h1>Nama Bisnis</h1>
+                                <button class="edit-btn" type="button">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            <p>Deskripsi Bisnis lorem123</p>
 
-                        <div class="bottom">
-                        <div class="members">
-                            <p><strong>Anggota kelompok Artech:</strong></p>
-                            <p>1. Asril 1402022000</p>
-                            <p>2. Ridho 1402022000</p>
-                            <p>3. Fadly 1402022000</p>
-                        </div>
+                            <div class="category">
+                                <p><strong>Kategori Bisnis:</strong> StartUp</p>
+                            </div>
+                            <div class="sdg">
+                                <p><strong>Sustainable Development Goals (SDGs):</strong></p>
+                                <p>Pendidikan Berkualitas</p>
+                            </div>
 
-                        <div class="tutor">
-                            <p><strong>Dosen Tutor Artech:</strong></p>
-                            <p>1. Bapak Suhaeri</p>
+                            <div class="bottom">
+                                <div class="members">
+                                    <p><strong>Anggota kelompok Artech:</strong></p>
+                                    <p>1. Asril 1402022000</p>
+                                    <p>2. Ridho 1402022000</p>
+                                    <p>3. Fadly 1402022000</p>
+                                </div>
+
+                                <div class="tutor">
+                                    <p><strong>Dosen Tutor Artech:</strong></p>
+                                    <p>1. Bapak Suhaeri</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    </div>
-
-                    
                 </div>
 
-                <?php ?>
             </div>
         </div>
     </div>
@@ -160,14 +164,39 @@
                 formGroup.className = "form-group";
 
                 var label = document.createElement("label");
-                label.for = "nama_anggota_" + i;
-                label.textContent = "Nama Anggota " + i + ":";
+                label.for = "npm_anggota_" + i;
+                label.textContent = "NPM Anggota " + i + ":";
 
                 var input = document.createElement("input");
                 input.type = "text";
-                input.id = "nama_anggota_" + i;
-                input.name = "nama_anggota_" + i;
+                input.id = "npm_anggota_" + i;
+                input.name = "npm_anggota_" + i;
+                input.placeholder = "Ketik NPM Anggota " + i;
                 input.required = true;
+
+                // Tambahkan event listener untuk melakukan pencarian otomatis berdasarkan NPM yang diinput
+                input.addEventListener('input', function() {
+                    var npmField = this;
+                    var value = npmField.value.toLowerCase();
+                    var matchingMembers = <?php echo json_encode($mahasiswaList); ?>.filter(function(mahasiswa) {
+                        return mahasiswa.npm.toLowerCase().includes(value);
+                    });
+
+                    var datalist = document.getElementById(npmField.id + "-datalist");
+                    if (!datalist) {
+                        datalist = document.createElement("datalist");
+                        datalist.id = npmField.id + "-datalist";
+                        npmField.setAttribute("list", datalist.id);
+                        npmField.parentNode.appendChild(datalist);
+                    }
+
+                    datalist.innerHTML = "";
+                    matchingMembers.forEach(function(mahasiswa) {
+                        var option = document.createElement("option");
+                        option.value = mahasiswa.npm + " - " + mahasiswa.nama;
+                        datalist.appendChild(option);
+                    });
+                });
 
                 formGroup.appendChild(label);
                 formGroup.appendChild(input);
@@ -177,10 +206,7 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <script src="script.js"></script>
-    <script type="text/javascript" src="/Aplikasi-Kewirausahaan/assets/js/hamburger.js"></script>
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
+    </script>
 </body>
-
 </html>
-```

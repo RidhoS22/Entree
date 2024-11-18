@@ -3,6 +3,8 @@ include 'db_connection.php';
 
 $accounts = [
     ['username' => 'ridho.syahfero', 'password' => '220304', 'role' => 'mahasiswa', 'first_login' => 1, 'nama' => 'Ridho Syahfero', 'npm' => '1402022055', 'program_studi' => 'Teknik Informatika', 'tahun_angkatan' => '2022/2023 Teknik Informatika'],
+    ['username' => 'asril.affandhi', 'password' => '220305', 'role' => 'mahasiswa', 'first_login' => 1, 'nama' => 'Asril Affandhi', 'npm' => '1402022068', 'program_studi' => 'Teknik Informatika', 'tahun_angkatan' => '2022/2023 Teknik Informatika'],
+    ['username' => 'fadly.abdillah', 'password' => '220306', 'role' => 'mahasiswa', 'first_login' => 1, 'nama' => 'Fadly Abdillah', 'npm' => '1402022040', 'program_studi' => 'Teknik Informatika', 'tahun_angkatan' => '2022/2023 Teknik Informatika'],
     ['username' => 'akunMntr', 'password' => 'mntr123', 'role' => 'mentor', 'first_login' => 1, 'nama' => 'Tes Mentor', 'nidn' => '022456788'],
     ['username' => 'akunAdmin', 'password' => 'admin123', 'role' => 'admin', 'first_login' => 0]
 ];

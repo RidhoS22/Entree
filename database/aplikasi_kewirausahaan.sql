@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 17 Nov 2024 pada 15.52
--- Versi Server: 10.1.9-MariaDB
--- PHP Version: 5.6.15
+-- Waktu pembuatan: 18 Nov 2024 pada 10.56
+-- Versi server: 10.4.32-MariaDB
+-- Versi PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -23,6 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `anggota_kelompok`
+--
+
+CREATE TABLE `anggota_kelompok` (
+  `id` int(11) NOT NULL,
+  `id_kelompok` int(11) NOT NULL,
+  `npm` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `daftar_mentor_bisnis`
 --
 
@@ -31,7 +44,7 @@ CREATE TABLE `daftar_mentor_bisnis` (
   `nama` varchar(30) NOT NULL,
   `deskripsi` varchar(30) NOT NULL,
   `kontak` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `daftar_mentor_bisnis`
@@ -58,7 +71,7 @@ CREATE TABLE `jadwal` (
   `deskripsi` text NOT NULL,
   `lokasi` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `jadwal`
@@ -70,24 +83,19 @@ INSERT INTO `jadwal` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `deskripsi`, `l
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `login`
+-- Struktur dari tabel `kelompok_bisnis`
 --
 
-CREATE TABLE `login` (
+CREATE TABLE `kelompok_bisnis` (
   `id` int(11) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('mahasiswa','mentor bisnis','admin pikk') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `login`
---
-
-INSERT INTO `login` (`id`, `username`, `password`, `role`) VALUES
-(1, 'akunMahasiswa', '$2y$10$IijNYnS5NsREQ.VRjMgMB..cW.ejLJ5J/dxxhPUZJP7mF9WqxKnR2', 'mahasiswa'),
-(2, 'akunMentor', '$2y$10$DRkDuU5c9x3CjsCTwbBhreMCJGnnJO/eFrDJrSADEKsvuz59Yg2uy', 'mentor bisnis'),
-(3, 'akunAdmin', '$2y$10$2yib7FLRmOSYLMwC4ThuFOAvx5oeSMxGe57iwZ8VHUTcE96Iyd58y', 'admin pikk');
+  `nama_kelompok` varchar(255) NOT NULL,
+  `nama_bisnis` varchar(255) NOT NULL,
+  `ide_bisnis` text DEFAULT NULL,
+  `deskripsi` text DEFAULT NULL,
+  `logo_bisnis` varchar(255) DEFAULT NULL,
+  `ketua_npm` varchar(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -104,14 +112,16 @@ CREATE TABLE `mahasiswa` (
   `tahun_angkatan` varchar(50) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `contact` varchar(15) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `mahasiswa`
 --
 
 INSERT INTO `mahasiswa` (`id`, `user_id`, `nama`, `npm`, `program_studi`, `tahun_angkatan`, `email`, `contact`) VALUES
-(1, 1, 'Ridho Syahfero', '1402022055', 'Teknik Informatika', '2022/2023 Teknik Informatika', NULL, NULL);
+(1, 1, 'Ridho Syahfero', '1402022055', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'ridhosyahfero35@gmail.com', '089637167773'),
+(2, 6, 'Asril Affandhi', '1402022068', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'asrilaffandhi@gmail.com', '089645672223'),
+(3, 7, 'Fadly Abdillah', '1402022040', 'Teknik Informatika', '2022/2023 Teknik Informatika', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -124,7 +134,7 @@ CREATE TABLE `materi_kewirausahaan` (
   `judul` varchar(30) NOT NULL,
   `file_path` varchar(300) NOT NULL,
   `deskripsi` varchar(1000) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `materi_kewirausahaan`
@@ -150,7 +160,7 @@ CREATE TABLE `mentor` (
   `peran` enum('dosen_pengampu','tutor') DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `contact` varchar(15) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `mentor`
@@ -170,43 +180,52 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('mahasiswa','mentor','admin') NOT NULL,
-  `first_login` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `first_login` tinyint(1) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `first_login`) VALUES
-(1, 'ridho.syahfero', '$2y$10$b3QGkvFZHitvz1OFfRWZLOMtgtLA/fECvebDxcSwnpYupDSIMt93G', 'mahasiswa', 1),
+(1, 'ridho.syahfero', '$2y$10$b3QGkvFZHitvz1OFfRWZLOMtgtLA/fECvebDxcSwnpYupDSIMt93G', 'mahasiswa', 0),
 (2, 'akunMntr', '$2y$10$7aCTxTjDGfzG7N/3eVjrtO5g13wGc/RaqaDZbuZMRo7B/XHzKa3Me', 'mentor', 1),
-(3, 'akunAdmin', '$2y$10$NuIAAIWAu7axw6tIyD1HFuuV5F4hR.q7koI3VQF0KUHJWM7jc2z6K', 'admin', 0);
+(3, 'akunAdmin', '$2y$10$NuIAAIWAu7axw6tIyD1HFuuV5F4hR.q7koI3VQF0KUHJWM7jc2z6K', 'admin', 0),
+(6, 'asril.affandhi', '$2y$10$R0cSSdyr.54ypvNZP5NmlO4l.6bqw9iXIrPXF3qiqcRPliIWC90M.', 'mahasiswa', 0),
+(7, 'fadly.abdillah', '$2y$10$k9swYB1RsxVfWqgjp8YU2O3Ekok8/VukQlUAyWrSJTeayY8EujeFi', 'mahasiswa', 1);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `daftar_mentor_bisnis`
+-- Indeks untuk tabel `anggota_kelompok`
+--
+ALTER TABLE `anggota_kelompok`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_kelompok` (`id_kelompok`),
+  ADD KEY `npm` (`npm`);
+
+--
+-- Indeks untuk tabel `daftar_mentor_bisnis`
 --
 ALTER TABLE `daftar_mentor_bisnis`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `jadwal`
+-- Indeks untuk tabel `jadwal`
 --
 ALTER TABLE `jadwal`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `login`
+-- Indeks untuk tabel `kelompok_bisnis`
 --
-ALTER TABLE `login`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+ALTER TABLE `kelompok_bisnis`
+  ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `mahasiswa`
+-- Indeks untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id`),
@@ -214,13 +233,13 @@ ALTER TABLE `mahasiswa`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `materi_kewirausahaan`
+-- Indeks untuk tabel `materi_kewirausahaan`
 --
 ALTER TABLE `materi_kewirausahaan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `mentor`
+-- Indeks untuk tabel `mentor`
 --
 ALTER TABLE `mentor`
   ADD PRIMARY KEY (`id`),
@@ -228,54 +247,74 @@ ALTER TABLE `mentor`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indexes for table `users`
+-- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
 --
--- AUTO_INCREMENT for table `daftar_mentor_bisnis`
+-- AUTO_INCREMENT untuk tabel `anggota_kelompok`
+--
+ALTER TABLE `anggota_kelompok`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `daftar_mentor_bisnis`
 --
 ALTER TABLE `daftar_mentor_bisnis`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
 --
--- AUTO_INCREMENT for table `jadwal`
+-- AUTO_INCREMENT untuk tabel `jadwal`
 --
 ALTER TABLE `jadwal`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
 --
--- AUTO_INCREMENT for table `login`
+-- AUTO_INCREMENT untuk tabel `kelompok_bisnis`
 --
-ALTER TABLE `login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+ALTER TABLE `kelompok_bisnis`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
--- AUTO_INCREMENT for table `mahasiswa`
+-- AUTO_INCREMENT untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
--- AUTO_INCREMENT for table `materi_kewirausahaan`
+-- AUTO_INCREMENT untuk tabel `materi_kewirausahaan`
 --
 ALTER TABLE `materi_kewirausahaan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
+
 --
--- AUTO_INCREMENT for table `mentor`
+-- AUTO_INCREMENT untuk tabel `mentor`
 --
 ALTER TABLE `mentor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
+
+--
+-- Ketidakleluasaan untuk tabel `anggota_kelompok`
+--
+ALTER TABLE `anggota_kelompok`
+  ADD CONSTRAINT `anggota_kelompok_ibfk_1` FOREIGN KEY (`id_kelompok`) REFERENCES `kelompok_bisnis` (`id`),
+  ADD CONSTRAINT `anggota_kelompok_ibfk_2` FOREIGN KEY (`npm`) REFERENCES `mahasiswa` (`npm`);
 
 --
 -- Ketidakleluasaan untuk tabel `mahasiswa`
@@ -288,6 +327,7 @@ ALTER TABLE `mahasiswa`
 --
 ALTER TABLE `mentor`
   ADD CONSTRAINT `mentor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
