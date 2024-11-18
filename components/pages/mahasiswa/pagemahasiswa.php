@@ -1,3 +1,34 @@
+<?php
+    session_start();
+    include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+    if (!isset($_SESSION['username'])) {
+        header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+        exit;
+    }
+
+    $user_id = $_SESSION['user_id'];
+
+    $query_user = "SELECT username FROM users WHERE id = '$user_id'";
+    $result_user = $conn->query($query_user);
+
+    if ($result_user && $result_user->num_rows > 0) {
+        $user = $result_user->fetch_assoc();
+        $username = $user['username'];
+    } else {
+        die("User tidak ditemukan.");
+    }
+
+    $query_mahasiswa = "SELECT * FROM mahasiswa WHERE user_id = '$user_id'";
+    $result_mahasiswa = $conn->query($query_mahasiswa);
+
+    if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
+        $mahasiswa = $result_mahasiswa->fetch_assoc();
+    } else {
+        die("Data mahasiswa tidak ditemukan.");
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,6 +60,10 @@
             </div>
 
             <div class="main_wrapper">
+
+
+                <h2>Hallo! Selamat datang <?= htmlspecialchars($mahasiswa['nama'] ?? 'Belum diisi'); ?></h2>
+
                 <div class="card-container">
                     <a href="materikewirausahaan_mahasiswa.php" class="card">
                         <div class="card-content">
@@ -36,9 +71,10 @@
                             <p>Materi kewirausahaan adalah materi yang disediakan oleh PIKK untuk para mahasiswa mempelajari secara mandiri materi tentang kewirausahaan.</p>
                         </div>
                     </a>
-         
+                </div>
+
+                        
             </div>
-        </div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

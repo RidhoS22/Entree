@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/kelompok_bisnis_mahasiswa.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/proposal_bisnis_mahasiswa.css">
 </head>
 
 <body>
@@ -113,6 +113,20 @@
                     </div>
                 </div>
 
+                <div class="card">
+                    <a href="detail_proposal_bisnis.php">
+                        <div class="card-header">
+                            <h2>Proposal Bisnis Kelompok ArTech</h2>
+                            <i class="fas fa-edit edit-icon"></i>
+                        </div>
+                        <div class="card-body">
+                            Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story. lorem120
+                        </div>
+                        <div class="card-footer">
+                            <a href="detail_proposal_bisnis.php">View Feedback</a>
+                        </div>
+                    </a>
+                </div>
 
                  <!-- PHP untuk menangani pengiriman form -->
                  <?php?>

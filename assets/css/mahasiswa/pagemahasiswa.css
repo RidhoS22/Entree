@@ -77,7 +77,7 @@ body {
 
 #sidebar:not(.expand) .sidebar-logo,
 #sidebar:not(.expand) a.sidebar-link span,
-#sidebar:not(.expand) .sidebar-header h1{
+#sidebar:not(.expand) .sidebar-header h1 {
   display: none;
 }
 
@@ -196,6 +196,7 @@ a.sidebar-link:hover {
 }
 
 .card-container {
+  margin-top: 40px;
   display: flex;
 }
 
