@@ -60,38 +60,41 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
             </div>
 
             <div class="main_wrapper">
-                <div class="profile-container">
+
+                    <button class="edit-btn" type="button">
+                        <i class="fas fa-edit"></i>
+                    </button>
                     <div class="profile-header">
                         <div class="profile-item">
                             <h2>Username</h2>
                             <p><?= htmlspecialchars($username); ?></p>
                         </div>
-                        <button class="edit-btn" type="button">
-                            <i class="fas fa-edit"></i>
-                        </button>
                     </div>
-                    <div class="profile-item">
-                        <h2>Nama Lengkap</h2>
-                        <p><?= htmlspecialchars($mahasiswa['nama'] ?? 'Belum diisi'); ?></p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>NPM</h2>
-                        <p><?= htmlspecialchars($mahasiswa['npm'] ?? 'Belum diisi'); ?></p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>Program Studi</h2>
-                        <p><?= htmlspecialchars($mahasiswa['program_studi'] ?? 'Belum diisi'); ?></p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>Alamat Email</h2>
-                        <p><?= htmlspecialchars($mahasiswa['email'] ?? 'Belum diisi'); ?></p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>Nomor Telepon</h2>
-                        <p><?= htmlspecialchars($mahasiswa['contact'] ?? 'Belum diisi'); ?></p>
-                    </div>
+                    <!-- Tambahkan grid untuk profil item -->
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <h2>Nama Lengkap</h2>
+                            <p><?= htmlspecialchars($mahasiswa['nama'] ?? 'Belum diisi'); ?></p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>NPM</h2>
+                            <p><?= htmlspecialchars($mahasiswa['npm'] ?? 'Belum diisi'); ?></p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>Program Studi</h2>
+                            <p><?= htmlspecialchars($mahasiswa['program_studi'] ?? 'Belum diisi'); ?></p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>Alamat Email</h2>
+                            <p><?= htmlspecialchars($mahasiswa['email'] ?? 'Belum diisi'); ?></p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>Nomor Telepon</h2>
+                            <p><?= htmlspecialchars($mahasiswa['contact'] ?? 'Belum diisi'); ?></p>
+                        </div>
                 </div>
             </div>
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

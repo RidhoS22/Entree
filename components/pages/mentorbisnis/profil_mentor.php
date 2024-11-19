@@ -30,50 +30,52 @@
             </div>
 
             <div class="main_wrapper">
-                <div class="profile-container">
+                <button class="edit-btn" type="button">
+                    <i class="fas fa-edit"></i>
+                </button>
                     <div class="profile-header">
                         <div class="profile-item">
                             <h2>Username</h2>
                             <p>mfadly</p>
                         </div>
-                        <button class="edit-btn" type="button">
-                            <i class="fas fa-edit"></i>
-                        </button>
                     </div>
-                    <div class="profile-item">
-                        <h2>Nama Lengkap</h2>
-                        <p>Muhammad Fadly Abdillah</p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>NIDN</h2>
-                        <p>14020242342</p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>Peran</h2>
-                        <p>Dosen Pengampu</p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>Keahlian</h2>
-                        <p>Bisnis StartUp</p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>Fakultas</h2>
-                        <p>Teknik Informasi</p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>Program Studi</h2>
-                        <p>Teknik Informasi</p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>Alamat Email</h2>
-                        <p>astil@gmailcom</p>
-                    </div>
-                    <div class="profile-item">
-                        <h2>Nomor Telepon</h2>
-                        <p>0898970980</p>
+                    <!-- Tambahkan wrapper baru untuk grid -->
+                    <div class="profile-grid">
+                        <div class="profile-item">
+                            <h2>Nama Lengkap</h2>
+                            <p>Muhammad Fadly Abdillah</p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>NIDN</h2>
+                            <p>14020242342</p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>Peran</h2>
+                            <p>Dosen Pengampu</p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>Keahlian</h2>
+                            <p>Bisnis StartUp</p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>Fakultas</h2>
+                            <p>Teknik Informasi</p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>Program Studi</h2>
+                            <p>Teknik Informasi</p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>Alamat Email</h2>
+                            <p>astil@gmailcom</p>
+                        </div>
+                        <div class="profile-item">
+                            <h2>Nomor Telepon</h2>
+                            <p>0898970980</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+
         </div>
 
     </div>

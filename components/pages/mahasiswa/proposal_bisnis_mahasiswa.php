@@ -45,52 +45,91 @@
                                 <input type="text" id="judul_proposal" name="judul_proposal" required>
                             </div>
 
+                            <!-- Dropdown Tahapan Bisnis -->
+                            <div class="form-group">
+                                <label for="tahapan_bisnis">Tahapan Bisnis:<span style="color:red;">*</span></label>
+                                <select id="tahapan_bisnis" name="tahapan_bisnis" required>
+                                    <option value="" style="color:darkgrey;">
+                                        ~ Pilih Tahapan Bisnis ~
+                                    </option>
+                                    <option value="tahapan_awal">Tahapan Awal</option>
+                                    <option value="tahapan_bertumbuh">Tahapan Bertumbuh</option>
+                                </select>
+                            </div>
+
+
                             <!-- SDG Bisnis -->
                             <div class="form-group">
                                 <label for="sdg">SDG Bisnis:<span style="color:red;">*</span></label>
                                 <select id="sdg" name="sdg" required>
                                     <option value="" style="color:darkgrey;">
-                                        ~ Pilih SDG Bisnis Anda ~
+                                        ~ Pilih SDGs Bisnis ~
                                     </option>
-                                    <option value="mengakhiri_kemiskinan">Mengakhiri Kemiskinan</option>
-                                    <option value="mengakhiri_kelaparan">Mengakhiri Kelaparan</option>
-                                    <option value="kesehatan_kesejahteraan">Kesehatan dan Kesejahteraan</option>
-                                    <option value="pendidikan_berkualitas">Pendidikan Berkualitas</option>
-                                    <option value="kesetaraan_gender">Kesetaraan Gender</option>
-                                    <option value="air_bersih_sanitasi">Air Bersih dan Sanitasi</option>
-                                    <option value="energi_bersih_terjangkau">Energi Bersih dan Terjangkau</option>
-                                    <option value="pekerjaan_pertumbuhan_ekonomi">Pekerjaan Layak dan Pertumbuhan Ekonomi</option>
-                                    <option value="industri_inovasi_infrastruktur">Industri, Inovasi, dan Infrastruktur</option>
-                                    <option value="mengurangi_ketimpangan">Mengurangi Ketimpangan</option>
-                                    <option value="kota_komunitas_berkelanjutan">Kota dan Komunitas Berkelanjutan</option>
-                                    <option value="konsumsi_produksi_bertanggung_jawab">Konsumsi dan Produksi yang Bertanggung Jawab</option>
-                                    <option value="penanganan_perubahan_iklim">Penanganan Perubahan Iklim</option>
-                                    <option value="ekosistem_lautan">Ekosistem Lautan</option>
-                                    <option value="ekosistem_daratan">Ekosistem Daratan</option>
-                                    <option value="perdamaian_keadilan_institusi_kuat">Perdamaian, Keadilan, dan Kelembagaan yang Kuat</option>
-                                    <option value="kemitraan_tujuan">Kemitraan untuk Mencapai Tujuan</option>
+                                    <option value="mengakhiri_kemiskinan">1. Mengakhiri Kemiskinan</option>
+                                    <option value="mengakhiri_kelaparan">2. Mengakhiri Kelaparan</option>
+                                    <option value="kesehatan_kesejahteraan">3. Kesehatan dan Kesejahteraan</option>
+                                    <option value="pendidikan_berkualitas">4. Pendidikan Berkualitas</option>
+                                    <option value="kesetaraan_gender">5. Kesetaraan Gender</option>
+                                    <option value="air_bersih_sanitasi">6. Air Bersih dan Sanitasi</option>
+                                    <option value="energi_bersih_terjangkau">7. Energi Bersih dan Terjangkau</option>
+                                    <option value="pekerjaan_pertumbuhan_ekonomi">8. Pekerjaan Layak dan Pertumbuhan Ekonomi</option>
+                                    <option value="industri_inovasi_infrastruktur">9. Industri, Inovasi, dan Infrastruktur</option>
+                                    <option value="mengurangi_ketimpangan">10. Mengurangi Ketimpangan</option>
+                                    <option value="kota_komunitas_berkelanjutan">11. Kota dan Komunitas Berkelanjutan</option>
+                                    <option value="konsumsi_produksi_bertanggung_jawab">12. Konsumsi dan Produksi yang Bertanggung Jawab</option>
+                                    <option value="penanganan_perubahan_iklim">13. Penanganan Perubahan Iklim</option>
+                                    <option value="ekosistem_lautan">14. Ekosistem Lautan</option>
+                                    <option value="ekosistem_daratan">15. Ekosistem Daratan</option>
+                                    <option value="perdamaian_keadilan_institusi_kuat">16. Perdamaian, Keadilan, dan Kelembagaan yang Kuat</option>
+                                    <option value="kemitraan_tujuan">17. Kemitraan untuk Mencapai Tujuan</option>
                                 </select>
                             </div>
 
 
                             <!-- Kategori Bisnis -->
                             <div class="form-group">
-                                <label for="kategori">Kategori Bisnis:<span style="color:red;">*</span></label>
-                                <select id="kategori" name="kategori" required>
-                                    <option value="" style="color:darkgrey;">~ Pilih Kategori Bisnis Anda ~</option>
-                                    <option value="jasa">Bisnis Jasa</option>
-                                    <option value="manufaktur">Bisnis Manufaktur</option>
-                                    <option value="perdagangan">Bisnis Dagang (Perdagangan)</option>
-                                    <option value="agrikultur">Bisnis Agrikultur dan Perkebunan</option>
-                                    <option value="kreatif">Bisnis Kreatif dan Industri Kreatif</option>
-                                    <option value="teknologi">Bisnis Teknologi atau Digital</option>
-                                    <option value="energi">Bisnis Energi dan Lingkungan</option>
-                                    <option value="konstruksi">Bisnis Konstruksi dan Real Estate</option>
-                                    <option value="pariwisata">Bisnis Pariwisata dan Perhotelan</option>
-                                    <option value="finansial">Bisnis Finansial</option>
-                                </select>
+                            <label for="kategori">Kategori Bisnis:<span style="color:red;">*</span></label>
+                            <select id="kategori" name="kategori" class="form-control" required onchange="toggleOtherCategoryInput()">
+                                <option value="" style="color:darkgrey;">~ Pilih Kategori Bisnis Anda ~</option>
+                                <option value="jasa">Bisnis Jasa</option>
+                                <option value="manufaktur">Bisnis Manufaktur</option>
+                                <option value="perdagangan">Bisnis Dagang (Perdagangan)</option>
+                                <option value="agrikultur">Bisnis Agrikultur dan Perkebunan</option>
+                                <option value="kreatif">Bisnis Kreatif dan Industri Kreatif</option>
+                                <option value="teknologi">Bisnis Teknologi atau Digital</option>
+                                <option value="energi">Bisnis Energi dan Lingkungan</option>
+                                <option value="konstruksi">Bisnis Konstruksi dan Real Estate</option>
+                                <option value="pariwisata">Bisnis Pariwisata dan Perhotelan</option>
+                                <option value="finansial">Bisnis Finansial</option>
+                                <option value="lainnya">Lainnya</option>
+                            </select>
+
+                            <!-- Input untuk "Lainnya" -->
+                            <div id="other-category-container" style="display: none; margin-top: 10px;">
+                                <label for="other-category">Masukkan Kategori Bisnis Anda:</label>
+                                <input 
+                                type="text" 
+                                id="other-category" 
+                                name="other_category" 
+                                class="form-control" 
+                                placeholder="Tulis kategori Anda di sini..."
+                                />
+                            </div>
                             </div>
 
+                            <script>
+                            function toggleOtherCategoryInput() {
+                                const dropdown = document.getElementById('kategori');
+                                const otherCategoryContainer = document.getElementById('other-category-container');
+                                
+                                // Tampilkan input "Lainnya" jika opsi "Lainnya" dipilih
+                                if (dropdown.value === 'lainnya') {
+                                otherCategoryContainer.style.display = 'block';
+                                } else {
+                                otherCategoryContainer.style.display = 'none';
+                                }
+                            }
+                            </script>
 
 
                             <!-- Proposal (file input) -->
@@ -98,12 +137,6 @@
                                 <label for="proposal">Proposal bisnis kewirausahaan (pdf only):<span style="color:red;">*</span></label>
                                 </label>
                                 <input type="file" id="proposal" name="proposal" accept=".pdf" required>
-                            </div>
-
-                            <!-- Deskripsi Proposal Bisnis Kelompok -->
-                            <div class="form-group">
-                                <label for="deskripsi">Deskripsi Proposal Bisnis Kelompok:<span style="color:red;">*</span></label>
-                                <textarea id="deskripsi" name="deskripsi" required></textarea>
                             </div>
 
                             <div class="form-group">

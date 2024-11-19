@@ -161,7 +161,11 @@
                                                     onclick="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');">
                                                     <i class="fa-solid fa-trash-can"></i> 
                                                 </a>
+                                                <a href="detail_jadwal_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </a>
                                             </td>
+
                                         </tr>
                                     <?php endwhile; ?>
                                 <?php else: ?>

@@ -71,12 +71,25 @@
                                 <textarea id="laporan_sdm" name="laporan_sdm" ></textarea>
                             </div>
 
+                             <!-- Laporan Keuangan -->
+                             <div class="form-group">
+                                <label for="laporan_keuangan">Laporan Keuangan:</label>
+                                <textarea id="laporan_keuangan" name="laporan_keuangan" ></textarea>
+                            </div>
+
 
                             <!-- Lampiran (file input) -->
                             <div class="form-group">
-                                <label for="lampiran_laporan">Lampiran (dokumentasi kegiatan secara pdf):</label>
-                                <input type="file" id="lampiran_laporan" name="lampiran_laporan" accept=".pdf">
+                            <label for="lampiran_laporan">Lampiran (dokumentasi kegiatan secara PDF):</label>
+                            <input 
+                                type="file" 
+                                id="lampiran_laporan" 
+                                name="lampiran_laporan[]" 
+                                accept=".pdf" 
+                                multiple 
+                            />
                             </div>
+
 
                             <div class="form-group">
                                 <button type="submit">Kirim</button>

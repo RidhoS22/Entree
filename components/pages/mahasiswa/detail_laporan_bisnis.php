@@ -114,34 +114,11 @@
                     <p>Laporan SDM:</p>
                 </div>
 
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Laporan Penjualan</th>
-                            <th>Laporan Pemasaran</th>
-                            <th>Laporan Produksi</th>
-                            <th>Laporan SDM</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Laporan Penjualan Lorem ipsum dolor sit amet consectetur, adipisicing elit. Porro, rem architecto et amet consectetur, quia aperiam corporis provident pariatur molestiae adipisci!</td>
-                            <td>Laporan Pemasaran Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit dignissimos dolorum error, eveniet ad rerum cupiditate unde eligendi, recusandae suscipit, modi neque perspiciatis esse non!</td>
-                            <td>Laporan Produksi Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia, numquam. Perferendis, autem nesciunt. Nam, nisi similique accusamus eum mollitia itaque tenetur placeat.</td>
-                            <td>Laporan SDM Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita laudantium obcaecati esse eveniet voluptas, ut ducimus deserunt doloremque earum vitae corrupti deleniti officiis error recusandae!</td>
-                        <tr>
-                    </tbody>
-                </table>
-
                 <p>Lampiran (Dokumentasi kegiatan secara pdf): <a href="">lampiran.pdf</a></p>
                 <div class="file-lampiran">
                     <p>lampiran.pdf</p>
                 </div>
 
-
-
-                
-                
                 <p>Feedback mentor :</p>
                 <div class="feedback-box">
                     <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi molestiae adipisci necessitatibus repudiandae, aspernatur ea alias aliquid accusantium reiciendis cumque? Deskripsi Deskripsi Deskripsi Deskripsi Deskripsi Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae fugit unde omnis perferendis soluta consequuntur ullam ipsa labore ea voluptatem officiis architecto quas accusamus corrupti, nemo voluptas facere cupiditate, alias tenetur exercitationem. Illum impedit expedita nisi consectetur qui placeat, nesciunt praesentium, dolores ipsa aspernatur, eligendi quisquam eum. Nemo iste ratione reiciendis nisi animi qui, fugiat veritatis facere debitis placeat sequi quos laboriosam similique magni repudiandae unde! Laudantium earum harum dolor modi facere sequi facilis, autem enim quisquam suscipit nam excepturi rem repellendus quos vero ex? Doloremque nihil voluptate esse, at vel, excepturi adipisci repudiandae pariatur nam maxime expedita quo commodi odit explicabo voluptatibus numquam quibusdam asperiores eligendi quos optio unde quasi? Earum et pariatur aspernatur, modi ipsum numquam recusandae, voluptas obcaecati asperiores commodi possimus ratione iure totam temporibus veritatis. Delectus, soluta!</div>
