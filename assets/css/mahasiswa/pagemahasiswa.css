@@ -157,7 +157,7 @@ a.sidebar-link:hover {
 
 .main_wrapper {
   width: 100%;
-  height: 85%;
+  height: 85vh;
   background-color: #f0f0f0;
   box-shadow: -2px 4px 3px rgba(0, 0, 0, 0.3);
   margin: 0 auto;
@@ -168,27 +168,6 @@ a.sidebar-link:hover {
   border: 2px solid white;
   margin-right: 20px;
   margin-left: 20px;
-}
-
-.main_header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #fff;
-}
-
-.main_header h1 {
-  font-size: xx-large;
-  margin: 0;
-}
-
-.notification {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: #000;
-  font-size: 18px;
 }
 
 .notification i {

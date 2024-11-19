@@ -53,10 +53,10 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
 
         <div class="main p-3">
             <div class="main_header">
-                <h1>Profil Mahasiswa</h1>
-                <a href="#" class="notification">
-                    <i class="fa-regular fa-bell"></i>
-                </a>
+                <?php 
+                    $pageTitle = "Profil"; // Judul halaman
+                    include 'header_mahasiswa.php'; 
+                ?>
             </div>
 
             <div class="main_wrapper">

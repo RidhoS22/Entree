@@ -23,11 +23,11 @@
 
                 <div class="main p-3">
                     <div class="main_header">
-                        <h1>Jadwal Bimbingan</h1>
-                        <a href="#" class="notification">
-                            <i class="fa-regular fa-bell"></i>
-                        </a>
-                </div>
+                        <?php 
+                            $pageTitle = "Jadwal Bimbingan"; // Judul halaman
+                            include 'header_mahasiswa.php'; 
+                        ?>
+                    </div>
 
                 <div class="main_wrapper">
                     <div class="container mt-4">

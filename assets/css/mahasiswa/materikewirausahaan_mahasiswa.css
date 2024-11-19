@@ -172,31 +172,6 @@ a.sidebar-link:hover {
   margin-left: 20px;
 }
 
-.main_header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #fff;
-}
-
-.main_header h1 {
-  font-size: xx-large;
-  margin: 0;
-}
-
-.notification {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: #000;
-  font-size: 18px;
-}
-
-.notification i {
-  margin-right: 8px;
-}
-
 .card-container {
   display: flex;
 }
