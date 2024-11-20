@@ -81,7 +81,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
                             <div class="form-group">
                                 <label for="logo_bisnis">Logo Bisnis:</label>
-                                <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv" required>
+                                <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv,.png,.jpg" required>
                             </div>
 
                             <div class="form-group">
