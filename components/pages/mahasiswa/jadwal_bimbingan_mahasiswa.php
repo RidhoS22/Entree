@@ -39,21 +39,21 @@
                             $nama_kegiatan = $_POST['nama_kegiatan'];
                             $tanggal = $_POST['tanggal'];
                             $waktu = $_POST['waktu'];
-                            $deskripsi = $_POST['deskripsi'];
+                            $agenda = $_POST['agenda'];
                             $lokasi = $_POST['lokasi'];
                             $id = isset($_POST['id']) ? $_POST['id'] : null;
 
                             if ($id) {
                                 // Update jadwal
-                                $sql = "UPDATE jadwal SET nama_kegiatan = ?, tanggal = ?, waktu = ?, deskripsi = ?, lokasi = ? WHERE id = ?";
+                                $sql = "UPDATE jadwal SET nama_kegiatan = ?, tanggal = ?, waktu = ?, agenda = ?, lokasi = ? WHERE id = ?";
                                 $stmt = $conn->prepare($sql);
-                                $stmt->bind_param("sssssi", $nama_kegiatan, $tanggal, $waktu, $deskripsi, $lokasi, $id);
+                                $stmt->bind_param("sssssi", $nama_kegiatan, $tanggal, $waktu, $agenda, $lokasi, $id);
                                 $message = $stmt->execute() ? "Jadwal berhasil diperbarui!" : "Gagal memperbarui jadwal.";
                             } else {
                                 // Tambah jadwal baru
-                                $sql = "INSERT INTO jadwal (nama_kegiatan, tanggal, waktu, deskripsi, lokasi) VALUES (?, ?, ?, ?, ?)";
+                                $sql = "INSERT INTO jadwal (nama_kegiatan, tanggal, waktu, agenda, lokasi) VALUES (?, ?, ?, ?, ?)";
                                 $stmt = $conn->prepare($sql);
-                                $stmt->bind_param("sssss", $nama_kegiatan, $tanggal, $waktu, $deskripsi, $lokasi);
+                                $stmt->bind_param("sssss", $nama_kegiatan, $tanggal, $waktu, $agenda, $lokasi);
                                 $message = $stmt->execute() ? "Jadwal berhasil ditambahkan!" : "Gagal menambahkan jadwal.";
 
                             }
@@ -112,8 +112,8 @@
                                     value="<?php echo isset($edit_data['waktu']) ? $edit_data['waktu'] : ''; ?>">
                             </div>
                             <div class="mb-3">
-                                <label for="deskripsi" class="form-label">Deskripsi</label>
-                                <textarea name="deskripsi" id="deskripsi" class="form-control"><?php echo isset($edit_data['deskripsi']) ? $edit_data['deskripsi'] : ''; ?></textarea>
+                                <label for="agenda" class="form-label">agenda</label>
+                                <textarea name="agenda" id="agenda" class="form-control"><?php echo isset($edit_data['agenda']) ? $edit_data['agenda'] : ''; ?></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="lokasi" class="form-label">Lokasi</label>
@@ -135,7 +135,6 @@
                                     <th>Nama Kegiatan</th>
                                     <th>Tanggal</th>
                                     <th>Waktu</th>
-                                    <th>Deskripsi</th>
                                     <th>Lokasi</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
@@ -150,7 +149,6 @@
                                             <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
                                             <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
                                             <td><?php echo htmlspecialchars($row['waktu']); ?></td>
-                                            <td style="max-width:200px;"><?php echo htmlspecialchars($row['deskripsi']); ?></td>
                                             <td><?php echo htmlspecialchars($row['lokasi']); ?></td>
                                             <td><?php echo isset($row['status']) ? htmlspecialchars($row['status']) : 'N/A'; ?></td>
                                             <td>

@@ -417,7 +417,6 @@ form button:hover {
 .container {
   display: flex;
   padding: 20px;
-  max-width: 800px;
   width: 100%;
   border-radius: 8px;
   justify-content: center;
@@ -433,7 +432,7 @@ form button:hover {
 }
 
 .right {
-  max-width: 600px;
+  width: 100%;
 }
 
 .right h1 {
@@ -456,17 +455,19 @@ form button:hover {
   height: 80vh;
   justify-content: center;
   overflow: auto;
+  width: 100%;
 }
 
 .bottom {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
+  width: 100%;
 }
 
 .members,
 .tutor {
-  width: 45%;
+  width: 100%;
 }
 
 .title-edit {

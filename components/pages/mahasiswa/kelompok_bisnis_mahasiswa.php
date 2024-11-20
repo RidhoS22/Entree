@@ -75,13 +75,8 @@ while ($row = mysqli_fetch_assoc($result)) {
                             </div>
 
                             <div class="form-group">
-                                <label for="deskripsi">Deskripsi Singkat Bisnis Kelompok:</label>
-                                <textarea id="deskripsi" name="deskripsi" required></textarea>
-                            </div>
-
-                            <div class="form-group">
                                 <label for="logo_bisnis">Logo Bisnis:</label>
-                                <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv,.png,.jpg" required>
+                                <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".png, .jpg" required>
                             </div>
 
                             <div class="form-group">
@@ -96,7 +91,6 @@ while ($row = mysqli_fetch_assoc($result)) {
                         <img alt="Logo of Fish Corporation with a stylized fish graphic" height="400" width="400" src="https://storage.googleapis.com/a1aa/image/KTfOztGxYpSnK6SKheWu6Z3KLGKEoMaCPLrNGyZpwBeqR5hnA.jpg"/>
                     </div>
 
-                    <div class="right">
                         <div class="right">
                             <div class="title-edit">
                                 <h1>Nama Bisnis</h1>
@@ -104,30 +98,30 @@ while ($row = mysqli_fetch_assoc($result)) {
                                     <i class="fas fa-edit"></i>
                                 </button>
                             </div>
-                            <p>Deskripsi Bisnis lorem123</p>
+                            <p>Ide Bisnis lorem123</p>
 
                             <div class="category">
                                 <p><strong>Kategori Bisnis:</strong> StartUp</p>
                             </div>
                             <div class="sdg">
-                                <p><strong>Sustainable Development Goals (SDGs):</strong></p>
-                                <p>Pendidikan Berkualitas</p>
+                                <p><strong>Sustainable Development Goals (SDGs):</strong> Pendidikan Berkualitas<</p>
                             </div>
 
                             <div class="bottom">
                                 <div class="members">
-                                    <p><strong>Anggota kelompok Artech:</strong></p>
+                                    <p><strong>Nama Kelompok:</strong> Artech</p>
+                                    <p><strong>Ketua Kelompok:</strong> Rufino ahmad noer</p>
+                                    <p><strong>Anggota kelompok:</strong></p>
                                     <p>1. Asril 1402022000</p>
                                     <p>2. Ridho 1402022000</p>
                                     <p>3. Fadly 1402022000</p>
                                 </div>
 
                                 <div class="tutor">
-                                    <p><strong>Dosen Tutor Artech:</strong></p>
+                                    <p><strong>Mentor Bisnis:</strong></p>
                                     <p>1. Bapak Suhaeri</p>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
 
