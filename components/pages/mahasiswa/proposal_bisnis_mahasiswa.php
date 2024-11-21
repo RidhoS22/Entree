@@ -147,19 +147,20 @@
                 </div>
 
                 <div class="card">
+                    <div class="card-header">
+                        <h2>Proposal Bisnis</h2>
+                        <i class="fas fa-edit edit-icon"></i>
+                    </div>
                     <a href="detail_proposal_bisnis.php">
-                        <div class="card-header">
-                            <h2>Proposal Bisnis kelompok ArTech</h2>
-                            <i class="fas fa-edit edit-icon"></i>
-                        </div>
                         <div class="card-body">
-                            Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.
-                        </div>
-                        <div class="card-footer">
-                            <a href="detail_proposal_bisnis.php">View Feedback</a>
-                            <i class="fa-solid fa-trash-can delete-icon"></i> 
-                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente at quidem commodi. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis suscipit dolores sunt molestias. Iusto dignissimos doloremque tempore architecto fuga vero quibusdam molestias quis pariatur impedit, odit delectus explicabo magni vitae quam! Quam aliquam voluptas voluptatem minima aspernatur provident amet atque eligendi eveniet veritatis, ullam eaque iste perspiciatis impedit ex. Reprehenderit aperiam, quod atque voluptas unde facilis mollitia corporis expedita aspernatur asperiores et molestias soluta accusantium repellendus neque itaque consequuntur voluptates laboriosam, minima vitae laborum illum perferendis possimus? Blanditiis provident nihil magni iure nostrum perspiciatis omnis, corrupti ipsa assumenda quisquam maiores esse aliquid quis tenetur veritatis beatae est libero earum nulla! Illum, officia quidem, vel eaque deleniti mollitia voluptate rerum earum nemo quas ex provident doloremque, quis alias fugiat saepe commodi culpa ullam nostrum minus iure. Unde in nostrum optio voluptatibus nemo delectus sed dolore consectetur odit excepturi ab aspernatur rem, tempore iusto et veniam. Hic soluta debitis totam, modi quae doloribus sapiente voluptatem. Possimus voluptatum adipisci, earum corporis consequatur laborum aut illo necessitatibus ducimus quis laboriosam eveniet magni animi neque iste eum facilis tempora sunt? Iste veniam maxime cumque a, eum ab! Enim architecto in repellat modi perferendis et qui, quam, sed maiores veritatis praesentium cupiditate impedit cum accusantium ad dignissimos sapiente. Reprehenderit placeat dicta non nesciunt iusto ad veniam ab laudantium sit ratione. Enim nobis porro repudiandae deserunt totam minima in harum fuga assumenda, consequuntur deleniti velit repellendus ipsa error voluptate cum.</p>
+                        <i class="fa-solid fa-eye detail-icon"></i>
+                    </div>
                     </a>
+                    <div class="card-footer">
+                        <a href="detail_proposal_bisnis.php">View Feedback</a>
+                        <i class="fa-solid fa-trash-can delete-icon"></i> 
+                    </div>
                 </div>
 
                  <!-- PHP untuk menangani pengiriman form -->

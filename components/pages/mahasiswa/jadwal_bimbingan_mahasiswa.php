@@ -155,8 +155,10 @@
                                                 <a href="?edit_id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">
                                                     <i class="fas fa-edit"></i> 
                                                 </a>
-                                                <a href="?delete_id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Apakah Anda yakin ingin menghapus jadwal ini?');">
+                                                <a href="#" class="btn btn-danger btn-sm" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#deleteConfirmModal"
+                                                    onclick="setDeleteUrl(<?php echo $row['id']; ?>)">
                                                     <i class="fa-solid fa-trash-can"></i> 
                                                 </a>
                                                 <a href="detail_jadwal_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
@@ -175,9 +177,35 @@
                         </table>
                     </div>
 
+                    <!-- Modal Konfirmasi -->
+                    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteConfirmLabel">Konfirmasi Hapus</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Apakah Anda yakin ingin menghapus jadwal ini?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                            <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Ya, Hapus</a>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
 
     </div>
+        <script>
+    // Fungsi untuk menetapkan URL hapus ke tombol modal
+    function setDeleteUrl(id) {
+        const deleteUrl = `?delete_id=${id}`; // URL dengan parameter ID
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        confirmDeleteBtn.setAttribute('href', deleteUrl); // Set URL pada tombol modal
+    }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

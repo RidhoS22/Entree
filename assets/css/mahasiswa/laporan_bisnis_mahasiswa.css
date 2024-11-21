@@ -254,6 +254,18 @@ body {
 
 /* card */
 .card {
+  text-decoration: none;
+  display: block;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 50%;
+  padding: 20px;
+  color: black;
+}
+
+.card {
   border: 1px solid #000;
   border-radius: 8px;
   padding: 16px;
@@ -273,14 +285,19 @@ body {
   font-weight: bold;
 }
 .card-header .edit-icon,
-.card-footer .delete-icon {
+.card-footer .delete-icon,
+.card-body .detail-icon {
   font-size: 24px;
   cursor: pointer;
 }
 .card-body {
+  display: flex;
+  justify-content: space-between;
   margin-top: 8px;
   font-size: 14px;
   color: #666;
+  max-height: 63px;
+  overflow-y: hidden;
 }
 .card-footer {
   display: block;
@@ -308,4 +325,14 @@ body {
 .card .card-header,
 .card .card-body {
   color: #000;
+}
+
+.card-body p {
+  margin: 0;
+  padding: 0;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
