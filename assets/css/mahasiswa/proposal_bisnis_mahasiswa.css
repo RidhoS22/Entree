@@ -506,7 +506,8 @@ body {
   font-size: 18px;
   font-weight: bold;
 }
-.card-header .edit-icon {
+.card-header .edit-icon,
+.card-footer .delete-icon {
   font-size: 24px;
   cursor: pointer;
 }
@@ -516,10 +517,26 @@ body {
   color: #666;
 }
 .card-footer {
+  display: block;
   margin-top: 16px;
   font-size: 16px;
   font-weight: bold;
   color: #000;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-footer a {
+  margin: 0;
+  padding: 0;
+}
+
+.card-footer .delete-icon {
+  margin-left: auto;
 }
 
 .card .card-header,

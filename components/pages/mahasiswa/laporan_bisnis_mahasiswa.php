@@ -109,6 +109,7 @@
                         </div>
                         <div class="card-footer">
                             <a href="detail_laporan_bisnis.php">View Feedback</a>
+                            <i class="fa-solid fa-trash-can delete-icon"></i> 
                         </div>
                     </a>
                 </div>

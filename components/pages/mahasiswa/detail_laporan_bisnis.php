@@ -15,84 +15,83 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
+            background-color: #f4f4f9;
+           
+        }
+
+        .main {
+            padding: 20px;
         }
 
         .main_wrapper {
+            height: 85vh;
             padding: 30px;
         }
-       
+
         h2 {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
         }
 
         p {
-            margin: 0;
-        }
-        
-        .file-box {
-            width: 100%;
-            border: 1px solid #000;
-            background-color: #fff;
-            padding: 10px;
-            margin-bottom: 20px;
-            margin-top: -15px;
-            min-height: 100px;
-            max-height: 200px;
+            margin: 0 0 10px;
         }
 
-        .file-lampiran {
+        .file-box,
+        .file-lampiran,
+        .feedback-box {
             width: 100%;
-            border: 1px solid #000;
+            border: 1px solid #ddd;
             background-color: #fff;
-            padding: 5px;
+            padding: 15px;
             margin-bottom: 20px;
-            margin-top: -15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            max-height: 200px;
         }
 
         .feedback-box {
-            width: 100%;
-            min-height: 100px;
-            max-height: 200px;
-            overflow: auto;
-            border: 1px solid #000;
             background-color: #f8fef8;
-            padding: 10px;
-            margin-bottom: 20px;
-            margin-top: -15px;
         }
 
-        table{
+        table {
+            width: 100%;
+            border-collapse: collapse;
             background-color: #fff;
-            border: 2px solid black;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
         }
 
-        tbody{
-            padding: 20px;
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
         }
     </style>
 </head>
 
 <body>
     <div class="wrapper">
+        <!-- Sidebar -->
         <?php 
-        $activePage = 'laporan_bisnis_mahasiswa'; // Halaman ini aktif
-        include 'sidebar_mahasiswa.php'; 
+            $activePage = 'laporan_bisnis_mahasiswa'; // Halaman ini aktif
+            include 'sidebar_mahasiswa.php'; 
         ?>
 
-        <div class="main p-3">
-            <div class="main_header">
-                <?php 
-                    $pageTitle = "Detail Laporan Kemajuan Bisnis"; // Judul halaman
-                    include 'header_mahasiswa.php'; 
-                ?>
-            </div>
+        <!-- Main Content -->
+        <div class="main">
+            <!-- Header -->
+            <?php 
+                $pageTitle = "Detail Laporan Kemajuan Bisnis"; // Judul halaman
+                include 'header_mahasiswa.php'; 
+            ?>
 
+            <!-- Content Wrapper -->
             <div class="main_wrapper">
-                <h2>Judul</h2>
-                   
+                <h2>Judul Laporan</h2>
 
                 <p>Laporan Penjualan:</p>
                 <div class="file-box">
@@ -101,30 +100,30 @@
 
                 <p>Laporan Pemasaran:</p>
                 <div class="file-box">
-                    <p>Laporan Pemasaran:</p>
+                    <p>Laporan Pemasaran</p>
                 </div>
 
                 <p>Laporan Produksi:</p>
                 <div class="file-box">
-                    <p>Laporan Produksi:</p>
+                    <p>Laporan Produksi</p>
                 </div>
 
                 <p>Laporan SDM:</p>
                 <div class="file-box">
-                    <p>Laporan SDM:</p>
+                    <p>Laporan SDM Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias, mollitia. Nesciunt eaque delectus tempora id temporibus, odit ut consectetur necessitatibus laboriosam assumenda vitae quos dolores cumque dolor ipsam, rerum quod hic culpa tempore earum? Ratione provident magni adipisci possimus molestiae quidem aliquid veritatis at natus, neque atque facilis ad tempora cupiditate vel minus? Distinctio magni ad expedita ullam possimus laboriosam tempora alias porro consequuntur quo non, necessitatibus temporibus dolores accusantium dignissimos architecto libero ex aliquam vitae eius corrupti sunt enim, tenetur delectus? Praesentium non perspiciatis quae necessitatibus. Accusamus numquam minus nostrum. Cupiditate quam vero praesentium eveniet, culpa obcaecati quo ut aliquid optio, doloremque, ullam est qui nihil a! Repellat dolore, eaque, deserunt ducimus tenetur maxime rem facilis hic nemo illum, illo tempore! Nesciunt?</p>
                 </div>
 
-                <p>Lampiran (Dokumentasi kegiatan secara pdf): <a href="">lampiran.pdf</a></p>
-                <div class="file-lampiran">
-                    <p>lampiran.pdf</p>
-                </div>
+                <p>Lampiran (Dokumentasi kegiatan dalam format PDF): <a href="#">lampiran.pdf</a></p>
 
-                <p>Feedback mentor :</p>
+                <p>Feedback Mentor:</p>
                 <div class="feedback-box">
-                    <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi molestiae adipisci necessitatibus repudiandae, aspernatur ea alias aliquid accusantium reiciendis cumque? Deskripsi Deskripsi Deskripsi Deskripsi Deskripsi Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae fugit unde omnis perferendis soluta consequuntur ullam ipsa labore ea voluptatem officiis architecto quas accusamus corrupti, nemo voluptas facere cupiditate, alias tenetur exercitationem. Illum impedit expedita nisi consectetur qui placeat, nesciunt praesentium, dolores ipsa aspernatur, eligendi quisquam eum. Nemo iste ratione reiciendis nisi animi qui, fugiat veritatis facere debitis placeat sequi quos laboriosam similique magni repudiandae unde! Laudantium earum harum dolor modi facere sequi facilis, autem enim quisquam suscipit nam excepturi rem repellendus quos vero ex? Doloremque nihil voluptate esse, at vel, excepturi adipisci repudiandae pariatur nam maxime expedita quo commodi odit explicabo voluptatibus numquam quibusdam asperiores eligendi quos optio unde quasi? Earum et pariatur aspernatur, modi ipsum numquam recusandae, voluptas obcaecati asperiores commodi possimus ratione iure totam temporibus veritatis. Delectus, soluta!</div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi molestiae adipisci necessitatibus
+                        repudiandae... Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, nobis. Magni ducimus repellat inventore sapiente numquam facere quasi beatae velit ea illo vero, suscipit ullam? Laudantium voluptate ex illo iure expedita minus eligendi fuga doloremque rerum. Ratione, ipsum. Suscipit velit quis animi. Voluptas earum doloribus suscipit dolorem cumque id voluptatem maiores, deserunt aliquid. Dolor reprehenderit repudiandae, porro ratione sunt animi perspiciatis vitae neque quam deserunt officia sequi, velit perferendis similique. Ut debitis, assumenda et tenetur aperiam obcaecati voluptatum, excepturi sapiente earum laboriosam eos esse magni ducimus, minus neque doloribus quod necessitatibus? Natus provident sit quaerat suscipit sunt numquam quibusdam reiciendis iste deleniti at. Corrupti odio eaque tempora magni repellat facilis quasi consequatur, assumenda reiciendis dicta harum veniam itaque labore iure commodi exercitationem beatae!</p>
                 </div>
+                <a href="laporan_bisnis_mahasiswa.php" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

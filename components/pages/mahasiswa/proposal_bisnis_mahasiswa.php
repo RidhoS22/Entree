@@ -149,14 +149,15 @@
                 <div class="card">
                     <a href="detail_proposal_bisnis.php">
                         <div class="card-header">
-                            <h2>Proposal Bisnis Kelompok ArTech</h2>
+                            <h2>Proposal Bisnis kelompok ArTech</h2>
                             <i class="fas fa-edit edit-icon"></i>
                         </div>
                         <div class="card-body">
-                            Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story. lorem120
+                            Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.
                         </div>
                         <div class="card-footer">
                             <a href="detail_proposal_bisnis.php">View Feedback</a>
+                            <i class="fa-solid fa-trash-can delete-icon"></i> 
                         </div>
                     </a>
                 </div>

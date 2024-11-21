@@ -15,86 +15,103 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
+            background-color: #f4f4f9;
+           
+        }
+
+        .main {
+            padding: 20px;
         }
 
         .main_wrapper {
             padding: 30px;
+            background-color: #f4f4f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 85vh;
+            padding: 30px;
         }
-       
+
         h2 {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
-        }
-        .description, .file-box, .feedback-box {
-            margin-top: 20px;
             margin-bottom: 20px;
-            
+        }
+
+        .description {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            line-height: 1.6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .styled-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .styled-table td {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background-color: #fefefe;
+            vertical-align: middle;
+        }
+
+        .file-box {
+            background-color: #f9f9f9;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
 
         .feedback-box {
             width: 100%;
-            min-height: 100px;
-            max-height: 200px;
-            overflow: auto;
-            border: 1px solid #000;
+            padding: 15px;
+            border: 1px solid #ddd;
             background-color: #f8fef8;
-            padding: 10px;
-            margin-bottom: 20px;
-            margin-top: -15px;
-        }
-
-        .styled-table {
-            width: 100%; /* Lebar penuh */
-            border-collapse: collapse; /* Hilangkan garis ganda antar sel */
-        }
-
-        .styled-table td {
-            padding: 10px;
-            vertical-align: middle; /* Pusatkan teks secara vertikal */
-            background-color: #fff;
-            border: 1px solid black;
-        }
-
-        .file-box {
-            width: 80%;
-            background-color: #fff;
-            padding: 5px 10px;
             border-radius: 5px;
-            border: 1px solid black;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            overflow-y: auto;
+            max-height: 200px;
+            line-height: 1.6;
+            margin-bottom: 20px;
         }
-
-        table{
-            margin-top: 40px;
-            margin-bottom: 40px;
-        }
-
-
     </style>
 </head>
 
 <body>
     <div class="wrapper">
+        <!-- Sidebar -->
         <?php 
-        $activePage = 'laporan_bisnis_mahasiswa'; // Halaman ini aktif
-        include 'sidebar_mahasiswa.php'; 
+            $activePage = 'laporan_bisnis_mahasiswa'; // Halaman ini aktif
+            include 'sidebar_mahasiswa.php'; 
         ?>
 
-        <div class="main p-3">
-            <div class="main_header">
-                <?php 
-                    $pageTitle = "Detail Proposal Bisnis"; // Judul halaman
-                    include 'header_mahasiswa.php'; 
-                ?>
-            </div>
+        <!-- Main Content -->
+        <div class="main">
+            <!-- Header -->
+            <?php 
+                $pageTitle = "Detail Proposal Bisnis"; // Judul halaman
+                include 'header_mahasiswa.php'; 
+            ?>
 
+            <!-- Content Wrapper -->
             <div class="main_wrapper">
-
-                <h2>Judul</h2>
+                <h2>Judul Proposal</h2>
                 <div class="description">
-                    Deskripsi Deskripsi Deskripsi Deskripsi Deskripsi Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quia, harum voluptatem eos minima, nisi dolor iusto quas sapiente modi mollitia minus dignissimos veniam aut suscipit explicabo, deserunt eligendi assumenda reiciendis voluptas obcaecati amet recusandae doloremque quod. Consectetur atque quam quod eum commodi recusandae beatae eaque enim neque magnam quisquam asperiores adipisci minima excepturi eligendi impedit cum mollitia, dolorem exercitationem quo totam blanditiis. Iste temporibus animi repudiandae! Inventore qui recusandae blanditiis saepe magni incidunt maxime assumenda, libero eveniet. Possimus repudiandae temporibus laborum nemo dolore est in id vel ratione nobis, neque nulla quasi ab iure expedita tenetur soluta magni velit ea placeat architecto excepturi explicabo mollitia repellendus. Maiores voluptatem optio temporibus, nam labore culpa eos, accusamus voluptatum, mollitia fuga explicabo perferendis! Nam, ad repudiandae.
+                    Deskripsi Deskripsi Deskripsi Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
+                    repudiandae temporibus laborum nemo dolore est in id vel ratione nobis.
                 </div>
 
+                <!-- Table Section -->
                 <table class="styled-table">
                     <tr>
                         <td>SDG Bisnis:</td>
@@ -106,16 +123,20 @@
                     </tr>
                     <tr>
                         <td>File Proposal Bisnis:</td>
-                        <td class="file-box">proposal bisnis.pdf</td>
+                        <td class="file-box"><a href="">proposal_bisnis.pdf</a></td>
                     </tr>
                 </table>
-                
-                <p>Feedback mentor :</p>
+
+                <!-- Feedback Section -->
+                <p>Feedback Mentor:</p>
                 <div class="feedback-box">
-                    <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Animi molestiae adipisci necessitatibus repudiandae, aspernatur ea alias aliquid accusantium reiciendis cumque? Deskripsi Deskripsi Deskripsi Deskripsi Deskripsi Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae fugit unde omnis perferendis soluta consequuntur ullam ipsa labore ea voluptatem officiis architecto quas accusamus corrupti, nemo voluptas facere cupiditate, alias tenetur exercitationem. Illum impedit expedita nisi consectetur qui placeat, nesciunt praesentium, dolores ipsa aspernatur, eligendi quisquam eum. Nemo iste ratione reiciendis nisi animi qui, fugiat veritatis facere debitis placeat sequi quos laboriosam similique magni repudiandae unde! Laudantium earum harum dolor modi facere sequi facilis, autem enim quisquam suscipit nam excepturi rem repellendus quos vero ex? Doloremque nihil voluptate esse, at vel, excepturi adipisci repudiandae pariatur nam maxime expedita quo commodi odit explicabo voluptatibus numquam quibusdam asperiores eligendi quos optio unde quasi? Earum et pariatur aspernatur, modi ipsum numquam recusandae, voluptas obcaecati asperiores commodi possimus ratione iure totam temporibus veritatis. Delectus, soluta!</div>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi molestiae adipisci necessitatibus
+                        repudiandae... Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, nobis. Magni ducimus repellat inventore sapiente numquam facere quasi beatae velit ea illo vero, suscipit ullam? Laudantium voluptate ex illo iure expedita minus eligendi fuga doloremque rerum. Ratione, ipsum. Suscipit velit quis animi. Voluptas earum doloribus suscipit dolorem cumque id voluptatem maiores, deserunt aliquid. Dolor reprehenderit repudiandae, porro ratione sunt animi perspiciatis vitae neque quam deserunt officia sequi, velit perferendis similique. Ut debitis, assumenda et tenetur aperiam obcaecati voluptatum, excepturi sapiente earum laboriosam eos esse magni ducimus, minus neque doloribus quod necessitatibus? Natus provident sit quaerat suscipit sunt numquam quibusdam reiciendis iste deleniti at. Corrupti odio eaque tempora magni repellat facilis quasi consequatur, assumenda reiciendis dicta harum veniam itaque labore iure commodi exercitationem beatae!</p>
                 </div>
+                <a href="laporan_bisnis_mahasiswa.php" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
