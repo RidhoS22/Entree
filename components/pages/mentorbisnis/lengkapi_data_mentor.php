@@ -107,30 +107,37 @@ $conn->close();
     </h2>
         <form method="POST" action="">
         <div class="form-group">
-            <label for="nama">Nama</label>
+            <label for="nama">Nama Lengkap</label>
             <input id="nama" name="nama" type="text" value="<?php echo htmlspecialchars($data['nama']); ?>" readonly />
         </div>
         <div class="form-group">
             <label for="NIDN">NIDN</label>
             <input id="npm" name="npm" type="text" value="<?php echo htmlspecialchars($data['nidn']); ?>" readonly />
         </div>
+
         <div class="form-group">
-            <label for="peran">Peran</label>
-            <select id="peran" name="peran" required>
-                <option value="" style="color:darkgrey;" <?php echo empty($data['peran']) ? 'selected' : ''; ?>>
-                    ~ Pilih Peran Anda ~
-                </option>
-                <option value="dosen_pengampu" <?php echo $data['peran'] == 'dosen_pengampu' ? 'selected' : ''; ?>>
-                    Dosen Pengampu
-                </option>
-                <option value="tutor" <?php echo $data['peran'] == 'tutor' ? 'selected' : ''; ?>>
-                    Tutor
-                </option>
-            </select>
+            <label for="keahlian">Keahlian</label>
+            <input id="keahlian" name="keahlian" type="text" required />
         </div>
+
         <div class="form-group">
-            <label for="contact">Contact</label>
-            <input id="contact" name="contact" type="text" value="<?php echo htmlspecialchars($data['contact']); ?>" required />
+            <label for="fakultas">Fakultas</label>
+            <input id="fakultas" name="fakultas" type="text" required />
+        </div>
+
+        <div class="form-group">
+            <label for="prodi">Program Studi</label>
+            <input id="prodi" name="prodi" type="text" required />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Alamat Email</label>
+            <input id="email" name="email" type="text" required />
+        </div>
+
+        <div class="form-group">
+            <label for="no_telepon">Nomor Telepon</label>
+            <input id="no_telepon" name="no_telepon" type="text" required />
         </div>
         <button class="submit-btn" type="submit">Tambahkan</button>
     </form>

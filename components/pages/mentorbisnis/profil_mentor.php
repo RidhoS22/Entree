@@ -23,10 +23,10 @@
 
         <div class="main p-3">
             <div class="main_header">
-                <h1>Profil Mentor Bisnis</h1>
-                <a href="#" class="notification">
-                    <i class="fa-regular fa-bell"></i>
-                </a>
+                <?php 
+                    $pageTitle = "Profil"; // Judul halaman
+                    include 'header_mentor.php'; 
+                ?>
             </div>
 
             <div class="main_wrapper">

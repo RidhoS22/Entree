@@ -22,10 +22,10 @@
 
         <div class="main p-3">
             <div class="main_header">
-                <h1>Kelola Kelompok Bimbingan</h1>
-                <a href="#" class="notification">
-                    <i class="fa-regular fa-bell"></i>
-                </a>
+                <?php 
+                    $pageTitle = "Kelola Kelompok Bisnis"; // Judul halaman
+                    include 'header_mentor.php'; 
+                ?>
             </div>
 
             <div class="main_wrapper"></div>
