@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mentor/daftar_kelompok_bisnis_mentor.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mentorbisnis/daftar_kelompok_bisnis_mentor.css">
 </head>
 
 <body>
@@ -28,7 +28,24 @@
                 ?>
             </div>
 
-            <div class="main_wrapper"></div>
+            <div class="main_wrapper">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Kelompok Bisnis ArTech</h2>
+                    </div>
+                    <a href="#">
+                        <div class="card-body">
+                        <p>Lorem ipsum dolor sit amet porro repudiandae deserunt totam minima in harum fuga assumenda, consequuntur deleniti velit repellendus ipsa error voluptate cum.</p>
+                        <i class="fa-solid fa-eye detail-icon"></i>
+                    </div>
+                    </a>
+                    <div class="card-footer">
+                        <a href="#">Lihat Detail Kelompok Bisnis</a>
+                    </div>
+                </div>
+
+            </div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

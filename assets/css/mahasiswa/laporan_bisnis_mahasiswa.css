@@ -180,60 +180,6 @@ form button:hover {
   margin-top: 25px;
 }
 
-.container {
-  display: flex;
-  padding: 20px;
-  max-width: 800px;
-  width: 100%;
-  border-radius: 8px;
-}
-
-.left {
-  margin-right: 20px;
-}
-
-.left img {
-  width: 400px;
-  height: 400px;
-}
-
-.right {
-  max-width: 600px;
-}
-
-.right h1 {
-  font-size: 24px;
-  margin: 0;
-}
-
-.right p {
-  margin: 5px 0;
-}
-
-.right .category,
-.right .sdg,
-.right .tutor,
-.right .members {
-  margin-top: 20px;
-}
-
-.main_wrapper {
-  height: 80vh;
-  justify-content: center;
-  overflow: auto;
-}
-
-.bottom {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-}
-
-.members,
-.tutor {
-  width: 45%;
-}
-
 .title-edit {
   display: flex;
   justify-content: space-between;
@@ -284,12 +230,7 @@ body {
   font-size: 18px;
   font-weight: bold;
 }
-.card-header .edit-icon,
-.card-footer .delete-icon,
-.card-body .detail-icon {
-  font-size: 24px;
-  cursor: pointer;
-}
+
 .card-body {
   display: flex;
   justify-content: space-between;
@@ -335,4 +276,20 @@ body {
 .card:hover {
   transform: translateY(-10px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* card Icon */
+
+.card-header .edit-icon,
+.card-footer .delete-icon,
+.card-body .detail-icon {
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.card-header .edit-icon:hover,
+.card-footer .delete-icon:hover,
+.card-body .detail-icon:hover {
+  transform: scale(1.2);
 }

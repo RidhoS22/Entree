@@ -17,7 +17,7 @@
     <div class="wrapper">
    
     <?php 
-    $activePage = 'profil'; // Halaman ini adalah Profil
+    $activePage = 'profil_mentor'; // Halaman ini adalah Profil
     include 'sidebar_mentor.php'; 
     ?>
 

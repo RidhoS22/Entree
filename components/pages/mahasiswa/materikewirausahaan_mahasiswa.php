@@ -10,7 +10,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/sidebar_mahasiswa.css">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/materikewirausahaan_mahasiswa.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan.css">
 </head>
 
 <body>
@@ -59,7 +59,9 @@
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="container_materi" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . htmlspecialchars($row["file_path"]) . '\')">';
                         echo '<div class="judul_materi">' . htmlspecialchars($row["judul"]) . '</div>';
-                        echo '<div class="deskripsi_materi">' . htmlspecialchars($row["deskripsi"]) . '</div>';
+                        echo '<div class="deskripsi_materi">' 
+                                . htmlspecialchars($row["deskripsi"]) . 
+                                '<i class="fa-solid fa-eye detail-icon"></i> </div>';
                         echo '</div>';
                     }
                 } else {
