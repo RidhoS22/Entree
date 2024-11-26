@@ -27,14 +27,6 @@ if ($role == 'mahasiswa') {
     die("Role tidak valid.");
 }
 
-$result = $conn->query($query);
-
-if ($result && $result->num_rows > 0) {
-    $data = $result->fetch_assoc();
-} else {
-    die("Data tidak ditemukan.");
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $update_fields = [];
     if ($role == 'mahasiswa') {
@@ -102,24 +94,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php if ($role == 'mahasiswa'): ?>
                     <div class="form-group">
                         <label for="nama">Nama</label>
-                        <input id="nama" name="nama" type="text" value="<?= htmlspecialchars($data['nama']) ?>" readonly />
+                        <input id="nama" name="nama" type="text" value="<?= htmlspecialchars($_SESSION['nama']) ?>" readonly />
                     </div>
                     <div class="form-group">
                         <label for="npm">NPM</label>
-                        <input id="npm" name="npm" type="text" value="<?= htmlspecialchars($data['npm']) ?>" readonly />
+                        <input id="npm" name="npm" type="text" value="<?= htmlspecialchars($_SESSION['npm']) ?>" readonly />
                     </div>
                     <div class="form-group">
                         <label for="program_studi">Program Studi</label>
-                        <input id="program_studi" name="program_studi" type="text" value="<?= htmlspecialchars($data['program_studi']) ?>" readonly />
+                        <input id="program_studi" name="program_studi" type="text" value="<?= htmlspecialchars($_SESSION['program_studi']) ?>" readonly />
                     </div>
                     <div class="form-group">
                         <label for="tahun_angkatan">Tahun Angkatan</label>
-                        <input id="tahun_angkatan" name="tahun_angkatan" type="text" value="<?= htmlspecialchars($data['tahun_angkatan']) ?>" readonly />
+                        <input id="tahun_angkatan" name="tahun_angkatan" type="text" value="<?= htmlspecialchars($_SESSION['tahun_angkatan']) ?>" readonly />
                     </div>
                 <?php elseif ($role == 'mentor'): ?>
                     <div class="form-group">
                         <label for="nama">Nama</label>
-                        <input id="nama" name="nama" type="text" value="<?= htmlspecialchars($data['nama']) ?>" readonly />
+                        <input id="nama" name="nama" type="text" value="<?= htmlspecialchars($_SESSION['nama']) ?>" readonly />
                     </div>
                     <div class="form-group">
                         <label for="peran">Peran</label>

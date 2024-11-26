@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->query($update_user_query);
 
     // Redirect ke halaman profile mentor setelah update
-    header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/profile_mentor.php");
+    header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/pagementor.php");
     exit;
 }
 

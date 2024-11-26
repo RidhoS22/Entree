@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 20 Nov 2024 pada 16.55
+-- Waktu pembuatan: 26 Nov 2024 pada 10.02
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -29,9 +29,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `anggota_kelompok` (
   `id` int(11) NOT NULL,
-  `id_kelompok` int(11) NOT NULL,
-  `npm` varchar(20) NOT NULL
+  `id_kelompok` int(11) DEFAULT NULL,
+  `npm_anggota` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `anggota_kelompok`
+--
+
+INSERT INTO `anggota_kelompok` (`id`, `id_kelompok`, `npm_anggota`) VALUES
+(13, 10, '1402022068'),
+(14, 10, '1402022040');
 
 -- --------------------------------------------------------
 
@@ -89,15 +97,20 @@ INSERT INTO `jadwal` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `agenda`, `loka
 --
 
 CREATE TABLE `kelompok_bisnis` (
-  `id` int(11) NOT NULL,
-  `nama_kelompok` varchar(255) NOT NULL,
-  `nama_bisnis` varchar(255) NOT NULL,
+  `id_kelompok` int(11) NOT NULL,
+  `npm_ketua` varchar(20) DEFAULT NULL,
+  `nama_kelompok` varchar(50) DEFAULT NULL,
+  `nama_bisnis` varchar(50) DEFAULT NULL,
   `ide_bisnis` text DEFAULT NULL,
-  `deskripsi` text DEFAULT NULL,
-  `logo_bisnis` varchar(255) DEFAULT NULL,
-  `ketua_npm` varchar(20) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `logo_bisnis` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `kelompok_bisnis`
+--
+
+INSERT INTO `kelompok_bisnis` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `ide_bisnis`, `logo_bisnis`) VALUES
+(10, '1402022055', 'ArTech', 'BMW RENT', 'BMW RENT INDONESIA', 'BMW.svg_.png');
 
 -- --------------------------------------------------------
 
@@ -123,7 +136,9 @@ CREATE TABLE `mahasiswa` (
 INSERT INTO `mahasiswa` (`id`, `user_id`, `nama`, `npm`, `program_studi`, `tahun_angkatan`, `email`, `contact`) VALUES
 (1, 1, 'Ridho Syahfero', '1402022055', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'ridhosyahfero35@gmail.com', '089637167773'),
 (2, 6, 'Asril Affandhi', '1402022068', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'asrilaffandhi@gmail.com', '089645672223'),
-(3, 7, 'Fadly Abdillah', '1402022040', 'Teknik Informatika', '2022/2023 Teknik Informatika', NULL, NULL);
+(3, 7, 'Fadly Abdillah', '1402022040', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'ridhosyahfero35@gmail.com', '089645672244'),
+(4, 8, 'Ruffino Noor', '1402022044', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'asrilaffandhi@gmail.com', '089637167775'),
+(5, 9, 'Sharil Hamza', '1402022060', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'akunmllimitbruno@gmail.com', '089637162255');
 
 -- --------------------------------------------------------
 
@@ -169,7 +184,7 @@ CREATE TABLE `mentor` (
 --
 
 INSERT INTO `mentor` (`id`, `user_id`, `nama`, `nidn`, `peran`, `email`, `contact`) VALUES
-(1, 2, 'Tes Mentor', '022456788', NULL, NULL, NULL);
+(1, 2, 'Tes Mentor', '022456788', '', 'skknan', '022456788');
 
 -- --------------------------------------------------------
 
@@ -191,10 +206,12 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `first_login`) VALUES
 (1, 'ridho.syahfero', '$2y$10$b3QGkvFZHitvz1OFfRWZLOMtgtLA/fECvebDxcSwnpYupDSIMt93G', 'mahasiswa', 0),
-(2, 'akunMntr', '$2y$10$7aCTxTjDGfzG7N/3eVjrtO5g13wGc/RaqaDZbuZMRo7B/XHzKa3Me', 'mentor', 1),
+(2, 'akunMntr', '$2y$10$7aCTxTjDGfzG7N/3eVjrtO5g13wGc/RaqaDZbuZMRo7B/XHzKa3Me', 'mentor', 0),
 (3, 'akunAdmin', '$2y$10$NuIAAIWAu7axw6tIyD1HFuuV5F4hR.q7koI3VQF0KUHJWM7jc2z6K', 'admin', 0),
 (6, 'asril.affandhi', '$2y$10$R0cSSdyr.54ypvNZP5NmlO4l.6bqw9iXIrPXF3qiqcRPliIWC90M.', 'mahasiswa', 0),
-(7, 'fadly.abdillah', '$2y$10$k9swYB1RsxVfWqgjp8YU2O3Ekok8/VukQlUAyWrSJTeayY8EujeFi', 'mahasiswa', 1);
+(7, 'fadly.abdillah', '$2y$10$k9swYB1RsxVfWqgjp8YU2O3Ekok8/VukQlUAyWrSJTeayY8EujeFi', 'mahasiswa', 0),
+(8, 'mahasiswa1', '$2y$10$uXNSNBz9vAwlD7AV4E1Qn.6DxK0zKygd1LuWcdgARKC/xBIHnXm5y', 'mahasiswa', 0),
+(9, 'mahasiswa2', '$2y$10$Jt7qe4u8hF2g6WjASB0XTey08sA3hHAna8VuU.P1yLoVIHI4whV/m', 'mahasiswa', 0);
 
 --
 -- Indexes for dumped tables
@@ -206,7 +223,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `first_login`) VALUES
 ALTER TABLE `anggota_kelompok`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_kelompok` (`id_kelompok`),
-  ADD KEY `npm` (`npm`);
+  ADD KEY `npm_anggota` (`npm_anggota`);
 
 --
 -- Indeks untuk tabel `daftar_mentor_bisnis`
@@ -224,7 +241,8 @@ ALTER TABLE `jadwal`
 -- Indeks untuk tabel `kelompok_bisnis`
 --
 ALTER TABLE `kelompok_bisnis`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_kelompok`),
+  ADD KEY `npm_ketua` (`npm_ketua`);
 
 --
 -- Indeks untuk tabel `mahasiswa`
@@ -232,6 +250,7 @@ ALTER TABLE `kelompok_bisnis`
 ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `npm` (`npm`),
+  ADD UNIQUE KEY `unique_contact` (`contact`),
   ADD KEY `user_id` (`user_id`);
 
 --
@@ -263,7 +282,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `anggota_kelompok`
 --
 ALTER TABLE `anggota_kelompok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT untuk tabel `daftar_mentor_bisnis`
@@ -281,13 +300,13 @@ ALTER TABLE `jadwal`
 -- AUTO_INCREMENT untuk tabel `kelompok_bisnis`
 --
 ALTER TABLE `kelompok_bisnis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_kelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `materi_kewirausahaan`
@@ -305,7 +324,7 @@ ALTER TABLE `mentor`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -315,8 +334,14 @@ ALTER TABLE `users`
 -- Ketidakleluasaan untuk tabel `anggota_kelompok`
 --
 ALTER TABLE `anggota_kelompok`
-  ADD CONSTRAINT `anggota_kelompok_ibfk_1` FOREIGN KEY (`id_kelompok`) REFERENCES `kelompok_bisnis` (`id`),
-  ADD CONSTRAINT `anggota_kelompok_ibfk_2` FOREIGN KEY (`npm`) REFERENCES `mahasiswa` (`npm`);
+  ADD CONSTRAINT `anggota_kelompok_ibfk_1` FOREIGN KEY (`id_kelompok`) REFERENCES `kelompok_bisnis` (`id_kelompok`) ON DELETE CASCADE,
+  ADD CONSTRAINT `anggota_kelompok_ibfk_2` FOREIGN KEY (`npm_anggota`) REFERENCES `mahasiswa` (`npm`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `kelompok_bisnis`
+--
+ALTER TABLE `kelompok_bisnis`
+  ADD CONSTRAINT `kelompok_bisnis_ibfk_1` FOREIGN KEY (`npm_ketua`) REFERENCES `mahasiswa` (`npm`);
 
 --
 -- Ketidakleluasaan untuk tabel `mahasiswa`

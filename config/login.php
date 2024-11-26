@@ -15,7 +15,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (password_verify($password, $user['password'])) {
             $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role']; 
+            $_SESSION['role'] = $user['role'];
+
+            if ($user['role'] == 'mahasiswa') {
+                $mahasiswa_query = "SELECT * FROM mahasiswa WHERE user_id = '".$user['id']."'";
+                $mahasiswa_result = $conn->query($mahasiswa_query);
+                
+                if ($mahasiswa_result->num_rows > 0) {
+                    $mahasiswa_data = $mahasiswa_result->fetch_assoc();
+                    $_SESSION['nama'] = $mahasiswa_data['nama'];
+                    $_SESSION['npm'] = $mahasiswa_data['npm'];
+                    $_SESSION['program_studi'] = $mahasiswa_data['program_studi'];
+                    $_SESSION['tahun_angkatan'] = $mahasiswa_data['tahun_angkatan'];
+                }
+            } elseif ($user['role'] == 'mentor') {
+                $mentor_query = "SELECT * FROM mentor WHERE user_id = '".$user['id']."'";
+                $mentor_result = $conn->query($mentor_query);
+
+                if ($mentor_result->num_rows > 0) {
+                    $mentor_data = $mentor_result->fetch_assoc();
+                    $_SESSION['nama'] = $mentor_data['nama'];
+                }
+            }
 
             if ($user['role'] == 'admin') {
                 header("Location: /Aplikasi-Kewirausahaan/components/pages/admin/pageadmin.php");

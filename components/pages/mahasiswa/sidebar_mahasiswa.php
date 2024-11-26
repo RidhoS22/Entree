@@ -70,27 +70,23 @@
                         <li class="sidebar-item <?php echo ($activePage == 'proposal_bisnis_mahasiswa') ? 'active' : ''; ?>">
                             <a href="proposal_bisnis_mahasiswa.php" class="sidebar-link">
                                 <i class="fa-regular fa-file"></i>
-                                <span>Proposal Bisnis</span>
+                                Proposal Bisnis
                             </a>
                         </li>
                         <li class="sidebar-item <?php echo ($activePage == 'laporan_bisnis_mahasiswa') ? 'active' : ''; ?>">
                             <a href="laporan_bisnis_mahasiswa.php" class="sidebar-link">
                                 <i class="fa-solid fa-file-invoice"></i>    
-                                <span>Laporan Kemajuan Bisnis</span>
+                                Laporan Kemajuan Bisnis
                             </a>
                         </li>
                         <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">
                             <a href="jadwal_bimbingan_mahasiswa.php" class="sidebar-link">
                                 <i class="fa-solid fa-calendar"></i>
-                                <span>Jadwal Bimbingan</span>
+                                Jadwal Bimbingan
                             </a>
                         </li>
                     </ul>
                 </li>
-
-                
-
-
 
                 <li class="sidebar-item sign-out">
                     <a href="/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php" class="sidebar-link">
