@@ -54,3 +54,14 @@ body {
   margin-right: 8px;
   font-size: 20px;
 }
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .main_header {
+    margin-left: 25px;
+  }
+
+  .main_header h1 {
+    visibility: hidden;
+  }
+}

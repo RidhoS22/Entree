@@ -53,14 +53,16 @@ body {
   min-width: 260px;
 }
 
-.toggle-btn {
+.toggle-btn,
+.toggle-btn2 {
   background-color: transparent;
   cursor: pointer;
   border: 0;
   padding: 1rem 1.5rem;
 }
 
-.toggle-btn i {
+.toggle-btn i,
+.toggle-btn2 i {
   font-size: 1.5rem;
   color: #fff;
 }
@@ -141,12 +143,12 @@ a.sidebar-link:hover {
   right: 1.5rem;
   top: 1.4rem;
   transform: rotate(-135deg);
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 #sidebar.expand .sidebar-link[data-bs-toggle="collapse"].collapsed::after {
   transform: rotate(45deg);
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 .sign-out {
@@ -177,4 +179,41 @@ a.sidebar-link:hover {
   margin: 0 auto;
   padding: 20px;
   overflow-y: auto;
+}
+
+.toggle-btn2 {
+  display: none;
+  position: fixed;
+  background-color: transparent;
+  z-index: 1001;
+  background-color: #2ea56f;
+  color: #2ea56f;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  #sidebar {
+    display: none;
+    position: fixed;
+    height: 100%;
+  }
+
+  .main_header {
+    background-color: aqua;
+  }
+
+  .toggle-btn {
+    visibility: hidden;
+  }
+
+  .toggle-btn2 {
+    top: 15px;
+    display: block;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+  .sidebar-logo a {
+    position: fixed;
+  }
 }

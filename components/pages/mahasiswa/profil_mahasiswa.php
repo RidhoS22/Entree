@@ -88,15 +88,98 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
                             <h2>Alamat Email</h2>
                             <p><?= htmlspecialchars($mahasiswa['email'] ?? 'Belum diisi'); ?></p>
                         </div>
-                        <div class="profile-item">
+                        <div class="profile-item" id="phone-item">
                             <h2>Nomor Telepon</h2>
-                            <p><?= htmlspecialchars($mahasiswa['contact'] ?? 'Belum diisi'); ?></p>
+                            <p class="phone-text"><?= htmlspecialchars($mahasiswa['contact'] ?? 'Belum diisi'); ?></p>
+                            <input type="text" class="phone-input" style="display: none;" value="<?= htmlspecialchars($mahasiswa['contact'] ?? ''); ?>">
                         </div>
+
                 </div>
+
+                <div class="action-buttons" style="display: none;">
+                                <button class="save-btn">Simpan</button>
+                                <button class="cancel-btn">Batal</button>
+                            </div>
             </div>
 
         </div>
     </div>
+    <script>
+        document.querySelector('.edit-btn').addEventListener('click', function () {
+            // Ambil elemen terkait
+            const phoneText = document.querySelector('.phone-text');
+            const phoneInput = document.querySelector('.phone-input');
+            const actionButtons = document.querySelector('.action-buttons');
+
+            // Tampilkan input dan tombol aksi, sembunyikan teks
+            phoneText.style.display = 'none';
+            phoneInput.style.display = 'block';
+            actionButtons.style.display = 'flex';
+
+            // Fokuskan input
+            phoneInput.focus();
+        });
+
+        // Tombol Simpan
+        document.querySelector('.save-btn').addEventListener('click', function () {
+            const phoneText = document.querySelector('.phone-text');
+            const phoneInput = document.querySelector('.phone-input');
+            const actionButtons = document.querySelector('.action-buttons');
+
+            // Ambil nilai input
+            const newValue = phoneInput.value;
+
+            // Validasi nilai input (opsional)
+            if (!newValue.match(/^\d{10,15}$/)) {
+                alert('Nomor telepon tidak valid. Masukkan 10-15 digit angka.');
+                return;
+            }
+
+            // Perbarui tampilan teks
+            phoneText.textContent = newValue || 'Belum diisi';
+
+            // Sembunyikan input dan tombol aksi
+            phoneText.style.display = 'block';
+            phoneInput.style.display = 'none';
+            actionButtons.style.display = 'none';
+
+            // Opsional: Kirim data ke server menggunakan AJAX
+            updatePhone(newValue);
+        });
+
+        // Tombol Batal
+        document.querySelector('.cancel-btn').addEventListener('click', function () {
+            const phoneText = document.querySelector('.phone-text');
+            const phoneInput = document.querySelector('.phone-input');
+            const actionButtons = document.querySelector('.action-buttons');
+
+            // Kembalikan tampilan awal
+            phoneInput.value = phoneText.textContent.trim();
+            phoneText.style.display = 'block';
+            phoneInput.style.display = 'none';
+            actionButtons.style.display = 'none';
+        });
+
+        // Fungsi opsional untuk mengirim data ke server
+        function updatePhone(newPhone) {
+            fetch('/update-phone.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ phone: newPhone })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message); // Tampilkan respons server
+            })
+            .catch(error => {
+                console.error('Error:', error); // Tangani error
+            });
+        }
+    </script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

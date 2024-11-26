@@ -38,10 +38,14 @@
                         <h2>Detail Materi Kewirausahaan</h2>
                         <p id="detailJudul"></p>
                         <p id="detailDeskripsi"></p>
-                        <a id="detailFileLink" href="#" target="_blank" class="file-link">
-                            <span>Lihat File</span>
-                            <i class="fa-solid fa-eye detail-icon"></i>
-                        </a>
+                        <div class="btn_container">
+                            <a id="detailFileLink" href="#" target="_blank" class="file-link">
+                                <i class="fa-solid fa-eye detail-icon"></i>
+                            </a>
+                            <a id="detailFileLink" href="#" target="_blank" class="file-download">
+                                <i class="fa-solid fa-download download-icon"></i>
+                            </a>
+                        </div>
                         <div id="filePreview"></div>
                     </div>
                 </div>

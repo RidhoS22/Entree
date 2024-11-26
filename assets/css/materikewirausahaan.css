@@ -35,10 +35,17 @@
   color: #666;
 }
 
-.detail-icon {
+.container_materi .deskripsi_materi .detail-icon {
   font-size: 24px;
   cursor: pointer;
-  color: #000;
+  color: #000000;
+}
+
+.btn_container .detail-icon,
+.btn_container .download-icon {
+  font-size: 24px;
+  cursor: pointer;
+  color: #ffffff;
 }
 
 /* Modal */
@@ -131,10 +138,13 @@
   box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Gaya untuk tautan file */
-.file-link {
+/* Gaya untuk tautan file dan unduh file */
+
+.file-link,
+.file-download {
   display: inline-flex; /* Menjadikan teks dan ikon sejajar */
   align-items: center;
+  justify-content: center;
   background-color: #2ea56f; /* Warna dasar biru */
   color: white; /* Warna teks putih */
   text-decoration: none; /* Hilangkan garis bawah */
@@ -144,20 +154,24 @@
   font-weight: bold; /* Teks tebal */
   transition: background-color 0.3s ease, transform 0.2s ease; /* Efek animasi */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bayangan tombol */
+  width: 49%;
 }
 
-.file-link:hover {
+.file-link:hover,
+.file-download:hover {
   background-color: #278b5e; /* Warna saat hover */
   transform: translateY(-2px); /* Tombol naik sedikit */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Bayangan lebih besar */
 }
 
-.file-link:active {
+.file-link:active,
+.file-download:active {
   transform: translateY(1px); /* Efek saat ditekan */
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); /* Bayangan mengecil */
 }
 
-.file-link span {
+.file-link span,
+.file-download span {
   margin-right: 8px; /* Jarak antara teks dan ikon */
 }
 
@@ -166,7 +180,8 @@
   transition: transform 0.3s ease; /* Animasi ikon */
 }
 
-.file-link:hover .detail-icon {
+.file-link:hover .detail-icon,
+.file-download:hover .download-icon {
   transform: scale(1.2); /* Ikon membesar saat hover */
 }
 
