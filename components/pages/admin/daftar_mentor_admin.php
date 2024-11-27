@@ -38,30 +38,20 @@
        <img alt="Profile picture of the mentor" class="w-12 h-12 rounded-full" height="50" src="https://storage.googleapis.com/a1aa/image/60LA1xO6dyL2LFetVAwefJrBSFz6yOaTM9L4lgigtC4peNTPB.jpg" width="50"/>
       </div>
       <div class="text-gray-800">
-       <p class="font-bold">
-        Nama Dosen
-       </p>
-       <p>
-        NIDN :
-       </p>
-       <p>
-        Keahlian :
-       </p>
-       <p>
-        Fakultas :
-       </p>
-       <p>
-        Prodi :
-       </p>
-       <p>
-        Gmail :
-       </p>
-       <p>
-        Contact : 0812121212121
-       </p>
+       <p class="font-bold">Nama Dosen</p>
+       <p>NIDN :</p>
+       <p>Keahlian :</p>
+       <p>Fakultas :</p>
+       <p>Prodi :</p>
+       <p>Role :</p>
+       <p>Gmail :</p>
+       <p>Contact : 0812121212121</p>
       </div>
-      <button class="items-center mt-4 bg-green-500 text-white py-2 px-4 rounded">
+      <button class="items-center mt-4 text-white py-2 px-4 rounded" style="background-color: #2ea56f;">
        Naikan Role
+      </button>
+      <button class="items-center mt-4 text-white py-2 px-4 rounded" style="background-color: #2ea56f;">
+       Turunkan Role
       </button>
      </div>
      <!-- Card 2 -->
@@ -70,30 +60,20 @@
        <img alt="Profile picture of the mentor" class="w-12 h-12 rounded-full" height="50" src="https://storage.googleapis.com/a1aa/image/60LA1xO6dyL2LFetVAwefJrBSFz6yOaTM9L4lgigtC4peNTPB.jpg" width="50"/>
       </div>
       <div class="text-gray-800">
-       <p class="font-bold">
-        Nama Dosen
-       </p>
-       <p>
-        NIDN :
-       </p>
-       <p>
-        Keahlian :
-       </p>
-       <p>
-        Fakultas :
-       </p>
-       <p>
-        Prodi :
-       </p>
-       <p>
-        Gmail :
-       </p>
-       <p>
-        Contact : 0812121212121
-       </p>
+       <p class="font-bold">Nama Dosen</p>
+       <p>NIDN :</p>
+       <p>Keahlian :</p>
+       <p>Fakultas :</p>
+       <p>Prodi :</p>
+       <p>Role :</p>
+       <p>Gmail :</p>
+       <p>Contact : 0812121212121</p>
       </div>
-      <button class="mt-4 bg-green-500 text-white py-2 px-4 rounded ">
-       Tambahkan
+      <button class="items-center mt-4 text-white py-2 px-4 rounded" style="background-color: #2ea56f;">
+       Naikan Role
+      </button>
+      <button class="items-center mt-4 text-white py-2 px-4 rounded" style="background-color: #2ea56f;">
+       Turunkan Role
       </button>
      </div>
      <!-- Card 3 -->
@@ -102,37 +82,25 @@
        <img alt="Profile picture of the mentor" class="w-12 h-12 rounded-full" height="50" src="https://storage.googleapis.com/a1aa/image/60LA1xO6dyL2LFetVAwefJrBSFz6yOaTM9L4lgigtC4peNTPB.jpg" width="50"/>
       </div>
       <div class="text-gray-800">
-       <p class="font-bold">
-        Nama Dosen
-       </p>
-       <p>
-        NIDN :
-       </p>
-       <p>
-        Keahlian :
-       </p>
-       <p>
-        Fakultas :
-       </p>
-       <p>
-        Prodi :
-       </p>
-       <p>
-        Gmail :
-       </p>
-       <p>
-        Contact : 0812121212121
-       </p>
+       <p class="font-bold">Nama Dosen</p>
+       <p>NIDN :</p>
+       <p>Keahlian :</p>
+       <p>Fakultas :</p>
+       <p>Prodi :</p>
+       <p>Role :</p>
+       <p>Gmail :</p>
+       <p>Contact : 0812121212121</p>
       </div>
-      <button class="mt-4 bg-green-500 text-white py-2 px-4 rounded">
-       Tambahkan
+      <button class="items-center mt-4 text-white py-2 px-4 rounded" style="background-color: #2ea56f;">
+       Naikan Role
+      </button>
+      <button class="items-center mt-4 text-white py-2 px-4 rounded" style="background-color: #2ea56f;">
+       Turunkan Role
       </button>
      </div>
-            </div>
+    </div>
 
             
-
-
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -142,3 +110,4 @@
 </body>
 
 </html>
+
