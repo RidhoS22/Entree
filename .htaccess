@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^config/register$ config/register.php [L]
