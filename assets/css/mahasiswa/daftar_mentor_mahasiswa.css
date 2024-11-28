@@ -46,3 +46,20 @@
   clear: both;
   display: table;
 }
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .card {
+    width: calc(
+      50% - 40px
+    ); /* Setiap card mengambil 50% lebar, dikurangi margin */
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: calc(
+      100% - 40px
+    ); /* Setiap card mengambil 50% lebar, dikurangi margin */
+  }
+}

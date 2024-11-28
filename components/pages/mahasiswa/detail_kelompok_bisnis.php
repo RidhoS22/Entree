@@ -110,6 +110,26 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
             font-weight: bold;
             color: #333;
         }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column; /* Ubah orientasi menjadi vertikal */
+                align-items: center;   /* Rata tengah secara horizontal */
+                gap: 20px;             /* Jarak antar elemen */
+            }
+
+            .left, .right {
+                width: 90%;            /* Sesuaikan lebar elemen agar tidak terlalu besar */
+                max-width: 500px;      /* Batasi lebar maksimal */
+            }
+
+            .left img {
+                width: 100%;           /* Pastikan gambar mengikuti lebar container */
+                height: auto;          /* Menjaga rasio aspek gambar */
+            }
+        }
+
     </style>
 </head>
 <body>

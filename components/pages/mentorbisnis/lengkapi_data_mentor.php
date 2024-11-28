@@ -89,17 +89,21 @@ $conn->close();
 
 <html>
  <head>
-  <title>
+  <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lengkapi Data <?= ucfirst($role) ?></title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/lengkapi_data.css">
+    <title>
    Form Lengkapi Data Mentor
   </title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/lengkapi_data.css">
  </head>
  <body>
   <div class="container">
    <div class="image-container">
-    <img alt="Illustration of a person holding a key in front of a computer screen with a user login interface" height="500" width="500" src="/Aplikasi-Kewirausahaan/assets/img/user_login.png"/>
+    <img alt="Illustration of a person holding a key in front of a computer screen with a user login interface" src="/Aplikasi-Kewirausahaan/assets/img/user_login.png"/>
    </div>
    <div class="form-container">
     <h2>
@@ -112,7 +116,7 @@ $conn->close();
         </div>
         <div class="form-group">
             <label for="NIDN">NIDN</label>
-            <input id="npm" name="npm" type="text" value="<?php echo htmlspecialchars($data['nidn']); ?>" readonly />
+            <input id="nidn" name="nidn" type="text" value="<?php echo htmlspecialchars($data['nidn']); ?>" readonly />
         </div>
 
         <div class="form-group">

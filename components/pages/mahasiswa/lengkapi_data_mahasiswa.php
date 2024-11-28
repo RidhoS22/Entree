@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="container">
         <div class="image-container">
-            <img alt="Illustration of a person holding a key in front of a computer screen with a user login interface" height="500" width="500" src="/Aplikasi-Kewirausahaan/assets/img/user_login.png"/>
+            <img alt="Illustration of a person holding a key in front of a computer screen with a user login interface"  src="/Aplikasi-Kewirausahaan/assets/img/user_login.png"/>
         </div>
         
         <div class="form-container">

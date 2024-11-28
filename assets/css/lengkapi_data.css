@@ -1,61 +1,107 @@
 body {
-    font-family: 'Roboto', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #ffffff;
+  font-family: "Roboto", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  background-color: #ffffff;
 }
 .image-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  height: 500px;
+  width: 500px;
+}
+.image-container img {
+  height: 500px;
+  width: 500px;
 }
 .form-container {
-    flex: 1;
-    padding: 20px;
+  flex: 1;
+  padding: 20px;
 }
 .form-container h2 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 .form-group {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 .form-group label {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 5px;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
 }
-.form-group input, .form-group select {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 15px;
 }
 .form-group select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 .submit-btn {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #2ea56f;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #2ea56f;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 .submit-btn:hover {
-    background-color: #00B44A;
+  background-color: #00b44a;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px; /* Mengatur jarak antar elemen */
+  }
+
+  .image-container {
+    width: 90%;
+    max-width: 300px;
+    height: auto;
+    margin: 0; /* Pastikan margin dihilangkan */
+  }
+
+  .image-container img {
+    width: 100%;
+    height: auto; /* Pastikan proporsi gambar terjaga */
+  }
+
+  .form-container {
+    width: 90%;
+    max-width: 300px;
+    margin: 0;
+    padding: 0;
+  }
 }

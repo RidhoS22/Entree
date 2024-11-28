@@ -30,6 +30,7 @@ body {
   align-items: center;
   padding: 5px;
   background-color: #fff;
+  min-height: 50px;
 }
 
 .main_header h1 {
@@ -57,11 +58,18 @@ body {
 
 /* Responsiveness */
 @media (max-width: 768px) {
+  .main_header h1 {
+    font-size: x-large;
+  }
+}
+
+@media (max-width: 480px) {
   .main_header {
     margin-left: 25px;
+    min-height: 57px;
   }
 
   .main_header h1 {
-    visibility: hidden;
+    display: none;
   }
 }

@@ -176,7 +176,7 @@ a.sidebar-link:hover {
   height: 85vh;
   background-color: #f4f4f9;
   box-shadow: -2px 4px 3px rgba(0, 0, 0, 0.3);
-  margin: 0 auto;
+  margin: 0;
   padding: 20px;
   overflow-y: auto;
 }
@@ -191,7 +191,7 @@ a.sidebar-link:hover {
 }
 
 /* Responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 480px) {
   #sidebar {
     display: none;
     position: fixed;
