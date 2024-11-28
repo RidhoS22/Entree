@@ -10,38 +10,22 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/pagemahasiswa.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/header.css">
 </head>
 
 <body>
     <div class="wrapper">
-        <?php 
-        $activePage = 'pageadmin'; // Halaman ini aktif
-        include 'sidebar_admin.php'; 
-        ?>
-
-        <div class="main p-3">
 
             <div class="main_header">
-                <?php 
-                    $pageTitle = "Beranda"; // Judul halaman
-                    include 'header_admin.php'; 
-                ?>
+                <h1 class="halaman"><?php echo $pageTitle ?? 'Halaman'; ?></h1>
+                <a href="#" class="notification">
+                    <i class="fa-regular fa-bell"></i>
+                </a>
             </div>
-
-            <div class="main_wrapper">
-                <div class="card-container">
-                    <a href="materikewirausahaan_admin.php" class="card">
-                        <div class="card-content">
-                            <h2>Materi Kewirausahaan</h2>
-                            <p>Materi kewirausahaan adalah materi yang disediakan oleh PIKK untuk para mahasiswa mempelajari secara mandiri materi tentang kewirausahaan.</p>
-                        </div>
-                    </a>
-         
-            </div>
-        </div>
-
+            
     </div>
+    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

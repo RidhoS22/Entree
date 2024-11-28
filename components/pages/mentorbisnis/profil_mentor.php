@@ -55,7 +55,8 @@
                         </div>
                         <div class="profile-item">
                             <h2>Keahlian</h2>
-                            <p>Bisnis StartUp</p>
+                            <p class="skill-text">Bisnis StartUp</p>
+                            <input type="text" class="skill-input" style="display: none;" value="Bisnis StartUp">
                         </div>
                         <div class="profile-item">
                             <h2>Fakultas</h2>
@@ -71,14 +72,117 @@
                         </div>
                         <div class="profile-item">
                             <h2>Nomor Telepon</h2>
-                            <p>0898970980</p>
+                            <p class="phone-text">0898970980</p>
+                            <input type="text" class="phone-input" style="display: none;" value="0898970980">
                         </div>
                     </div>
+
+                    <div class="action-buttons" style="display: none;">
+                        <button class="save-btn">Simpan</button>
+                        <button class="cancel-btn">Batal</button>
+                    </div>
+
                 </div>
 
         </div>
 
     </div>
+    <script>
+        document.querySelector('.edit-btn').addEventListener('click', function () {
+        // Ambil elemen terkait
+        const phoneText = document.querySelector('.phone-text');
+        const phoneInput = document.querySelector('.phone-input');
+        const skillText = document.querySelector('.skill-text');
+        const skillInput = document.querySelector('.skill-input');
+        const actionButtons = document.querySelector('.action-buttons');
+
+        // Sembunyikan teks, tampilkan input, dan tombol aksi
+        phoneText.style.display = 'none';
+        phoneInput.style.display = 'block';
+        skillText.style.display = 'none';
+        skillInput.style.display = 'block';
+        actionButtons.style.display = 'flex';
+
+        // Fokuskan input pertama
+        phoneInput.focus();
+    });
+
+    // Tombol Simpan
+    document.querySelector('.save-btn').addEventListener('click', function () {
+        const phoneText = document.querySelector('.phone-text');
+        const phoneInput = document.querySelector('.phone-input');
+        const skillText = document.querySelector('.skill-text');
+        const skillInput = document.querySelector('.skill-input');
+        const actionButtons = document.querySelector('.action-buttons');
+
+        // Validasi nomor telepon (10-15 digit angka)
+        const newPhone = phoneInput.value.trim();
+        if (!newPhone.match(/^\d{10,15}$/)) {
+            alert('Nomor telepon tidak valid. Masukkan 10-15 digit angka.');
+            return;
+        }
+
+        // Ambil nilai keahlian
+        const newSkill = skillInput.value.trim();
+        if (newSkill === '') {
+            alert('Keahlian tidak boleh kosong.');
+            return;
+        }
+
+        // Perbarui tampilan teks
+        phoneText.textContent = newPhone || 'Belum diisi';
+        skillText.textContent = newSkill || 'Belum diisi';
+
+        // Sembunyikan input dan tombol aksi
+        phoneText.style.display = 'block';
+        phoneInput.style.display = 'none';
+        skillText.style.display = 'block';
+        skillInput.style.display = 'none';
+        actionButtons.style.display = 'none';
+
+        // Kirim data ke server menggunakan AJAX
+        updateProfile(newPhone, newSkill);
+    });
+
+    // Tombol Batal
+    document.querySelector('.cancel-btn').addEventListener('click', function () {
+        const phoneText = document.querySelector('.phone-text');
+        const phoneInput = document.querySelector('.phone-input');
+        const skillText = document.querySelector('.skill-text');
+        const skillInput = document.querySelector('.skill-input');
+        const actionButtons = document.querySelector('.action-buttons');
+
+        // Kembalikan nilai awal
+        phoneInput.value = phoneText.textContent.trim();
+        skillInput.value = skillText.textContent.trim();
+
+        // Kembalikan tampilan awal
+        phoneText.style.display = 'block';
+        phoneInput.style.display = 'none';
+        skillText.style.display = 'block';
+        skillInput.style.display = 'none';
+        actionButtons.style.display = 'none';
+    });
+
+    // Fungsi untuk kirim data ke server
+    function updateProfile(phone, skill) {
+        fetch('/update-profile.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ phone, skill })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message); // Tampilkan pesan sukses/gagal
+        })
+        .catch(error => {
+            console.error('Error:', error); // Tangani error
+        });
+    }
+
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

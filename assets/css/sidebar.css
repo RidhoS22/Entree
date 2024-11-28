@@ -198,10 +198,6 @@ a.sidebar-link:hover {
     height: 100%;
   }
 
-  .main_header {
-    background-color: aqua;
-  }
-
   .toggle-btn {
     visibility: hidden;
   }

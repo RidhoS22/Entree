@@ -21,11 +21,12 @@
         ?>
 
         <div class="main p-3">
+
             <div class="main_header">
-                <h1>Proposal Bisnis Kewirausahaan</h1>
-                <a href="#" class="notification">
-                    <i class="fa-regular fa-bell"></i>
-                </a>
+                <?php 
+                    $pageTitle = "Proposal Bisnis Kewirausahaan"; // Judul halaman
+                    include 'header_admin.php'; 
+                ?>
             </div>
 
             <div class="main_wrapper"></div>
