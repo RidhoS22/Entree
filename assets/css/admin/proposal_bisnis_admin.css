@@ -170,6 +170,14 @@ a.sidebar-link:hover {
   margin-left: 20px;
 }
 
+.main_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+}
+
 .main_header h1 {
   font-size: xx-large;
   margin: 0;
@@ -194,12 +202,3 @@ a.sidebar-link:hover {
   padding: 1rem 1.625rem;
   margin: 0;
 }
-
-.main_header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  background-color: #fff;
-}
-

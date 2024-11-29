@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi Kewirusahaan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -28,7 +30,21 @@
                 ?>
             </div>
 
-            <div class="main_wrapper"></div>
+            <div class="main_wrapper">
+            <body class="bg-gray-100 flex items-center justify-center h-screen">
+                    <div class="bg-white p-6 rounded-lg shadow-lg flex items-center space-x-4">
+                        <div>
+                            <h1 class="text-2xl font-bold">BMW RENT</h1>
+                            <p class="text-gray-700 mt-2">Mobil-mobil yang diproduksi oleh BMW 56% merupakan mobil bensin dan 44% sisanya mobil diesel. Dari mobil-mobil bensin tersebut, 27% memakai mesin 4 silinder dan 9% memakai mesin 8 silinder</p>
+                        </div>
+                        <div class="ml-auto">
+                            <button class="focus:outline-none" onclick="yourFunction()">
+                                <i class="fas fa-eye text-2xl text-gray-700"></i>
+                            </button>
+                        </div>
+                    </div>
+                </body>
+            </div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"

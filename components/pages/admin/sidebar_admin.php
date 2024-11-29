@@ -70,17 +70,20 @@
                     </a>
                     <ul id="kelola_bisnis_kelompok" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item <?php echo ($activePage == 'proposal_bisnis_admin') ? 'active' : ''; ?>">
-                            <a href="proposal_bisnis_mentor.php" class="sidebar-link">
+                            <a href="proposal_bisnis_admin.php" class="sidebar-link">
                                 <i class="fa-regular fa-file"></i>
                                 <span>Proposal Bisnis</span>
                             </a>
                         </li>
                         <li class="sidebar-item <?php echo ($activePage == 'laporan_bisnis_admin') ? 'active' : ''; ?>">
-                            <a href="laporan_bisnis_mentor.php" class="sidebar-link">
+                            <a href="laporan_bisnis_admin.php" class="sidebar-link">
                                 <i class="fa-solid fa-file-invoice"></i>    
                                 <span>Laporan Kemajuan Bisnis</span>
                             </a>
                         </li>
+                    </ul>
+                </li>
+                        
                 <li class="sidebar-item sign-out">
                     <a href="/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php" class="sidebar-link">
                         <i class="fa-solid fa-sign-out"></i>

@@ -29,9 +29,22 @@
                 ?>
             </div>
 
-            <div class="main_wrapper"></div>
+            <div class="main_wrapper">
+            <div class="card">
+                    <div class="card-header">
+                        <h2>Proposal Bisnis</h2>
+                    </div>
+                    <a href="detail_proposal_bisnis.php">
+                        <div class="card-body">
+                        <p>Lorem ipsum doloteo quibusdam ,asperiores et molestias soluta accusantium repellendus neque itaque riosam, m illum perferendis possimus? Blanditiis provident nihil magni iure nostrum perspiciatis omnis, corrupti ipsa assumenda quisquam maiores esse aliquid quis tenetur veritatis beatae est libero earum nulla! Illum, officia quidem, vel eaque deleniti mollitia voluptate rerum earum nemo quas ex provident doloremque, quis alias fugiat saepe commodi culpa ullam nostrum minus iure. Unde in nostrum optio voluptatibus nemo delectus sed dolore consectetur odit excepturi ab aspernatur rem, tempore iusto et veniam. Hic soluta debitis totam, modi quae doloribus sapiente voluptatem. Possimus voluptatum adipisci, earum corporis consequatur laborum aut illo necessitatibus ducimus quis laboriosam eveniet.</p>
+                        <hr>
+                        <i class="fa-solid fa-eye detail-icon"></i>
+                    </div>
+                </div>
+            </div>        
+         
 
-    </div>
+         
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
