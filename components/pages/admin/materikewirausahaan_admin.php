@@ -9,7 +9,7 @@
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/admin/materikewirausahaan_admin.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan.css">
 </head>
 
 <body>
@@ -31,7 +31,7 @@
                 <button id="openFormBtn"><i class="fa-solid fa-plus"></i> Tambahkan Materi</button>
 
                 <!-- Modal Form Tambah Materi -->
-                <div id="modalForm" class="modal">
+                <div id="modalForm" class="modal modal-form">
                     <div class="modal-content">
                         <span class="close-btn">&times;</span>
                         <h2>Tambahkan Materi</h2>
@@ -56,19 +56,25 @@
                 </div>
 
                 <!-- Modal Detail Materi -->
-                <div id="detailModal" class="modal">
+                <div id="detailModal" class="modal modal-detail">
                     <div class="modal-content">
                         <span class="close-btn">&times;</span>
                         <h2>Detail Materi Kewirausahaan</h2>
                         <p id="detailJudul"></p>
                         <p id="detailDeskripsi"></p>
-                        <a id="detailFileLink" href="#" target="_blank">Lihat File</a>
                         <div id="filePreview"></div>
+                        <div class="btn_container">
+                            <a id="detailFileLink" href="#" target="_blank" class="file icon">
+                                <i class="fas fa-edit btn-icon"></i> 
+                            </a>
+                            <a id="detailFileLink" href="#" target="_blank" class="file icon">
+                                <i class="fa-solid fa-trash-can btn-icon"></i> 
+                            </a>
+                        </div>
 
                         <!-- Tombol Hapus Materi -->
                         <form method="POST" action="">
                             <input type="hidden" id="materiId" name="materiId">
-                            <button type="submit" name="hapusMateri" class="btn btn-danger">Hapus Materi</button>
                         </form>
                     </div>
                 </div>
@@ -88,7 +94,9 @@
                     while ($row = $result->fetch_assoc()) {
                         echo '<div class="container_materi" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . htmlspecialchars($row["file_path"]) . '\')">';
                         echo '<div class="judul_materi">' . htmlspecialchars($row["judul"]) . '</div>';
-                        echo '<div class="deskripsi_materi">' . htmlspecialchars($row["deskripsi"]) . '</div>';
+                        echo '<div class="deskripsi_materi">' 
+                                . htmlspecialchars($row["deskripsi"]) . 
+                                '<i class="fa-solid fa-eye detail-icon"></i> </div>';
                         echo '</div>';
                     }
                 } else {

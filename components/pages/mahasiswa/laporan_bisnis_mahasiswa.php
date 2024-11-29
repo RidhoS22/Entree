@@ -45,38 +45,37 @@
                                 <input type="text" id="judul_laporan" name="judul_laporan" required>
                             </div>
 
-                            
+                            <div class="laporan-container">
+                                <!-- Laporan Penjualan Usaha -->
+                                <div class="form-group">
+                                    <label for="laporan_penjualan">Laporan Penjualan:</label>
+                                    <textarea id="laporan_penjualan" name="laporan_penjualan"></textarea>
+                                </div>
 
-                            <!-- Laporan Penjualan Usaha -->
-                            <div class="form-group">
-                                <label for="laporan_penjualan">Laporan Penjualan:</label>
-                                <textarea id="laporan_penjualan" name="laporan_penjualan" ></textarea>
+                                <!-- Laporan Pemasaran Usaha -->
+                                <div class="form-group">
+                                    <label for="laporan_pemasaran">Laporan Pemasaran:</label>
+                                    <textarea id="laporan_pemasaran" name="laporan_pemasaran"></textarea>
+                                </div>
+
+                                <!-- Laporan Produksi Usaha -->
+                                <div class="form-group">
+                                    <label for="laporan_produksi">Laporan Produksi:</label>
+                                    <textarea id="laporan_produksi" name="laporan_produksi"></textarea>
+                                </div>
+
+                                <!-- Laporan SDM Usaha -->
+                                <div class="form-group">
+                                    <label for="laporan_sdm">Laporan SDM:</label>
+                                    <textarea id="laporan_sdm" name="laporan_sdm"></textarea>
+                                </div>
+
+                                <!-- Laporan Keuangan -->
+                                <div class="form-group">
+                                    <label for="laporan_keuangan">Laporan Keuangan:</label>
+                                    <textarea id="laporan_keuangan" name="laporan_keuangan"></textarea>
+                                </div>
                             </div>
-
-                            <!-- Laporan Pemasaran Usaha -->
-                            <div class="form-group">
-                                <label for="laporan_pemasaran">Laporan Pemasaran:</label>
-                                <textarea id="laporan_pemasaran" name="laporan_pemasaran" ></textarea>
-                            </div>
-
-                            <!-- Laporan Produksi Usaha -->
-                            <div class="form-group">
-                                <label for="laporan_produksi">Laporan Produksi:</label>
-                                <textarea id="laporan_produksi" name="laporan_produksi" ></textarea>
-                            </div>
-
-                            <!-- Laporan Sdm Usaha -->
-                            <div class="form-group">
-                                <label for="laporan_sdm">Laporan Sdm:</label>
-                                <textarea id="laporan_sdm" name="laporan_sdm" ></textarea>
-                            </div>
-
-                             <!-- Laporan Keuangan -->
-                             <div class="form-group">
-                                <label for="laporan_keuangan">Laporan Keuangan:</label>
-                                <textarea id="laporan_keuangan" name="laporan_keuangan" ></textarea>
-                            </div>
-
 
                             <!-- Lampiran (file input) -->
                             <div class="form-group">

@@ -213,3 +213,23 @@ a.sidebar-link:hover {
     position: fixed;
   }
 }
+
+/* scroll bar */
+/* Mengatur scrollbar */
+::-webkit-scrollbar {
+  width: 8px; /* Lebar scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Warna track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Warna thumb */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Warna thumb saat hover */
+}

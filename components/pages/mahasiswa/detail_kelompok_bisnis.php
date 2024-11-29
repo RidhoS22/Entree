@@ -71,14 +71,15 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
             color: #333;
         }
         .edit-btn {
-            background-color: transparent;
-            border: none;
-            font-size: 20px;
+            font-size: 25px;
             cursor: pointer;
-            color: #007bff;
-        }
+            border: 0;
+            background-color: transparent;
+            transition: transform 0.3s ease; /* Animasi ikon */
+            }
+
         .edit-btn:hover {
-            color: #0056b3;
+        transform: scale(1.1); /* Ikon membesar saat hover */
         }
         .category, .sdg, .members, .tutor {
             margin-top: 20px;

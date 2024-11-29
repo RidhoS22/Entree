@@ -45,7 +45,8 @@
                             echo '<img alt="Profile picture of the mentor" height="50" src="https://storage.googleapis.com/a1aa/image/Q1BtK1AStCLeOKUuTRnqzR27EJRLg5SmUePjrHw1ilMCaVsTA.jpg" width="50"/>';
                             echo '<h2>' . htmlspecialchars($row["nama"]) . '</h2>';
                             echo '<p>' . htmlspecialchars($row["deskripsi"]) . '</p>';
-                            echo '<p class="contact">Contact : ' . htmlspecialchars($row["kontak"]) . '</p>';
+                            echo '<p>Prodi: </p>';
+                            echo '<p>Keahlian: </p>';
                             echo '</div>';
                         }
                     } else {

@@ -1,5 +1,159 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+/* admin */
+/* FORM */
 
+.close-btn,
+.close-btn2 {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 28px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn2:hover {
+  color: #000;
+}
+
+.main_wrapper button {
+  background-color: #2ea56f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.main_wrapper button:hover {
+  background-color: #299363;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.main_wrapper button:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.message-success {
+  background-color: #e6ffee;
+  border: 1px solid #00cc66;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.modal-form {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-form .modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 60%;
+  height: 80%;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .modal .modal-content {
+    width: 90%; /* Lebar form modal */
+  }
+}
+
+.modal-form .modal-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+form {
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+form label {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+form input[type="text"],
+form input[type="file"],
+form textarea,
+form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+form select {
+  appearance: none; /* Menghilangkan tanda panah default di sebagian besar browser */
+  background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgdmlld0JveD0iMCAwIDEyIDEyIj4KPHBhdGggZmlsbD0iI0NDQyIgZD0iTTIgNGw0IDQgNCA0VjBsLTQtNHoiLz4KPC9zdmc+"); /* Icon untuk panah dropdown */
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+form textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+form input[type="text"]:focus,
+form input[type="file"]:focus,
+form textarea:focus {
+  border-color: #2ea56f;
+  outline: none;
+}
+
+form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #2ea56f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #299363;
+}
+
+.modal-form .modal h2 {
+  margin-top: 25px;
+}
+
+/* mentor dan mahasiswa */
 /* Tampilan materi kewirausahaan Mahasiswa*/
 .container_materi {
   margin-top: 20px;
@@ -30,47 +184,19 @@
   margin-bottom: 10px;
 }
 
-#detailDeskripsi {
-  font-size: 16px;
-  color: #666;
+.btn_container {
+  margin-top: 20px;
 }
 
-.container_materi .deskripsi_materi .detail-icon {
-  font-size: 24px;
-  cursor: pointer;
-  color: #000000;
-}
-
-.btn_container .detail-icon,
-.btn_container .download-icon {
+.btn_container .btn-icon {
   font-size: 24px;
   cursor: pointer;
   color: #ffffff;
+  transition: transform 0.3s ease; /* Animasi ikon */
 }
 
-/* Modal */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6); /* Gelap dengan opacity lebih tinggi */
-  overflow-y: auto; /* Memastikan isi modal dapat di-scroll */
-}
-
-/* Modal Content */
-.modal-content {
-  background-color: #fff;
-  margin: 5% auto;
-  padding: 30px;
-  border-radius: 12px;
-  max-width: 600px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  position: relative;
-  animation: fadeIn 0.3s ease; /* Animasi saat muncul */
+.icon:hover .btn-icon {
+  transform: scale(1.2); /* Ikon membesar saat hover */
 }
 
 /* Animasi fade-in */
@@ -101,7 +227,7 @@
 }
 
 /* Modal Heading */
-.modal-content h2 {
+.modal-detail .modal-content h2 {
   font-size: 28px;
   text-align: center;
   margin-bottom: 20px;
@@ -124,6 +250,8 @@
   line-height: 1.6;
   margin-bottom: 20px;
   text-align: justify;
+  height: 130px;
+  overflow-y: auto;
 }
 
 /* Preview File */
@@ -138,10 +266,9 @@
   box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Gaya untuk tautan file dan unduh file */
+/* Gaya untuk file */
 
-.file-link,
-.file-download {
+.file {
   display: inline-flex; /* Menjadikan teks dan ikon sejajar */
   align-items: center;
   justify-content: center;
@@ -157,32 +284,19 @@
   width: 49%;
 }
 
-.file-link:hover,
-.file-download:hover {
+.file:hover {
   background-color: #278b5e; /* Warna saat hover */
   transform: translateY(-2px); /* Tombol naik sedikit */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Bayangan lebih besar */
 }
 
-.file-link:active,
-.file-download:active {
+.file:active {
   transform: translateY(1px); /* Efek saat ditekan */
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); /* Bayangan mengecil */
 }
 
-.file-link span,
-.file-download span {
+.file span {
   margin-right: 8px; /* Jarak antara teks dan ikon */
-}
-
-.detail-icon {
-  font-size: 20px; /* Ukuran ikon */
-  transition: transform 0.3s ease; /* Animasi ikon */
-}
-
-.file-link:hover .detail-icon,
-.file-download:hover .download-icon {
-  transform: scale(1.2); /* Ikon membesar saat hover */
 }
 
 /* Responsiveness */
@@ -249,6 +363,7 @@
   font-size: 24px;
   cursor: pointer;
   transition: transform 0.2s, color 0.2s;
+  color: #000;
 }
 
 .detail-icon:hover {
@@ -256,7 +371,7 @@
 }
 
 /* Tambahan untuk Transisi Modal */
-.modal {
+.modal-detail {
   display: none;
   position: fixed;
   z-index: 1000;
@@ -270,12 +385,13 @@
 }
 
 /* Modal Content */
-.modal-content {
+.modal-detail .modal-content {
   background-color: #ffffff;
   margin: 5% auto;
   padding: 30px;
   border-radius: 12px;
-  max-width: 600px;
+  width: 80%;
+  height: 90vh;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   position: relative;
   text-align: center;

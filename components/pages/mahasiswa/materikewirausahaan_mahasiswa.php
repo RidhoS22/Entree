@@ -32,21 +32,21 @@
                 <!-- Menghapus tombol tambah materi dan modal form tambah materi -->
 
                 <!-- Modal Detail Materi -->
-                <div id="detailModal" class="modal">
+                <div id="detailModal" class="modal modal-detail">
                     <div class="modal-content">
                         <span class="close-btn">&times;</span>
                         <h2>Detail Materi Kewirausahaan</h2>
                         <p id="detailJudul"></p>
                         <p id="detailDeskripsi"></p>
+                        <div id="filePreview"></div>
                         <div class="btn_container">
-                            <a id="detailFileLink" href="#" target="_blank" class="file-link">
-                                <i class="fa-solid fa-eye detail-icon"></i>
+                            <a id="detailFileLink" href="#" target="_blank" class="file icon">
+                                <i class="fa-solid fa-eye btn-icon"></i>
                             </a>
-                            <a id="detailFileLink" href="#" target="_blank" class="file-download">
-                                <i class="fa-solid fa-download download-icon"></i>
+                            <a id="detailFileLink" href="#" target="_blank" class="file icon">
+                                <i class="fa-solid fa-download btn-icon"></i>
                             </a>
                         </div>
-                        <div id="filePreview"></div>
                     </div>
                 </div>
 
