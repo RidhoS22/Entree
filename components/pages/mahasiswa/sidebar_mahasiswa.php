@@ -1,3 +1,27 @@
+<?php
+// Mulai session jika belum dimulai
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+// Ambil data pengguna yang sedang login
+$npm = $_SESSION['npm'];  // Pastikan npm sudah diset dalam session
+
+// Query untuk memeriksa apakah pengguna sudah menjadi ketua atau anggota dalam kelompok
+$cekKelompokQuery = "
+    SELECT k.npm_ketua, a.npm_anggota
+    FROM kelompok_bisnis k
+    LEFT JOIN anggota_kelompok a ON a.npm_anggota = '$npm'
+    WHERE k.npm_ketua = '$npm' OR a.npm_anggota = '$npm'
+";
+$cekKelompokResult = mysqli_query($conn, $cekKelompokQuery);
+
+// Jika pengguna sudah menjadi ketua atau anggota dalam kelompok
+$kelompokStatus = mysqli_num_rows($cekKelompokResult) > 0 ? true : false;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +39,6 @@
 
 <body>
     <div class="wrapper">
-
         <button class="toggle-btn2" type="button">
             <i class="fa-solid fa-bars"></i>
         </button>
@@ -49,8 +72,8 @@
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'daftar_mentor_mahasiswa') ? 'active' : ''; ?>">
                     <a href="daftar_mentor_mahasiswa.php" class="sidebar-link">
-                    <i class="fa-solid fa-address-card"></i>  
-                    <span>Daftar Mentor Bisnis</span>
+                        <i class="fa-solid fa-address-card"></i>  
+                        <span>Daftar Mentor Bisnis</span>
                     </a>
                 </li>
                 <hr>
@@ -63,7 +86,9 @@
                         <span>Kelompok Bisnis</span>
                     </a>
                 </li>
-              
+
+                <!-- Hanya tampilkan menu ini jika pengguna sudah ada dalam kelompok -->
+                <?php if ($kelompokStatus): ?>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                     data-bs-target="#kelola_bisnis_kelompok" aria-expanded="false" aria-controls="kelola_bisnis_kelompok">
@@ -91,6 +116,7 @@
                         </li>
                     </ul>
                 </li>
+                <?php endif; ?>
 
                 <li class="sidebar-item sign-out">
                     <a href="/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php" class="sidebar-link">
@@ -102,8 +128,9 @@
             </ul>
         </aside>
     </div>
+
     <script>
-            document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
             const toggleBtn2 = document.querySelector('.toggle-btn2'); // Tombol toggle
             const sidebar = document.querySelector('#sidebar'); // Sidebar
 
@@ -116,7 +143,6 @@
                 }
             });
         });
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"

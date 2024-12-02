@@ -63,6 +63,16 @@
         "npm": "1402022055",
         "program_studi": "Teknik Informatika",
         "tahun_angkatan": "2022/2023 Teknik Informatika"
+      },
+      {
+        "username":"mahasiswa3",
+        "password":"mhsiswa3",
+        "role":"mahasiswa",
+        "first_login":1,
+        "nama":"John Doe",
+        "npm":"1402023001",
+        "program_studi":"Teknik Informatika",
+        "tahun_angkatan":"2023/2024"
       }
     ]
   }

@@ -7,18 +7,9 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user_id']; // Ambil user_id dari session
 
-$query_user = "SELECT username FROM users WHERE id = '$user_id'";
-$result_user = $conn->query($query_user);
-
-if ($result_user && $result_user->num_rows > 0) {
-    $user = $result_user->fetch_assoc();
-    $username = $user['username'];
-} else {
-    die("User tidak ditemukan.");
-}
-
+// Mengambil data mahasiswa dari database berdasarkan user_id
 $query_mahasiswa = "SELECT * FROM mahasiswa WHERE user_id = '$user_id'";
 $result_mahasiswa = $conn->query($query_mahasiswa);
 
@@ -54,100 +45,108 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
         <div class="main p-3">
             <div class="main_header">
                 <?php 
-                    $pageTitle = "Profil"; // Judul halaman
+                    $pageTitle = "Profil"; 
                     include 'header_mahasiswa.php'; 
                 ?>
             </div>
 
             <div class="main_wrapper">
-
-                    <button class="edit-btn" type="button">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <div class="profile-header">
-                        <div class="profile-item">
-                            <h2>Username</h2>
-                            <p><?= htmlspecialchars($username); ?></p>
-                        </div>
+                <button class="edit-btn" type="button">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <div class="profile-header">
+                    <div class="profile-item">
+                        <h2>Username</h2>
+                        <!-- Menampilkan username dari session -->
+                        <p><?= htmlspecialchars($_SESSION['username']); ?></p>
                     </div>
-                    <!-- Tambahkan grid untuk profil item -->
-                    <div class="profile-grid">
-                        <div class="profile-item">
-                            <h2>Nama Lengkap</h2>
-                            <p><?= htmlspecialchars($mahasiswa['nama'] ?? 'Belum diisi'); ?></p>
-                        </div>
-                        <div class="profile-item">
-                            <h2>NPM</h2>
-                            <p><?= htmlspecialchars($mahasiswa['npm'] ?? 'Belum diisi'); ?></p>
-                        </div>
-                        <div class="profile-item">
-                            <h2>Program Studi</h2>
-                            <p><?= htmlspecialchars($mahasiswa['program_studi'] ?? 'Belum diisi'); ?></p>
-                        </div>
-                        <div class="profile-item">
-                            <h2>Alamat Email</h2>
-                            <p><?= htmlspecialchars($mahasiswa['email'] ?? 'Belum diisi'); ?></p>
-                        </div>
-                        <div class="profile-item" id="phone-item">
-                            <h2>Nomor Telepon</h2>
-                            <p class="phone-text"><?= htmlspecialchars($mahasiswa['contact'] ?? 'Belum diisi'); ?></p>
-                            <input type="text" class="phone-input" style="display: none;" value="<?= htmlspecialchars($mahasiswa['contact'] ?? ''); ?>">
-                        </div>
+                </div>
 
+                <div class="profile-grid">
+                    <div class="profile-item">
+                        <h2>Nama Lengkap</h2>
+                        <p><?= htmlspecialchars($mahasiswa['nama'] ?? 'Belum diisi'); ?></p>
+                    </div>
+                    <div class="profile-item">
+                        <h2>NPM</h2>
+                        <p><?= htmlspecialchars($mahasiswa['npm'] ?? 'Belum diisi'); ?></p>
+                    </div>
+                    <div class="profile-item">
+                        <h2>Program Studi</h2>
+                        <p><?= htmlspecialchars($mahasiswa['program_studi'] ?? 'Belum diisi'); ?></p>
+                    </div>
+                    <div class="profile-item">
+                        <h2>Alamat Email</h2>
+                        <p><?= htmlspecialchars($mahasiswa['email'] ?? 'Belum diisi'); ?></p>
+                    </div>
+                    <div class="profile-item" id="phone-item">
+                        <h2>Nomor Telepon</h2>
+                        <p class="phone-text"><?= htmlspecialchars($mahasiswa['contact'] ?? 'Belum diisi'); ?></p>
+                        <input type="text" class="phone-input" style="display: none;" value="<?= htmlspecialchars($mahasiswa['contact'] ?? ''); ?>">
+                    </div>
                 </div>
 
                 <div class="action-buttons" style="display: none;">
-                                <button class="save-btn">Simpan</button>
-                                <button class="cancel-btn">Batal</button>
-                            </div>
+                    <button class="save-btn">Simpan</button>
+                    <button class="cancel-btn">Batal</button>
+                </div>
             </div>
-
         </div>
     </div>
+
     <script>
         document.querySelector('.edit-btn').addEventListener('click', function () {
-            // Ambil elemen terkait
             const phoneText = document.querySelector('.phone-text');
             const phoneInput = document.querySelector('.phone-input');
             const actionButtons = document.querySelector('.action-buttons');
-
-            // Tampilkan input dan tombol aksi, sembunyikan teks
+                
             phoneText.style.display = 'none';
             phoneInput.style.display = 'block';
             actionButtons.style.display = 'flex';
 
-            // Fokuskan input
             phoneInput.focus();
         });
 
-        // Tombol Simpan
         document.querySelector('.save-btn').addEventListener('click', function () {
             const phoneText = document.querySelector('.phone-text');
             const phoneInput = document.querySelector('.phone-input');
             const actionButtons = document.querySelector('.action-buttons');
 
-            // Ambil nilai input
             const newValue = phoneInput.value;
 
-            // Validasi nilai input (opsional)
+            // Validasi input
             if (!newValue.match(/^\d{10,15}$/)) {
                 alert('Nomor telepon tidak valid. Masukkan 10-15 digit angka.');
                 return;
             }
 
-            // Perbarui tampilan teks
-            phoneText.textContent = newValue || 'Belum diisi';
-
-            // Sembunyikan input dan tombol aksi
-            phoneText.style.display = 'block';
-            phoneInput.style.display = 'none';
-            actionButtons.style.display = 'none';
-
-            // Opsional: Kirim data ke server menggunakan AJAX
-            updatePhone(newValue);
+            fetch('/Aplikasi-Kewirausahaan/components/pages/mahasiswa/update_phone.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ phone: newValue })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    phoneText.textContent = newValue || 'Belum diisi';
+                    alert(data.message);
+                } else {
+                    alert(`Error: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan saat memperbarui nomor telepon.');
+            })
+            .finally(() => {
+                phoneText.style.display = 'block';
+                phoneInput.style.display = 'none';
+                actionButtons.style.display = 'none';
+            });
         });
 
-        // Tombol Batal
         document.querySelector('.cancel-btn').addEventListener('click', function () {
             const phoneText = document.querySelector('.phone-text');
             const phoneInput = document.querySelector('.phone-input');
@@ -159,26 +158,7 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
             phoneInput.style.display = 'none';
             actionButtons.style.display = 'none';
         });
-
-        // Fungsi opsional untuk mengirim data ke server
-        function updatePhone(newPhone) {
-            fetch('/update-phone.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ phone: newPhone })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.message); // Tampilkan respons server
-            })
-            .catch(error => {
-                console.error('Error:', error); // Tangani error
-            });
-        }
     </script>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
