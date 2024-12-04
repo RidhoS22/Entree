@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            if ($user['role'] == 'mahasiswa') {
+            if ($user['role'] == 'Mahasiswa') {
                 $mahasiswa_query = "SELECT * FROM mahasiswa WHERE user_id = '".$user['id']."'";
                 $mahasiswa_result = $conn->query($mahasiswa_query);
                 
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['program_studi'] = $mahasiswa_data['program_studi'];
                     $_SESSION['tahun_angkatan'] = $mahasiswa_data['tahun_angkatan'];
                 }
-            } elseif ($user['role'] == 'mentor') {
+            } elseif ($user['role'] == 'Tutor') {
                 $mentor_query = "SELECT * FROM mentor WHERE user_id = '".$user['id']."'";
                 $mentor_result = $conn->query($mentor_query);
 
@@ -38,18 +38,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             }
 
-            if ($user['role'] == 'admin') {
+            if ($user['role'] == 'Admin') {
                 header("Location: /Aplikasi-Kewirausahaan/components/pages/admin/pageadmin.php");
             } elseif ($user['first_login'] == 1) {
-                if ($user['role'] == 'mahasiswa') {
+                if ($user['role'] == 'Mahasiswa') {
                     header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/lengkapi_data_mahasiswa.php");
-                } elseif ($user['role'] == 'mentor') {
+                } elseif ($user['role'] == 'Tutor') {
                     header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/lengkapi_data_mentor.php");
                 }
             } else {
-                if ($user['role'] == 'mahasiswa') {
+                if ($user['role'] == 'Mahasiswa') {
                     header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/pagemahasiswa.php");
-                } elseif ($user['role'] == 'mentor') {
+                } elseif ($user['role'] == 'Tutor' || $user['role'] == 'Dosen Pengampu') {
                     header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/pagementor.php");
                 }
             }

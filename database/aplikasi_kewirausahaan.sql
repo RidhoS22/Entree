@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 26 Nov 2024 pada 10.02
+-- Waktu pembuatan: 04 Des 2024 pada 13.16
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -39,7 +39,8 @@ CREATE TABLE `anggota_kelompok` (
 
 INSERT INTO `anggota_kelompok` (`id`, `id_kelompok`, `npm_anggota`) VALUES
 (13, 10, '1402022068'),
-(14, 10, '1402022040');
+(14, 10, '1402022040'),
+(19, 14, '1402022060');
 
 -- --------------------------------------------------------
 
@@ -88,7 +89,8 @@ CREATE TABLE `jadwal` (
 
 INSERT INTO `jadwal` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `agenda`, `lokasi`, `status`, `feedback_mentor`) VALUES
 (14, 'Bimbingan 1', '2024-11-17', '21:44', 'Istilah deskripsi memang sudah tidak asing lagi. Jenis teks deskripsi ini bisa ditemukan di mana-mana. Ada banyak jenis-jenis teks di dalam sebuah tulisan. Pada dasarnya, deskripsi adalah menjabarkan tentang sesuatu.', 'Yarsi', '', ''),
-(15, 'Bimbingan 2', '2024-11-21', '10:00', 'ingiin membahas tentang sesuatu yang ada ', 'Ruang Rapat FTI', '', '');
+(15, 'Bimbingan 2', '2024-11-21', '10:00', 'ingiin membahas tentang sesuatu yang ada ', 'Ruang Rapat FTI', '', ''),
+(19, 'Bimbingan 3', '2024-12-04', '13:03', 'Bimbingan ', 'Ruang Rapat', '', '');
 
 -- --------------------------------------------------------
 
@@ -102,15 +104,17 @@ CREATE TABLE `kelompok_bisnis` (
   `nama_kelompok` varchar(50) DEFAULT NULL,
   `nama_bisnis` varchar(50) DEFAULT NULL,
   `ide_bisnis` text DEFAULT NULL,
-  `logo_bisnis` varchar(255) DEFAULT NULL
+  `logo_bisnis` varchar(255) DEFAULT NULL,
+  `mentor_bisnis` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `kelompok_bisnis`
 --
 
-INSERT INTO `kelompok_bisnis` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `ide_bisnis`, `logo_bisnis`) VALUES
-(10, '1402022055', 'ArTech', 'BMW RENT', 'BMW RENT INDONESIA', 'BMW.svg_.png');
+INSERT INTO `kelompok_bisnis` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `ide_bisnis`, `logo_bisnis`, `mentor_bisnis`) VALUES
+(10, '1402022055', 'ArTech', 'BMW RENT', 'BMW RENT INDONESIA', 'BMW.svg_.png', 'Sr Rendhy'),
+(14, '1402022044', 'MACAN', 'Bisnis Ikan', 'Menjual ikan dengan harga us dollar', '5a85e6b620358754a3b71b8cf0d23bc1.jpg', 'Lily Devita');
 
 -- --------------------------------------------------------
 
@@ -134,11 +138,12 @@ CREATE TABLE `mahasiswa` (
 --
 
 INSERT INTO `mahasiswa` (`id`, `user_id`, `nama`, `npm`, `program_studi`, `tahun_angkatan`, `email`, `contact`) VALUES
-(1, 1, 'Ridho Syahfero', '1402022055', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'ridhosyahfero35@gmail.com', '089637167773'),
+(1, 1, 'Ridho Syahfero', '1402022055', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'ridhosyahfero35@gmail.com', '089645672224'),
 (2, 6, 'Asril Affandhi', '1402022068', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'asrilaffandhi@gmail.com', '089645672223'),
 (3, 7, 'Fadly Abdillah', '1402022040', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'ridhosyahfero35@gmail.com', '089645672244'),
 (4, 8, 'Ruffino Noor', '1402022044', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'asrilaffandhi@gmail.com', '089637167775'),
-(5, 9, 'Sharil Hamza', '1402022060', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'akunmllimitbruno@gmail.com', '089637162255');
+(5, 9, 'Sharil Hamza', '1402022060', 'Teknik Informatika', '2022/2023 Teknik Informatika', 'akunmllimitbruno@gmail.com', '089637162255'),
+(6, 10, 'John Doe', '1402023001', 'Teknik Informatika', '2023/2024 Teknik Informatika', '', '');
 
 -- --------------------------------------------------------
 
@@ -174,17 +179,20 @@ CREATE TABLE `mentor` (
   `user_id` int(11) NOT NULL,
   `nama` varchar(100) NOT NULL,
   `nidn` varchar(15) NOT NULL,
-  `peran` enum('dosen_pengampu','tutor') DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `contact` varchar(15) DEFAULT NULL
+  `contact` varchar(15) DEFAULT NULL,
+  `keahlian` varchar(100) DEFAULT NULL,
+  `fakultas` varchar(100) DEFAULT NULL,
+  `prodi` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `mentor`
 --
 
-INSERT INTO `mentor` (`id`, `user_id`, `nama`, `nidn`, `peran`, `email`, `contact`) VALUES
-(1, 2, 'Tes Mentor', '022456788', '', 'skknan', '022456788');
+INSERT INTO `mentor` (`id`, `user_id`, `nama`, `nidn`, `email`, `contact`, `keahlian`, `fakultas`, `prodi`) VALUES
+(1, 2, 'Sr Rendhy', '022456788', 'rendhyat@gmail.com', '089637167776', 'Entrepreneur', 'Kewirausahaan', 'Bisnis'),
+(2, 13, 'Lily Devita', '02247896', 'ridhosyahfero35@gmail.com', '089637167773', 'Busineseman', 'Kewirausahaan', 'Bisnis');
 
 -- --------------------------------------------------------
 
@@ -196,7 +204,7 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `role` enum('mahasiswa','mentor','admin') NOT NULL,
+  `role` enum('Mahasiswa','Tutor','Dosen Pengampu','Admin') NOT NULL,
   `first_login` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -205,13 +213,15 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `first_login`) VALUES
-(1, 'ridho.syahfero', '$2y$10$b3QGkvFZHitvz1OFfRWZLOMtgtLA/fECvebDxcSwnpYupDSIMt93G', 'mahasiswa', 0),
-(2, 'akunMntr', '$2y$10$7aCTxTjDGfzG7N/3eVjrtO5g13wGc/RaqaDZbuZMRo7B/XHzKa3Me', 'mentor', 0),
-(3, 'akunAdmin', '$2y$10$NuIAAIWAu7axw6tIyD1HFuuV5F4hR.q7koI3VQF0KUHJWM7jc2z6K', 'admin', 0),
-(6, 'asril.affandhi', '$2y$10$R0cSSdyr.54ypvNZP5NmlO4l.6bqw9iXIrPXF3qiqcRPliIWC90M.', 'mahasiswa', 0),
-(7, 'fadly.abdillah', '$2y$10$k9swYB1RsxVfWqgjp8YU2O3Ekok8/VukQlUAyWrSJTeayY8EujeFi', 'mahasiswa', 0),
-(8, 'mahasiswa1', '$2y$10$uXNSNBz9vAwlD7AV4E1Qn.6DxK0zKygd1LuWcdgARKC/xBIHnXm5y', 'mahasiswa', 0),
-(9, 'mahasiswa2', '$2y$10$Jt7qe4u8hF2g6WjASB0XTey08sA3hHAna8VuU.P1yLoVIHI4whV/m', 'mahasiswa', 0);
+(1, 'ridho.syahfero', '$2y$10$b3QGkvFZHitvz1OFfRWZLOMtgtLA/fECvebDxcSwnpYupDSIMt93G', 'Mahasiswa', 0),
+(2, 'akunMntr', '$2y$10$7aCTxTjDGfzG7N/3eVjrtO5g13wGc/RaqaDZbuZMRo7B/XHzKa3Me', 'Tutor', 0),
+(3, 'akunAdmin', '$2y$10$NuIAAIWAu7axw6tIyD1HFuuV5F4hR.q7koI3VQF0KUHJWM7jc2z6K', 'Admin', 0),
+(6, 'asril.affandhi', '$2y$10$R0cSSdyr.54ypvNZP5NmlO4l.6bqw9iXIrPXF3qiqcRPliIWC90M.', 'Mahasiswa', 0),
+(7, 'fadly.abdillah', '$2y$10$k9swYB1RsxVfWqgjp8YU2O3Ekok8/VukQlUAyWrSJTeayY8EujeFi', 'Mahasiswa', 0),
+(8, 'mahasiswa1', '$2y$10$uXNSNBz9vAwlD7AV4E1Qn.6DxK0zKygd1LuWcdgARKC/xBIHnXm5y', 'Mahasiswa', 0),
+(9, 'mahasiswa2', '$2y$10$Jt7qe4u8hF2g6WjASB0XTey08sA3hHAna8VuU.P1yLoVIHI4whV/m', 'Mahasiswa', 0),
+(10, 'mahasiswa3', '$2y$10$YFFZe1tX8Cq58eJTyJNNOOkIP7MS4U325GWQ2QsREj/hahNIPkTOG', 'Mahasiswa', 1),
+(13, 'lily.admin', '$2y$10$myraeyhvLDu8j7iK09qyxOX6Dp8vy2ed4VmS3EJgodkXjrN4U6r4u', 'Dosen Pengampu', 0);
 
 --
 -- Indexes for dumped tables
@@ -282,7 +292,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `anggota_kelompok`
 --
 ALTER TABLE `anggota_kelompok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `daftar_mentor_bisnis`
@@ -294,19 +304,19 @@ ALTER TABLE `daftar_mentor_bisnis`
 -- AUTO_INCREMENT untuk tabel `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `kelompok_bisnis`
 --
 ALTER TABLE `kelompok_bisnis`
-  MODIFY `id_kelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_kelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT untuk tabel `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `materi_kewirausahaan`
@@ -318,13 +328,13 @@ ALTER TABLE `materi_kewirausahaan`
 -- AUTO_INCREMENT untuk tabel `mentor`
 --
 ALTER TABLE `mentor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

@@ -38,7 +38,7 @@ if (isset($data['accounts']) && !empty($data['accounts'])) {
                 } else {
                     $response[] = ["status" => "error", "message" => "Gagal memasukkan data mahasiswa untuk $username: " . mysqli_error($conn)];
                 }
-            } elseif ($role == 'mentor') {
+            } elseif ($role == 'tutor') {
                 $nama = $account['nama'];
                 $nidn = $account['nidn'];
 

@@ -73,6 +73,14 @@
         "npm":"1402023001",
         "program_studi":"Teknik Informatika",
         "tahun_angkatan":"2023/2024"
+      },
+      {
+        "username":"lily.admin",
+        "password":"admin124",
+        "role":"tutor",
+        "first_login":1,
+        "nama":"Lily Devita",
+        "nidn":"02247896"
       }
     ]
   }

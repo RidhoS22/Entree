@@ -198,7 +198,7 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                                 </div>
 
                                 <div class="tutor">
-                                    <p><strong>Mentor Bisnis:</strong> -</p> <!-- Mentor kosong -->
+                                    <p><strong>Mentor Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar ['mentor_bisnis']); ?></p> 
                                 </div>
                             </div>
                         </div>

@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input id="email" name="email" type="email" value="<?= htmlspecialchars($data['email'] ?? '') ?>" required />
                 </div>
                 <div class="form-group">
-                    <label for="contact">Contact</label>
+                    <label for="contact">Nomor Telepon</label>
                     <input id="contact" name="contact" type="text" value="<?= htmlspecialchars($data['contact'] ?? '') ?>" required/>
                 </div>
                 
