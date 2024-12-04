@@ -45,6 +45,18 @@
                                 <input type="text" id="judul_laporan" name="judul_laporan" required>
                             </div>
 
+                            <!-- Jenis Laporan -->
+                            <div class="form-group">
+                                <label for="jenis_laporan">Jenis Laporan:<span style="color:red;">*</span></label>
+                                <select id="jenis_laporan" name="jenis_laporan" required>
+                                    <option value="" style="color:darkgrey;" disabled selected>
+                                        ~ Pilih Jenis Laporan ~
+                                    </option>
+                                    <option value="laporan_kemajuan">Laporan Kemajuan</option>
+                                    <option value="laporan_akhir">Laporan Akhir</option>
+                                </select>
+                            </div>
+
                             <div class="laporan-container">
                                 <!-- Laporan Penjualan Usaha -->
                                 <div class="form-group">
@@ -79,16 +91,19 @@
 
                             <!-- Lampiran (file input) -->
                             <div class="form-group">
-                            <label for="lampiran_laporan">Lampiran (dokumentasi kegiatan secara PDF):</label>
-                            <input 
-                                type="file" 
-                                id="lampiran_laporan" 
-                                name="lampiran_laporan[]" 
-                                accept=".pdf" 
-                                multiple 
-                            />
+                                <label for="lampiran_laporan">Lampiran:<span style="color:darkgrey;">(Anda dapat mengunggah beberapa file sekaligus dalam format PDF.)</span>
+                                </label>
+                                <input 
+                                    type="file" 
+                                    id="lampiran_laporan" 
+                                    name="lampiran_laporan[]" 
+                                    accept=".pdf" 
+                                    multiple 
+                                />
                             </div>
 
+                            <h3 id="fileHeading" style="display: none;">File yang Dipilih:</h3>
+                            <ul id="fileList"></ul>    
 
                             <div class="form-group">
                                 <button type="submit">Kirim</button>
@@ -113,12 +128,45 @@
                         <i class="fa-solid fa-trash-can delete-icon"></i> 
                     </div>
                 </div>
-                
-                
-
 
                  <!-- PHP untuk menangani pengiriman form -->
                  <?php?>
+                 <script>
+                    const fileInput = document.getElementById('lampiran_laporan');
+                    const fileList = document.getElementById('fileList');
+                    const fileHeading = document.getElementById('fileHeading'); // Elemen <h3>
+                    const filesArray = [];
+
+                    fileInput.addEventListener('change', function(event) {
+                        const newFiles = Array.from(event.target.files); // Dapatkan file baru
+                        filesArray.push(...newFiles); // Tambahkan file ke array
+
+                        // Tampilkan atau sembunyikan heading berdasarkan isi filesArray
+                        fileHeading.style.display = filesArray.length > 0 ? 'block' : 'none';
+
+                        // Update daftar file yang dipilih
+                        fileList.innerHTML = '';
+                        filesArray.forEach((file, index) => {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = `${index + 1}. ${file.name}`;
+                            fileList.appendChild(listItem);
+                        });
+
+                        // Reset input file untuk memungkinkan file baru dipilih
+                        fileInput.value = '';
+                    });
+
+                    document.getElementById('submitButton').addEventListener('click', function(event) {
+                        if (filesArray.length === 0) {
+                            alert('Anda belum memilih file.');
+                            event.preventDefault(); // Mencegah aksi lebih lanjut
+                        } else {
+                            alert(`${filesArray.length} file siap diunggah.`);
+                            // Lakukan pengiriman data di sini jika diperlukan
+                            event.preventDefault(); // Hanya untuk demo, agar tidak mengirim
+                        }
+                    });
+                </script>
 
                 <script>
                             // Mengambil elemen-elemen yang diperlukan
@@ -143,6 +191,38 @@
                         }
                     }
             
+                </script>
+                <script>
+                    const fileInput = document.getElementById('lampiran_laporan');
+                    const fileList = document.getElementById('fileList');
+                    const filesArray = [];
+
+                    fileInput.addEventListener('change', function(event) {
+                        const newFiles = Array.from(event.target.files); // Dapatkan file baru
+                        filesArray.push(...newFiles); // Tambahkan file ke array
+
+                        // Update daftar file yang dipilih
+                        fileList.innerHTML = '';
+                        filesArray.forEach((file, index) => {
+                            const listItem = document.createElement('li');
+                            listItem.textContent = `${index + 1}. ${file.name}`;
+                            fileList.appendChild(listItem);
+                        });
+
+                        // Reset input file untuk memungkinkan file baru dipilih
+                        fileInput.value = '';
+                    });
+
+                    document.getElementById('submitButton').addEventListener('click', function(event) {
+                        if (filesArray.length === 0) {
+                            alert('Anda belum memilih file.');
+                            event.preventDefault(); // Mencegah aksi lebih lanjut
+                        } else {
+                            alert(`${filesArray.length} file siap diunggah.`);
+                            // Lakukan pengiriman data di sini jika diperlukan
+                            event.preventDefault(); // Hanya untuk demo, agar tidak mengirim
+                        }
+                    });
                 </script>
                       </div>  
                     </div>

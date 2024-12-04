@@ -89,6 +89,10 @@ if ($id) {
                             <th>Umpan Balik Dari Mentor</th>
                             <td><?php echo isset($data['status']) ? htmlspecialchars($data['feedback_mentor']) : 'N/A'; ?></td>
                         </tr>
+                        <tr>
+                            <th>Bukti Kegiatan</th>
+                            <td> <input type="file"></td>
+                        </tr>
 
                     </table>
                     <a href="jadwal_bimbingan_mahasiswa.php" class="btn btn-secondary">Kembali</a>

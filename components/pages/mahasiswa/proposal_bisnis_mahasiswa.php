@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/proposal_bisnis_mahasiswa.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/css/multi-select-tag.css">
 </head>
 
 <body>
@@ -49,7 +50,7 @@
                             <div class="form-group">
                                 <label for="tahapan_bisnis">Tahapan Bisnis:<span style="color:red;">*</span></label>
                                 <select id="tahapan_bisnis" name="tahapan_bisnis" required>
-                                    <option value="" style="color:darkgrey;">
+                                    <option value="" style="color:darkgrey;" disabled selected>
                                         ~ Pilih Tahapan Bisnis ~
                                     </option>
                                     <option value="tahapan_awal">Tahapan Awal</option>
@@ -61,10 +62,7 @@
                             <!-- SDG Bisnis -->
                             <div class="form-group">
                                 <label for="sdg">SDG Bisnis:<span style="color:red;">*</span></label>
-                                <select id="sdg" name="sdg" required>
-                                    <option value="" style="color:darkgrey;">
-                                        ~ Pilih SDGs Bisnis ~
-                                    </option>
+                                <select id="sdg" name="sdg" required multiple>
                                     <option value="mengakhiri_kemiskinan">1. Mengakhiri Kemiskinan</option>
                                     <option value="mengakhiri_kelaparan">2. Mengakhiri Kelaparan</option>
                                     <option value="kesehatan_kesejahteraan">3. Kesehatan dan Kesejahteraan</option>
@@ -90,7 +88,7 @@
                             <div class="form-group">
                             <label for="kategori">Kategori Bisnis:<span style="color:red;">*</span></label>
                             <select id="kategori" name="kategori" class="form-control" required onchange="toggleOtherCategoryInput()">
-                                <option value="" style="color:darkgrey;">~ Pilih Kategori Bisnis Anda ~</option>
+                                <option value="" style="color:darkgrey;" disabled selected>~ Pilih Kategori Bisnis Anda ~</option>
                                 <option value="jasa">Bisnis Jasa</option>
                                 <option value="manufaktur">Bisnis Manufaktur</option>
                                 <option value="perdagangan">Bisnis Dagang (Perdagangan)</option>
@@ -134,8 +132,7 @@
 
                             <!-- Proposal (file input) -->
                             <div class="form-group">
-                                <label for="proposal">Proposal bisnis kewirausahaan (pdf only):<span style="color:red;">*</span></label>
-                                </label>
+                                <label for="proposal">Proposal bisnis kewirausahaan:<span style="color:red;">*</span><span style="color:darkgrey;">(pdf only)</span></label>
                                 <input type="file" id="proposal" name="proposal" accept=".pdf" required>
                             </div>
 
@@ -193,6 +190,22 @@
                       </div>  
                     </div>
                 </div>
+
+                <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
+                <script>
+                    new MultiSelectTag('sdg', {
+                    rounded: true,    // default true
+                    placeholder: 'Search',  // default Search...
+                    tagColor: {
+                        textColor: '#327b2c',
+                        borderColor: '#92e681',
+                        bgColor: '#eaffe6',
+                    },
+                    onChange: function(values) {
+                        console.log(values)
+                    }
+                })
+                </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

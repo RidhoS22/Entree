@@ -45,6 +45,10 @@
   flex-direction: column;
 }
 
+.form-group button {
+  margin-top: 20px;
+}
+
 .form-group label {
   margin-bottom: 8px;
   font-weight: bold;
@@ -340,4 +344,71 @@ body {
 .card-footer .delete-icon:hover,
 .card-body .detail-icon:hover {
   transform: scale(1.2);
+}
+
+/* ini */
+
+/* Heading untuk daftar file */
+#fileHeading {
+  display: none; /* Default tersembunyi */
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2ea56f; /* Warna hijau lembut */
+  text-align: left;
+  border-bottom: 2px solid #2ea56f;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+/* Daftar file */
+#fileList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: left;
+}
+
+/* Item dalam daftar */
+#fileList li {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 1rem;
+  color: #333;
+  transition: background 0.3s;
+}
+
+/* Hilangkan border bawah pada item terakhir */
+#fileList li:last-child {
+  border-bottom: none;
+}
+
+/* Icon file sebelum teks */
+#fileList li::before {
+  content: "📄"; /* Ikon dokumen */
+  margin-right: 10px;
+  color: #2ea56f;
+  font-size: 1.2rem;
+}
+
+/* Hover efek untuk item daftar */
+#fileList li:hover {
+  background-color: #e8f5e9; /* Hijau muda saat hover */
+  cursor: pointer;
+}
+
+/* Ukuran file (opsional, ditambahkan sebagai span di JS) */
+#fileList li span {
+  font-size: 0.85rem;
+  color: #888;
+  margin-left: 10px;
+  white-space: nowrap;
 }
