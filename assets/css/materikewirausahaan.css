@@ -2,21 +2,6 @@
 /* admin */
 /* FORM */
 
-.close-btn,
-.close-btn2 {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;
-  color: #aaa;
-  cursor: pointer;
-}
-
-.close-btn:hover,
-.close-btn2:hover {
-  color: #000;
-}
-
 .main_wrapper button {
   background-color: #2ea56f;
   color: white;
@@ -178,12 +163,6 @@ form button:hover {
   padding-right: 20px;
 }
 
-#detailJudul {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
 .btn_container {
   margin-top: 20px;
 }
@@ -211,21 +190,6 @@ form button:hover {
   }
 }
 
-/* Close Button */
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 24px;
-  color: #555;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.close-btn:hover {
-  color: #e74c3c; /* Warna hover lebih menarik */
-}
-
 /* Modal Heading */
 .modal-detail .modal-content h2 {
   font-size: 28px;
@@ -237,7 +201,7 @@ form button:hover {
 
 /* Modal Paragraphs */
 #detailJudul {
-  font-size: 20px;
+  font-size: 30px;
   font-weight: bold;
   margin-bottom: 15px;
   color: #2c3e50;
@@ -359,6 +323,8 @@ form button:hover {
 }
 
 .detail-icon {
+  display: flex;
+  justify-content: end;
   margin-left: 5px;
   font-size: 24px;
   cursor: pointer;
@@ -409,17 +375,91 @@ form button:hover {
   }
 }
 
-/* Tombol Tutup */
-.close-btn {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 24px;
-  color: #555;
-  cursor: pointer;
-  transition: color 0.2s;
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; /* Jarak antar kartu */
+  justify-content: center; /* Posisikan kartu di tengah */
+  align-items: stretch; /* Pastikan kartu memiliki tinggi seragam */
 }
 
-.close-btn:hover {
-  color: #e74c3c; /* Warna hover */
+.card {
+  flex: 1 1 calc(25% - 16px); /* Lebar kartu 25% dari container */
+  width: 300px; /* Lebar maksimal kartu */
+  height: 200px; /* Lebar maksimal kartu */
+  margin: 8px; /* Jarak antar kartu */
+  display: flex;
+  flex-direction: column; /* Atur konten dalam kartu secara vertikal */
+  background-color: #f9f9f9; /* Warna latar belakang kartu */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tambahkan bayangan */
+  border-radius: 8px; /* Membuat sudut kartu melengkung */
+  overflow: hidden; /* Potong konten yang keluar dari kartu */
+  background-color: #00cc66;
+  height: 200px; /* Lebar maksimal kartu */
+}
+
+.detail-icon:hover {
+  transform: scale(1.1);
+}
+
+.card-title {
+  font-weight: bold; /* Buat teks judul bold */
+  font-size: 1.2rem; /* Ukuran font lebih besar */
+  margin-bottom: 8px; /* Jarak bawah judul */
+}
+
+.card-text {
+  flex-grow: 1; /* Biarkan teks mengisi ruang kosong */
+  margin-bottom: 16px; /* Jarak antara teks dan bagian bawah */
+  color: #555; /* Warna teks untuk kontras */
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.card-body {
+  padding: 16px; /* Spasi di dalam body */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Rapatkan konten dalam body */
+  flex-grow: 1; /* Pastikan tinggi body fleksibel */
+  height: 200px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.card-img-top {
+  max-height: 200px; /* Batasi tinggi gambar */
+  object-fit: cover; /* Potong gambar agar sesuai dengan area */
+}
+
+.card button {
+  margin: 10px;
+}
+
+/* Responsivitas */
+@media (max-width: 1200px) {
+  .card {
+    flex: 1 1 calc(33.33% - 16px); /* Tiga kartu per baris */
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    flex: 1 1 calc(50% - 16px); /* Dua kartu per baris */
+  }
+}
+
+@media (max-width: 576px) {
+  .card {
+    flex: 1 1 calc(100% - 16px); /* Satu kartu per baris */
+    max-width: 100%; /* Lebar penuh */
+  }
+
+  .card-title {
+    font-size: 1rem; /* Ukuran font lebih kecil */
+  }
+
+  .card-text {
+    font-size: 0.9rem; /* Ukuran font lebih kecil */
+  }
 }

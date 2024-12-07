@@ -51,7 +51,7 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
             </div>
 
             <div class="main_wrapper">
-                <button class="edit-btn" type="button">
+                <button class="edit-btn" type="button" title="Edit Profil" >
                     <i class="fas fa-edit"></i>
                 </button>
                 <div class="profile-header">

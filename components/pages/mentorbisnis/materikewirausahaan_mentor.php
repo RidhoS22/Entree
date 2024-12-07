@@ -35,7 +35,6 @@
                 <div id="detailModal" class="modal modal-detail">
                     <div class="modal-content">
                         <span class="close-btn">&times;</span>
-                        <h2>Detail Materi Kewirausahaan</h2>
                         <p id="detailJudul"></p>
                         <p id="detailDeskripsi"></p>
                         <div id="filePreview"></div>

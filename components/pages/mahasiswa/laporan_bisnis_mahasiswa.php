@@ -23,20 +23,20 @@
         <div class="main p-3">
             <div class="main_header">
                 <?php 
-                    $pageTitle = "Laporan Kemajuan Bisnis Kelompok"; // Judul halaman
+                    $pageTitle = "Laporan Kemajuan Bisnis"; // Judul halaman
                     include 'header_mahasiswa.php'; 
                 ?>
             </div>
 
             <div class="main_wrapper">
         
-                <button id="openFormBtn"><i class="fa-solid fa-plus"></i>Tambahkan Laporan Kemajuan Bisnis</button>
+                <button id="openFormBtn"><i class="fa-solid fa-plus"></i> Laporan Kemajuan Bisnis</button>
 
                 <!-- Modal Form -->
                 <div id="modalForm" class="modal">
                     <div class="modal-content">
-                        <span class="close-btn">&times;</span>
-                        <h2>Laporan Kemajuan Pengembangan Usaha</h2>
+                        <span class="close-btn" title="Tutup">&times;</span>
+                        <h2>Laporan Kemajuan Bisnis</h2>
 
                         <form method="POST" action="">
                             <!-- Laporan Kemajuan Pengembangan Usaha -->
@@ -115,17 +115,17 @@
                 <div class="card">
                     <div class="card-header">
                         <h2>Laporan Bisnis</h2>
-                        <i class="fas fa-edit edit-icon"></i>
+                        <i class="fas fa-edit edit-icon" title="Edit Laporan Kemajuan Bisnis"></i>
                     </div>
                     <a href="detail_laporan_bisnis.php">
                         <div class="card-body">
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente at quidem commodi. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis suscipit dolores sunt molestias. Iusto dignissimos doloremque tempore architecto fuga vero quibusdam molestias quis pariatur impedit, odit delectus explicabo magni vitae quam! Quam aliquam voluptas voluptatem minima aspernatur provident amet atque eligendi eveniet veritatis, ullam eaque iste perspiciatis impedit ex. Reprehenderit aperiam, quod atque voluptas unde facilis mollitia corporis expedita aspernatur asperiores et molestias soluta accusantium repellendus neque itaque consequuntur voluptates laboriosam, minima vitae laborum illum perferendis possimus? Blanditiis provident nihil magni iure nostrum perspiciatis omnis, corrupti ipsa assumenda quisquam maiores esse aliquid quis tenetur veritatis beatae est libero earum nulla! Illum, officia quidem, vel eaque deleniti mollitia voluptate rerum earum nemo quas ex provident doloremque, quis alias fugiat saepe commodi culpa ullam nostrum minus iure. Unde in nostrum optio voluptatibus nemo delectus sed dolore consectetur odit excepturi ab aspernatur rem, tempore iusto et veniam. Hic soluta debitis totam, modi quae doloribus sapiente voluptatem. Possimus voluptatum adipisci, earum corporis consequatur laborum aut illo necessitatibus ducimus quis laboriosam eveniet magni animi neque iste eum facilis tempora sunt? Iste veniam maxime cumque a, eum ab! Enim architecto in repellat modi perferendis et qui, quam, sed maiores veritatis praesentium cupiditate impedit cum accusantium ad dignissimos sapiente. Reprehenderit placeat dicta non nesciunt iusto ad veniam ab laudantium sit ratione. Enim nobis porro repudiandae deserunt totam minima in harum fuga assumenda, consequuntur deleniti velit repellendus ipsa error voluptate cum.</p>
-                        <i class="fa-solid fa-eye detail-icon"></i>
+                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Laporan Kemajuan Bisnis"></i>
                     </div>
                     </a>
                     <div class="card-footer">
                         <a href="detail_laporan_bisnis.php">View Feedback</a>
-                        <i class="fa-solid fa-trash-can delete-icon"></i> 
+                        <i class="fa-solid fa-trash-can delete-icon" title="Hapus Laporan Kemajuan Bisnis"></i> 
                     </div>
                 </div>
 

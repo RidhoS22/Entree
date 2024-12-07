@@ -26,112 +26,7 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7fb;
-        }
-        .container {
-            display: flex;
-            flex-direction: row;
-            gap: 30px;
-            padding: 40px;
-            justify-content: center;
-        }
-        .left {
-            width: 350px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-        }
-        .left img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-        .right {
-            flex: 1;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-        .title-edit {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .title-edit h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: bold;
-            color: #333;
-        }
-        .edit-btn {
-            font-size: 25px;
-            cursor: pointer;
-            border: 0;
-            background-color: transparent;
-            transition: transform 0.3s ease; /* Animasi ikon */
-            }
-
-        .edit-btn:hover {
-        transform: scale(1.1); /* Ikon membesar saat hover */
-        }
-        .category, .sdg, .members, .tutor {
-            margin-top: 20px;
-        }
-        .category p, .sdg p, .members p, .tutor p {
-            font-size: 16px;
-            color: #555;
-        }
-        .category strong, .sdg strong, .members strong, .tutor strong {
-            font-weight: bold;
-            color: #333;
-        }
-        .members p, .tutor p {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        .members p i, .tutor p i {
-            color: #007bff;
-        }
-        .bottom {
-            margin-top: 20px;
-        }
-        .bottom p {
-            font-size: 16px;
-            color: #555;
-        }
-        .bottom p strong {
-            font-weight: bold;
-            color: #333;
-        }
-
-        /* Responsiveness */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column; /* Ubah orientasi menjadi vertikal */
-                align-items: center;   /* Rata tengah secara horizontal */
-                gap: 20px;             /* Jarak antar elemen */
-            }
-
-            .left, .right {
-                width: 90%;            /* Sesuaikan lebar elemen agar tidak terlalu besar */
-                max-width: 500px;      /* Batasi lebar maksimal */
-            }
-
-            .left img {
-                width: 100%;           /* Pastikan gambar mengikuti lebar container */
-                height: auto;          /* Menjaga rasio aspek gambar */
-            }
-        }
-
-    </style>
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_kelompok.css">
 </head>
 <body>
     <div class="wrapper">
@@ -155,13 +50,16 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
 
                         <div class="right">
                             <div class="title-edit">
-                                <h1><?php echo $kelompokTerdaftar['nama_kelompok']; ?></h1>
-                                <button class="edit-btn" type="button">
+                                <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
+                                <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" style="display: none;" />
+                                <button class="edit-btn" type="button" title="Edit Kelompok Bisnis">
                                     <i class="fas fa-edit"></i>
                                 </button>
                             </div>
-                            <p><strong>Ide Bisnis:</strong> <?php echo $kelompokTerdaftar['ide_bisnis']; ?></p>
-                            <p><strong>Nama Bisnis:</strong> <?php echo $kelompokTerdaftar['nama_bisnis']; ?></p> <!-- Nama Bisnis -->
+
+                            <p><strong>Ide Bisnis:</strong></p>
+                            <span id="ide-bisnis-text"><?php echo htmlspecialchars($kelompokTerdaftar['ide_bisnis']); ?></span>
+                            <textarea id="ide-bisnis-input" style="display: none;"><?php echo htmlspecialchars($kelompokTerdaftar['ide_bisnis']); ?></textarea>
 
                             <div class="category">
                                 <p><strong>Kategori Bisnis:</strong> -</p> <!-- Kategori kosong -->
@@ -200,6 +98,11 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                                 <div class="tutor">
                                     <p><strong>Mentor Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar ['mentor_bisnis']); ?></p> 
                                 </div>
+
+                                <div class="action-buttons" style="display: none;">
+                                <button class="save-btn">Simpan</button>
+                                <button class="cancel-btn">Batal</button>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -209,5 +112,70 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
             </div>
         </div>
     </div>
+    <script>
+document.querySelector('.edit-btn').addEventListener('click', function () {
+    // Tampilkan input dan tombol aksi
+    document.getElementById('nama-kelompok-text').style.display = 'none';
+    document.getElementById('nama-kelompok-input').style.display = 'block';
+
+    document.getElementById('ide-bisnis-text').style.display = 'none';
+    document.getElementById('ide-bisnis-input').style.display = 'block';
+
+    document.querySelector('.action-buttons').style.display = 'flex';
+});
+
+document.querySelector('.save-btn').addEventListener('click', function () {
+    const namaKelompok = document.getElementById('nama-kelompok-input').value;
+    const ideBisnis = document.getElementById('ide-bisnis-input').value;
+
+    // Kirim data ke server
+    fetch('/Aplikasi-Kewirausahaan/components/pages/mahasiswa/update_kelompok.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            nama_kelompok: namaKelompok,
+            ide_bisnis: ideBisnis,
+            id_kelompok: <?php echo json_encode($kelompokTerdaftar['id_kelompok']); ?>
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Data berhasil diperbarui.');
+
+            // Update tampilan
+            document.getElementById('nama-kelompok-text').textContent = namaKelompok;
+            document.getElementById('ide-bisnis-text').textContent = ideBisnis;
+        } else {
+            alert('Gagal memperbarui data: ' + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error))
+    .finally(() => {
+        // Kembalikan tampilan ke mode non-edit
+        document.getElementById('nama-kelompok-text').style.display = 'block';
+        document.getElementById('nama-kelompok-input').style.display = 'none';
+
+        document.getElementById('ide-bisnis-text').style.display = 'block';
+        document.getElementById('ide-bisnis-input').style.display = 'none';
+
+        document.querySelector('.action-buttons').style.display = 'none';
+    });
+});
+
+document.querySelector('.cancel-btn').addEventListener('click', function () {
+    // Kembalikan tampilan ke mode non-edit
+    document.getElementById('nama-kelompok-text').style.display = 'block';
+    document.getElementById('nama-kelompok-input').style.display = 'none';
+
+    document.getElementById('ide-bisnis-text').style.display = 'block';
+    document.getElementById('ide-bisnis-input').style.display = 'none';
+
+    document.querySelector('.action-buttons').style.display = 'none';
+});
+</script>
+
 </body>
 </html>

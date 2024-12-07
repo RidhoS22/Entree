@@ -96,21 +96,6 @@
   }
 }
 
-.close-btn,
-.close-btn2 {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;
-  color: #aaa;
-  cursor: pointer;
-}
-
-.close-btn:hover,
-.close-btn2:hover {
-  color: #000;
-}
-
 .main_wrapper #openFormBtn {
   background-color: #2ea56f;
   color: white;
@@ -142,18 +127,6 @@
   margin-top: 20px;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  font-size: 28px;
-  color: #aaa;
-  cursor: pointer;
-}
-
-.close-btn:hover {
-  color: #000;
-}
 
 .modal-content h2 {
   text-align: center;
@@ -412,3 +385,5 @@ body {
   margin-left: 10px;
   white-space: nowrap;
 }
+
+

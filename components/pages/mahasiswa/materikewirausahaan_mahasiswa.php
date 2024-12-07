@@ -29,28 +29,9 @@
             </div>
 
             <div class="main_wrapper">
-                <!-- Menghapus tombol tambah materi dan modal form tambah materi -->
-
-                <!-- Modal Detail Materi -->
-                <div id="detailModal" class="modal modal-detail">
-                    <div class="modal-content">
-                        <span class="close-btn">&times;</span>
-                        <h2>Detail Materi Kewirausahaan</h2>
-                        <p id="detailJudul"></p>
-                        <p id="detailDeskripsi"></p>
-                        <div id="filePreview"></div>
-                        <div class="btn_container">
-                            <a id="detailFileLink" href="#" target="_blank" class="file icon">
-                                <i class="fa-solid fa-eye btn-icon"></i>
-                            </a>
-                            <a id="detailFileLink" href="#" target="_blank" class="file icon">
-                                <i class="fa-solid fa-download btn-icon"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- PHP untuk menampilkan materi -->
+                <div class="card-container">
                 <?php
                 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
                 
@@ -61,68 +42,70 @@
                     echo "<p>Error pada query: " . $conn->error . "</p>";
                 } elseif ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo '<div class="container_materi" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . htmlspecialchars($row["file_path"]) . '\')">';
-                        echo '<div class="judul_materi">' . htmlspecialchars($row["judul"]) . '</div>';
-                        echo '<div class="deskripsi_materi">' 
-                                . htmlspecialchars($row["deskripsi"]) . 
-                                '<i class="fa-solid fa-eye detail-icon"></i> </div>';
-                        echo '</div>';
+                        $filePath = htmlspecialchars($row["file_path"]);
+                        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+
+                        // Tampilkan kartu dengan pratinjau file
+                        echo '
+                            <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '" >
+                                <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
+                                    <div class="card-img-top">' . generateFilePreview($filePath, $fileExtension, 200) . '</div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
+                                        <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
+                                    </div>
+                                </div>
+                            </a>';
+
+                        
                     }
+
+                    echo '</div>';
                 } else {
                     echo "<p>Belum ada materi ditambahkan</p>";
                 }
-                
+
                 $conn->close();
+
+                // Fungsi PHP untuk pratinjau file
+                function generateFilePreview($filePath, $fileExtension, $height = 200) {
+                    $fileExtension = strtolower($fileExtension);
+
+                    if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
+                        return '<img src="' . $filePath . '" alt="Pratinjau Gambar" class="img-fluid rounded" style="max-height:' . $height . 'px;">';
+                    } elseif ($fileExtension === 'pdf') {
+                        return '<iframe src="' . $filePath . '" width="100%" height="' . $height . 'px"></iframe>';
+                    } elseif (in_array($fileExtension, ['mp4', 'webm', 'mov', 'avi'])) {
+                        return '
+                        <video width="100%" height="' . $height . 'px" controls>
+                            <source src="' . $filePath . '" type="video/' . $fileExtension . '">
+                            Browser Anda tidak mendukung pemutar video.
+                        </video>';
+                    } else {
+                        return '<div class="alert alert-danger">Jenis file tidak didukung untuk pratinjau.</div>';
+                    }
+                }
                 ?>
 
+                <!-- Script -->
                 <script>
-                    var detailModal = document.getElementById("detailModal");
-                    var closeBtns = document.getElementsByClassName("close-btn");
+                    // Fungsi pratinjau file
+                    function generateFilePreview(filePath, fileExtension, container, height = 500) {
+                        fileExtension = fileExtension.toLowerCase();
+                        container.innerHTML = ""; // Reset konten sebelumnya
 
-                    Array.from(closeBtns).forEach(btn => {
-                        btn.onclick = function() {
-                            detailModal.style.display = "none";
-                        };
-                    });
-
-                    window.onclick = function(event) {
-                        if (event.target == detailModal) {
-                            detailModal.style.display = "none";
-                        }
-                    };
-
-                    function showDetailModal(id, judul, deskripsi, filePath) {
-                        document.getElementById("detailJudul").textContent = judul;
-                        document.getElementById("detailDeskripsi").textContent = deskripsi;
-                        document.getElementById("detailFileLink").href = filePath;
-                        document.getElementById("detailModal").style.display = "block";
-
-                        const filePreview = document.getElementById("filePreview");
-                        filePreview.innerHTML = '';
-
-                        const fileExtension = filePath.split('.').pop().toLowerCase();
-
-                        if (fileExtension === 'pdf') {
-                            filePreview.innerHTML = `<iframe src="${filePath}" width="100%" height="500px"></iframe>`;
-                        } else if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
-                            filePreview.innerHTML = `<img src="${filePath}" alt="Pratinjau Gambar" class="img-fluid rounded shadow">`;
-                        } else if (fileExtension === 'txt') {
-                            fetch(filePath)
-                                .then(response => response.text())
-                                .then(text => {
-                                    filePreview.innerHTML = `<pre class="border rounded p-3 bg-light">${text}</pre>`;
-                                })
-                                .catch(error => {
-                                    filePreview.innerHTML = '<p>Gagal memuat konten teks.</p>';
-                                });
+                        if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
+                            container.innerHTML = `<img src="${filePath}" alt="Pratinjau Gambar" class="img-fluid rounded shadow" style="max-height:${height}px;">`;
+                        } else if (fileExtension === 'pdf') {
+                            container.innerHTML = `<iframe src="${filePath}" width="100%" height="${height}px" style="overflow: hidden;"></iframe>`;
                         } else if (['mp4', 'webm', 'mov', 'avi'].includes(fileExtension)) {
-                            filePreview.innerHTML = `
-                                <video width="100%" height="300px" controls>
-                                    <source src="${filePath}" type="video/${fileExtension}">
-                                    Browser Anda tidak mendukung pemutar video.
-                                </video>`;
+                            container.innerHTML = `
+                            <video width="100%" height="${height}px" controls>
+                                <source src="${filePath}" type="video/${fileExtension}">
+                                Browser Anda tidak mendukung pemutar video.
+                            </video>`;
                         } else {
-                            filePreview.innerHTML = '<div class="alert alert-danger">Jenis file tidak didukung untuk pratinjau.</div>';
+                            container.innerHTML = '<div class="alert alert-danger">Jenis file tidak didukung untuk pratinjau.</div>';
                         }
                     }
                 </script>

@@ -153,16 +153,16 @@
                                             <td><?php echo isset($row['status']) ? htmlspecialchars($row['status']) : 'N/A'; ?></td>
                                             <td>
                                                 <a href="?edit_id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">
-                                                    <i class="fas fa-edit"></i> 
+                                                    <i class="fas fa-edit" title="Edit Jadwal Bimbingan"></i> 
                                                 </a>
                                                 <a href="#" class="btn btn-danger btn-sm" 
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#deleteConfirmModal"
                                                     onclick="setDeleteUrl(<?php echo $row['id']; ?>)">
-                                                    <i class="fa-solid fa-trash-can"></i> 
+                                                    <i class="fa-solid fa-trash-can" title="Hapus Jadwal Bimbingan"></i> 
                                                 </a>
                                                 <a href="detail_jadwal_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
-                                                    <i class="fa-solid fa-eye"></i>
+                                                    <i class="fa-solid fa-eye" title="Lihat Detail Jadwal Bimbingan"></i>
                                                 </a>
                                             </td>
 

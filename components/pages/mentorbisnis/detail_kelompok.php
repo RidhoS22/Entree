@@ -40,6 +40,7 @@ if ($id_kelompok) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_kelompok.css">
 </head>
 
 <body>
@@ -58,38 +59,61 @@ if ($id_kelompok) {
             </div>
 
             <div class="main_wrapper">
-                <?php if ($kelompok) { ?>
-                    <div class="card">
-                        <div class="card-header">
-                            <h2><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h2>
-                        </div>
-                        <div class="card-body">
-                            <!-- Menampilkan Logo Bisnis -->
-                            <?php if (!empty($kelompok['logo_bisnis'])) { ?>
-                                <img alt="Logo Bisnis" src="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/logos/<?php echo htmlspecialchars($kelompok['logo_bisnis']); ?>" class="img-fluid mb-3" style="max-width: 200px;">
-                            <?php } else { ?>
-                                <p><em>Logo bisnis belum diunggah</em></p>
-                            <?php } ?>
+            <?php if ($kelompok) { ?>
+                <div class="container">
+                    <div class="left">
+                        <!-- Logo Bisnis -->
+                        <?php if (!empty($kelompok['logo_bisnis'])) { ?>
+                            <img alt="Logo Bisnis" src="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/logos/<?php echo htmlspecialchars($kelompok['logo_bisnis']); ?>" />
+                        <?php } else { ?>
+                            <p><em>Logo bisnis belum diunggah</em></p>
+                        <?php } ?>
+                    </div>
 
-                            <p><strong>Nama Bisnis:</strong> <?php echo htmlspecialchars($kelompok['nama_bisnis']); ?></p>
-                            <p><strong>Kategori Bisnis:</strong> --</p> 
-                            <p><strong>Sustainable Development Goals (SDGs):</strong> --</p> 
-                            <p><strong>Ide Bisnis:</strong> <?php echo htmlspecialchars($kelompok['ide_bisnis']); ?></p>
+                    <div class="right">
+                        <div class="title-edit">
+                            <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
+                            <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompok['nama_kelompok']); ?>" style="display: none;" />
                         </div>
-                        <div class="card-footer">
-                            <h5><strong>Ketua Kelompok:</strong> <?php echo htmlspecialchars($ketua['nama']); ?> (<?php echo htmlspecialchars($kelompok['npm_ketua']); ?>)</h5>
-                            <h6><strong>Anggota Kelompok:</strong></h6>
-                            <ul>
+
+                        <p><strong>Ide Bisnis:</strong></p>
+                        <span id="ide-bisnis-text"><?php echo htmlspecialchars($kelompok['ide_bisnis']); ?></span>
+                        <textarea id="ide-bisnis-input" style="display: none;"><?php echo htmlspecialchars($kelompok['ide_bisnis']); ?></textarea>
+
+                        <div class="category">
+                            <p><strong>Kategori Bisnis:</strong> --</p>
+                        </div>
+                        <div class="sdg">
+                            <p><strong>Sustainable Development Goals (SDGs):</strong> --</p>
+                        </div>
+
+                        <div class="bottom">
+                            <div class="members">
+                                <p><strong>Ketua Kelompok:</strong> 
+                                    <?php echo htmlspecialchars($ketua['nama']) . ' (' . htmlspecialchars($kelompok['npm_ketua']) . ')'; ?>
+                                </p>
+
+                                <p><strong>Anggota Kelompok:</strong></p>
                                 <?php while ($anggota = $anggotaResult->fetch_assoc()) { ?>
-                                    <li><?php echo htmlspecialchars($anggota['nama']) . ' (' . htmlspecialchars($anggota['npm']) . ')'; ?></li>
+                                    <p><i class="fas fa-user"></i> <?php echo htmlspecialchars($anggota['nama']) . " (" . htmlspecialchars($anggota['npm']) . ")"; ?></p>
                                 <?php } ?>
-                            </ul>
-                            <p><strong>Mentor Bisnis:</strong> <?php echo htmlspecialchars($kelompok['mentor_bisnis']); ?></p> <!-- Kosongkan mentor bisnis -->
+                            </div>
+
+                            <div class="tutor">
+                                <p><strong>Mentor Bisnis:</strong> <?php echo htmlspecialchars($kelompok['mentor_bisnis']); ?></p>
+                            </div>
+
+                            <div class="action-buttons" style="display: none;">
+                                <button class="save-btn">Simpan</button>
+                                <button class="cancel-btn">Batal</button>
+                            </div>
                         </div>
                     </div>
-                <?php } else { ?>
-                    <p>Kelompok bisnis tidak ditemukan.</p>
-                <?php } ?>
+                </div>
+            <?php } else { ?>
+                <p>Data kelompok tidak ditemukan.</p>
+            <?php } ?>
+
 
                 <!-- Tombol Back -->
                 <div class="mt-3">
