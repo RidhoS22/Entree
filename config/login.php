@@ -69,7 +69,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $error_message = NULL;  // Tidak ada kesalahan
             log_activity($username, $status, $role, $aksi, $error_message);
 
-            // Redirect berdasarkan role
+            // Menyimpan informasi tambahan berdasarkan role
+            if ($user['role'] == 'Mahasiswa') {
+                $mahasiswa_query = "SELECT * FROM mahasiswa WHERE user_id = '".$user['id']."'";
+                $mahasiswa_result = $conn->query($mahasiswa_query);
+                
+                if ($mahasiswa_result->num_rows > 0) {
+                    $mahasiswa_data = $mahasiswa_result->fetch_assoc();
+                    $_SESSION['nama'] = $mahasiswa_data['nama'];
+                    $_SESSION['npm'] = $mahasiswa_data['npm'];
+                    $_SESSION['program_studi'] = $mahasiswa_data['program_studi'];
+                    $_SESSION['tahun_angkatan'] = $mahasiswa_data['tahun_angkatan'];
+                }
+            } elseif ($user['role'] == 'Tutor') {
+                $mentor_query = "SELECT * FROM mentor WHERE user_id = '".$user['id']."'";
+                $mentor_result = $conn->query($mentor_query);
+
+                if ($mentor_result->num_rows > 0) {
+                    $mentor_data = $mentor_result->fetch_assoc();
+                    $_SESSION['nama'] = $mentor_data['nama'];
+                }
+            }
+
+            // Redirect berdasarkan role dan status login
             if ($user['role'] == 'Admin') {
                 header("Location: /Aplikasi-Kewirausahaan/components/pages/admin/pageadmin.php");
             } elseif ($user['first_login'] == 1) {

@@ -22,7 +22,7 @@ if ($result_user && $result_user->num_rows > 0) {
 }
 
 // Cek apakah role adalah 'mentor'
-if ($role == 'tutor') {
+if ($role == 'Tutor') {
     // Ambil data mentor berdasarkan user_id
     $query_mentor = "SELECT * FROM mentor WHERE user_id = '$user_id'";
     $result_mentor = $conn->query($query_mentor);

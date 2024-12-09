@@ -19,9 +19,9 @@ if ($result_user && $result_user->num_rows > 0) {
     die("User tidak ditemukan atau role tidak valid.");
 }
 
-if ($role == 'mahasiswa') {
+if ($role == 'Mahasiswa') {
     $query = "SELECT * FROM mahasiswa WHERE user_id = '$user_id'";
-} elseif ($role == 'mentor') {
+} elseif ($role == 'Tutor') {
     $query = "SELECT * FROM mentor WHERE user_id = '$user_id'";
 } else {
     die("Role tidak valid.");
@@ -29,7 +29,7 @@ if ($role == 'mahasiswa') {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $update_fields = [];
-    if ($role == 'mahasiswa') {
+    if ($role == 'Mahasiswa') {
         if (empty($data['email']) && !empty($_POST['email'])) {
             $update_fields['email'] = $_POST['email'];
         }
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $update_query = "UPDATE mahasiswa SET " . implode(', ', $set_clause) . " WHERE user_id = '$user_id'";
             $conn->query($update_query);
         }
-    } elseif ($role == 'mentor') {
+    } elseif ($role == 'Tutor') {
         if (empty($data['peran']) && !empty($_POST['peran'])) {
             $update_fields['peran'] = $_POST['peran'];
         }
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="form-container">
             <h2>Lengkapi Data Anda Sebagai <?= ucfirst($role) ?></h2>
             <form method="POST" action="">
-                <?php if ($role == 'mahasiswa'): ?>
+                <?php if ($role == 'Mahasiswa'): ?>
                     <div class="form-group">
                         <label for="nama">Nama</label>
                         <input id="nama" name="nama" type="text" value="<?= htmlspecialchars($_SESSION['nama']) ?>" readonly />
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="tahun_angkatan">Tahun Angkatan</label>
                         <input id="tahun_angkatan" name="tahun_angkatan" type="text" value="<?= htmlspecialchars($_SESSION['tahun_angkatan']) ?>" readonly />
                     </div>
-                <?php elseif ($role == 'mentor'): ?>
+                <?php elseif ($role == 'Tutor'): ?>
                     <div class="form-group">
                         <label for="nama">Nama</label>
                         <input id="nama" name="nama" type="text" value="<?= htmlspecialchars($_SESSION['nama']) ?>" readonly />
