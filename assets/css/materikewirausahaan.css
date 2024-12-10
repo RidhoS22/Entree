@@ -400,7 +400,7 @@ form button:hover {
 }
 
 .card:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .card-title {
@@ -463,4 +463,19 @@ form button:hover {
   .card-text {
     font-size: 0.9rem; /* Ukuran font lebih kecil */
   }
+}
+
+.icon-container {
+  height: 150px; /* Tinggi div untuk ikon */
+  display: flex;
+  justify-content: center; /* Posisikan ikon di tengah secara horizontal */
+  align-items: center; /* Posisikan ikon di tengah secara vertikal */
+  background-color: #f5f5f5; /* Opsional: warna latar belakang */
+  border-bottom: 1px solid #ddd; /* Opsional: garis pemisah dengan body */
+}
+
+.icon {
+  max-width: 50px; /* Batasi ukuran ikon */
+  max-height: 50px; /* Pastikan ikon tidak terlalu besar */
+  object-fit: contain; /* Sesuaikan ukuran tanpa memotong */
 }

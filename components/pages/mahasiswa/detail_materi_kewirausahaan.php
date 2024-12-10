@@ -42,6 +42,39 @@ if (!function_exists('generateFilePreview')) {
     }
 }
 ?>
+<?php
+function getFileIcon($fileExtension) {
+    // Standarisasi ekstensi menjadi huruf kecil
+    $fileExtension = strtolower($fileExtension);
+
+    // Tentukan icon berdasarkan ekstensi
+    switch ($fileExtension) {
+        case 'mp4':
+        case 'webm':
+        case 'mov':
+        case 'avi':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_video.png'; // Icon video
+        case 'ppt':
+        case 'pptx':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_ppt.png'; // Icon PPT
+        case 'pdf':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_pdf.png'; // Icon PDF
+        case 'doc':
+        case 'docx':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_word.png'; // Icon Word
+        case 'xls':
+        case 'xlsx':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_excel.png'; // Icon Excel
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+        case 'gif':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_image.png'; // Icon gambar
+        default:
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_default.png'; // Icon default
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,8 +116,14 @@ if (!function_exists('generateFilePreview')) {
                             <h1><?= htmlspecialchars($row["judul"]) ?></h1>
                             <p><?= htmlspecialchars($row["deskripsi"]) ?></p>
                             <div class="mt-3">
-                                <a href="<?= $filePath ?>" target="_blank" class="btn btn-primary">Lihat File</a>
-                                <a href="<?= $filePath ?>" download class="btn btn-secondary">Unduh File</a>
+                                <div class="btn_container">
+                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" title="Lihat Materi Kewirausahaan">
+                                        <i class="fa-solid fa-eye btn-icon"></i>
+                                    </a>
+                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" title="Unduh Materi Kewirausahaan">
+                                        <i class="fa-solid fa-download btn-icon"></i>
+                                    </a>
+                                </div>
                             </div>
                     </div>
                     <div class="layout-right">
@@ -99,13 +138,19 @@ if (!function_exists('generateFilePreview')) {
                                 while ($row = $result->fetch_assoc()) {
                                     $filePath = htmlspecialchars($row["file_path"]);
                                     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
-
+                                
+                                    // Gunakan fungsi getFileIcon untuk mendapatkan jalur icon
+                                    $iconSrc = getFileIcon($fileExtension);
+                                
                                     echo '
                                     <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '">
-                                        <div class="card">
-                                            <div class="card-img-top">' . generateFilePreview($filePath, $fileExtension, 200) . '</div>
+                                        <div title="Lihat Detail Materi" class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
+                                            <div class="icon-container""> 
+                                                <img src="' . $iconSrc . '" alt="File Icon" class="icon">
+                                            </div>
                                             <div class="card-body">
                                                 <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
+                                                <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
                                             </div>
                                         </div>
                                     </a>';

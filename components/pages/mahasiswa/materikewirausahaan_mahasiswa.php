@@ -1,3 +1,39 @@
+<?php
+function getFileIcon($fileExtension) {
+    // Standarisasi ekstensi menjadi huruf kecil
+    $fileExtension = strtolower($fileExtension);
+
+    // Tentukan icon berdasarkan ekstensi
+    switch ($fileExtension) {
+        case 'mp4':
+        case 'webm':
+        case 'mov':
+        case 'avi':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_video.png'; // Icon video
+        case 'ppt':
+        case 'pptx':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_ppt.png'; // Icon PPT
+        case 'pdf':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_pdf.png'; // Icon PDF
+        case 'doc':
+        case 'docx':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_word.png'; // Icon Word
+        case 'xls':
+        case 'xlsx':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_excel.png'; // Icon Excel
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+        case 'gif':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_image.png'; // Icon gambar
+        default:
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_default.png'; // Icon default
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,20 +80,22 @@
                     while ($row = $result->fetch_assoc()) {
                         $filePath = htmlspecialchars($row["file_path"]);
                         $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
-
-                        // Tampilkan kartu dengan pratinjau file
+                    
+                        // Gunakan fungsi getFileIcon untuk mendapatkan jalur icon
+                        $iconSrc = getFileIcon($fileExtension);
+                    
                         echo '
-                            <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '" >
-                                <div title="Lihat Detail Materi" class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
-                                    <div class="card-img-top">' . generateFilePreview($filePath, $fileExtension, 200) . '</div>
-                                    <div class="card-body">
-                                        <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
-                                        <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
-                                    </div>
+                        <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '">
+                            <div title="Lihat Detail Materi" class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
+                                <div class="icon-container""> 
+                                    <img src="' . $iconSrc . '" alt="File Icon" class="icon">
                                 </div>
-                            </a>';
-
-                        
+                                <div class="card-body">
+                                    <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
+                                    <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
+                                </div>
+                            </div>
+                        </a>';
                     }
 
                     echo '</div>';
@@ -67,48 +105,9 @@
 
                 $conn->close();
 
-                // Fungsi PHP untuk pratinjau file
-                function generateFilePreview($filePath, $fileExtension, $height = 200) {
-                    $fileExtension = strtolower($fileExtension);
-
-                    if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif'])) {
-                        return '<img src="' . $filePath . '" alt="Pratinjau Gambar" class="img-fluid rounded" style="max-height:' . $height . 'px;">';
-                    } elseif ($fileExtension === 'pdf') {
-                        return '<iframe src="' . $filePath . '" width="100%" height="' . $height . 'px"></iframe>';
-                    } elseif (in_array($fileExtension, ['mp4', 'webm', 'mov', 'avi'])) {
-                        return '
-                        <video width="100%" height="' . $height . 'px" controls>
-                            <source src="' . $filePath . '" type="video/' . $fileExtension . '">
-                            Browser Anda tidak mendukung pemutar video.
-                        </video>';
-                    } else {
-                        return '<div class="alert alert-danger">Jenis file tidak didukung untuk pratinjau.</div>';
-                    }
-                }
                 ?>
 
-                <!-- Script -->
-                <script>
-                    // Fungsi pratinjau file
-                    function generateFilePreview(filePath, fileExtension, container, height = 500) {
-                        fileExtension = fileExtension.toLowerCase();
-                        container.innerHTML = ""; // Reset konten sebelumnya
 
-                        if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
-                            container.innerHTML = `<img src="${filePath}" alt="Pratinjau Gambar" class="img-fluid rounded shadow" style="max-height:${height}px;">`;
-                        } else if (fileExtension === 'pdf') {
-                            container.innerHTML = `<iframe src="${filePath}" width="100%" height="${height}px" style="overflow: hidden;"></iframe>`;
-                        } else if (['mp4', 'webm', 'mov', 'avi'].includes(fileExtension)) {
-                            container.innerHTML = `
-                            <video width="100%" height="${height}px" controls>
-                                <source src="${filePath}" type="video/${fileExtension}">
-                                Browser Anda tidak mendukung pemutar video.
-                            </video>`;
-                        } else {
-                            container.innerHTML = '<div class="alert alert-danger">Jenis file tidak didukung untuk pratinjau.</div>';
-                        }
-                    }
-                </script>
             </div>
         </div>
     </div>

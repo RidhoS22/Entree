@@ -70,8 +70,8 @@
                         <span>(PDF, 2MB)</span>
                         </div>
                         <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon" title="Lihat File"></i>
-                        <i class="fa-solid fa-download btn-icon" title="Unduh File"></i>
+                        <i class="fa-solid fa-eye detail-icon"></i>
+                        <i class="fa-solid fa-download btn-icon"></i>
                         </div>
                     </li>
                     <li>
@@ -80,8 +80,8 @@
                         <span>(Excel, 1MB)</span>
                         </div>
                         <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon" title="Lihat File"></i>
-                        <i class="fa-solid fa-download btn-icon" title="Unduh File"></i>
+                        <i class="fa-solid fa-eye detail-icon"></i>
+                        <i class="fa-solid fa-download btn-icon"></i>
                         </div>
                     </li>
                     <li>
@@ -90,8 +90,8 @@
                         <span>(Word, 1.5MB)</span>
                         </div>
                         <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon" title="Lihat File"></i>
-                        <i class="fa-solid fa-download btn-icon" title="Unduh File"></i>
+                        <i class="fa-solid fa-eye detail-icon"></i>
+                        <i class="fa-solid fa-download btn-icon"></i>
                         </div>
                     </li>
                     <li>
@@ -100,8 +100,8 @@
                         <span>(PDF, 1.2MB)</span>
                         </div>
                         <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon" title="Lihat File"></i>
-                        <i class="fa-solid fa-download btn-icon" title="Unduh File"></i>
+                        <i class="fa-solid fa-eye detail-icon"></i>
+                        <i class="fa-solid fa-download btn-icon"></i>
                         </div>
                     </li>
                     </ul>

@@ -40,10 +40,24 @@
                                 <label for="judul">Judul Materi:</label>
                                 <input type="text" id="judul" name="judul" required>
                             </div>
-                            <div class="form-group">
-                                <label for="materi">Materi (Video, Dokumen, PPT, dll):</label>
-                                <input type="file" id="materi" name="materi" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv" required>
+                            
+                            <div class="form-group mb-3">
+                                <label for="materi" class="form-label">
+                                    Materi 
+                                    <small class="text-muted">(Video, Dokumen, PPT, dll)</small>
+                                </label>
+                                <div class="input-group">
+                                    <input 
+                                        type="file" 
+                                        class="form-control" 
+                                        id="materi" 
+                                        name="materi" 
+                                        accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv" 
+                                        required 
+                                    />
+                                </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="deskripsi">Deskripsi Materi: (Maks. 500 karakter)</label>
                                 <textarea id="deskripsi" name="deskripsi" maxlength="500" required></textarea>

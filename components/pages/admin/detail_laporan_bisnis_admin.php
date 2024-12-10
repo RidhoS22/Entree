@@ -17,8 +17,8 @@
     <div class="wrapper">
         <!-- Sidebar -->
         <?php 
-            $activePage = 'laporan_bisnis_mahasiswa'; // Halaman ini aktif
-            include 'sidebar_mahasiswa.php'; 
+            $activePage = 'laporan_bisnis_admin'; // Halaman ini aktif
+            include 'sidebar_admin.php'; 
         ?>
 
         <!-- Main Content -->
@@ -26,7 +26,7 @@
             <!-- Header -->
             <?php 
                 $pageTitle = "Detail Laporan Kemajuan Bisnis"; // Judul halaman
-                include 'header_mahasiswa.php'; 
+                include 'header_admin.php'; 
             ?>
 
             <!-- Content Wrapper -->
@@ -65,7 +65,7 @@
                         <span>(PDF, 2MB)</span>
                         </div>
                         <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon"></i>
+                        <i class="fa-solid fa-eye detail-icon" ></i>
                         <i class="fa-solid fa-download btn-icon"></i>
                         </div>
                     </li>
@@ -75,7 +75,7 @@
                         <span>(Excel, 1MB)</span>
                         </div>
                         <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon"></i>
+                        <i class="fa-solid fa-eye detail-icon" ></i>
                         <i class="fa-solid fa-download btn-icon"></i>
                         </div>
                     </li>
@@ -85,7 +85,7 @@
                         <span>(Word, 1.5MB)</span>
                         </div>
                         <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon"></i>
+                        <i class="fa-solid fa-eye detail-icon" ></i>
                         <i class="fa-solid fa-download btn-icon"></i>
                         </div>
                     </li>
@@ -95,7 +95,7 @@
                         <span>(PDF, 1.2MB)</span>
                         </div>
                         <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon"></i>
+                        <i class="fa-solid fa-eye detail-icon" ></i>
                         <i class="fa-solid fa-download btn-icon"></i>
                         </div>
                     </li>
@@ -107,7 +107,7 @@
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi molestiae adipisci necessitatibus
                         repudiandae... Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, nobis. Magni ducimus repellat inventore sapiente numquam facere quasi beatae velit ea illo vero, suscipit ullam? Laudantium voluptate ex illo iure expedita minus eligendi fuga doloremque rerum. Ratione, ipsum. Suscipit velit quis animi. Voluptas earum doloribus suscipit dolorem cumque id voluptatem maiores, deserunt aliquid. Dolor reprehenderit repudiandae, porro ratione sunt animi perspiciatis vitae neque quam deserunt officia sequi, velit perferendis similique. Ut debitis, assumenda et tenetur aperiam obcaecati voluptatum, excepturi sapiente earum laboriosam eos esse magni ducimus, minus neque doloribus quod necessitatibus? Natus provident sit quaerat suscipit sunt numquam quibusdam reiciendis iste deleniti at. Corrupti odio eaque tempora magni repellat facilis quasi consequatur, assumenda reiciendis dicta harum veniam itaque labore iure commodi exercitationem beatae!</p>
                 </div>
-                <a href="laporan_bisnis_mahasiswa.php" class="btn btn-secondary">Kembali</a>
+                <a href="laporan_bisnis_admin.php" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
     </div>

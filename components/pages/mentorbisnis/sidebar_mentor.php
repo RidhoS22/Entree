@@ -78,7 +78,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">
-                            <a href="jadwal_bimbingan_mahasiswa.php" class="sidebar-link">
+                            <a href="jadwal_bimbingan_mentor.php" class="sidebar-link">
                                 <i class="fa-solid fa-calendar"></i>
                                 <span>Jadwal Bimbingan</span>
                             </a>

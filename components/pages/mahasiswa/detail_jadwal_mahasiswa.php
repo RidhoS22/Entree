@@ -40,6 +40,7 @@ if ($id) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_jadwal_bimbingan.css">
 </head>
 
 <body>
@@ -90,17 +91,42 @@ if ($id) {
                             <td><?php echo isset($data['status']) ? htmlspecialchars($data['feedback_mentor']) : 'N/A'; ?></td>
                         </tr>
                         <tr>
-                            <th>Bukti Kegiatan</th>
-                            <td> <input type="file"></td>
+                            <th title="Masukkan Bukti Kegiatan Anda dalam format Pdf atau Gambar disini" >Bukti Kegiatan</th>
+                            <td>
+                                <div class="input-group">
+                                    <input type="file" class="form-control" id="customFile" accept=".pdf, .jpg, .jpeg, .png, .gif">
+                                </div>
+                            </td>                        
                         </tr>
-
                     </table>
+
+                    <div class="btn_container">
+                        <div class="action-buttons" style="display: none;">
+                            <button class="save-btn">Simpan</button>
+                            <button class="cancel-btn">Batal</button>
+                        </div>
+                    </div>
+
                     <a href="jadwal_bimbingan_mahasiswa.php" class="btn btn-secondary">Kembali</a>
                 </div>       
             </div>
 
 
     </div>
+    <script>
+    const fileInput = document.getElementById("customFile");
+    const actionButtons = document.querySelector(".action-buttons");
+
+    // Event listener untuk input file
+    fileInput.addEventListener("change", function () {
+        if (fileInput.files.length > 0) {
+            actionButtons.style.display = "block"; // Tampilkan tombol jika ada file
+        } else {
+            actionButtons.style.display = "none"; // Sembunyikan tombol jika tidak ada file
+        }
+    });
+</script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

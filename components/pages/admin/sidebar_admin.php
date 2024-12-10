@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +11,6 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/sidebar.css">
 </head>
-
 <body>
     <div class="wrapper">
         <button class="toggle-btn2" type="button">
@@ -28,12 +26,6 @@
                 </div>
             </div>
             <ul class="sidebar-nav">
-                <li class="sidebar-item <?php echo ($activePage == 'profil_admin') ? 'active' : ''; ?>">
-                    <a href="profil_admin.php" class="sidebar-link">
-                        <i class="fa-solid fa-user"></i>
-                        <span>Profil</span>
-                    </a>
-                </li>
                 <li class="sidebar-item <?php echo ($activePage == 'pageadmin') ? 'active' : ''; ?>">
                     <a href="pageadmin.php" class="sidebar-link">
                         <i class="fa-solid fa-house"></i>
@@ -62,28 +54,6 @@
                         <span>Daftar Kelompok Bisnis</span>
                     </a>
                 </li>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                    data-bs-target="#kelola_bisnis_kelompok" aria-expanded="false" aria-controls="kelola_bisnis_kelompok">
-                        <i class="fa-solid fa-user-pen"></i>
-                        <span>Kelola Kelompok Bimbingan</span>
-                    </a>
-                    <ul id="kelola_bisnis_kelompok" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item <?php echo ($activePage == 'proposal_bisnis_admin') ? 'active' : ''; ?>">
-                            <a href="proposal_bisnis_admin.php" class="sidebar-link">
-                                <i class="fa-regular fa-file"></i>
-                                <span>Proposal Bisnis</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item <?php echo ($activePage == 'laporan_bisnis_admin') ? 'active' : ''; ?>">
-                            <a href="laporan_bisnis_admin.php" class="sidebar-link">
-                                <i class="fa-solid fa-file-invoice"></i>    
-                                <span>Laporan Kemajuan Bisnis</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                        
                 <li class="sidebar-item sign-out">
                     <a href="/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php" class="sidebar-link">
                         <i class="fa-solid fa-sign-out"></i>
@@ -107,7 +77,6 @@
                 }
             });
         });
-
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -115,5 +84,4 @@
     <script src="script.js"></script>
     <script type="text/javascript" src="/Aplikasi-Kewirausahaan/assets/js/hamburger.js"></script>
 </body>
-
 </html>

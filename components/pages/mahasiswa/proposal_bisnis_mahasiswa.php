@@ -131,10 +131,16 @@
 
 
                             <!-- Proposal (file input) -->
-                            <div class="form-group">
-                                <label for="proposal">Proposal bisnis kewirausahaan:<span style="color:red;">*</span><span style="color:darkgrey;">(pdf only)</span></label>
-                                <input type="file" id="proposal" name="proposal" accept=".pdf" required>
+                            <div class="form-group mb-3">
+                                <label for="proposal" class="form-label">Proposal Bisnis Kewirausahaan 
+                                    <span style="color:red;">*</span>
+                                    <small class="text-muted">(PDF only)</small>
+                                </label>
+                                <div class="input-group">
+                                    <input type="file" class="form-control" id="proposal" name="proposal" accept=".pdf" required>
+                                </div>
                             </div>
+
 
                             <div class="form-group">
                                 <button type="submit">Kirim</button>

@@ -89,18 +89,23 @@
                                 </div>
                             </div>
 
-                            <!-- Lampiran (file input) -->
-                            <div class="form-group">
-                                <label for="lampiran_laporan">Lampiran:<span style="color:darkgrey;">(Anda dapat mengunggah beberapa file sekaligus dalam format PDF.)</span>
+                            <div class="form-group mb-3">
+                                <label for="lampiran_laporan" class="form-label">
+                                    Lampiran 
+                                    <small class="text-muted">(Anda dapat mengunggah beberapa file sekaligus dalam format PDF.)</small>
                                 </label>
-                                <input 
-                                    type="file" 
-                                    id="lampiran_laporan" 
-                                    name="lampiran_laporan[]" 
-                                    accept=".pdf" 
-                                    multiple 
-                                />
+                                <div class="input-group">
+                                    <input 
+                                        type="file" 
+                                        class="form-control" 
+                                        id="lampiran_laporan" 
+                                        name="lampiran_laporan[]" 
+                                        accept=".pdf" 
+                                        multiple 
+                                    />
+                                </div>
                             </div>
+
 
                             <h3 id="fileHeading" style="display: none;">File yang Dipilih:</h3>
                             <ul id="fileList"></ul>    
