@@ -396,9 +396,10 @@ form button:hover {
   overflow: hidden; /* Potong konten yang keluar dari kartu */
   background-color: #00cc66;
   height: 200px; /* Lebar maksimal kartu */
+  transition: transform 0.2s, color 0.2s;
 }
 
-.detail-icon:hover {
+.card:hover {
   transform: scale(1.1);
 }
 

@@ -1,174 +1,247 @@
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f7fb;
+  font-family: "Arial", sans-serif;
+  background-color: #f4f7fb;
 }
 .container {
-    display: flex;
-    flex-direction: row;
-    gap: 30px;
-    padding: 40px;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  padding: 40px;
+  justify-content: center;
 }
 .left {
-    width: 350px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    text-align: center;
+  width: 350px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
 }
 .left img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
 .right {
-    flex: 1;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+  flex: 1;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 .title-edit {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 .title-edit h1 {
-    margin: 0;
-    font-size: 28px;
-    font-weight: bold;
-    color: #333;
+  margin: 0;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
 }
 .edit-btn {
-    font-size: 25px;
-    cursor: pointer;
-    border: 0;
-    background-color: transparent;
-    transition: transform 0.3s ease; /* Animasi ikon */
-    margin-left: 20px;
-    }
+  font-size: 25px;
+  cursor: pointer;
+  border: 0;
+  background-color: transparent;
+  transition: transform 0.3s ease; /* Animasi ikon */
+  margin-left: 20px;
+}
 
 .edit-btn:hover {
-transform: scale(1.1); /* Ikon membesar saat hover */
+  transform: scale(1.1); /* Ikon membesar saat hover */
 }
-.category, .sdg, .members, .tutor {
-    margin-top: 20px;
+.category,
+.sdg,
+.members,
+.tutor {
+  margin-top: 20px;
 }
-.category p, .sdg p, .members p, .tutor p {
-    font-size: 16px;
-    color: #555;
+.category p,
+.sdg p,
+.members p,
+.tutor p {
+  font-size: 16px;
+  color: #555;
 }
-.category strong, .sdg strong, .members strong, .tutor strong {
-    font-weight: bold;
-    color: #333;
+.category strong,
+.sdg strong,
+.members strong,
+.tutor strong {
+  font-weight: bold;
+  color: #333;
 }
-.members p, .tutor p {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 5px;
+.members p,
+.tutor p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
 }
-.members p i, .tutor p i {
-    color: #007bff;
+.members p i,
+.tutor p i {
+  color: #007bff;
 }
 .bottom {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 .bottom p {
-    font-size: 16px;
-    color: #555;
+  font-size: 16px;
+  color: #555;
 }
 .bottom p strong {
-    font-weight: bold;
-    color: #333;
+  font-weight: bold;
+  color: #333;
 }
 
 /* Responsiveness */
 @media (max-width: 768px) {
-    .container {
-        flex-direction: column; /* Ubah orientasi menjadi vertikal */
-        align-items: center;   /* Rata tengah secara horizontal */
-        gap: 20px;             /* Jarak antar elemen */
-    }
+  .container {
+    flex-direction: column; /* Ubah orientasi menjadi vertikal */
+    align-items: center; /* Rata tengah secara horizontal */
+    gap: 20px; /* Jarak antar elemen */
+  }
 
-    .left, .right {
-        width: 90%;            /* Sesuaikan lebar elemen agar tidak terlalu besar */
-        max-width: 500px;      /* Batasi lebar maksimal */
-    }
+  .left,
+  .right {
+    width: 90%; /* Sesuaikan lebar elemen agar tidak terlalu besar */
+    max-width: 500px; /* Batasi lebar maksimal */
+  }
 
-    .left img {
-        width: 100%;           /* Pastikan gambar mengikuti lebar container */
-        height: auto;          /* Menjaga rasio aspek gambar */
-    }
+  .left img {
+    width: 100%; /* Pastikan gambar mengikuti lebar container */
+    height: auto; /* Menjaga rasio aspek gambar */
+  }
 }
 
 /* Styling untuk input teks dan textarea */
-input[type="text"], textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+input[type="text"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-input[type="text"]:focus, textarea:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    outline: none;
+input[type="text"]:focus,
+textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
 }
 
 /* Styling untuk tombol aksi */
 .action-buttons {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-    margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 15px;
 }
 
 .action-buttons button {
-    padding: 10px 15px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  padding: 10px 15px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .action-buttons .save-btn {
-    background-color: #2ea56f;
-    color: white;
+  background-color: #2ea56f;
+  color: white;
 }
 
 .action-buttons .save-btn:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .action-buttons .cancel-btn {
-    background-color: #dc3545;
-    color: white;
-    border: 1px solid #ddd;
+  background-color: #dc3545;
+  color: white;
+  border: 1px solid #ddd;
 }
 
 .action-buttons .cancel-btn:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Responsiveness */
 @media (max-width: 768px) {
-    input[type="text"], textarea {
-        font-size: 14px;
-        padding: 8px;
-    }
+  input[type="text"],
+  textarea {
+    font-size: 14px;
+    padding: 8px;
+  }
 
-    .action-buttons button {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
+  .action-buttons button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
 }
 
+/* card  */
 
+.cards-container {
+  display: flex;
+  gap: 20px; /* Jarak antar card */
+  justify-content: center; /* Memusatkan card */
+  margin-top: 20px; /* Spasi atas */
+}
+
+.card {
+  flex: 1; /* Membuat card berukuran sama */
+  padding: 10px; /* Padding dalam card */
+  border: 1px solid #ddd; /* Border tipis */
+  border-radius: 10px; /* Sudut membulat */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+  text-align: center; /* Teks berada di tengah */
+  background-color: #fff; /* Latar belakang putih */
+  cursor: pointer; /* Menunjukkan pointer saat hover */
+  transition: transform 0.2s, box-shadow 0.2s; /* Animasi */
+}
+
+.card:hover {
+  transform: scale(1.05); /* Membesar sedikit saat hover */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Bayangan lebih besar saat hover */
+}
+
+.card h5 {
+  margin-bottom: 10px; /* Jarak bawah heading */
+  font-size: 18px;
+  color: #333;
+}
+
+.card p {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 768px) {
+  .cards-container {
+    flex-direction: column; /* Susun card secara vertikal */
+    align-items: center; /* Memusatkan card secara horizontal */
+    gap: 15px; /* Kurangi jarak antar card */
+  }
+
+  .card {
+    width: 90%; /* Lebar card mengikuti lebar layar dengan margin */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .card {
+    height: 120px; /* Sesuaikan tinggi card pada layar kecil */
+  }
+
+  .card h5 {
+    font-size: 14px; /* Kurangi ukuran font untuk layar kecil */
+  }
+}

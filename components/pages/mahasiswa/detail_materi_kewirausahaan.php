@@ -56,48 +56,7 @@ if (!function_exists('generateFilePreview')) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/sidebar_mahasiswa.css">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan.css">
-    <style>
-        /* Gaya untuk layout kiri dan kanan */
-        .horizontal-layout {
-            display: flex;
-            flex-direction: row; /* Susun elemen secara horizontal */
-            gap: 20px; /* Jarak antar elemen kiri dan kanan */
-            margin: 20px 0; /* Spasi di atas dan bawah layout */
-        }
-
-        .layout-left {
-            flex: 1; /* Bagian kiri menggunakan 1 bagian dari lebar */
-            overflow: hidden; /* Potong konten yang terlalu panjang */
-        }
-
-        .layout-right {
-            flex: 1; /* Bagian kanan menggunakan 2 bagian dari lebar */
-            overflow: hidden; /* Potong konten yang terlalu panjang */
-        }
-
-        .card{
-            height: 300px !important;
-        }
-
-        /* .file-preview{
-            width: 70%;
-        } */
-
-        /* Responsif untuk perangkat kecil */
-        @media (max-width: 768px) {
-            .horizontal-layout {
-                flex-direction: column; /* Susun elemen secara vertikal */
-            }
-
-            .layout-left,
-            .layout-right {
-                flex: none; /* Tidak ada pembagian lebar */
-                width: 100%; /* Gunakan lebar penuh */
-                margin-bottom: 20px; /* Jarak antar elemen */
-            }
-        }
-
-    </style>
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_materikewirausahaan.css">
 </head>
 
 <body>

@@ -17,17 +17,17 @@
     <div class="wrapper">
         <!-- Sidebar -->
         <?php 
-            $activePage = 'laporan_bisnis_mahasiswa'; // Halaman ini aktif
-            include 'sidebar_mahasiswa.php'; 
+        $activePage = 'proposal_bisnis_mentor'; // Halaman ini aktif
+        include 'sidebar_mentor.php'; 
         ?>
 
-        <!-- Main Content -->
-        <div class="main">
-            <!-- Header -->
-            <?php 
-                $pageTitle = "Detail Proposal Bisnis"; // Judul halaman
-                include 'header_mahasiswa.php'; 
-            ?>
+        <div class="main p-3">
+            <div class="main_header">
+                <?php 
+                    $pageTitle = "Proposal Bisnis Kewirausahaan"; // Judul halaman
+                    include 'header_mentor.php'; 
+                ?>
+            </div>
 
             <!-- Content Wrapper -->
             <div class="main_wrapper">
@@ -51,18 +51,48 @@
                         <td>File Proposal Bisnis:</td>
                         <td class="file-box"><a href="">proposal_bisnis.pdf</a></td>
                     </tr>
+                    <tr>
+                        <td>Status:</td>
+                        <td class="file-box">
+                                    <div class="action-buttons">
+                                <button type="button" class="accept-btn">Setujui Proposal</button>
+                                <button type="button" class="reject-btn">Tolak Proposal</button>
+                            </div>
+                        </td>
+                    </tr>
                 </table>
 
                 <!-- Feedback Section -->
-                <p>Umpan Balik Dari Mentor:</p>
-                <div class="feedback-box">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi molestiae adipisci necessitatibus
-                        repudiandae... Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, nobis. Magni ducimus repellat inventore sapiente numquam facere quasi beatae velit ea illo vero, suscipit ullam? Laudantium voluptate ex illo iure expedita minus eligendi fuga doloremque rerum. Ratione, ipsum. Suscipit velit quis animi. Voluptas earum doloribus suscipit dolorem cumque id voluptatem maiores, deserunt aliquid. Dolor reprehenderit repudiandae, porro ratione sunt animi perspiciatis vitae neque quam deserunt officia sequi, velit perferendis similique. Ut debitis, assumenda et tenetur aperiam obcaecati voluptatum, excepturi sapiente earum laboriosam eos esse magni ducimus, minus neque doloribus quod necessitatibus? Natus provident sit quaerat suscipit sunt numquam quibusdam reiciendis iste deleniti at. Corrupti odio eaque tempora magni repellat facilis quasi consequatur, assumenda reiciendis dicta harum veniam itaque labore iure commodi exercitationem beatae!</p>
-                </div>
-                <a href="proposal_bisnis_mahasiswa.php" class="btn btn-secondary">Kembali</a>
+                <form action="submit_feedback.php" method="POST">
+                    <div class="mb-3">
+                        <label for="feedbackInput" class="form-label">Masukkan Umpan Balik Anda:</label>
+                        <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
+                    </div>
+                    <div class="btn_container">
+                        <button type="submit">Kirim Feedback</button>
+                    </div>
+                </form>
+
+                <a href="proposal_Bisnis_mentor.php" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
     </div>
+    <script>
+        document.querySelector('.accept-btn').addEventListener('click', () => {
+            if (confirm("Apakah Anda yakin ingin menyetujui proposal ini?")) {
+                // Logika untuk ACC
+                alert("Proposal berhasil disetujui!");
+            }
+        });
+
+        document.querySelector('.reject-btn').addEventListener('click', () => {
+            if (confirm("Apakah Anda yakin ingin menolak proposal ini?")) {
+                // Logika untuk Tolak
+                alert("Proposal berhasil ditolak!");
+            }
+        });
+
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

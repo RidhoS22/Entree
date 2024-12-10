@@ -48,7 +48,7 @@
                         // Tampilkan kartu dengan pratinjau file
                         echo '
                             <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '" >
-                                <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
+                                <div title="Lihat Detail Materi" class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
                                     <div class="card-img-top">' . generateFilePreview($filePath, $fileExtension, 200) . '</div>
                                     <div class="card-body">
                                         <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>

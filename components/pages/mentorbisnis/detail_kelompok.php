@@ -102,12 +102,18 @@ if ($id_kelompok) {
                             <div class="tutor">
                                 <p><strong>Mentor Bisnis:</strong> <?php echo htmlspecialchars($kelompok['mentor_bisnis']); ?></p>
                             </div>
-
-                            <div class="action-buttons" style="display: none;">
-                                <button class="save-btn">Simpan</button>
-                                <button class="cancel-btn">Batal</button>
+                        </div>
+                        <div class="cards-container">
+                            <!-- Card 1 -->
+                            <div class="card" onclick="window.location.href='proposal_bisnis_mentor.php'" title="Lihat Proposal Bisnis Kelompok Disini">
+                                <h5>Proposal Bisnis</h5>
+                            </div>
+                            <!-- Card 2 -->
+                            <div class="card" onclick="window.location.href='laporan_bisnis_mentor.php'" title="Laporan Kemajuan Bisnis Kelompok Disini">
+                                <h5>Laporan Kemajuan Bisnis</h5>
                             </div>
                         </div>
+
                     </div>
                 </div>
             <?php } else { ?>
