@@ -1,3 +1,16 @@
+<?php
+// Menghubungkan ke database
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+// Mengambil data proposal bisnis dan ide bisnis dari tabel kelompok_bisnis
+$query = "
+    SELECT p.*, k.ide_bisnis
+    FROM proposal_bisnis p
+    LEFT JOIN kelompok_bisnis k ON p.kelompok_id = k.id_kelompok
+";
+$result = mysqli_query($conn, $query);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,7 +52,7 @@
                         <span class="close-btn">&times;</span>
                         <h2>Pengajuan Proposal Bisnis Kewirausahaan</h2>
 
-                        <form method="POST" action="">
+                        <form method="POST" action="proses_proposal.php" enctype="multipart/form-data" autocomplete="off">
                             <!-- Judul Proposal Bisnis -->
                             <div class="form-group">
                                 <label for="judul_proposal">Judul Proposal Bisnis:<span style="color:red;">*</span></label>
@@ -62,7 +75,7 @@
                             <!-- SDG Bisnis -->
                             <div class="form-group">
                                 <label for="sdg">SDG Bisnis:<span style="color:red;">*</span></label>
-                                <select id="sdg" name="sdg" required multiple>
+                                <select id="sdg" name="sdg[]" required multiple>
                                     <option value="mengakhiri_kemiskinan">1. Mengakhiri Kemiskinan</option>
                                     <option value="mengakhiri_kelaparan">2. Mengakhiri Kelaparan</option>
                                     <option value="kesehatan_kesejahteraan">3. Kesehatan dan Kesejahteraan</option>
@@ -149,25 +162,39 @@
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Proposal Bisnis</h2>
-                        <i class="fas fa-edit edit-icon" title="Edit Proposal Bisnis"></i>
-                    </div>
-                    <a href="detail_proposal_bisnis.php">
-                        <div class="card-body">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente at quidem commodi. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis suscipit dolores sunt molestias. Iusto dignissimos doloremque tempore architecto fuga vero quibusdam molestias quis pariatur impedit, odit delectus explicabo magni vitae quam! Quam aliquam voluptas voluptatem minima aspernatur provident amet atque eligendi eveniet veritatis, ullam eaque iste perspiciatis impedit ex. Reprehenderit aperiam, quod atque voluptas unde facilis mollitia corporis expedita aspernatur asperiores et molestias soluta accusantium repellendus neque itaque consequuntur voluptates laboriosam, minima vitae laborum illum perferendis possimus? Blanditiis provident nihil magni iure nostrum perspiciatis omnis, corrupti ipsa assumenda quisquam maiores esse aliquid quis tenetur veritatis beatae est libero earum nulla! Illum, officia quidem, vel eaque deleniti mollitia voluptate rerum earum nemo quas ex provident doloremque, quis alias fugiat saepe commodi culpa ullam nostrum minus iure. Unde in nostrum optio voluptatibus nemo delectus sed dolore consectetur odit excepturi ab aspernatur rem, tempore iusto et veniam. Hic soluta debitis totam, modi quae doloribus sapiente voluptatem. Possimus voluptatum adipisci, earum corporis consequatur laborum aut illo necessitatibus ducimus quis laboriosam eveniet magni animi neque iste eum facilis tempora sunt? Iste veniam maxime cumque a, eum ab! Enim architecto in repellat modi perferendis et qui, quam, sed maiores veritatis praesentium cupiditate impedit cum accusantium ad dignissimos sapiente. Reprehenderit placeat dicta non nesciunt iusto ad veniam ab laudantium sit ratione. Enim nobis porro repudiandae deserunt totam minima in harum fuga assumenda, consequuntur deleniti velit repellendus ipsa error voluptate cum.</p>
-                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
-                    </div>
-                    </a>
-                    <div class="card-footer">
-                        <a href="detail_proposal_bisnis.php">Lihat Umpan Balik</a>
-                        <i class="fa-solid fa-trash-can delete-icon" title="Hapus Laporan Kemajuan Bisnis"></i> 
-                    </div>
+                <!-- Menampilkan proposal bisnis dalam bentuk card -->
+                <div class="card-deck">
+                    <?php
+                    // Memeriksa apakah ada data proposal yang diambil dari database
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($proposal = mysqli_fetch_assoc($result)) {
+                            // Encode judul_proposal untuk URL
+                            $judul_encoded = urlencode($proposal['judul_proposal']);
+                            ?>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title"><?php echo htmlspecialchars($proposal['judul_proposal']); ?></h5>
+                                    <i class="fas fa-edit edit-icon" title="Edit Proposal Bisnis" onclick="window.location.href='edit_proposal.php?id=<?php echo $proposal['id']; ?>';"></i>
+                                    </div>
+                                <a href="detail_proposal_bisnis.php?judul=<?php echo urlencode($proposal['judul_proposal']); ?>">
+                                    <div class="card-body">
+                                        <!-- Ganti "Tahapan Bisnis" dengan "Ide Bisnis" -->
+                                        <p><?php echo htmlspecialchars($proposal['ide_bisnis']); ?></p>
+                                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
+                                    </div>
+                                </a>
+                                <div class="card-footer">
+                                    <a href="detail_proposal_bisnis.php?judul=<?php echo urlencode($proposal['judul_proposal']); ?>">Lihat Umpan Balik</a>
+                                    <i class="fa-solid fa-trash-can delete-icon" title="Hapus Proposal Bisnis" onclick="window.location.href='delete_proposal.php?id=<?php echo $proposal['id']; ?>';"></i>
+                                    </div>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        echo "<p>Tidak ada proposal bisnis yang ditemukan.</p>";
+                    }
+                    ?>
                 </div>
-
-                 <!-- PHP untuk menangani pengiriman form -->
-                 <?php?>
 
                 <script>
                             // Mengambil elemen-elemen yang diperlukan
@@ -220,3 +247,8 @@
 </body>
 
 </html>
+
+<?php
+// Menutup koneksi database
+mysqli_close($conn);
+?>

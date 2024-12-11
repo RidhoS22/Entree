@@ -57,7 +57,13 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                                 </button>
                             </div>
 
-                            <p><strong>Ide Bisnis:</strong></p>
+                            <!-- Menambahkan Nama Bisnis -->
+                            <p><strong>Nama Bisnis:</strong></p>
+                            <span id="nama-bisnis-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis']); ?></span>
+                            <input type="text" id="nama-bisnis-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis']); ?>" style="display: none;" />
+
+                            <!-- Memberikan jarak dengan margin-top -->
+                            <p class="mt-3"><strong>Ide Bisnis:</strong></p>
                             <span id="ide-bisnis-text"><?php echo htmlspecialchars($kelompokTerdaftar['ide_bisnis']); ?></span>
                             <textarea id="ide-bisnis-input" style="display: none;"><?php echo htmlspecialchars($kelompokTerdaftar['ide_bisnis']); ?></textarea>
 
@@ -100,9 +106,9 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                                 </div>
 
                                 <div class="action-buttons" style="display: none;">
-                                <button class="save-btn">Simpan</button>
-                                <button class="cancel-btn">Batal</button>
-                            </div>
+                                    <button class="save-btn">Simpan</button>
+                                    <button class="cancel-btn">Batal</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -118,6 +124,9 @@ document.querySelector('.edit-btn').addEventListener('click', function () {
     document.getElementById('nama-kelompok-text').style.display = 'none';
     document.getElementById('nama-kelompok-input').style.display = 'block';
 
+    document.getElementById('nama-bisnis-text').style.display = 'none';
+    document.getElementById('nama-bisnis-input').style.display = 'block';
+
     document.getElementById('ide-bisnis-text').style.display = 'none';
     document.getElementById('ide-bisnis-input').style.display = 'block';
 
@@ -126,6 +135,7 @@ document.querySelector('.edit-btn').addEventListener('click', function () {
 
 document.querySelector('.save-btn').addEventListener('click', function () {
     const namaKelompok = document.getElementById('nama-kelompok-input').value;
+    const namaBisnis = document.getElementById('nama-bisnis-input').value;
     const ideBisnis = document.getElementById('ide-bisnis-input').value;
 
     // Kirim data ke server
@@ -136,6 +146,7 @@ document.querySelector('.save-btn').addEventListener('click', function () {
         },
         body: JSON.stringify({
             nama_kelompok: namaKelompok,
+            nama_bisnis: namaBisnis,
             ide_bisnis: ideBisnis,
             id_kelompok: <?php echo json_encode($kelompokTerdaftar['id_kelompok']); ?>
         })
@@ -147,6 +158,7 @@ document.querySelector('.save-btn').addEventListener('click', function () {
 
             // Update tampilan
             document.getElementById('nama-kelompok-text').textContent = namaKelompok;
+            document.getElementById('nama-bisnis-text').textContent = namaBisnis;
             document.getElementById('ide-bisnis-text').textContent = ideBisnis;
         } else {
             alert('Gagal memperbarui data: ' + data.message);
@@ -157,6 +169,9 @@ document.querySelector('.save-btn').addEventListener('click', function () {
         // Kembalikan tampilan ke mode non-edit
         document.getElementById('nama-kelompok-text').style.display = 'block';
         document.getElementById('nama-kelompok-input').style.display = 'none';
+
+        document.getElementById('nama-bisnis-text').style.display = 'block';
+        document.getElementById('nama-bisnis-input').style.display = 'none';
 
         document.getElementById('ide-bisnis-text').style.display = 'block';
         document.getElementById('ide-bisnis-input').style.display = 'none';
@@ -170,12 +185,14 @@ document.querySelector('.cancel-btn').addEventListener('click', function () {
     document.getElementById('nama-kelompok-text').style.display = 'block';
     document.getElementById('nama-kelompok-input').style.display = 'none';
 
+    document.getElementById('nama-bisnis-text').style.display = 'block';
+    document.getElementById('nama-bisnis-input').style.display = 'none';
+
     document.getElementById('ide-bisnis-text').style.display = 'block';
     document.getElementById('ide-bisnis-input').style.display = 'none';
 
     document.querySelector('.action-buttons').style.display = 'none';
 });
-</script>
-
+    </script>
 </body>
 </html>

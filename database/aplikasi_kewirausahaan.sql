@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 09 Des 2024 pada 09.45
+-- Waktu pembuatan: 11 Des 2024 pada 13.59
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -155,7 +155,21 @@ INSERT INTO `log_activity` (`id`, `timestamp`, `username`, `ip_address`, `user_a
 (32, '2024-12-09 15:34:16', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
 (33, '2024-12-09 15:34:54', 'mahasiswa3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
 (34, '2024-12-09 15:35:35', 'mahasiswa3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
-(35, '2024-12-09 15:37:52', 'mahasiswa3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '');
+(35, '2024-12-09 15:37:52', 'mahasiswa3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(36, '2024-12-11 11:57:26', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(37, '2024-12-11 13:34:34', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(38, '2024-12-11 14:24:43', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(39, '2024-12-11 16:00:29', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(40, '2024-12-11 18:40:39', 'mahasiswa1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(41, '2024-12-11 18:47:37', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(42, '2024-12-11 18:53:39', 'mahasiswa1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(43, '2024-12-11 19:07:28', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(44, '2024-12-11 19:07:48', 'mahasiswa1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(45, '2024-12-11 19:08:03', 'asril.affandhi', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(46, '2024-12-11 19:08:50', 'mahasiswa1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(47, '2024-12-11 19:20:31', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(48, '2024-12-11 19:29:31', 'mahasiswa1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(49, '2024-12-11 19:50:31', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '');
 
 -- --------------------------------------------------------
 
@@ -234,6 +248,32 @@ CREATE TABLE `mentor` (
 INSERT INTO `mentor` (`id`, `user_id`, `nama`, `nidn`, `email`, `contact`, `keahlian`, `fakultas`, `prodi`) VALUES
 (1, 2, 'Sr Rendhy', '022456788', 'rendhyat@gmail.com', '089637167776', 'Entrepreneur', 'Kewirausahaan', 'Bisnis'),
 (2, 13, 'Lily Devita', '02247896', 'ridhosyahfero35@gmail.com', '089637167773', 'Busineseman', 'Kewirausahaan', 'Bisnis');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `proposal_bisnis`
+--
+
+CREATE TABLE `proposal_bisnis` (
+  `id` int(11) NOT NULL,
+  `judul_proposal` varchar(255) NOT NULL,
+  `tahapan_bisnis` enum('tahapan_awal','tahapan_bertumbuh') NOT NULL,
+  `sdg` text NOT NULL,
+  `kategori` varchar(255) DEFAULT NULL,
+  `other_category` varchar(255) DEFAULT NULL,
+  `proposal_pdf` varchar(255) NOT NULL,
+  `kelompok_id` int(11) NOT NULL,
+  `status` enum('menunggu','ditolak','disetujui') DEFAULT 'menunggu'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `proposal_bisnis`
+--
+
+INSERT INTO `proposal_bisnis` (`id`, `judul_proposal`, `tahapan_bisnis`, `sdg`, `kategori`, `other_category`, `proposal_pdf`, `kelompok_id`, `status`) VALUES
+(6, 'Proposal 1', 'tahapan_awal', 'mengakhiri_kemiskinan,pendidikan_berkualitas', 'konstruksi', '', 'uploads/Progres Kerja tanggal 25 November 2024 (1402022055).pdf', 14, 'menunggu'),
+(7, 'Proposal 1', 'tahapan_awal', 'mengakhiri_kemiskinan', 'pariwisata', '', 'uploads/Progres Kerja tanggal 4 December 2024 (1402022055).pdf', 10, 'menunggu');
 
 -- --------------------------------------------------------
 
@@ -326,6 +366,13 @@ ALTER TABLE `mentor`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indeks untuk tabel `proposal_bisnis`
+--
+ALTER TABLE `proposal_bisnis`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kelompok_id` (`kelompok_id`);
+
+--
 -- Indeks untuk tabel `users`
 --
 ALTER TABLE `users`
@@ -365,7 +412,7 @@ ALTER TABLE `kelompok_bisnis`
 -- AUTO_INCREMENT untuk tabel `log_activity`
 --
 ALTER TABLE `log_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT untuk tabel `mahasiswa`
@@ -384,6 +431,12 @@ ALTER TABLE `materi_kewirausahaan`
 --
 ALTER TABLE `mentor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `proposal_bisnis`
+--
+ALTER TABLE `proposal_bisnis`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `users`
@@ -425,6 +478,12 @@ ALTER TABLE `mahasiswa`
 --
 ALTER TABLE `mentor`
   ADD CONSTRAINT `mentor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `proposal_bisnis`
+--
+ALTER TABLE `proposal_bisnis`
+  ADD CONSTRAINT `proposal_bisnis_ibfk_1` FOREIGN KEY (`kelompok_id`) REFERENCES `kelompok_bisnis` (`id_kelompok`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

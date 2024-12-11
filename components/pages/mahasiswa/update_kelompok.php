@@ -1,26 +1,30 @@
 <?php
-session_start();
+// update_kelompok.php
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
+// Mengambil data yang dikirimkan oleh frontend
 $data = json_decode(file_get_contents('php://input'), true);
+
+// Mengambil data dari JSON
+$nama_kelompok = mysqli_real_escape_string($conn, $data['nama_kelompok']);
+$nama_bisnis = mysqli_real_escape_string($conn, $data['nama_bisnis']);
+$ide_bisnis = mysqli_real_escape_string($conn, $data['ide_bisnis']);
 $id_kelompok = $data['id_kelompok'];
-$nama_kelompok = $data['nama_kelompok'];
-$ide_bisnis = $data['ide_bisnis'];
 
-// Validasi input
-if (empty($nama_kelompok) || empty($ide_bisnis)) {
-    echo json_encode(['status' => 'error', 'message' => 'Semua bidang wajib diisi.']);
-    exit;
-}
+// Query untuk memperbarui data kelompok bisnis
+$updateQuery = "
+    UPDATE kelompok_bisnis 
+    SET nama_kelompok = '$nama_kelompok', nama_bisnis = '$nama_bisnis', ide_bisnis = '$ide_bisnis'
+    WHERE id_kelompok = $id_kelompok
+";
 
-// Update database
-$query = "UPDATE kelompok_bisnis SET nama_kelompok = ?, ide_bisnis = ? WHERE id_kelompok = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param('ssi', $nama_kelompok, $ide_bisnis, $id_kelompok);
-
-if ($stmt->execute()) {
-    echo json_encode(['status' => 'success', 'message' => 'Data berhasil diperbarui.']);
+if (mysqli_query($conn, $updateQuery)) {
+    // Jika berhasil
+    echo json_encode(['status' => 'success']);
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Gagal memperbarui data.']);
+    // Jika gagal
+    echo json_encode(['status' => 'error', 'message' => mysqli_error($conn)]);
 }
+
+mysqli_close($conn);
 ?>
