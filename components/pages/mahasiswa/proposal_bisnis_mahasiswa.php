@@ -66,8 +66,8 @@ $result = mysqli_query($conn, $query);
                                     <option value="" style="color:darkgrey;" disabled selected>
                                         ~ Pilih Tahapan Bisnis ~
                                     </option>
-                                    <option value="tahapan_awal">Tahapan Awal</option>
-                                    <option value="tahapan_bertumbuh">Tahapan Bertumbuh</option>
+                                    <option value="Tahapan Awal">Tahapan Awal</option>
+                                    <option value="Tahapan Bertumbuh">Tahapan Bertumbuh</option>
                                 </select>
                             </div>
 
@@ -102,16 +102,16 @@ $result = mysqli_query($conn, $query);
                             <label for="kategori">Kategori Bisnis:<span style="color:red;">*</span></label>
                             <select id="kategori" name="kategori" class="form-control" required onchange="toggleOtherCategoryInput()">
                                 <option value="" style="color:darkgrey;" disabled selected>~ Pilih Kategori Bisnis Anda ~</option>
-                                <option value="jasa">Bisnis Jasa</option>
-                                <option value="manufaktur">Bisnis Manufaktur</option>
-                                <option value="perdagangan">Bisnis Dagang (Perdagangan)</option>
-                                <option value="agrikultur">Bisnis Agrikultur dan Perkebunan</option>
-                                <option value="kreatif">Bisnis Kreatif dan Industri Kreatif</option>
-                                <option value="teknologi">Bisnis Teknologi atau Digital</option>
-                                <option value="energi">Bisnis Energi dan Lingkungan</option>
-                                <option value="konstruksi">Bisnis Konstruksi dan Real Estate</option>
-                                <option value="pariwisata">Bisnis Pariwisata dan Perhotelan</option>
-                                <option value="finansial">Bisnis Finansial</option>
+                                <option value="Bisnis Jasa">Bisnis Jasa</option>
+                                <option value="Bisnis Manufaktur">Bisnis Manufaktur</option>
+                                <option value="Bisnis Dagang (Perdagangan)">Bisnis Dagang (Perdagangan)</option>
+                                <option value="Bisnis Agrikultur dan Perkebunan">Bisnis Agrikultur dan Perkebunan</option>
+                                <option value="Bisnis Kreatif dan Industri Kreatif">Bisnis Kreatif dan Industri Kreatif</option>
+                                <option value="Bisnis Teknologi atau Digital">Bisnis Teknologi atau Digital</option>
+                                <option value="Bisnis Energi dan Lingkungan">Bisnis Energi dan Lingkungan</option>
+                                <option value="Bisnis Konstruksi dan Real Estate">Bisnis Konstruksi dan Real Estate</option>
+                                <option value="Bisnis Pariwisata dan Perhotelan">Bisnis Pariwisata dan Perhotelan</option>
+                                <option value="Bisnis Finansial">Bisnis Finansial</option>
                                 <option value="lainnya">Lainnya</option>
                             </select>
 
@@ -183,10 +183,26 @@ $result = mysqli_query($conn, $query);
                                         <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
                                     </div>
                                 </a>
-                                <div class="card-footer">
-                                    <a href="detail_proposal_bisnis.php?judul=<?php echo urlencode($proposal['judul_proposal']); ?>">Lihat Umpan Balik</a>
+                                <div class="card-footer" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <!-- Status di sebelah kiri -->
+                                    <p style="margin: 0; margin-right: 5px">Status:</p>
+                                    <span id="status-label" class="status" 
+                                        style="background-color: <?php 
+                                            if ($proposal['status'] == 'disetujui') {
+                                                echo '#2ea56f';
+                                            } elseif ($proposal['status'] == 'ditolak') {
+                                                echo '#dc3545';
+                                            } else {
+                                                echo 'orange';
+                                            }
+                                        ?>; padding: 5px 10px; border-radius: 3px;">
+                                        <?php echo htmlspecialchars($proposal['status']); ?>            
+                                    </span>
+
+                                    <!-- Ikon trash can di sebelah kanan -->
                                     <i class="fa-solid fa-trash-can delete-icon" title="Hapus Proposal Bisnis" onclick="window.location.href='delete_proposal.php?id=<?php echo $proposal['id']; ?>';"></i>
-                                    </div>
+                                </div>
+
                             </div>
                             <?php
                         }

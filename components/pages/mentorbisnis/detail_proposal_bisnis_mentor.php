@@ -49,7 +49,24 @@
                     </tr>
                     <tr>
                         <td>File Proposal Bisnis:</td>
-                        <td class="file-box"><a href="">proposal_bisnis.pdf</a></td>
+                        <td class="file-box">
+                            <!-- Menampilkan nama file tanpa path -->
+                            <ul id="fileList">
+                                <li class="file-box">
+                                    <div class="file-info">
+                                        <?php ?>
+                                    </div>
+                                    <div class="icon-group">
+                                        <a href="<?php?>" target="_blank" class="detail-icon">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                        <a href="<?php?>" download class="btn-icon">
+                                            <i class="fa-solid fa-download"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </td>
                     </tr>
                     <tr>
                         <td>Status:</td>

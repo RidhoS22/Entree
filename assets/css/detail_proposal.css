@@ -69,8 +69,6 @@ h2 {
   margin-bottom: 20px;
 }
 
-/* Styling untuk tombol aksi */
-
 .btn_container {
   display: flex;
   justify-content: flex-end;
@@ -94,15 +92,6 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* Responsiveness */
-@media (max-width: 768px) {
-  button {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
-}
-
-/* Styling untuk tombol aksi */
 .action-buttons {
   display: flex;
   margin-top: 15px;
@@ -113,7 +102,7 @@ button:hover {
   padding: 10px 15px;
   font-size: 16px;
   font-weight: bold;
-  width: fit-content; /* Menyesuaikan ukuran konten */
+  width: fit-content;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -121,31 +110,23 @@ button:hover {
 }
 
 .action-buttons .accept-btn {
-  background-color: #2ea56f; /* Warna hijau untuk ACC */
+  background-color: #2ea56f;
   color: white;
 }
 
 .action-buttons .accept-btn:hover {
   transform: scale(1.05);
-  background-color: #269659; /* Hijau lebih gelap saat hover */
+  background-color: #269659;
 }
 
 .action-buttons .reject-btn {
-  background-color: #dc3545; /* Warna merah untuk Tolak */
+  background-color: #dc3545;
   color: white;
 }
 
 .action-buttons .reject-btn:hover {
   transform: scale(1.05);
-  background-color: #b02a37; /* Merah lebih gelap saat hover */
-}
-
-/* Responsiveness */
-@media (max-width: 768px) {
-  .action-buttons button {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
+  background-color: #b02a37;
 }
 
 .status {
@@ -168,4 +149,125 @@ button:hover {
 
 .status.pending {
   background-color: orange;
+}
+
+#fileList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: left;
+}
+
+#fileList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 1rem;
+  color: #333;
+  transition: background 0.3s;
+}
+
+#fileList li:last-child {
+  border-bottom: none;
+}
+
+#fileList li .file-info {
+  display: flex;
+  flex-direction: row;
+}
+
+#fileList li .icon-group {
+  display: flex;
+  gap: 10px;
+}
+
+#fileList li .icon-group i {
+  font-size: 1.2rem;
+  color: #2ea56f;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+#fileList li:hover {
+  background-color: #e8f5e9;
+  cursor: pointer;
+}
+
+#fileList li .icon-group i:hover {
+  color: #1b7e4b;
+}
+
+#fileList li .file-info span {
+  font-size: 0.85rem;
+  color: #888;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 768px) {
+  .styled-table {
+    width: 100%;
+    font-size: 14px;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .styled-table td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .file-box {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .action-buttons button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .styled-table td {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  .styled-table td:before {
+    content: attr(data-label);
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+  }
+
+  .file-box {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  #fileList li .icon-group {
+    margin-left: 10px;
+    font-size: 12px;
+  }
+
+  #fileList li {
+    font-size: 12px;
+  }
 }

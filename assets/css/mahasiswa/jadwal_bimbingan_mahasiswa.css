@@ -4,3 +4,25 @@ body {
   height: 100vh !important;
   overflow: hidden !important;
 }
+
+.status {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  color: white;
+  text-transform: capitalize;
+}
+
+.status.approved {
+  background-color: #2ea56f;
+  color: white;
+}
+
+.status.rejected {
+  background-color: #dc3545;
+  color: white;
+}
+
+.status.pending {
+  background-color: orange;
+}

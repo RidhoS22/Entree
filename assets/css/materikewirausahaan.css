@@ -478,4 +478,9 @@ form button:hover {
   max-width: 50px; /* Batasi ukuran ikon */
   max-height: 50px; /* Pastikan ikon tidak terlalu besar */
   object-fit: contain; /* Sesuaikan ukuran tanpa memotong */
+  transition: transform 0.2s, color 0.2s
+}
+
+.icon:hover {
+  transform: scale(1.1);
 }

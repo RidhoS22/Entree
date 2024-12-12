@@ -51,6 +51,33 @@
                 // Cek apakah data ditemukan
                 if ($result->num_rows > 0) {
                     $proposal = $result->fetch_assoc();
+
+                    // Mapping SDG
+                    $sdg_mapping = [
+                        "mengakhiri_kemiskinan" => "1. Mengakhiri Kemiskinan",
+                        "mengakhiri_kelaparan" => "2. Mengakhiri Kelaparan",
+                        "kesehatan_kesejahteraan" => "3. Kesehatan dan Kesejahteraan",
+                        "pendidikan_berkualitas" => "4. Pendidikan Berkualitas",
+                        "kesetaraan_gender" => "5. Kesetaraan Gender",
+                        "air_bersih_sanitasi" => "6. Air Bersih dan Sanitasi",
+                        "energi_bersih_terjangkau" => "7. Energi Bersih dan Terjangkau",
+                        "pekerjaan_pertumbuhan_ekonomi" => "8. Pekerjaan Layak dan Pertumbuhan Ekonomi",
+                        "industri_inovasi_infrastruktur" => "9. Industri, Inovasi, dan Infrastruktur",
+                        "mengurangi_ketimpangan" => "10. Mengurangi Ketimpangan",
+                        "kota_komunitas_berkelanjutan" => "11. Kota dan Komunitas Berkelanjutan",
+                        "konsumsi_produksi_bertanggung_jawab" => "12. Konsumsi dan Produksi yang Bertanggung Jawab",
+                        "penanganan_perubahan_iklim" => "13. Penanganan Perubahan Iklim",
+                        "ekosistem_lautan" => "14. Ekosistem Lautan",
+                        "ekosistem_daratan" => "15. Ekosistem Daratan",
+                        "perdamaian_keadilan_institusi_kuat" => "16. Perdamaian, Keadilan, dan Kelembagaan yang Kuat",
+                        "kemitraan_tujuan" => "17. Kemitraan untuk Mencapai Tujuan"
+                    ];
+
+                    // Proses SDG menjadi label deskriptif
+                    $sdg_selected = explode(",", $proposal['sdg']);
+                    $sdg_labels = array_map(function($key) use ($sdg_mapping) {
+                        return $sdg_mapping[$key] ?? $key;
+                    }, $sdg_selected);
                 ?>
                     <h2><?php echo htmlspecialchars($proposal['judul_proposal']); ?></h2>
                     <div class="description">
@@ -61,31 +88,64 @@
                     <!-- Table Section -->
                     <table class="styled-table">
                         <tr>
-                            <td><strong>SDG Bisnis:</td>
-                            <td class="file-box"><?php echo htmlspecialchars($proposal['sdg']); ?></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Kategori Bisnis:</td>
-                            <td class="file-box"><?php echo htmlspecialchars($proposal['kategori']); ?></td>
-                        </tr>
-                        <tr>
-                            <td><strong>File Proposal Bisnis:</td>
+                            <td><strong>Tahapan Bisnis:</strong></td>
                             <td class="file-box">
-                                <!-- Menampilkan nama file tanpa path -->
-                                <a href="<?php echo htmlspecialchars($proposal['proposal_pdf']); ?>" target="_blank">
-                                    <?php echo basename($proposal['proposal_pdf']); ?>
-                                </a>
+                                    <?php echo htmlspecialchars($proposal['tahapan_bisnis']);
+?>
                             </td>
                         </tr>
                         <tr>
-                            <td><strong>Status:</td>
+                            <td><strong>SDG Bisnis:</strong></td>
+                            <td class="file-box">
+                                <ul>
+                                    <?php foreach ($sdg_labels as $label): ?>
+                                        <li><?php echo htmlspecialchars($label); ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Kategori Bisnis:</strong></td>
+                            <td class="file-box">
+                                <?php 
+                                if ($proposal['kategori'] === 'lainnya') {
+                                    echo htmlspecialchars($proposal['other_category']);
+                                } else {
+                                    echo htmlspecialchars($proposal['kategori']);
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>File Proposal Bisnis:</strong></td>
+                            <td class="file-box">
+                                <!-- Menampilkan nama file tanpa path -->
+                                <ul id="fileList">
+                                    <li class="file-box">
+                                        <div class="file-info">
+                                            <?php echo htmlspecialchars(basename($proposal['proposal_pdf'])); ?>
+                                        </div>
+                                        <div class="icon-group">
+                                            <a href="<?php echo htmlspecialchars($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
+                                            <a href="<?php echo htmlspecialchars($proposal['proposal_pdf']); ?>" download class="btn-icon">
+                                                <i class="fa-solid fa-download"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Status:</strong></td>
                             <td class="file-box">
                                 <span id="status-label" class="status" 
                                       style="background-color: <?php 
                                           if ($proposal['status'] == 'disetujui') {
-                                              echo 'green';
+                                              echo '#2ea56f';
                                           } elseif ($proposal['status'] == 'ditolak') {
-                                              echo 'red';
+                                              echo '#dc3545';
                                           } else {
                                               echo 'orange';
                                           }

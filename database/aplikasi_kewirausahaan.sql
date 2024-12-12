@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 11 Des 2024 pada 13.59
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Generation Time: Dec 12, 2024 at 02:48 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `anggota_kelompok`
+-- Table structure for table `anggota_kelompok`
 --
 
 CREATE TABLE `anggota_kelompok` (
@@ -34,7 +34,7 @@ CREATE TABLE `anggota_kelompok` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `anggota_kelompok`
+-- Dumping data for table `anggota_kelompok`
 --
 
 INSERT INTO `anggota_kelompok` (`id`, `id_kelompok`, `npm_anggota`) VALUES
@@ -45,7 +45,7 @@ INSERT INTO `anggota_kelompok` (`id`, `id_kelompok`, `npm_anggota`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `daftar_mentor_bisnis`
+-- Table structure for table `daftar_mentor_bisnis`
 --
 
 CREATE TABLE `daftar_mentor_bisnis` (
@@ -56,7 +56,7 @@ CREATE TABLE `daftar_mentor_bisnis` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data untuk tabel `daftar_mentor_bisnis`
+-- Dumping data for table `daftar_mentor_bisnis`
 --
 
 INSERT INTO `daftar_mentor_bisnis` (`id`, `nama`, `deskripsi`, `kontak`) VALUES
@@ -69,7 +69,7 @@ INSERT INTO `daftar_mentor_bisnis` (`id`, `nama`, `deskripsi`, `kontak`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jadwal`
+-- Table structure for table `jadwal`
 --
 
 CREATE TABLE `jadwal` (
@@ -79,23 +79,23 @@ CREATE TABLE `jadwal` (
   `waktu` varchar(5) NOT NULL,
   `agenda` text NOT NULL,
   `lokasi` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL,
-  `feedback_mentor` varchar(1000) NOT NULL
+  `feedback_mentor` varchar(1000) NOT NULL,
+  `status` enum('menunggu','ditolak','disetujui') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data untuk tabel `jadwal`
+-- Dumping data for table `jadwal`
 --
 
-INSERT INTO `jadwal` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `agenda`, `lokasi`, `status`, `feedback_mentor`) VALUES
-(14, 'Bimbingan 1', '2024-11-17', '21:44', 'Istilah deskripsi memang sudah tidak asing lagi. Jenis teks deskripsi ini bisa ditemukan di mana-mana. Ada banyak jenis-jenis teks di dalam sebuah tulisan. Pada dasarnya, deskripsi adalah menjabarkan tentang sesuatu.', 'Yarsi', '', ''),
-(15, 'Bimbingan 2', '2024-11-21', '10:00', 'ingiin membahas tentang sesuatu yang ada ', 'Ruang Rapat FTI', '', ''),
-(19, 'Bimbingan 3', '2024-12-04', '13:03', 'Bimbingan ', 'Ruang Rapat', '', '');
+INSERT INTO `jadwal` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `agenda`, `lokasi`, `feedback_mentor`, `status`) VALUES
+(14, 'Bimbingan 1', '2024-11-17', '21:44', 'Istilah deskripsi memang sudah tidak asing lagi. Jenis teks deskripsi ini bisa ditemukan di mana-mana. Ada banyak jenis-jenis teks di dalam sebuah tulisan. Pada dasarnya, deskripsi adalah menjabarkan tentang sesuatu.', 'Yarsi', '', 'menunggu'),
+(15, 'Bimbingan 2', '2024-11-21', '10:00', 'ingiin membahas tentang sesuatu yang ada ', 'Ruang Rapat FTI', '', 'menunggu'),
+(19, 'Bimbingan 3', '2024-12-04', '13:03', 'Bimbingan ', 'Ruang Rapat', '', 'menunggu');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kelompok_bisnis`
+-- Table structure for table `kelompok_bisnis`
 --
 
 CREATE TABLE `kelompok_bisnis` (
@@ -109,7 +109,7 @@ CREATE TABLE `kelompok_bisnis` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `kelompok_bisnis`
+-- Dumping data for table `kelompok_bisnis`
 --
 
 INSERT INTO `kelompok_bisnis` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `ide_bisnis`, `logo_bisnis`, `mentor_bisnis`) VALUES
@@ -119,7 +119,7 @@ INSERT INTO `kelompok_bisnis` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nam
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `log_activity`
+-- Table structure for table `log_activity`
 --
 
 CREATE TABLE `log_activity` (
@@ -135,7 +135,7 @@ CREATE TABLE `log_activity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `log_activity`
+-- Dumping data for table `log_activity`
 --
 
 INSERT INTO `log_activity` (`id`, `timestamp`, `username`, `ip_address`, `user_agent`, `status`, `role`, `aksi`, `error_message`) VALUES
@@ -169,12 +169,15 @@ INSERT INTO `log_activity` (`id`, `timestamp`, `username`, `ip_address`, `user_a
 (46, '2024-12-11 19:08:50', 'mahasiswa1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
 (47, '2024-12-11 19:20:31', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
 (48, '2024-12-11 19:29:31', 'mahasiswa1', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
-(49, '2024-12-11 19:50:31', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '');
+(49, '2024-12-11 19:50:31', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(50, '2024-12-11 22:29:25', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Tutor', 'Login', ''),
+(51, '2024-12-12 01:59:40', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(52, '2024-12-12 08:38:04', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Mahasiswa', 'Login', '');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mahasiswa`
+-- Table structure for table `mahasiswa`
 --
 
 CREATE TABLE `mahasiswa` (
@@ -189,7 +192,7 @@ CREATE TABLE `mahasiswa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `mahasiswa`
+-- Dumping data for table `mahasiswa`
 --
 
 INSERT INTO `mahasiswa` (`id`, `user_id`, `nama`, `npm`, `program_studi`, `tahun_angkatan`, `email`, `contact`) VALUES
@@ -203,7 +206,7 @@ INSERT INTO `mahasiswa` (`id`, `user_id`, `nama`, `npm`, `program_studi`, `tahun
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `materi_kewirausahaan`
+-- Table structure for table `materi_kewirausahaan`
 --
 
 CREATE TABLE `materi_kewirausahaan` (
@@ -214,7 +217,7 @@ CREATE TABLE `materi_kewirausahaan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data untuk tabel `materi_kewirausahaan`
+-- Dumping data for table `materi_kewirausahaan`
 --
 
 INSERT INTO `materi_kewirausahaan` (`id`, `judul`, `file_path`, `deskripsi`) VALUES
@@ -226,7 +229,7 @@ INSERT INTO `materi_kewirausahaan` (`id`, `judul`, `file_path`, `deskripsi`) VAL
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mentor`
+-- Table structure for table `mentor`
 --
 
 CREATE TABLE `mentor` (
@@ -242,7 +245,7 @@ CREATE TABLE `mentor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `mentor`
+-- Dumping data for table `mentor`
 --
 
 INSERT INTO `mentor` (`id`, `user_id`, `nama`, `nidn`, `email`, `contact`, `keahlian`, `fakultas`, `prodi`) VALUES
@@ -252,7 +255,7 @@ INSERT INTO `mentor` (`id`, `user_id`, `nama`, `nidn`, `email`, `contact`, `keah
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `proposal_bisnis`
+-- Table structure for table `proposal_bisnis`
 --
 
 CREATE TABLE `proposal_bisnis` (
@@ -268,17 +271,17 @@ CREATE TABLE `proposal_bisnis` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `proposal_bisnis`
+-- Dumping data for table `proposal_bisnis`
 --
 
 INSERT INTO `proposal_bisnis` (`id`, `judul_proposal`, `tahapan_bisnis`, `sdg`, `kategori`, `other_category`, `proposal_pdf`, `kelompok_id`, `status`) VALUES
-(6, 'Proposal 1', 'tahapan_awal', 'mengakhiri_kemiskinan,pendidikan_berkualitas', 'konstruksi', '', 'uploads/Progres Kerja tanggal 25 November 2024 (1402022055).pdf', 14, 'menunggu'),
-(7, 'Proposal 1', 'tahapan_awal', 'mengakhiri_kemiskinan', 'pariwisata', '', 'uploads/Progres Kerja tanggal 4 December 2024 (1402022055).pdf', 10, 'menunggu');
+(14, 'Ini bener nih', '', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'Bisnis Konstruksi dan Real Estate', '', 'uploads/Progres Kerja tanggal 25 November 2024 (1402022055) (1).pdf', 10, 'disetujui'),
+(15, 'a', '', 'mengakhiri_kemiskinan,pendidikan_berkualitas', 'Bisnis Finansial', '', 'uploads/Progres Kerja tanggal 25 November 2024 (1402022055) (2).pdf', 10, 'menunggu');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -290,7 +293,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `first_login`) VALUES
@@ -309,7 +312,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `first_login`) VALUES
 --
 
 --
--- Indeks untuk tabel `anggota_kelompok`
+-- Indexes for table `anggota_kelompok`
 --
 ALTER TABLE `anggota_kelompok`
   ADD PRIMARY KEY (`id`),
@@ -317,33 +320,33 @@ ALTER TABLE `anggota_kelompok`
   ADD KEY `npm_anggota` (`npm_anggota`);
 
 --
--- Indeks untuk tabel `daftar_mentor_bisnis`
+-- Indexes for table `daftar_mentor_bisnis`
 --
 ALTER TABLE `daftar_mentor_bisnis`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `jadwal`
+-- Indexes for table `jadwal`
 --
 ALTER TABLE `jadwal`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `kelompok_bisnis`
+-- Indexes for table `kelompok_bisnis`
 --
 ALTER TABLE `kelompok_bisnis`
   ADD PRIMARY KEY (`id_kelompok`),
   ADD KEY `npm_ketua` (`npm_ketua`);
 
 --
--- Indeks untuk tabel `log_activity`
+-- Indexes for table `log_activity`
 --
 ALTER TABLE `log_activity`
   ADD PRIMARY KEY (`id`),
   ADD KEY `username` (`username`);
 
 --
--- Indeks untuk tabel `mahasiswa`
+-- Indexes for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
   ADD PRIMARY KEY (`id`),
@@ -352,13 +355,13 @@ ALTER TABLE `mahasiswa`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indeks untuk tabel `materi_kewirausahaan`
+-- Indexes for table `materi_kewirausahaan`
 --
 ALTER TABLE `materi_kewirausahaan`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `mentor`
+-- Indexes for table `mentor`
 --
 ALTER TABLE `mentor`
   ADD PRIMARY KEY (`id`),
@@ -366,14 +369,14 @@ ALTER TABLE `mentor`
   ADD KEY `user_id` (`user_id`);
 
 --
--- Indeks untuk tabel `proposal_bisnis`
+-- Indexes for table `proposal_bisnis`
 --
 ALTER TABLE `proposal_bisnis`
   ADD PRIMARY KEY (`id`),
   ADD KEY `kelompok_id` (`kelompok_id`);
 
 --
--- Indeks untuk tabel `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
@@ -381,106 +384,106 @@ ALTER TABLE `users`
   ADD UNIQUE KEY `username_2` (`username`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `anggota_kelompok`
+-- AUTO_INCREMENT for table `anggota_kelompok`
 --
 ALTER TABLE `anggota_kelompok`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT untuk tabel `daftar_mentor_bisnis`
+-- AUTO_INCREMENT for table `daftar_mentor_bisnis`
 --
 ALTER TABLE `daftar_mentor_bisnis`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT untuk tabel `jadwal`
+-- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT untuk tabel `kelompok_bisnis`
+-- AUTO_INCREMENT for table `kelompok_bisnis`
 --
 ALTER TABLE `kelompok_bisnis`
   MODIFY `id_kelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT untuk tabel `log_activity`
+-- AUTO_INCREMENT for table `log_activity`
 --
 ALTER TABLE `log_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
--- AUTO_INCREMENT untuk tabel `mahasiswa`
+-- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `materi_kewirausahaan`
+-- AUTO_INCREMENT for table `materi_kewirausahaan`
 --
 ALTER TABLE `materi_kewirausahaan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
--- AUTO_INCREMENT untuk tabel `mentor`
+-- AUTO_INCREMENT for table `mentor`
 --
 ALTER TABLE `mentor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `proposal_bisnis`
+-- AUTO_INCREMENT for table `proposal_bisnis`
 --
 ALTER TABLE `proposal_bisnis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
--- AUTO_INCREMENT untuk tabel `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `anggota_kelompok`
+-- Constraints for table `anggota_kelompok`
 --
 ALTER TABLE `anggota_kelompok`
   ADD CONSTRAINT `anggota_kelompok_ibfk_1` FOREIGN KEY (`id_kelompok`) REFERENCES `kelompok_bisnis` (`id_kelompok`) ON DELETE CASCADE,
   ADD CONSTRAINT `anggota_kelompok_ibfk_2` FOREIGN KEY (`npm_anggota`) REFERENCES `mahasiswa` (`npm`) ON DELETE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `kelompok_bisnis`
+-- Constraints for table `kelompok_bisnis`
 --
 ALTER TABLE `kelompok_bisnis`
   ADD CONSTRAINT `kelompok_bisnis_ibfk_1` FOREIGN KEY (`npm_ketua`) REFERENCES `mahasiswa` (`npm`);
 
 --
--- Ketidakleluasaan untuk tabel `log_activity`
+-- Constraints for table `log_activity`
 --
 ALTER TABLE `log_activity`
   ADD CONSTRAINT `log_activity_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `mahasiswa`
+-- Constraints for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
   ADD CONSTRAINT `mahasiswa_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `mentor`
+-- Constraints for table `mentor`
 --
 ALTER TABLE `mentor`
   ADD CONSTRAINT `mentor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `proposal_bisnis`
+-- Constraints for table `proposal_bisnis`
 --
 ALTER TABLE `proposal_bisnis`
   ADD CONSTRAINT `proposal_bisnis_ibfk_1` FOREIGN KEY (`kelompok_id`) REFERENCES `kelompok_bisnis` (`id_kelompok`);

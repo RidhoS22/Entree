@@ -1,16 +1,20 @@
 /* Styling untuk tombol aksi */
-.btn_container {
+.btn-container {
   display: flex;
   justify-content: flex-end;
 }
 
-.action-buttons {
+.action-buttons,
+.mentor-buttons {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
+  margin-top: 15px;
 }
 
-.action-buttons button {
+.action-buttons button,
+.mentor-buttons button,
+button {
   padding: 10px 15px;
   font-size: 16px;
   font-weight: bold;
@@ -20,24 +24,34 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.action-buttons .save-btn {
+/* Tombol Save */
+.action-buttons .save-btn,
+.mentor-buttons .accept-btn {
   background-color: #2ea56f;
   color: white;
   border: 1px solid #ddd;
 }
 
-.action-buttons .save-btn:hover {
+.action-buttons .save-btn:hover,
+.mentor-buttons .accept-btn:hover {
   transform: scale(1.05);
+  background-color: #269659;
 }
 
-.action-buttons .cancel-btn {
+/* Tombol Cancel dan Reject */
+.action-buttons .cancel-btn,
+.mentor-buttons .reject-btn,
+.modal-footer .btn-cancel {
   background-color: #dc3545;
   color: white;
   border: 1px solid #ddd;
 }
 
-.action-buttons .cancel-btn:hover {
+.action-buttons .cancel-btn:hover,
+.mentor-buttons .reject-btn:hover,
+.modal-footer .btn-cancel:hover {
   transform: scale(1.05);
+  background-color: #b02a37;
 }
 
 /* Responsiveness */
@@ -48,112 +62,43 @@
     padding: 8px;
   }
 
-  .action-buttons button {
+  .action-buttons button,
+  .mentor-buttons button,
+  button {
     font-size: 14px;
     padding: 8px 16px;
   }
 }
 
-/* Styling untuk tombol aksi MENTOR */
-
-.btn_container {
-  display: flex;
-  justify-content: flex-end;
-}
-
-button {
-  width: fit-content !important;
-  padding: 10px 15px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px !important;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  background-color: #2ea56f;
-  color: white;
-  margin-bottom: 20px !important;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-/* Styling untuk tombol aksi */
-.mentor-buttons {
-  display: flex;
-  margin-top: 15px;
-
-  gap: 10px;
-}
-
-.mentor-buttons button {
-  padding: 10px 15px;
-  font-size: 16px;
-  font-weight: bold;
-  width: fit-content; /* Menyesuaikan ukuran konten */
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.mentor-buttons .accept-btn {
-  background-color: #2ea56f; /* Warna hijau untuk ACC */
-  color: white;
-}
-
-.mentor-buttons .accept-btn:hover {
-  transform: scale(1.05);
-  background-color: #269659; /* Hijau lebih gelap saat hover */
-}
-
-.mentor-buttons .reject-btn {
-  background-color: #dc3545; /* Warna merah untuk Tolak */
-  color: white;
-}
-
-.mentor-buttons .reject-btn:hover {
-  transform: scale(1.05);
-  background-color: #b02a37; /* Merah lebih gelap saat hover */
-}
-
-/* Responsiveness */
-@media (max-width: 768px) {
-  .mentor-buttons button {
-    font-size: 14px;
-    padding: 8px 16px;
-  }
-}
-
+/* Table styling */
 table th {
-  width: 20%; /* Menjadikan kolom <th> lebih lebar */
+  width: 20%;
   text-align: left;
 }
+
 table td {
   width: 80%;
 }
 
-/* MODAL FOOTER */
-
+/* Modal Footer Buttons */
 .modal-footer .btn-submit {
-  background-color: #269659 !important; /* Hijau untuk tombol Kirim */
-  border-color: #269659 !important;
-  color: white !important;
+  background-color: #269659;
+  border-color: #269659;
+  color: white;
 }
 
 .modal-footer .btn-submit:hover {
-  background-color: #21874f !important; /* Warna lebih gelap saat hover */
-  border-color: #21874f !important;
+  background-color: #21874f;
+  border-color: #21874f;
 }
 
 .modal-footer .btn-cancel {
-  background-color: #dc3545 !important; /* Merah untuk tombol Batal */
-  border-color: #dc3545 !important;
-  color: white !important;
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
 }
 
 .modal-footer .btn-cancel:hover {
-  background-color: #c12e3c !important; /* Warna lebih gelap saat hover */
-  border-color: #c12e3c !important;
+  background-color: #c12e3c;
+  border-color: #c12e3c;
 }

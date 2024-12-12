@@ -150,7 +150,20 @@
                                             <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
                                             <td><?php echo htmlspecialchars($row['waktu']); ?></td>
                                             <td><?php echo htmlspecialchars($row['lokasi']); ?></td>
-                                            <td><?php echo isset($row['status']) ? htmlspecialchars($row['status']) : 'N/A'; ?></td>
+                                            <td>
+                                            <span id="status-label" class="status" 
+                                                style="background-color: <?php 
+                                                    if ($row['status'] == 'disetujui') {
+                                                        echo '#2ea56f';
+                                                    } elseif ($row['status'] == 'ditolak') {
+                                                        echo '#dc3545';
+                                                    } else {
+                                                        echo 'orange';
+                                                    }
+                                                ?>;">
+                                                <?php echo htmlspecialchars($row['status']); ?>
+                                            </span>
+                                            </td>
                                             <td>
                                                 <a href="?edit_id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">
                                                     <i class="fas fa-edit" title="Edit Jadwal Bimbingan"></i> 

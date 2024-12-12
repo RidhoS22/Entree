@@ -84,7 +84,20 @@ if ($id) {
                         </tr>
                         <tr>
                             <th>Status</th>
-                            <td><?php echo isset($data['status']) ? htmlspecialchars($data['status']) : 'N/A'; ?></td>
+                            <td>
+                                <span id="status-label" class="status" 
+                                    style="background-color: <?php 
+                                        if ($data['status'] == 'disetujui') {
+                                            echo '#2ea56f';
+                                        } elseif ($data['status'] == 'ditolak') {
+                                            echo '#dc3545';
+                                        } else {
+                                            echo 'orange';
+                                        }
+                                    ?>;">
+                                    <?php echo htmlspecialchars($data['status']); ?>
+                                </span>
+                            </td>
                         </tr>
                         <tr>
                             <th>Umpan Balik Dari Mentor</th>
