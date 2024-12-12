@@ -203,6 +203,29 @@ textarea:focus {
   color: #555;
 }
 
+/* Modal Footer Buttons */
+.modal-footer .btn-submit {
+  background-color: #269659;
+  border-color: #269659;
+  color: white;
+}
+
+.modal-footer .btn-submit:hover {
+  background-color: #21874f;
+  border-color: #21874f;
+}
+
+.modal-footer .btn-cancel {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: white;
+}
+
+.modal-footer .btn-cancel:hover {
+  background-color: #c12e3c;
+  border-color: #c12e3c;
+}
+
 /* Responsiveness */
 @media (max-width: 768px) {
   input[type="text"],

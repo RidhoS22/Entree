@@ -26,6 +26,12 @@
                 </div>
             </div>
             <ul class="sidebar-nav">
+                <li class="sidebar-item <?php echo ($activePage == 'profil') ? 'active' : ''; ?>">
+                    <a href="profil_admin.php" class="sidebar-link">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profil</span>
+                    </a>
+                </li>
                 <li class="sidebar-item <?php echo ($activePage == 'pageadmin') ? 'active' : ''; ?>">
                     <a href="pageadmin.php" class="sidebar-link">
                         <i class="fa-solid fa-house"></i>

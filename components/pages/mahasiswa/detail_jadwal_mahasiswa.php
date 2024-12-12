@@ -87,12 +87,16 @@ if ($id) {
                             <td>
                                 <span id="status-label" class="status" 
                                     style="background-color: <?php 
-                                        if ($data['status'] == 'disetujui') {
-                                            echo '#2ea56f';
+                                         if ($data['status'] == 'disetujui') {
+                                            echo '#2ea56f'; // Hijau
                                         } elseif ($data['status'] == 'ditolak') {
-                                            echo '#dc3545';
+                                            echo '#dc3545'; // Merah
+                                        } elseif ($data['status'] == 'jadwal alternatif') {
+                                            echo '#ffc107'; // Kuning
+                                        } elseif ($data['status'] == 'selesai') {
+                                            echo '#007bff'; // Biru
                                         } else {
-                                            echo 'orange';
+                                            echo '#fd7e14'; // Oranye
                                         }
                                     ?>;">
                                     <?php echo htmlspecialchars($data['status']); ?>

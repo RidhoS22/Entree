@@ -154,11 +154,15 @@
                                             <span id="status-label" class="status" 
                                                 style="background-color: <?php 
                                                     if ($row['status'] == 'disetujui') {
-                                                        echo '#2ea56f';
+                                                        echo '#2ea56f'; // Hijau
                                                     } elseif ($row['status'] == 'ditolak') {
-                                                        echo '#dc3545';
+                                                        echo '#dc3545'; // Merah
+                                                    } elseif ($row['status'] == 'jadwal alternatif') {
+                                                        echo '#ffc107'; // Kuning
+                                                    } elseif ($row['status'] == 'selesai') {
+                                                        echo '#007bff'; // Biru
                                                     } else {
-                                                        echo 'orange';
+                                                        echo '#fd7e14'; // Oranye
                                                     }
                                                 ?>;">
                                                 <?php echo htmlspecialchars($row['status']); ?>

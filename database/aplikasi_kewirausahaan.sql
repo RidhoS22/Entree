@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 12, 2024 at 02:48 AM
+-- Generation Time: Dec 12, 2024 at 06:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -80,7 +80,7 @@ CREATE TABLE `jadwal` (
   `agenda` text NOT NULL,
   `lokasi` varchar(255) NOT NULL,
   `feedback_mentor` varchar(1000) NOT NULL,
-  `status` enum('menunggu','ditolak','disetujui') NOT NULL
+  `status` enum('menunggu','ditolak','disetujui','jadwal alternatif','selesai') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
@@ -88,9 +88,11 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `agenda`, `lokasi`, `feedback_mentor`, `status`) VALUES
-(14, 'Bimbingan 1', '2024-11-17', '21:44', 'Istilah deskripsi memang sudah tidak asing lagi. Jenis teks deskripsi ini bisa ditemukan di mana-mana. Ada banyak jenis-jenis teks di dalam sebuah tulisan. Pada dasarnya, deskripsi adalah menjabarkan tentang sesuatu.', 'Yarsi', '', 'menunggu'),
+(14, 'Bimbingan 1', '2024-11-17', '21:44', 'Istilah deskripsi memang sudah tidak asing lagi. Jenis teks deskripsi ini bisa ditemukan di mana-mana. Ada banyak jenis-jenis teks di dalam sebuah tulisan. Pada dasarnya, deskripsi adalah menjabarkan tentang sesuatu.', 'Yarsi', '', 'jadwal alternatif'),
 (15, 'Bimbingan 2', '2024-11-21', '10:00', 'ingiin membahas tentang sesuatu yang ada ', 'Ruang Rapat FTI', '', 'menunggu'),
-(19, 'Bimbingan 3', '2024-12-04', '13:03', 'Bimbingan ', 'Ruang Rapat', '', 'menunggu');
+(19, 'Bimbingan 3', '2024-12-04', '13:03', 'Bimbingan ', 'Ruang Rapat', '', 'ditolak'),
+(20, 'bimbingan 4', '2024-12-13', '00:23', '1', '1', '', 'disetujui'),
+(21, 'bimbingan 5', '2024-12-14', '00:22', 'q', '1', '', 'selesai');
 
 -- --------------------------------------------------------
 
@@ -172,7 +174,12 @@ INSERT INTO `log_activity` (`id`, `timestamp`, `username`, `ip_address`, `user_a
 (49, '2024-12-11 19:50:31', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
 (50, '2024-12-11 22:29:25', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Tutor', 'Login', ''),
 (51, '2024-12-12 01:59:40', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
-(52, '2024-12-12 08:38:04', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Mahasiswa', 'Login', '');
+(52, '2024-12-12 08:38:04', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(53, '2024-12-12 21:32:05', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(54, '2024-12-12 21:32:14', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Tutor', 'Login', ''),
+(55, '2024-12-12 21:33:21', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Mahasiswa', 'Login', ''),
+(56, '2024-12-12 22:49:18', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Tutor', 'Login', ''),
+(57, '2024-12-13 00:38:20', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0', 'Login Berhasil', 'Tutor', 'Login', '');
 
 -- --------------------------------------------------------
 
@@ -276,7 +283,8 @@ CREATE TABLE `proposal_bisnis` (
 
 INSERT INTO `proposal_bisnis` (`id`, `judul_proposal`, `tahapan_bisnis`, `sdg`, `kategori`, `other_category`, `proposal_pdf`, `kelompok_id`, `status`) VALUES
 (14, 'Ini bener nih', '', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'Bisnis Konstruksi dan Real Estate', '', 'uploads/Progres Kerja tanggal 25 November 2024 (1402022055) (1).pdf', 10, 'disetujui'),
-(15, 'a', '', 'mengakhiri_kemiskinan,pendidikan_berkualitas', 'Bisnis Finansial', '', 'uploads/Progres Kerja tanggal 25 November 2024 (1402022055) (2).pdf', 10, 'menunggu');
+(15, 'a', '', 'mengakhiri_kemiskinan,pendidikan_berkualitas', 'Bisnis Finansial', '', 'uploads/Progres Kerja tanggal 25 November 2024 (1402022055) (2).pdf', 10, 'menunggu'),
+(16, 'a', '', 'mengakhiri_kemiskinan,mengakhiri_kelaparan,kesehatan_kesejahteraan', 'Bisnis Konstruksi dan Real Estate', '', 'uploads/Progres Kerja tanggal 25 November 2024 (1402022055) (2).pdf', 10, 'menunggu');
 
 -- --------------------------------------------------------
 
@@ -298,7 +306,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `role`, `first_login`) VALUES
 (1, 'ridho.syahfero', '$2y$10$b3QGkvFZHitvz1OFfRWZLOMtgtLA/fECvebDxcSwnpYupDSIMt93G', 'Mahasiswa', 0),
-(2, 'akunMntr', '$2y$10$7aCTxTjDGfzG7N/3eVjrtO5g13wGc/RaqaDZbuZMRo7B/XHzKa3Me', 'Tutor', 0),
+(2, 'akunMntr', '$2y$10$7aCTxTjDGfzG7N/3eVjrtO5g13wGc/RaqaDZbuZMRo7B/XHzKa3Me', 'Tutor', 1),
 (3, 'akunAdmin', '$2y$10$NuIAAIWAu7axw6tIyD1HFuuV5F4hR.q7koI3VQF0KUHJWM7jc2z6K', 'Admin', 0),
 (6, 'asril.affandhi', '$2y$10$R0cSSdyr.54ypvNZP5NmlO4l.6bqw9iXIrPXF3qiqcRPliIWC90M.', 'Mahasiswa', 0),
 (7, 'fadly.abdillah', '$2y$10$k9swYB1RsxVfWqgjp8YU2O3Ekok8/VukQlUAyWrSJTeayY8EujeFi', 'Mahasiswa', 0),
@@ -403,7 +411,7 @@ ALTER TABLE `daftar_mentor_bisnis`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `kelompok_bisnis`
@@ -415,7 +423,7 @@ ALTER TABLE `kelompok_bisnis`
 -- AUTO_INCREMENT for table `log_activity`
 --
 ALTER TABLE `log_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT for table `mahasiswa`
@@ -439,7 +447,7 @@ ALTER TABLE `mentor`
 -- AUTO_INCREMENT for table `proposal_bisnis`
 --
 ALTER TABLE `proposal_bisnis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`

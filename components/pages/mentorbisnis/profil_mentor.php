@@ -61,6 +61,8 @@ if ($result_mentor->num_rows > 0) {
                     <i class="fas fa-edit"></i>
                 </button>
                 <div class="profile-header">
+                <div class="profile-item">
+                        <img alt="Profile picture of the mentor" height="50" src="https://storage.googleapis.com/a1aa/image/Q1BtK1AStCLeOKUuTRnqzR27EJRLg5SmUePjrHw1ilMCaVsTA.jpg" width="50"/>                    </div>
                     <div class="profile-item">
                         <h2>Username</h2>
                         <p><?= htmlspecialchars($_SESSION['username']); ?></p>

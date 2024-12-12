@@ -74,6 +74,41 @@ if ($id_kelompok) {
                         <div class="title-edit">
                             <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
                             <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompok['nama_kelompok']); ?>" style="display: none;" />
+                            <button type="button" class="btn btn-primary mt-3" style="background-color: grey; color: white;" data-bs-toggle="modal" data-bs-target="#recommendationModal">
+                                Program Ingkubasi
+                            </button>
+                            <!-- Modal Rekomendasi -->
+                            <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="recommendationModalLabel">Rekomendasi Program Inkubasi</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form id="recommendationForm">
+                                            <div class="modal-body">
+                                                <p>Apakah Anda ingin merekomendasikan kelompok ini untuk masuk ke program inkubasi bisnis?</p>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="recommendation" id="recommendYes" value="yes">
+                                                    <label class="form-check-label" for="recommendYes">
+                                                        Iya
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="recommendation" id="recommendNo" value="no">
+                                                    <label class="form-check-label" for="recommendNo">
+                                                        Tidak
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Tutup</button>
+                                                <button type="submit" class="btn btn-primary btn-submit">Simpan</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <p><strong>Ide Bisnis:</strong></p>
@@ -128,7 +163,6 @@ if ($id_kelompok) {
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

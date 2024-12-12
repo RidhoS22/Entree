@@ -83,6 +83,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lengkapi Data <?= ucfirst($role) ?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/lengkapi_data.css">
 </head>
@@ -122,9 +123,19 @@ $conn->close();
                     <label for="no_telepon">Nomor Telepon</label>
                     <input id="no_telepon" name="no_telepon" type="text" value="<?php echo htmlspecialchars($data['no_telepon'] ?? ''); ?>" required />
                 </div>
+               <!-- Foto Profil (file input) -->
+                <div class="form-group mb-3">
+                    <label for="foto_profil" class="form-label">Foto Profil 
+                        <small class="text-muted">(JPG, JPEG, PNG)</small>
+                    </label>
+                    <div class="input-group">
+                        <input type="file" class="form-control" id="foto_profil" name="foto_profil" accept=".jpg,.jpeg,.png,.gif" value="<?php echo htmlspecialchars($data['foto_profil'] ?? ''); ?>" required>
+                    </div>
+                </div>
                 <button class="submit-btn" type="submit">Tambahkan</button>
             </form>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

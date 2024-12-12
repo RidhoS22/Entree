@@ -102,7 +102,19 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                                 </div>
 
                                 <div class="tutor">
-                                    <p><strong>Mentor Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar ['mentor_bisnis']); ?></p> 
+                                <div class="d-flex align-items-center">
+                                    <strong class="me-2">Mentor Bisnis:</strong>
+                                    <a href="detail_mentor_mahasiswa.php" class="text-decoration-none">
+                                        <div class="card d-inline-block" title="Lihat Detail Mentor Bisnis">
+                                            <div class="card-body p-0">
+                                                <p class="card-text m-0 text-center">
+                                                    <?php echo htmlspecialchars($kelompokTerdaftar['mentor_bisnis']); ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
                                 </div>
 
                                 <div class="action-buttons" style="display: none;">
