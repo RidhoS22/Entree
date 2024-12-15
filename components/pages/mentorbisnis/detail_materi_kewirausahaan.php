@@ -87,7 +87,6 @@ function getFileIcon($fileExtension) {
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/sidebar_mahasiswa.css">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan.css">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_materikewirausahaan.css">
 </head>
@@ -95,15 +94,15 @@ function getFileIcon($fileExtension) {
 <body>
     <div class="wrapper">
         <?php
-        $activePage = 'materikewirausahaan_mahasiswa';
-        include 'sidebar_mahasiswa.php';
+        $activePage = 'materikewirausahaan_mentor';
+        include 'sidebar_mentor.php';
         ?>
 
         <div class="main p-3">
             <div class="main_header">
                 <?php
                 $pageTitle = "Materi Kewirausahaan";
-                include 'header_mahasiswa.php';
+                include 'header_mentor.php';
                 ?>
             </div>
 

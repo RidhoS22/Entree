@@ -95,10 +95,6 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
     <script>
         // JavaScript untuk menampilkan tombol "Ganti Kata Sandi"
         document.querySelector('.edit-btn').addEventListener('click', function () {

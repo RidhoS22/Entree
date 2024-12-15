@@ -10,6 +10,7 @@
   cursor: pointer;
   font-size: 16px;
   margin-top: 10px;
+  margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -478,7 +479,7 @@ form button:hover {
   max-width: 50px; /* Batasi ukuran ikon */
   max-height: 50px; /* Pastikan ikon tidak terlalu besar */
   object-fit: contain; /* Sesuaikan ukuran tanpa memotong */
-  transition: transform 0.2s, color 0.2s
+  transition: transform 0.2s, color 0.2s;
 }
 
 .icon:hover {

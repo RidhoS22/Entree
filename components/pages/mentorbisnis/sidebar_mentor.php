@@ -62,7 +62,7 @@
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                     data-bs-target="#kelola_bisnis_kelompok" aria-expanded="false" aria-controls="kelola_bisnis_kelompok">
                         <i class="fa-solid fa-user-pen"></i>
-                        <span>Kelola Kelompok Bimbingan</span>
+                        <span>Kelola Bimbingan</span>
                     </a>
                     <ul id="kelola_bisnis_kelompok" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item <?php echo ($activePage == 'proposal_bisnis_mentor') ? 'active' : ''; ?>">
@@ -111,11 +111,6 @@
         });
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
-    <script src="script.js"></script>
-    <script type="text/javascript" src="/Aplikasi-Kewirausahaan/assets/js/hamburger.js"></script>
 </body>
 
 </html>

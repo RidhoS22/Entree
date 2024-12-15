@@ -1,3 +1,39 @@
+<?php
+function getFileIcon($fileExtension) {
+    // Standarisasi ekstensi menjadi huruf kecil
+    $fileExtension = strtolower($fileExtension);
+
+    // Tentukan icon berdasarkan ekstensi
+    switch ($fileExtension) {
+        case 'mp4':
+        case 'webm':
+        case 'mov':
+        case 'avi':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_video.png'; // Icon video
+        case 'ppt':
+        case 'pptx':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_ppt.png'; // Icon PPT
+        case 'pdf':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_pdf.png'; // Icon PDF
+        case 'doc':
+        case 'docx':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_word.png'; // Icon Word
+        case 'xls':
+        case 'xlsx':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_excel.png'; // Icon Excel
+        case 'jpg':
+        case 'jpeg':
+        case 'png':
+        case 'gif':
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_image.png'; // Icon gambar
+        default:
+            return '/Aplikasi-Kewirausahaan/assets/img/icon_default.png'; // Icon default
+    }
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +45,6 @@
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mentorbisnis/sidebar_mentor.css">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan.css">
 </head>
 
@@ -29,27 +64,9 @@
             </div>
 
             <div class="main_wrapper">
-                <!-- Menghapus tombol tambah materi dan modal form tambah materi -->
-
-                <!-- Modal Detail Materi -->
-                <div id="detailModal" class="modal modal-detail">
-                    <div class="modal-content">
-                        <span class="close-btn">&times;</span>
-                        <p id="detailJudul"></p>
-                        <p id="detailDeskripsi"></p>
-                        <div id="filePreview"></div>
-                        <div class="btn_container">
-                            <a id="detailFileLink" href="#" target="_blank" class="file icon">
-                                <i class="fa-solid fa-eye btn-icon"></i>
-                            </a>
-                            <a id="detailFileLink" href="#" target="_blank" class="file icon">
-                                <i class="fa-solid fa-download btn-icon"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- PHP untuk menampilkan materi -->
+                <div class="card-container">
                 <?php
                 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
                 
@@ -60,76 +77,37 @@
                     echo "<p>Error pada query: " . $conn->error . "</p>";
                 } elseif ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        echo '<div class="container_materi" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . htmlspecialchars($row["file_path"]) . '\')">';
-                        echo '<div class="judul_materi">' . htmlspecialchars($row["judul"]) . '</div>';
-                        echo '<div class="deskripsi_materi">' 
-                                . htmlspecialchars($row["deskripsi"]) . 
-                                '<i class="fa-solid fa-eye detail-icon"></i> </div>';
-                        echo '</div>';
+                        $filePath = htmlspecialchars($row["file_path"]);
+                        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+                    
+                        // Gunakan fungsi getFileIcon untuk mendapatkan jalur icon
+                        $iconSrc = getFileIcon($fileExtension);
+                    
+                        echo '
+                        <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '">
+                            <div title="Lihat Detail Materi" class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
+                                <div class="icon-container""> 
+                                    <img src="' . $iconSrc . '" alt="File Icon" class="icon">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
+                                    <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
+                                </div>
+                            </div>
+                        </a>';
                     }
+
+                    echo '</div>';
                 } else {
                     echo "<p>Belum ada materi ditambahkan</p>";
                 }
-                
+
                 $conn->close();
+
                 ?>
-
-                <script>
-                    var detailModal = document.getElementById("detailModal");
-                    var closeBtns = document.getElementsByClassName("close-btn");
-
-                    Array.from(closeBtns).forEach(btn => {
-                        btn.onclick = function() {
-                            detailModal.style.display = "none";
-                        };
-                    });
-
-                    window.onclick = function(event) {
-                        if (event.target == detailModal) {
-                            detailModal.style.display = "none";
-                        }
-                    };
-
-                    function showDetailModal(id, judul, deskripsi, filePath) {
-                        document.getElementById("detailJudul").textContent = judul;
-                        document.getElementById("detailDeskripsi").textContent = deskripsi;
-                        document.getElementById("detailFileLink").href = filePath;
-                        document.getElementById("detailModal").style.display = "block";
-
-                        const filePreview = document.getElementById("filePreview");
-                        filePreview.innerHTML = '';
-
-                        const fileExtension = filePath.split('.').pop().toLowerCase();
-
-                        if (fileExtension === 'pdf') {
-                            filePreview.innerHTML = `<iframe src="${filePath}" width="100%" height="500px"></iframe>`;
-                        } else if (['jpg', 'jpeg', 'png', 'gif'].includes(fileExtension)) {
-                            filePreview.innerHTML = `<img src="${filePath}" alt="Pratinjau Gambar" class="img-fluid rounded shadow">`;
-                        } else if (fileExtension === 'txt') {
-                            fetch(filePath)
-                                .then(response => response.text())
-                                .then(text => {
-                                    filePreview.innerHTML = `<pre class="border rounded p-3 bg-light">${text}</pre>`;
-                                })
-                                .catch(error => {
-                                    filePreview.innerHTML = '<p>Gagal memuat konten teks.</p>';
-                                });
-                        } else if (['mp4', 'webm', 'mov', 'avi'].includes(fileExtension)) {
-                            filePreview.innerHTML = `
-                                <video width="100%" height="300px" controls>
-                                    <source src="${filePath}" type="video/${fileExtension}">
-                                    Browser Anda tidak mendukung pemutar video.
-                                </video>`;
-                        } else {
-                            filePreview.innerHTML = '<div class="alert alert-danger">Jenis file tidak didukung untuk pratinjau.</div>';
-                        }
-                    }
-                </script>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <script src="/Aplikasi-Kewirausahaan/assets/js/hamburger.js"></script>
 </body>
 
 </html>

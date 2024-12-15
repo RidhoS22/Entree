@@ -62,7 +62,7 @@ td {
   justify-content: flex-end;
 }
 
-button {
+.btn_container button {
   width: fit-content !important;
   padding: 10px 15px;
   font-size: 16px;
@@ -76,7 +76,7 @@ button {
   margin-bottom: 20px !important;
 }
 
-button:hover {
+.btn_container button:hover {
   transform: scale(1.05);
 }
 
