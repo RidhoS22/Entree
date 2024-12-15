@@ -247,8 +247,7 @@ textarea:focus {
 
   .left,
   .right {
-    width: 90%;
-    max-width: 500px;
+    width: 100%;
   }
 
   .left img {
@@ -263,7 +262,12 @@ textarea:focus {
   }
 
   .card {
-    width: 90%;
+    width: 100%;
+  }
+
+  .mentor {
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -275,4 +279,34 @@ textarea:focus {
   .card h5 {
     font-size: 14px;
   }
+}
+
+.card-mentor {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  float: left;
+}
+.card-mentor img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+.card-mentor h2 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+.card-mentor p {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }

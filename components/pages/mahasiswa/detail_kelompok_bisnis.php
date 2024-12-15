@@ -35,7 +35,7 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
         <div class="main p-3">
             <div class="main_header">
                 <?php 
-                    $pageTitle = "Detail Kelompok Bisnis"; // Judul halaman
+                    $pageTitle = "Kelompok Bisnis"; // Judul halaman
                     include 'header_mahasiswa.php'; 
                 ?>
             </div>
@@ -102,9 +102,9 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                                 </div>
 
                                 <div class="tutor">
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center mentor">
                                     <strong class="me-2">Mentor Bisnis:</strong>
-                                    <a href="detail_mentor_mahasiswa.php" class="text-decoration-none">
+                                    <a  class="text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                         <div class="card d-inline-block" title="Lihat Detail Mentor Bisnis">
                                             <div class="card-body p-0">
                                                 <p class="card-text m-0 text-center">
@@ -113,7 +113,26 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                                             </div>
                                         </div>
                                     </a>
+
                                 </div>
+                                <div class="collapse" id="collapseExample">
+                                    <div class="d-flex justify-content-center collapse" id="collapseExample">
+                                            <div class="card-mentor p-3">
+                                                <img alt="Profile picture of the mentor" height="50" src="https://storage.googleapis.com/a1aa/image/Q1BtK1AStCLeOKUuTRnqzR27EJRLg5SmUePjrHw1ilMCaVsTA.jpg" width="50" class="card-img-top mx-auto d-block mt-3"/>
+                                                <h2 class="card-mentor-title text-center">NAMA MEENTOR</h2>
+                                                <div class="card-mentor-body">
+                                                    <p class="card-mentor-text">Peran:</p>
+                                                    <p class="card-mentor-text">Keahlian:</p>
+                                                    <p class="card-mentor-text">Fakultas:</p>
+                                                    <p class="card-mentor-text">Prodi:</p>
+                                                    <p class="card-mentor-text">Nomor Telepon:</p>
+                                                    <p class="card-mentor-text">Alamat Email:</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                
 
                                 </div>
 

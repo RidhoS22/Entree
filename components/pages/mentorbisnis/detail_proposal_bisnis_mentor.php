@@ -40,6 +40,10 @@
                 <!-- Table Section -->
                 <table class="styled-table">
                     <tr>
+                        <td>Tahapan Bisnis:</td>
+                        <td class="file-box">Tahapan Bisnis</td>
+                    </tr>
+                    <tr>
                         <td>SDG Bisnis:</td>
                         <td class="file-box">SDG Bisnis</td>
                     </tr>
@@ -71,7 +75,7 @@
                     <tr>
                         <td>Status:</td>
                         <td class="file-box">
-                                    <div class="action-buttons">
+                            <div class="action-buttons">
                                 <button type="button" class="accept-btn">Setujui Proposal</button>
                                 <button type="button" class="reject-btn">Tolak Proposal</button>
                             </div>

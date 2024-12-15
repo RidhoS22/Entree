@@ -26,6 +26,8 @@ body {
 .form-container {
   flex: 1;
   padding: 20px;
+  height: 100vh;
+  overflow-y: auto;
 }
 .form-container h2 {
   font-size: 24px;
@@ -63,9 +65,30 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-bottom: 15px;
 }
 .submit-btn:hover {
   background-color: #00b44a;
+}
+
+/* scroll bar */
+/* Mengatur scrollbar */
+::-webkit-scrollbar {
+  width: 8px; /* Lebar scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Warna track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Warna thumb */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Warna thumb saat hover */
 }
 
 /* Responsiveness */
@@ -99,8 +122,9 @@ body {
   }
 
   .form-container {
-    width: 90%;
+    width: 100%;
     max-width: 300px;
+    overflow: hidden;
     margin: 0;
     padding: 0;
   }

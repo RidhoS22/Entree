@@ -60,6 +60,12 @@
                         <span>Daftar Kelompok Bisnis</span>
                     </a>
                 </li>
+                <li class="sidebar-item <?php echo ($activePage == 'tahun_akademik') ? 'active' : ''; ?>">
+                    <a href="tahun_akademik.php" class="sidebar-link">
+                        <i class="fa-solid fa-calendar"></i>
+                        <span>Tahun Akademik</span>
+                    </a>
+                </li>
                 <li class="sidebar-item sign-out">
                     <a href="/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php" class="sidebar-link">
                         <i class="fa-solid fa-sign-out"></i>

@@ -143,7 +143,7 @@ if ($id) {
                             <label for="feedbackInput" class="form-label">Masukkan Umpan Balik Anda:</label>
                             <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
                         </div>
-                        <div class="btn_container">
+                        <div class="btn_container mentor-buttons">
                             <button type="submit">Kirim Feedback</button>
                         </div>
                     </form>

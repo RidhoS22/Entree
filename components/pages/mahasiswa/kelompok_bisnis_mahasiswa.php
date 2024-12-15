@@ -85,7 +85,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             </div>
 
             <div class="main_wrapper">
-                <button id="openFormBtn"><i class="fa-solid fa-plus"></i> Tambahkan Kelompok Bisnis</button>
+                <button id="openFormBtn">Tambah Kelompok Bisnis</button>
 
                 <div id="modalForm" class="modal">
                     <div class="modal-content">
@@ -118,10 +118,10 @@ while ($row = mysqli_fetch_assoc($result)) {
                                 <input type="text" id="nama_bisnis" name="nama_bisnis" required>
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="ide_bisnis">Ide Bisnis:</label>
                                 <input type="text" id="ide_bisnis" name="ide_bisnis" required>
-                            </div>
+                            </div> -->
 
                             <div class="form-group">
                                 <label for="logo_bisnis">Logo Bisnis:</label>

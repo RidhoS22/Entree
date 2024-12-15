@@ -28,7 +28,7 @@
             </div>
 
             <div class="main_wrapper">
-                <button id="openFormBtn"><i class="fa-solid fa-plus"></i> Tambahkan Materi</button>
+                <button id="openFormBtn">Tambah Materi</button>
 
                 <!-- Modal Form Tambah Materi -->
                 <div id="modalForm" class="modal modal-form">

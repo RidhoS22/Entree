@@ -92,7 +92,7 @@
                         <div class="d-flex justify-content-center">
                             <div class="card p-3" style="width: 50%;">
                                 <img alt="Profile picture of the mentor" height="50" src="https://storage.googleapis.com/a1aa/image/Q1BtK1AStCLeOKUuTRnqzR27EJRLg5SmUePjrHw1ilMCaVsTA.jpg" width="50" class="card-img-top mx-auto d-block mt-3"/>
-                                <h2 class="card-title text-center">' . htmlspecialchars($row["nama"]) . '</h2>
+                                <h2 class="card-title text-center">NAMA MEENTOR</h2>
                                 <div class="card-body">
                                     <p class="card-text">Peran:</p>
                                     <p class="card-text">Keahlian:</p>

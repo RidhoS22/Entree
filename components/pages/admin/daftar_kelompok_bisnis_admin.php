@@ -19,13 +19,13 @@ $result = $conn->query($sql);
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mentorbisnis/daftar_kelompok_bisnis_mentor.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/daftar_kelompok.css">
 </head>
 
 <body>
     <div class="wrapper">
         <?php 
-        $activePage = 'daftar_kelompok_bisnis_mentor'; 
+        $activePage = 'daftar_kelompok_bisnis_admin'; 
         include 'sidebar_admin.php'; 
         ?>
 
@@ -37,27 +37,92 @@ $result = $conn->query($sql);
                 ?>
             </div>
 
+            
+
             <div class="main_wrapper">
+                <div class="nav_main_wrapper">
+                    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                        <div class="container-fluid">
+                            <select name="year" class="form-select filter-tahun" required>
+                                <option value="" disabled selected>Pilih Tahun</option>
+                                <?php
+                                // Membuat dropdown tahun dari 2000 hingga tahun sekarang
+                                $currentYear = date('Y');
+                                for ($i = 2010; $i <= $currentYear; $i++) {
+                                    echo "<option value='$i'>$i</option>";
+                                }
+                                ?>
+                            </select>
+                            <form class="d-flex" role="search">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Search</button>
+                            </form>
+
+                                 <!-- Tombol Awal -->
+                            <button type="button" class="btn btn-secondary text-white btn-pi" id="myButton">Program Inkubasi</button>
+
+                            <script>
+                                // Ambil referensi tombol dengan ID
+                                const button = document.getElementById("myButton");
+
+                                // Tambahkan event listener untuk klik tombol
+                                button.addEventListener("click", function() {
+                                    // Periksa apakah tombol memiliki kelas 'btn-secondary'
+                                    if (button.classList.contains("btn-secondary")) {
+                                        // Jika iya, ubah ke kelas 'btn-success'
+                                        button.classList.remove("btn-secondary");
+                                        button.classList.add("btn-success");
+                                        button.textContent = "Program Inkubasi";
+                                    } else {
+                                        // Jika tidak, kembalikan ke kelas 'btn-secondary'
+                                        button.classList.remove("btn-success");
+                                        button.classList.add("btn-secondary");
+                                        button.textContent = "Program Inkubasi";
+                                    }
+                                });
+                            </script>
+                        </div>
+                    </nav>
+                </div>
+                
                 <?php
                 // Cek apakah ada data kelompok bisnis
                 if ($result->num_rows > 0) {
                     // Menampilkan data kelompok bisnis
                     while($row = $result->fetch_assoc()) {
                         $id_kelompok = $row['id_kelompok'];
-                        echo '<div class="card">';
-                        echo '<div class="card-header">';
-                        echo '<h2>' . htmlspecialchars($row['nama_kelompok']) . '</h2>';
-                        echo '</div>';
-                        echo '<a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">';
-                        echo '<div class="card-body">';
-                        echo '<p>' . htmlspecialchars($row['ide_bisnis']) . '</p>';
-                        echo '<i class="fa-solid fa-eye detail-icon"></i>';
-                        echo '</div>';
-                        echo '</a>';
-                        echo '<div class="card-footer">';
-                        echo '<a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">Lihat Detail Kelompok Bisnis</a>';
-                        echo '</div>';
-                        echo '</div>';
+                        echo '
+                        <div class="card" style="width: 45%; margin: 10px;">
+                            <div class="card-icon text-center py-4">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                            <div class="card-body m-0">
+                                <h5 class="card-title">Kelompok ' . htmlspecialchars($row['nama_kelompok']) . '</h5>
+                            </div>
+                            <table class="table table-bordered m-0 styled-table">
+                                <tbody>
+                                    <tr>
+                                        <td>Mentor Bisnis</td>
+                                        <td>Bapak LALA</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status Proposal Bisnis</td>
+                                        <td>STATUS</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Program Inkubasi Bisnis</td>
+                                        <td>STATUS</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="card-footer">
+                                <a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
+                                    <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Kelompok Bisnis"></i>
+                                </a>
+                                </div>
+                            </div>
+                        ';
                     }
                 } else {
                     echo '<p>Tidak ada kelompok bisnis yang tersedia.</p>';

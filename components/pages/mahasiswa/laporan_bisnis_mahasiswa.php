@@ -30,7 +30,7 @@
 
             <div class="main_wrapper">
         
-                <button id="openFormBtn"><i class="fa-solid fa-plus"></i> Laporan Kemajuan Bisnis</button>
+                <button id="openFormBtn">Tambah Laporan Kemajuan Bisnis</button>
 
                 <!-- Modal Form -->
                 <div id="modalForm" class="modal">
@@ -133,6 +133,16 @@
                         <i class="fa-solid fa-trash-can delete-icon" title="Hapus Laporan Kemajuan Bisnis"></i> 
                     </div>
                 </div>
+
+                
+            
+                        
+
+
+
+
+
+
 
                  <!-- PHP untuk menangani pengiriman form -->
                  <?php?>

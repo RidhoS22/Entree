@@ -74,6 +74,29 @@ if ($id_kelompok) {
                         <div class="title-edit">
                             <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
                             <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompok['nama_kelompok']); ?>" style="display: none;" />
+                            <button type="button" class="btn btn-primary mt-3" style="background-color: grey; color: white;" data-bs-toggle="modal" data-bs-target="#recommendationModal">
+                                Program Ingkubasi
+                            </button>
+                            <!-- Modal Rekomendasi -->
+                            <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="recommendationModalLabel">Rekomendasi Program Inkubasi</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form id="recommendationForm">
+                                            <div class="modal-body">
+                                                <p>Apakah Anda menyetujui rekomendasi dari mentor bisnis untuk memasukkan kelompok ini ke dalam Program Inkubasi Bisnis?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Tolak</button>
+                                                <button type="submit" class="btn btn-primary btn-submit">Setuju</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <p><strong>Ide Bisnis:</strong></p>

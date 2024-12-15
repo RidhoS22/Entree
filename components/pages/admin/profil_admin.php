@@ -51,14 +51,20 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
             </div>
 
             <div class="main_wrapper">
+                <button class="edit-btn" type="button" title="Edit Profil">
+                    <i class="fas fa-edit"></i>
+                </button>
                 <div class="profile-header">
                     <div class="profile-item">
                         <h2>Username</h2>
                         <p><?= htmlspecialchars($_SESSION['username']); ?></p>
                     </div>
                 </div>
-                <button class="btn" style="background-color: #2ea56f; color: white;" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Ganti Kata Sandi</button>
-                </div>
+                <button class="btn change-password-btn" style="background-color: #2ea56f; color: white; display: none;" 
+                    data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                    Ganti Kata Sandi
+                </button>
+            </div>
         </div>
     </div>
 
@@ -93,7 +99,13 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
-    <script type="text/javascript" src="/Aplikasi-Kewirausahaan/assets/js/hamburger.js"></script>
+    <script>
+        // JavaScript untuk menampilkan tombol "Ganti Kata Sandi"
+        document.querySelector('.edit-btn').addEventListener('click', function () {
+            const changePasswordBtn = document.querySelector('.change-password-btn');
+            changePasswordBtn.style.display = 'block'; // Tampilkan tombol "Ganti Kata Sandi"
+        });
+    </script>
 </body>
 
 </html>

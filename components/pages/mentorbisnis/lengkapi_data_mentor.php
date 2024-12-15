@@ -124,7 +124,7 @@ $conn->close();
                     <input id="no_telepon" name="no_telepon" type="text" value="<?php echo htmlspecialchars($data['no_telepon'] ?? ''); ?>" required />
                 </div>
                <!-- Foto Profil (file input) -->
-                <div class="form-group mb-3">
+                <div class="form-group">
                     <label for="foto_profil" class="form-label">Foto Profil 
                         <small class="text-muted">(JPG, JPEG, PNG)</small>
                     </label>
