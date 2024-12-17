@@ -13,6 +13,29 @@ $cekKelompokQuery = "
     WHERE kb.npm_ketua = '$npm_mahasiswa' OR ak.npm_anggota = '$npm_mahasiswa' LIMIT 1";
 $cekKelompokResult = mysqli_query($conn, $cekKelompokQuery);
 $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
+
+// Ambil detail mentor berdasarkan nama mentor dari kelompok bisnis
+$mentorData = [];
+if (!empty($kelompokTerdaftar['mentor_bisnis'])) {
+    // Query untuk detail mentor
+    $mentorQuery = "
+    SELECT m.nama AS nama_mentor, 
+        m.fakultas, 
+        m.prodi, 
+        m.contact, 
+        m.email,
+        m.keahlian, 
+        m.foto_profile,
+        u.role 
+    FROM mentor m
+    JOIN users u ON m.user_id = u.id
+    WHERE m.nama = '" . $kelompokTerdaftar['mentor_bisnis'] . "'
+    LIMIT 1";
+    $mentorResult = mysqli_query($conn, $mentorQuery);
+    $mentorData = mysqli_fetch_assoc($mentorResult);
+}
+
+$mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +72,8 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                         </div>
 
                         <div class="right">
+                            <<!-- Tombol Edit hanya tampil jika mentor belum ditugaskan -->
+                        <?php if (!$mentorAda) { ?>
                             <div class="title-edit">
                                 <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
                                 <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" style="display: none;" />
@@ -56,16 +81,17 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                                     <i class="fas fa-edit"></i>
                                 </button>
                             </div>
+                        <?php } else { ?>
+                            <!-- Jika sudah ada mentor, tombol edit tidak ditampilkan -->
+                            <div class="title-edit">
+                                <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
+                            </div>
+                        <?php } ?>
 
                             <!-- Menambahkan Nama Bisnis -->
                             <p><strong>Nama Bisnis:</strong></p>
                             <span id="nama-bisnis-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis']); ?></span>
                             <input type="text" id="nama-bisnis-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis']); ?>" style="display: none;" />
-
-                            <!-- Memberikan jarak dengan margin-top -->
-                            <p class="mt-3"><strong>Ide Bisnis:</strong></p>
-                            <span id="ide-bisnis-text"><?php echo htmlspecialchars($kelompokTerdaftar['ide_bisnis']); ?></span>
-                            <textarea id="ide-bisnis-input" style="display: none;"><?php echo htmlspecialchars($kelompokTerdaftar['ide_bisnis']); ?></textarea>
 
                             <div class="category">
                                 <p><strong>Kategori Bisnis:</strong> -</p> <!-- Kategori kosong -->
@@ -100,40 +126,43 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                                     }
                                     ?>
                                 </div>
-
+                                <!-- Mentor Bisnis Section -->
                                 <div class="tutor">
-                                <div class="d-flex align-items-center mentor">
-                                    <strong class="me-2">Mentor Bisnis:</strong>
-                                    <a  class="text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                        <div class="card d-inline-block" title="Lihat Detail Mentor Bisnis">
-                                            <div class="card-body p-0">
-                                                <p class="card-text m-0 text-center">
-                                                    <?php echo htmlspecialchars($kelompokTerdaftar['mentor_bisnis']); ?>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                </div>
-                                <div class="collapse" id="collapseExample">
-                                    <div class="d-flex justify-content-center collapse" id="collapseExample">
-                                        <div class="card-mentor p-3">
-                                            <img alt="Profile picture of the mentor" height="50" src="https://storage.googleapis.com/a1aa/image/Q1BtK1AStCLeOKUuTRnqzR27EJRLg5SmUePjrHw1ilMCaVsTA.jpg" width="50" class="card-img-top mx-auto d-block mt-3"/>
-                                            <h2 class="card-mentor-title text-center">NAMA MEENTOR</h2>
-                                            <div class="card-mentor-body">
-                                                <p class="card-mentor-text">Peran:</p>
-                                                <p class="card-mentor-text">Keahlian:</p>
-                                                <p class="card-mentor-text">Fakultas:</p>
-                                                <p class="card-mentor-text">Prodi:</p>
-                                                <p class="card-mentor-text">Nomor Telepon:</p>
-                                                <p class="card-mentor-text">Alamat Email:</p>
-                                            </div>
-                                        </div>
+                                    <div class="d-flex align-items-center mentor">
+                                        <strong class="me-2">Mentor Bisnis:</strong>
+                                        <?php if ($mentorAda) { ?>
+                                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                <div class="card d-inline-block" title="Lihat Detail Mentor Bisnis">
+                                                    <div class="card-body p-0">
+                                                        <p class="card-text m-0 text-center">
+                                                            <?php echo htmlspecialchars($kelompokTerdaftar['mentor_bisnis']); ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        <?php } else { ?>
+                                            <!-- Jika belum ada mentor, tampilkan teks info -->
+                                            <span class="text-muted">Belum ada mentor bisnis</span>
+                                        <?php } ?>
                                     </div>
-                                </div>
-
-                                
-
+                                    
+                                    <!-- Collapsible mentor details (hanya aktif jika mentor ada) -->
+                                    <?php if ($mentorAda) { ?>
+                                        <div class="collapse" id="collapseExample">
+                                            <div class="card-mentor p-3">
+                                                <img alt="Profile picture of the mentor" height="50" src="<?= htmlspecialchars($mentorData['foto_profile']); ?>" width="50" class="card-img-top mx-auto d-block mt-3"/>
+                                                <h2 class="card-mentor-title text-center"><?php echo htmlspecialchars($mentorData['nama_mentor']); ?></h2>
+                                                <div class="card-mentor-body">
+                                                    <p class="card-mentor-text"><strong>Peran:</strong> <?php echo htmlspecialchars($mentorData['role']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Keahlian:</strong> <?php echo htmlspecialchars($mentorData['keahlian']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Fakultas:</strong> <?php echo htmlspecialchars($mentorData['fakultas']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Prodi:</strong> <?php echo htmlspecialchars($mentorData['prodi']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Nomor Telepon:</strong> <?php echo htmlspecialchars($mentorData['contact']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Alamat Email:</strong> <?php echo htmlspecialchars($mentorData['email']); ?></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
                                 </div>
 
                                 <div class="action-buttons" style="display: none;">
@@ -150,80 +179,65 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
         </div>
     </div>
     <script>
-document.querySelector('.edit-btn').addEventListener('click', function () {
-    // Tampilkan input dan tombol aksi
-    document.getElementById('nama-kelompok-text').style.display = 'none';
-    document.getElementById('nama-kelompok-input').style.display = 'block';
+        document.querySelector('.edit-btn').addEventListener('click', function () {
 
-    document.getElementById('nama-bisnis-text').style.display = 'none';
-    document.getElementById('nama-bisnis-input').style.display = 'block';
+            document.getElementById('nama-kelompok-text').style.display = 'none';
+            document.getElementById('nama-kelompok-input').style.display = 'block';
 
-    document.getElementById('ide-bisnis-text').style.display = 'none';
-    document.getElementById('ide-bisnis-input').style.display = 'block';
+            document.getElementById('nama-bisnis-text').style.display = 'none';
+            document.getElementById('nama-bisnis-input').style.display = 'block';
 
-    document.querySelector('.action-buttons').style.display = 'flex';
-});
+            document.querySelector('.action-buttons').style.display = 'flex';
+        });
 
-document.querySelector('.save-btn').addEventListener('click', function () {
-    const namaKelompok = document.getElementById('nama-kelompok-input').value;
-    const namaBisnis = document.getElementById('nama-bisnis-input').value;
-    const ideBisnis = document.getElementById('ide-bisnis-input').value;
+        document.querySelector('.save-btn').addEventListener('click', function () {
+            const namaKelompok = document.getElementById('nama-kelompok-input').value;
+            const namaBisnis = document.getElementById('nama-bisnis-input').value;
 
-    // Kirim data ke server
-    fetch('/Aplikasi-Kewirausahaan/components/pages/mahasiswa/update_kelompok.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            nama_kelompok: namaKelompok,
-            nama_bisnis: namaBisnis,
-            ide_bisnis: ideBisnis,
-            id_kelompok: <?php echo json_encode($kelompokTerdaftar['id_kelompok']); ?>
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            alert('Data berhasil diperbarui.');
+            // Kirim data ke server untuk memperbarui kelompok
+            fetch('/Aplikasi-Kewirausahaan/components/pages/mahasiswa/update_kelompok.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nama_kelompok: namaKelompok,
+                    nama_bisnis: namaBisnis,
+                    id_kelompok: <?php echo json_encode($kelompokTerdaftar['id_kelompok']); ?>
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('Data berhasil diperbarui.');
 
-            // Update tampilan
-            document.getElementById('nama-kelompok-text').textContent = namaKelompok;
-            document.getElementById('nama-bisnis-text').textContent = namaBisnis;
-            document.getElementById('ide-bisnis-text').textContent = ideBisnis;
-        } else {
-            alert('Gagal memperbarui data: ' + data.message);
-        }
-    })
-    .catch(error => console.error('Error:', error))
-    .finally(() => {
-        // Kembalikan tampilan ke mode non-edit
-        document.getElementById('nama-kelompok-text').style.display = 'block';
-        document.getElementById('nama-kelompok-input').style.display = 'none';
+                    // Update tampilan setelah data disimpan
+                    document.getElementById('nama-kelompok-text').textContent = namaKelompok;
+                    document.getElementById('nama-bisnis-text').textContent = namaBisnis;
 
-        document.getElementById('nama-bisnis-text').style.display = 'block';
-        document.getElementById('nama-bisnis-input').style.display = 'none';
+                    // Sembunyikan input dan tombol aksi
+                    document.getElementById('nama-kelompok-text').style.display = 'block';
+                    document.getElementById('nama-kelompok-input').style.display = 'none';
+                    document.getElementById('nama-bisnis-text').style.display = 'block';
+                    document.getElementById('nama-bisnis-input').style.display = 'none';
+                    document.querySelector('.action-buttons').style.display = 'none';
+                } else {
+                    alert('Gagal memperbarui data: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
 
-        document.getElementById('ide-bisnis-text').style.display = 'block';
-        document.getElementById('ide-bisnis-input').style.display = 'none';
+        document.querySelector('.cancel-btn').addEventListener('click', function () {
+            // Kembalikan tampilan ke mode non-edit
+            document.getElementById('nama-kelompok-text').style.display = 'block';
+            document.getElementById('nama-kelompok-input').style.display = 'none';
 
-        document.querySelector('.action-buttons').style.display = 'none';
-    });
-});
+            document.getElementById('nama-bisnis-text').style.display = 'block';
+            document.getElementById('nama-bisnis-input').style.display = 'none';
 
-document.querySelector('.cancel-btn').addEventListener('click', function () {
-    // Kembalikan tampilan ke mode non-edit
-    document.getElementById('nama-kelompok-text').style.display = 'block';
-    document.getElementById('nama-kelompok-input').style.display = 'none';
-
-    document.getElementById('nama-bisnis-text').style.display = 'block';
-    document.getElementById('nama-bisnis-input').style.display = 'none';
-
-    document.getElementById('ide-bisnis-text').style.display = 'block';
-    document.getElementById('ide-bisnis-input').style.display = 'none';
-
-    document.querySelector('.action-buttons').style.display = 'none';
-});
+            document.querySelector('.action-buttons').style.display = 'none';
+        });
     </script>
 </body>
 </html>

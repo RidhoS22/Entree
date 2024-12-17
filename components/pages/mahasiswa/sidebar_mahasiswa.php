@@ -119,16 +119,48 @@ $kelompokStatus = mysqli_num_rows($cekKelompokResult) > 0 ? true : false;
                 <?php endif; ?>
 
                 <li class="sidebar-item sign-out">
-                    <a href="/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php" class="sidebar-link">
+                    <a href="javascript:void(0);" class="sidebar-link" id="logoutLink">
                         <i class="fa-solid fa-sign-out"></i>
                         <span>Keluar</span>
                     </a>
                 </li>
-                
+
+                <script>
+                    document.getElementById('logoutLink').addEventListener('click', function() {
+                        // Kirim permintaan logout ke backend
+                        const xhr = new XMLHttpRequest();
+                        xhr.open('POST', '/Aplikasi-Kewirausahaan/components/pages/logout.php', true);
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        xhr.onload = function() {
+                            if (xhr.status === 200) {
+                                // Jika berhasil, arahkan ke halaman login
+                                window.location.href = '/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php';
+                            } else {
+                                alert('Terjadi kesalahan saat logout.');
+                            }
+                        };
+                        xhr.send('logout=true');
+                    });
+                </script>                
             </ul>
         </aside>
     </div>
+
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleBtn2 = document.querySelector('.toggle-btn2'); // Tombol toggle
+            const sidebar = document.querySelector('#sidebar'); // Sidebar
+
+            // Fungsi untuk toggle display pada sidebar
+            toggleBtn2.addEventListener('click', function () {
+                if (sidebar.style.display === 'block') {
+                    sidebar.style.display = 'none'; // Sembunyikan sidebar
+                } else {
+                    sidebar.style.display = 'block'; // Tampilkan sidebar
+                }
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', function () {
             const toggleBtn2 = document.querySelector('.toggle-btn2'); // Tombol toggle
             const sidebar = document.querySelector('#sidebar'); // Sidebar

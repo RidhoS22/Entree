@@ -1,3 +1,54 @@
+<?php
+// Koneksi ke database
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+// Ambil judul proposal dari URL
+$judul_proposal = isset($_GET['judul']) ? $_GET['judul'] : '';
+
+// Fetch proposal data from database based on the title
+$query = "SELECT * FROM proposal_bisnis WHERE judul_proposal = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("s", $judul_proposal);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if proposal exists
+if ($result->num_rows > 0) {
+    $proposal = $result->fetch_assoc();
+} else {
+    // Handle the case where no proposal is found
+    echo "Proposal tidak ditemukan.";
+    exit;
+}
+
+// Mapping SDG
+$sdg_mapping = [
+    "mengakhiri_kemiskinan" => "1. Mengakhiri Kemiskinan",
+    "mengakhiri_kelaparan" => "2. Mengakhiri Kelaparan",
+    "kesehatan_kesejahteraan" => "3. Kesehatan dan Kesejahteraan",
+    "pendidikan_berkualitas" => "4. Pendidikan Berkualitas",
+    "kesetaraan_gender" => "5. Kesetaraan Gender",
+    "air_bersih_sanitasi" => "6. Air Bersih dan Sanitasi",
+    "energi_bersih_terjangkau" => "7. Energi Bersih dan Terjangkau",
+    "pekerjaan_pertumbuhan_ekonomi" => "8. Pekerjaan Layak dan Pertumbuhan Ekonomi",
+    "industri_inovasi_infrastruktur" => "9. Industri, Inovasi, dan Infrastruktur",
+    "mengurangi_ketimpangan" => "10. Mengurangi Ketimpangan",
+    "kota_komunitas_berkelanjutan" => "11. Kota dan Komunitas Berkelanjutan",
+    "konsumsi_produksi_bertanggung_jawab" => "12. Konsumsi dan Produksi yang Bertanggung Jawab",
+    "penanganan_perubahan_iklim" => "13. Penanganan Perubahan Iklim",
+    "ekosistem_lautan" => "14. Ekosistem Lautan",
+    "ekosistem_daratan" => "15. Ekosistem Daratan",
+    "perdamaian_keadilan_institusi_kuat" => "16. Perdamaian, Keadilan, dan Kelembagaan yang Kuat",
+    "kemitraan_tujuan" => "17. Kemitraan untuk Mencapai Tujuan"
+];
+
+// Proses SDG menjadi label deskriptif
+$sdg_selected = explode(",", $proposal['sdg']);
+$sdg_labels = array_map(function($key) use ($sdg_mapping) {
+    return $sdg_mapping[$key] ?? $key;
+}, $sdg_selected);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,142 +82,87 @@
 
             <!-- Content Wrapper -->
             <div class="main_wrapper">
-                <?php
-                // Koneksi ke database
-                include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+                <h2><?php echo htmlspecialchars($proposal['judul_proposal']); ?></h2>
+                <div class="description">
+                    <strong>Ide Bisnis:</strong>
+                    <p><?php echo htmlspecialchars($proposal['ide_bisnis'] ?? 'Tidak ada ide bisnis.'); ?></p>
+                </div>
 
-                // Ambil judul proposal dari URL
-                $judul_proposal = isset($_GET['judul']) ? $_GET['judul'] : '';
+                <!-- Table Section -->
+                <table class="styled-table">
+                    <tr>
+                        <td><strong>Tahapan Bisnis:</strong></td>
+                        <td class="file-box">
+                            <?php echo htmlspecialchars($proposal['tahapan_bisnis']); ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>SDG Bisnis:</strong></td>
+                        <td class="file-box">
+                            <ul>
+                                <?php foreach ($sdg_labels as $label): ?>
+                                    <li><?php echo htmlspecialchars($label); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Kategori Bisnis:</strong></td>
+                        <td class="file-box">
+                            <?php 
+                            if ($proposal['kategori'] === 'lainnya') {
+                                echo htmlspecialchars($proposal['other_category']);
+                            } else {
+                                echo htmlspecialchars($proposal['kategori']);
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>File Proposal Bisnis:</strong></td>
+                        <td class="file-box">
+                            <ul id="fileList">
+                                <li class="file-box">
+                                    <div class="file-info">
+                                        <?php echo htmlspecialchars(basename($proposal['proposal_pdf'])); ?>
+                                    </div>
+                                    <div class="icon-group">
+                                        <a href="<?php echo htmlspecialchars($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </a>
+                                        <a href="<?php echo htmlspecialchars($proposal['proposal_pdf']); ?>" download class="btn-icon">
+                                            <i class="fa-solid fa-download"></i>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Status:</strong></td>
+                        <td class="file-box">
+                            <span id="status-label" class="status" 
+                                style="background-color: <?php 
+                                    if ($proposal['status'] == 'disetujui') {
+                                        echo '#2ea56f';
+                                    } elseif ($proposal['status'] == 'ditolak') {
+                                        echo '#dc3545';
+                                    } else {
+                                        echo 'orange';
+                                    }
+                                ?>;">
+                            <?php echo htmlspecialchars($proposal['status']); ?>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
 
-                // Query untuk mendapatkan data proposal dan ide bisnis menggunakan LEFT JOIN
-                $query = "SELECT p.*, k.ide_bisnis 
-                          FROM proposal_bisnis p 
-                          LEFT JOIN kelompok_bisnis k ON p.kelompok_id = k.id_kelompok 
-                          WHERE p.judul_proposal = ?";
-                $stmt = $conn->prepare($query);
-                $stmt->bind_param("s", $judul_proposal);
-                $stmt->execute();
-                $result = $stmt->get_result();
-
-                // Cek apakah data ditemukan
-                if ($result->num_rows > 0) {
-                    $proposal = $result->fetch_assoc();
-
-                    // Mapping SDG
-                    $sdg_mapping = [
-                        "mengakhiri_kemiskinan" => "1. Mengakhiri Kemiskinan",
-                        "mengakhiri_kelaparan" => "2. Mengakhiri Kelaparan",
-                        "kesehatan_kesejahteraan" => "3. Kesehatan dan Kesejahteraan",
-                        "pendidikan_berkualitas" => "4. Pendidikan Berkualitas",
-                        "kesetaraan_gender" => "5. Kesetaraan Gender",
-                        "air_bersih_sanitasi" => "6. Air Bersih dan Sanitasi",
-                        "energi_bersih_terjangkau" => "7. Energi Bersih dan Terjangkau",
-                        "pekerjaan_pertumbuhan_ekonomi" => "8. Pekerjaan Layak dan Pertumbuhan Ekonomi",
-                        "industri_inovasi_infrastruktur" => "9. Industri, Inovasi, dan Infrastruktur",
-                        "mengurangi_ketimpangan" => "10. Mengurangi Ketimpangan",
-                        "kota_komunitas_berkelanjutan" => "11. Kota dan Komunitas Berkelanjutan",
-                        "konsumsi_produksi_bertanggung_jawab" => "12. Konsumsi dan Produksi yang Bertanggung Jawab",
-                        "penanganan_perubahan_iklim" => "13. Penanganan Perubahan Iklim",
-                        "ekosistem_lautan" => "14. Ekosistem Lautan",
-                        "ekosistem_daratan" => "15. Ekosistem Daratan",
-                        "perdamaian_keadilan_institusi_kuat" => "16. Perdamaian, Keadilan, dan Kelembagaan yang Kuat",
-                        "kemitraan_tujuan" => "17. Kemitraan untuk Mencapai Tujuan"
-                    ];
-
-                    // Proses SDG menjadi label deskriptif
-                    $sdg_selected = explode(",", $proposal['sdg']);
-                    $sdg_labels = array_map(function($key) use ($sdg_mapping) {
-                        return $sdg_mapping[$key] ?? $key;
-                    }, $sdg_selected);
-                ?>
-                    <h2><?php echo htmlspecialchars($proposal['judul_proposal']); ?></h2>
-                    <div class="description">
-                        <strong>Ide Bisnis:</strong>
-                        <p><?php echo htmlspecialchars($proposal['ide_bisnis'] ?? 'Tidak ada ide bisnis.'); ?></p>
-                    </div>
-
-                    <!-- Table Section -->
-                    <table class="styled-table">
-                        <tr>
-                            <td><strong>Tahapan Bisnis:</strong></td>
-                            <td class="file-box">
-                                    <?php echo htmlspecialchars($proposal['tahapan_bisnis']);
-?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>SDG Bisnis:</strong></td>
-                            <td class="file-box">
-                                <ul>
-                                    <?php foreach ($sdg_labels as $label): ?>
-                                        <li><?php echo htmlspecialchars($label); ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Kategori Bisnis:</strong></td>
-                            <td class="file-box">
-                                <?php 
-                                if ($proposal['kategori'] === 'lainnya') {
-                                    echo htmlspecialchars($proposal['other_category']);
-                                } else {
-                                    echo htmlspecialchars($proposal['kategori']);
-                                }
-                                ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>File Proposal Bisnis:</strong></td>
-                            <td class="file-box">
-                                <!-- Menampilkan nama file tanpa path -->
-                                <ul id="fileList">
-                                    <li class="file-box">
-                                        <div class="file-info">
-                                            <?php echo htmlspecialchars(basename($proposal['proposal_pdf'])); ?>
-                                        </div>
-                                        <div class="icon-group">
-                                            <a href="<?php echo htmlspecialchars($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </a>
-                                            <a href="<?php echo htmlspecialchars($proposal['proposal_pdf']); ?>" download class="btn-icon">
-                                                <i class="fa-solid fa-download"></i>
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Status:</strong></td>
-                            <td class="file-box">
-                                <span id="status-label" class="status" 
-                                      style="background-color: <?php 
-                                          if ($proposal['status'] == 'disetujui') {
-                                              echo '#2ea56f';
-                                          } elseif ($proposal['status'] == 'ditolak') {
-                                              echo '#dc3545';
-                                          } else {
-                                              echo 'orange';
-                                          }
-                                      ?>;">
-                                    <?php echo htmlspecialchars($proposal['status']); ?>
-                                </span>
-                            </td>
-                        </tr>
-                    </table>
-
-                    <!-- Feedback Section -->
-                    <strong>Umpan Balik Dari Mentor:</strong>
-                    <div class="feedback-box">
-                        <p><?php echo htmlspecialchars($proposal['umpan_balik'] ?? 'Belum ada umpan balik.'); ?></p>
-                    </div>
-                    <a href="proposal_bisnis_mahasiswa.php" class="btn btn-secondary">Kembali</a>
-                <?php
-                } else {
-                    echo "<p>Proposal tidak ditemukan.</p>";
-                }
-                ?>
+                <!-- Feedback Section -->
+                <strong>Umpan Balik Dari Mentor:</strong>
+                <div class="feedback-box">
+                    <p><?php echo htmlspecialchars($proposal['umpan_balik'] ?? 'Belum ada umpan balik.'); ?></p>
+                </div>
+                <a href="proposal_bisnis_mahasiswa.php" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
     </div>

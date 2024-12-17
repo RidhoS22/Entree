@@ -25,6 +25,9 @@ if ($result_kelompok && mysqli_num_rows($result_kelompok) > 0) {
     // Ambil id_kelompok yang terkait dengan mahasiswa
     $kelompok = mysqli_fetch_assoc($result_kelompok);
     $id_kelompok = $kelompok['id_kelompok'];
+
+    // Simpan id_kelompok ke dalam session
+    $_SESSION['id_kelompok'] = $id_kelompok;
 } else {
     echo "<script>alert('Anda tidak terdaftar dalam kelompok!');</script>";
     exit;

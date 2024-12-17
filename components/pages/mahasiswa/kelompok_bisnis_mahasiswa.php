@@ -57,6 +57,17 @@ while ($row = mysqli_fetch_assoc($result)) {
         $mahasiswaList[] = $row;
     }
 }
+
+// Menghitung tahun ajaran berdasarkan tahun dan semester
+$currentYear = date("Y");
+$currentMonth = date("m");
+
+// Menentukan semester dan tahun ajaran
+if ($currentMonth >= 7) { // Semester Ganjil
+    $tahun_akademik = $currentYear . "/" . ($currentYear + 1) . " Ganjil";
+} else { // Semester Genap
+    $tahun_akademik = ($currentYear - 1) . "/" . $currentYear . " Genap";
+}
 ?>
 
 <!DOCTYPE html>
@@ -118,16 +129,13 @@ while ($row = mysqli_fetch_assoc($result)) {
                                 <input type="text" id="nama_bisnis" name="nama_bisnis" required>
                             </div>
 
-                            <!-- <div class="form-group">
-                                <label for="ide_bisnis">Ide Bisnis:</label>
-                                <input type="text" id="ide_bisnis" name="ide_bisnis" required>
-                            </div> -->
-
                             <div class="form-group">
                                 <label for="logo_bisnis">Logo Bisnis:</label>
                                 <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".png, .jpg" required>
                                 <div id="logo_preview" class="mt-2"></div>
                             </div>
+
+                            <input type="hidden" name="tahun_akademik" value="<?php echo $tahun_akademik; ?>">
 
                             <div class="form-group">
                                 <button type="submit">Kirim</button>

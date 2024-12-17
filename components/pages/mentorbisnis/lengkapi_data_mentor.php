@@ -45,6 +45,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $no_telepon = mysqli_real_escape_string($conn, $_POST['no_telepon']);
 
+    // Inisialisasi variabel foto profil
+    $foto_profile = null;
+
+    // Cek apakah ada file yang diunggah
+    if (isset($_FILES['foto_profil']) && $_FILES['foto_profil']['error'] === UPLOAD_ERR_OK) {
+        // Mendapatkan info file yang diunggah
+        $file_tmp = $_FILES['foto_profil']['tmp_name'];
+        $file_name = basename($_FILES['foto_profil']['name']);
+        $file_ext = pathinfo($file_name, PATHINFO_EXTENSION);
+
+        // Validasi ekstensi file
+        $valid_ext = ['jpg', 'jpeg', 'png', 'gif'];
+        if (in_array($file_ext, $valid_ext)) {
+            // Tentukan folder penyimpanan
+            $upload_dir = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/mentorbisnis/uploads/';
+            if (!file_exists($upload_dir)) {
+                mkdir($upload_dir, 0777, true);
+            }
+
+            // Generate nama file unik
+            $new_file_name = 'mentor_' . time() . '.' . $file_ext;
+            $target_file = $upload_dir . $new_file_name;
+
+            // Pindahkan file ke folder tujuan
+            if (move_uploaded_file($file_tmp, $target_file)) {
+                $foto_profile = '/Aplikasi-Kewirausahaan/components/pages/mentorbisnis/uploads/' . $new_file_name;
+            } else {
+                die("Gagal mengunggah foto profil.");
+            }
+        } else {
+            die("Ekstensi file tidak valid. Harap unggah file dengan ekstensi JPG, JPEG, PNG, atau GIF.");
+        }
+    }
+
     // Array untuk menyimpan field yang akan diupdate
     $update_fields = [
         "keahlian" => $keahlian,
@@ -53,6 +87,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         "email" => $email,
         "contact" => $no_telepon,
     ];
+
+    // Jika foto profil diunggah, tambahkan ke array
+    if ($foto_profile) {
+        $update_fields['foto_profile'] = $foto_profile;
+    }
 
     // Query untuk update data mentor
     $set_clause = [];
@@ -94,7 +133,7 @@ $conn->close();
         </div>
         <div class="form-container">
             <h2>Lengkapi Data Anda Sebagai Mentor Bisnis</h2>
-            <form method="POST" action="">
+            <form method="POST" action="" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="nama">Nama Lengkap</label>
                     <input id="nama" name="nama" type="text" value="<?php echo htmlspecialchars($data['nama']); ?>" readonly />
@@ -123,13 +162,12 @@ $conn->close();
                     <label for="no_telepon">Nomor Telepon</label>
                     <input id="no_telepon" name="no_telepon" type="text" value="<?php echo htmlspecialchars($data['no_telepon'] ?? ''); ?>" required />
                 </div>
-               <!-- Foto Profil (file input) -->
                 <div class="form-group">
                     <label for="foto_profil" class="form-label">Foto Profil 
                         <small class="text-muted">(JPG, JPEG, PNG)</small>
                     </label>
                     <div class="input-group">
-                        <input type="file" class="form-control" id="foto_profil" name="foto_profil" accept=".jpg,.jpeg,.png,.gif" value="<?php echo htmlspecialchars($data['foto_profil'] ?? ''); ?>" required>
+                        <input type="file" class="form-control" id="foto_profil" name="foto_profil" accept=".jpg,.jpeg,.png,.gif" required>
                     </div>
                 </div>
                 <button class="submit-btn" type="submit">Tambahkan</button>

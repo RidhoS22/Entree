@@ -74,7 +74,7 @@ if (!$result_mentor) {
                                     aria-expanded="false" aria-controls="collapse<?= $mentor['id']; ?>">
                                     <div class="card-header">
                                         <img alt="Profile picture of the mentor" class="w-12 h-12 rounded-full me-2" height="50" 
-                                            src="https://storage.googleapis.com/a1aa/image/60LA1xO6dyL2LFetVAwefJrBSFz6yOaTM9L4lgigtC4peNTPB.jpg" width="50"/>
+                                        src="<?= htmlspecialchars($mentor['foto_profile']); ?>" width="50"/>
                                         <div>
                                             <h2 class="font-bold mb-0"><?= htmlspecialchars($mentor['nama']); ?></h2>
                                             <p class="mb-0">Peran: <?= htmlspecialchars($mentor['peran']); ?></p>

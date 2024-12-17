@@ -99,10 +99,6 @@ if ($id_kelompok) {
                             </div>
                         </div>
 
-                        <p><strong>Ide Bisnis:</strong></p>
-                        <span id="ide-bisnis-text"><?php echo htmlspecialchars($kelompok['ide_bisnis']); ?></span>
-                        <textarea id="ide-bisnis-input" style="display: none;"><?php echo htmlspecialchars($kelompok['ide_bisnis']); ?></textarea>
-
                         <div class="category">
                             <p><strong>Kategori Bisnis:</strong> --</p>
                         </div>

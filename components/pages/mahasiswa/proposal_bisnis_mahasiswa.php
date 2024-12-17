@@ -1,13 +1,10 @@
 <?php
-// Menghubungkan ke database
+session_start();
+// Koneksi ke database
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
-// Mengambil data proposal bisnis dan ide bisnis dari tabel kelompok_bisnis
-$query = "
-    SELECT p.*, k.ide_bisnis
-    FROM proposal_bisnis p
-    LEFT JOIN kelompok_bisnis k ON p.kelompok_id = k.id_kelompok
-";
+// Pastikan id_kelompok sudah ada di sesi
+$query = "SELECT id, judul_proposal, status FROM proposal_bisnis";
 $result = mysqli_query($conn, $query);
 ?>
 

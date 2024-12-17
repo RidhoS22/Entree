@@ -6,8 +6,28 @@ $nama_kelompok = mysqli_real_escape_string($conn, $_POST['nama_kelompok']);
 $jumlah_anggota = $_POST['jumlah_anggota'];
 $npm_ketua = $_SESSION['npm'];
 $nama_bisnis = mysqli_real_escape_string($conn, $_POST['nama_bisnis']);
-$ide_bisnis = mysqli_real_escape_string($conn, $_POST['ide_bisnis']);
 $logo_bisnis = $_FILES['logo_bisnis'];
+
+// Menghitung tahun ajaran
+$currentYear = date("Y");
+$currentMonth = date("m");
+if ($currentMonth >= 7) { // Semester Ganjil
+    $tahun_akademik = $currentYear . "/" . ($currentYear + 1) . " Ganjil";
+} else { // Semester Genap
+    $tahun_akademik = ($currentYear - 1) . "/" . $currentYear . " Genap";
+}
+
+// Ambil ID tahun akademik yang aktif
+$cekTahunAktifQuery = "SELECT id FROM tahun_akademik WHERE status = 'Aktif' LIMIT 1";
+$cekTahunAktifResult = mysqli_query($conn, $cekTahunAktifQuery);
+$tahun_akademik_id = null;
+if (mysqli_num_rows($cekTahunAktifResult) > 0) {
+    $row = mysqli_fetch_assoc($cekTahunAktifResult);
+    $tahun_akademik_id = $row['id'];
+} else {
+    echo "<script>alert('Tidak ada tahun akademik yang aktif.'); window.location.href='kelompok_bisnis.php';</script>";
+    exit();
+}
 
 $logo_nama_file = basename($logo_bisnis['name']);
 $logo_path = "logos/" . $logo_nama_file;
@@ -26,7 +46,7 @@ while ($row = mysqli_fetch_assoc($cekAnggotaDiKelompokResult)) {
     $npmAnggotaDiKelompok[] = $row['npm_anggota'];
 }
 
-$npmAnggotaDiKelompok[] = $npm_ketua; 
+$npmAnggotaDiKelompok[] = $npm_ketua; // Menambahkan ketua kelompok yang sedang login
 
 for ($i = 1; $i <= $jumlah_anggota; $i++) {
     $npm_anggota = $_POST['npm_anggota_' . $i];
@@ -64,14 +84,15 @@ if (mysqli_num_rows($cekKetuaDiKelompokResult) > 0) {
     exit();
 }
 
-$sql = "INSERT INTO kelompok_bisnis (npm_ketua, nama_kelompok, nama_bisnis, ide_bisnis, logo_bisnis)
-        VALUES ('$npm_ketua', '$nama_kelompok', '$nama_bisnis', '$ide_bisnis', '$logo_nama_file')";
+// Menyimpan data kelompok bisnis dengan tahun akademik aktif
+$sql = "INSERT INTO kelompok_bisnis (npm_ketua, nama_kelompok, nama_bisnis, logo_bisnis, tahun_akademik_id)
+        VALUES ('$npm_ketua', '$nama_kelompok', '$nama_bisnis', '$logo_nama_file', '$tahun_akademik_id')";
 if (mysqli_query($conn, $sql)) {
     $kelompok_id = mysqli_insert_id($conn);
 
     for ($i = 1; $i <= $jumlah_anggota; $i++) {
         $npm_anggota = $_POST['npm_anggota_' . $i];
-        $npm_anggota_hanya_angka = preg_replace('/\D/', '', $npm_anggota); 
+        $npm_anggota_hanya_angka = preg_replace('/\D/', '', $npm_anggota);
 
         $anggota_sql = "INSERT INTO anggota_kelompok (id_kelompok, npm_anggota)
                         VALUES ('$kelompok_id', '$npm_anggota_hanya_angka')";

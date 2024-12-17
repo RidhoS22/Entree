@@ -36,7 +36,7 @@
                     Tambah Tahun Akademik
                 </button>
 
-               <!-- Modal -->
+               <!-- Tambahkan Form pada Modal -->
                 <div class="modal fade" id="tahunAkademikModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -45,43 +45,53 @@
                                 <h5 class="modal-title" id="modalTitle">Tambah Tahun Akademik</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <!-- Modal Body -->
-                            <div class="modal-body">
-                                <!-- Dropdown Tahun -->
-                                <div class="mb-3">
-                                    <label for="tahunDropdown" class="form-label">Pilih Tahun:</label>
-                                    <select class="form-select" id="tahunDropdown" onchange="filterJenisTahun()">
-                                        <option value="" disabled selected>Pilih Tahun</option>
-                                        <?php
-                                        // Mengisi dropdown tahun dengan PHP
-                                        $currentYear = date('Y');
-                                        for ($i = 2010; $i <= $currentYear; $i++) {
-                                            echo "<option value='$i'>$i</option>";
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
 
-                                <!-- Radio Button Jenis Tahun -->
-                                <div class="mb-3" id="jenisTahunSection" style="display: none;">
-                                    <label class="form-label">Pilih Jenis Tahun:</label>
-                                    <div>
-                                        <input type="radio" name="jenisTahun" id="ganjil" value="ganjil" onclick="tampilkanHasil()">
-                                        <label for="ganjil">Ganjil</label>
-                                        <input type="radio" name="jenisTahun" id="genap" value="genap" onclick="tampilkanHasil()">
-                                        <label for="genap">Genap</label>
+                            <!-- Form Input -->
+                            <form action="tambah_tahun_akademik.php" method="POST">
+                                <!-- Modal Body -->
+                                <div class="modal-body">
+                                    <!-- Dropdown Tahun -->
+                                    <div class="mb-3">
+                                        <label for="tahunDropdown" class="form-label">Pilih Tahun:</label>
+                                        <select class="form-select" id="tahunDropdown" name="tahun_awal" required>
+                                            <option value="" disabled selected>Pilih Tahun</option>
+                                            <?php
+                                            $currentYear = date('Y');
+                                            for ($i = 2010; $i <= $currentYear; $i++) {
+                                                echo "<option value='$i'>$i</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+
+                                    <!-- Radio Button Jenis Tahun -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Jenis Tahun:</label>
+                                        <div>
+                                            <input type="radio" name="jenis_tahun" id="ganjil" value="Ganjil" required>
+                                            <label for="ganjil">Ganjil</label>
+                                            <input type="radio" name="jenis_tahun" id="genap" value="Genap" required>
+                                            <label for="genap">Genap</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Dropdown Status -->
+                                    <div class="mb-3">
+                                        <label for="statusDropdown" class="form-label">Status Tahun Akademik:</label>
+                                        <select class="form-select" id="statusDropdown" name="status" required>
+                                            <option value="" disabled selected>Pilih Status</option>
+                                            <option value="Aktif">Aktif</option>
+                                            <option value="Tidak Aktif">Tidak Aktif</option>
+                                        </select>
                                     </div>
                                 </div>
 
-                                <!-- Hasil Filter Tahun Akademik -->
-                                <div id="hasilTahun" class="mt-3"></div>
-                            </div>
-
-                            <!-- Modal Footer -->
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-success" onclick="simpanTahun()">Simpan</button>
-                            </div>
+                                <!-- Modal Footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success">Simpan</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -92,24 +102,38 @@
 
                     <!-- Daftar file -->
                     <ul id="fileList">
-                        <li>
-                            <div class="file-info">
-                                2024/2025 - Ganjil 
-                                <span>(Aktif)</span>
-                            </div>
-                            <div class="icon-group">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="file-info">
-                                2024/2025 - Genap 
-                                <span></span>
-                            </div>
-                            <div class="icon-group">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </div>
-                        </li>
+                        <?php
+                        // Koneksi ke database
+                        include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+                        // Query untuk mengambil data tahun akademik
+                        $sql = "SELECT tahun, jenis_tahun, status FROM tahun_akademik ORDER BY tahun DESC";
+                        $result = $conn->query($sql);
+
+                        // Tampilkan data
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $tahun_berikutnya = $row['tahun'] + 1;
+                                $status_tahun = strcasecmp(trim($row['status']), 'Aktif') == 0 ? 'Aktif' : 'Tidak Aktif';
+                                echo "
+                                <li>
+                                    <div class='file-info'>
+                                        {$row['tahun']}/{$tahun_berikutnya} {$row['jenis_tahun']} 
+                                        <span>($status_tahun)</span>
+                                    </div>
+                                    <div class='icon-group'>
+                                        <a href='hapus_tahun_akademik.php?tahun={$row['tahun']}&jenis={$row['jenis_tahun']}' onclick='return confirm(\"Hapus tahun akademik ini?\");'>
+                                            <i class='fa-solid fa-trash-can' style='color: red;'></i>
+                                        </a>
+                                    </div>
+                                </li>";
+                            }
+                        } else {
+                            echo "<li>Belum ada data tahun akademik.</li>";
+                        }
+
+                        $conn->close();
+                        ?>
                     </ul>
                 </div>
                 
@@ -130,11 +154,19 @@
 
         // Fungsi untuk menampilkan hasil berdasarkan jenis tahun
         function tampilkanHasil() {
-            const jenisTahun = document.querySelector('input[name="jenisTahun"]:checked').value;
+            // Ambil tahun terpilih dari dropdown atau input
+            const tahunTerpilih = document.getElementById('tahunDropdown').value; // Pastikan ada id 'tahunDropdown'
+            const jenisTahun = document.querySelector('input[name="jenisTahun"]:checked'); // Cek input radio yang dipilih
 
-            if (tahunTerpilih) {
+            if (tahunTerpilih && jenisTahun) {
                 const tahunBerikutnya = parseInt(tahunTerpilih) + 1; // Hitung tahun berikutnya
-                let tahunAkademik = `${tahunTerpilih}/${tahunBerikutnya} - ${jenisTahun.charAt(0).toUpperCase() + jenisTahun.slice(1)}`;
+                const jenisTahunValue = jenisTahun.value;
+
+                // Format jenis tahun agar huruf pertama menjadi kapital
+                const jenisTahunFormatted = jenisTahunValue.charAt(0).toUpperCase() + jenisTahunValue.slice(1);
+
+                // Format tahun akademik
+                const tahunAkademik = `${tahunTerpilih}/${tahunBerikutnya} ${jenisTahunFormatted}`;
 
                 // Tampilkan hasil tahun akademik
                 document.getElementById('hasilTahun').innerHTML = `
@@ -142,20 +174,58 @@
                         Tahun Akademik: <strong>${tahunAkademik}</strong>
                     </div>
                 `;
-            }
-        }
-
-        // Fungsi untuk menyimpan pilihan
-        function simpanTahun() {
-            const hasil = document.getElementById('hasilTahun').innerText;
-            if (hasil) {
-                alert("Pilihan Anda: " + hasil.replace("Tahun Akademik: ", "").trim());
-                // Anda juga bisa menambahkan logika penyimpanan ke database di sini
             } else {
                 alert("Harap pilih tahun dan jenis tahun terlebih dahulu!");
             }
         }
 
+        // Fungsi untuk menyimpan pilihan dan menambahkannya ke daftar
+        function simpanTahun() {
+            const hasilElement = document.getElementById('hasilTahun');
+            const hasil = hasilElement.innerText.trim(); // Ambil teks dari elemen hasilTahun
+
+            if (hasil) {
+                // Ambil tahun akademik yang baru
+                const tahunAkademikBaru = hasil.replace("Tahun Akademik: ", "").trim();
+
+                // Menambahkan tahun akademik baru ke daftar
+                const ul = document.getElementById('fileList');
+                const li = document.createElement('li');
+
+                // Isi elemen li dengan HTML yang benar menggunakan backticks
+                li.innerHTML = `
+                    <div class="file-info">
+                        ${tahunAkademikBaru} 
+                        <span>(Aktif)</span>
+                    </div>
+                    <div class="icon-group">
+                        <i class="fa-solid fa-trash-can" style="cursor: pointer; color: red;"></i>
+                    </div>
+                `;
+
+                // Menambahkan elemen baru ke bagian atas daftar
+                ul.prepend(li);
+
+                // Menandai tahun akademik aktif (reset status aktif lainnya)
+                const listItems = ul.querySelectorAll('li');
+                listItems.forEach(item => {
+                    const tahun = item.querySelector('.file-info').textContent.trim();
+                    if (tahun === tahunAkademikBaru) {
+                        item.querySelector('.file-info span').textContent = '(Aktif)';
+                    } else {
+                        item.querySelector('.file-info span').textContent = '';
+                    }
+                });
+
+                // Reset form atau tampilan setelah disimpan
+                document.getElementById('tahunDropdown').value = ''; // Reset dropdown tahun
+                hasilElement.innerHTML = ''; // Kosongkan hasil tampilan
+                alert("Tahun Akademik berhasil ditambahkan!");
+
+            } else {
+                alert("Harap pilih tahun dan jenis tahun terlebih dahulu!");
+            }
+        }
     </script>
 </body>
 

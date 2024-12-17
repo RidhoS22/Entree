@@ -60,15 +60,23 @@ if ($result_mentor->num_rows > 0) {
                 <button class="edit-btn" type="button">
                     <i class="fas fa-edit"></i>
                 </button>
+                <!-- Profile Header with Edit Photo -->
+                <!-- Profile Header with Edit Photo -->
+                <!-- Profile Header with Edit Photo -->
                 <div class="profile-header">
-                <div class="profile-item">
-                        <img alt="Profile picture of the mentor" height="50" src="https://storage.googleapis.com/a1aa/image/Q1BtK1AStCLeOKUuTRnqzR27EJRLg5SmUePjrHw1ilMCaVsTA.jpg" width="50"/>                    </div>
+                    <div class="profile-item">
+                        <img alt="Profile picture of the mentor" height="50" src="<?= htmlspecialchars($mentor['foto_profile']); ?>" width="50" id="profile-photo"/>
+                        <button class="edit-photo-btn" type="button" style="display: none;">
+                            <i class="fas fa-camera"></i> Edit Foto
+                        </button>
+                        <!-- Hidden file input for uploading image -->
+                        <input type="file" id="profile-photo-input" style="display: none;" accept="image/png, image/jpeg, image/gif"/>
+                    </div>
                     <div class="profile-item">
                         <h2>Username</h2>
                         <p><?= htmlspecialchars($_SESSION['username']); ?></p>
                     </div>
                 </div>
-
                 <!-- Grid profile data -->
                 <div class="profile-grid">
                     <div class="profile-item">
@@ -118,13 +126,57 @@ if ($result_mentor->num_rows > 0) {
     </div>
 
     <script>
+    document.querySelector('.edit-photo-btn').addEventListener('click', function () {
+        const photoInput = document.querySelector('#profile-photo-input');
+        photoInput.click(); // Menyembunyikan input dan memicu klik
+    });
+
+    // Ketika file foto dipilih
+    document.querySelector('#profile-photo-input').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Hanya file gambar dengan format PNG, JPG, JPEG, dan GIF yang diperbolehkan.');
+                return;
+            }
+            uploadProfilePicture(file); // Fungsi untuk mengunggah foto
+        }
+    });
+
+    // Fungsi untuk mengunggah foto ke server
+    function uploadProfilePicture(file) {
+        const formData = new FormData();
+        formData.append('profile_picture', file);
+
+        fetch('/Aplikasi-Kewirausahaan/components/pages/mentorbisnis/upload_photo.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Jika berhasil, tampilkan foto yang baru
+                document.querySelector('#profile-photo').src = data.photo_url;
+                alert('Foto berhasil diperbarui!');
+            } else {
+                alert('Terjadi kesalahan saat mengunggah foto.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat mengunggah foto.');
+        });
+    }
+
     document.querySelector('.edit-btn').addEventListener('click', function () {
-        // Ambil elemen terkait
+    // Ambil elemen terkait
         const phoneText = document.querySelector('.phone-text');
         const phoneInput = document.querySelector('.phone-input');
         const skillText = document.querySelector('.skill-text');
         const skillInput = document.querySelector('.skill-input');
         const actionButtons = document.querySelector('.action-buttons');
+        const editPhotoBtn = document.querySelector('.edit-photo-btn'); // Ambil tombol edit foto
 
         // Sembunyikan teks, tampilkan input, dan tombol aksi
         phoneText.style.display = 'none';
@@ -133,9 +185,13 @@ if ($result_mentor->num_rows > 0) {
         skillInput.style.display = 'block';
         actionButtons.style.display = 'flex';
 
+        // Tampilkan tombol Edit Foto setelah klik Edit
+        editPhotoBtn.style.display = 'block';
+
         // Fokuskan input pertama
         phoneInput.focus();
     });
+
 
     // Tombol Simpan
     document.querySelector('.save-btn').addEventListener('click', function () {
@@ -144,6 +200,7 @@ if ($result_mentor->num_rows > 0) {
         const skillText = document.querySelector('.skill-text');
         const skillInput = document.querySelector('.skill-input');
         const actionButtons = document.querySelector('.action-buttons');
+        const editPhotoBtn = document.querySelector('.edit-photo-btn'); // Ambil tombol edit foto
 
         // Validasi nomor telepon (10-15 digit angka)
         const newPhone = phoneInput.value.trim();
@@ -169,6 +226,7 @@ if ($result_mentor->num_rows > 0) {
         skillText.style.display = 'block';
         skillInput.style.display = 'none';
         actionButtons.style.display = 'none';
+        editPhotoBtn.style.display = "none";
 
         // Kirim data ke server menggunakan AJAX
         updateProfile(newPhone, newSkill);
@@ -181,6 +239,7 @@ if ($result_mentor->num_rows > 0) {
         const skillText = document.querySelector('.skill-text');
         const skillInput = document.querySelector('.skill-input');
         const actionButtons = document.querySelector('.action-buttons');
+        const editPhotoBtn = document.querySelector('.edit-photo-btn'); // Ambil tombol edit foto
 
         // Kembalikan nilai awal
         phoneInput.value = phoneText.textContent.trim();
@@ -192,6 +251,7 @@ if ($result_mentor->num_rows > 0) {
         skillText.style.display = 'block';
         skillInput.style.display = 'none';
         actionButtons.style.display = 'none';
+        editPhotoBtn.style.display = "none";
     });
 
     // Fungsi untuk kirim data ke server
