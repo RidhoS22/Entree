@@ -43,15 +43,15 @@ if (!$result_mentor) {
 <body>
     <div class="wrapper">
         <?php 
-        $activePage = 'daftar_mentor_mahasiswa'; // Halaman ini aktif
-        include 'sidebar_mahasiswa.php'; 
+        $activePage = 'daftar_mentor_mentor'; // Halaman ini aktif
+        include 'sidebar_mentor.php'; 
         ?>
 
         <div class="main p-3">
             <div class="main_header">
                 <?php 
                     $pageTitle = "Daftar Mentor Bisnis"; // Judul halaman
-                    include 'header_mahasiswa.php'; 
+                    include 'header_mentor.php'; 
                 ?>
             </div>
 
@@ -91,9 +91,12 @@ if (!$result_mentor) {
                                 <!-- Content Collapse -->
                                 <div id="collapse<?= $mentor['id']; ?>" class="collapse" data-bs-parent="#accordionExample">
                                     <div class="card-body">
+                                        <p>NIDN: <?= htmlspecialchars($mentor['nidn']); ?></p>
                                         <p>Keahlian: <?= htmlspecialchars($mentor['keahlian']); ?></p>
                                         <p>Fakultas: <?= htmlspecialchars($mentor['fakultas']); ?></p>
-                                        <p>Prodi: <?= htmlspecialchars($mentor['prodi']); ?></p>    
+                                        <p>Prodi: <?= htmlspecialchars($mentor['prodi']); ?></p>
+                                        <p>Email: <?= htmlspecialchars($mentor['email']); ?></p>
+                                        <p>Nomor Telepon: <?= htmlspecialchars($mentor['contact']); ?></p>  
                                     </div>
                                 </div>
                             </div>

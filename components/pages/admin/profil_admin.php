@@ -7,17 +7,17 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
-$user_id = $_SESSION['user_id']; // Ambil user_id dari session
+// $user_id = $_SESSION['user_id']; // Ambil user_id dari session
 
-// Mengambil data mahasiswa dari database berdasarkan user_id
-$query_mahasiswa = "SELECT * FROM mahasiswa WHERE user_id = '$user_id'";
-$result_mahasiswa = $conn->query($query_mahasiswa);
+// // Mengambil data admin dari database berdasarkan user_id
+// $query_admin = "SELECT * FROM admin WHERE user_id = '$user_id'";
+// $result_admin = $conn->query($query_admin);
 
-if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
-    $mahasiswa = $result_mahasiswa->fetch_assoc();
-} else {
-    die("Data mahasiswa tidak ditemukan.");
-}
+// if ($result_admin && $result_admin->num_rows > 0) {
+//     $admin = $result_admin->fetch_assoc();
+// } else {
+//     die("Data admin tidak ditemukan.");
+// }
 ?>
 
 <!DOCTYPE html>

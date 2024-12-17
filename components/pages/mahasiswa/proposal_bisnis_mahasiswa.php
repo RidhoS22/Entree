@@ -43,8 +43,9 @@ $result = mysqli_query($conn, $query);
             </div>
 
             <div class="main_wrapper">
-        
-                <button id="openFormBtn">Tambah Proposal Bisnis</button>
+                <div class="btn-container">
+                    <button id="openFormBtn">Tambah Proposal Bisnis</button>
+                </div>
 
                 <!-- Modal Form -->
                 <div id="modalForm" class="modal">
@@ -168,7 +169,7 @@ $result = mysqli_query($conn, $query);
                 </div>
 
                 <!-- Menampilkan proposal bisnis dalam bentuk card -->
-                <div class="card-deck">
+                <div class="card-container">
                     <?php
                     // Memeriksa apakah ada data proposal yang diambil dari database
                     if (mysqli_num_rows($result) > 0) {
@@ -176,39 +177,42 @@ $result = mysqli_query($conn, $query);
                             // Encode judul_proposal untuk URL
                             $judul_encoded = urlencode($proposal['judul_proposal']);
                             ?>
-                            <div class="card">
-                                <div class="card-header">
+                            <div class="card" style="width: 33%; margin: 10px;">
+                                <div class="card-icon text-center py-4">
+                                    <img src="\Aplikasi-Kewirausahaan\assets\img\document-file_6424455.png" alt="Dokumen" style="width: 50px; height: 50px;">
+                                </div>
+                                <div class="card-body m-0">
                                     <h5 class="card-title"><?php echo htmlspecialchars($proposal['judul_proposal']); ?></h5>
-                                    <i class="fas fa-edit edit-icon" title="Edit Proposal Bisnis" onclick="window.location.href='edit_proposal.php?id=<?php echo $proposal['id']; ?>';"></i>
-                                    </div>
+                                </div>
+                                <table class="table table-bordered m-0 styled-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Status Proposal Bisnis</td>
+                                            <td>
+                                                <span id="status-label" class="status" 
+                                                    style="background-color: <?php 
+                                                        if ($proposal['status'] == 'disetujui') {
+                                                            echo '#2ea56f';
+                                                        } elseif ($proposal['status'] == 'ditolak') {
+                                                            echo '#dc3545';
+                                                        } else {
+                                                            echo 'orange';
+                                                        }
+                                                    ?>; padding: 5px 10px; border-radius: 3px;">
+                                                    <?php echo htmlspecialchars($proposal['status']); ?>            
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="card-footer">
                                 <a href="detail_proposal_bisnis.php?judul=<?php echo urlencode($proposal['judul_proposal']); ?>">
-                                    <div class="card-body">
-                                        <!-- Ganti "Tahapan Bisnis" dengan "Ide Bisnis" -->
-                                        <p><?php echo htmlspecialchars($proposal['ide_bisnis']); ?></p>
                                         <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
-                                    </div>
-                                </a>
-                                <div class="card-footer" style="display: flex; justify-content: space-between; align-items: center;">
-                                    <!-- Status di sebelah kiri -->
-                                    <p style="margin: 0; margin-right: 5px">Status:</p>
-                                    <span id="status-label" class="status" 
-                                        style="background-color: <?php 
-                                            if ($proposal['status'] == 'disetujui') {
-                                                echo '#2ea56f';
-                                            } elseif ($proposal['status'] == 'ditolak') {
-                                                echo '#dc3545';
-                                            } else {
-                                                echo 'orange';
-                                            }
-                                        ?>; padding: 5px 10px; border-radius: 3px;">
-                                        <?php echo htmlspecialchars($proposal['status']); ?>            
-                                    </span>
-
-                                    <!-- Ikon trash can di sebelah kanan -->
+                                    </a>
                                     <i class="fa-solid fa-trash-can delete-icon" title="Hapus Proposal Bisnis" onclick="window.location.href='delete_proposal.php?id=<?php echo $proposal['id']; ?>';"></i>
                                 </div>
-
                             </div>
+
                             <?php
                         }
                     } else {

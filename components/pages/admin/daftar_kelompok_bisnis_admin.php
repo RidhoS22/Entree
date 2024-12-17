@@ -44,7 +44,7 @@ $result = $conn->query($sql);
                     <nav class="navbar navbar-expand-lg bg-body-tertiary">
                         <div class="container-fluid">
                             <select name="year" class="form-select filter-tahun" required>
-                                <option value="" disabled selected>Pilih Tahun</option>
+                                <option value="" disabled selected>Pilih Tahun Akademik</option>
                                 <?php
                                 // Membuat dropdown tahun dari 2000 hingga tahun sekarang
                                 $currentYear = date('Y');
@@ -58,29 +58,18 @@ $result = $conn->query($sql);
                                 <button class="btn btn-outline-success" type="submit">Search</button>
                             </form>
 
-                                 <!-- Tombol Awal -->
-                            <button type="button" class="btn btn-secondary text-white btn-pi" id="myButton">Program Inkubasi</button>
+                           <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
+                                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Semua Kelompok
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" href="#" data-status="btn-secondary">Semua Kelompok</a></li>
+                                    <li><a class="dropdown-item" href="#" data-status="btn-success">Direkomendasi</a></li>
+                                    <li><a class="dropdown-item" href="#" data-status="btn-info">Kelompok Inkubasi</a></li>
+                                </ul>
+                            </div>
 
-                            <script>
-                                // Ambil referensi tombol dengan ID
-                                const button = document.getElementById("myButton");
-
-                                // Tambahkan event listener untuk klik tombol
-                                button.addEventListener("click", function() {
-                                    // Periksa apakah tombol memiliki kelas 'btn-secondary'
-                                    if (button.classList.contains("btn-secondary")) {
-                                        // Jika iya, ubah ke kelas 'btn-success'
-                                        button.classList.remove("btn-secondary");
-                                        button.classList.add("btn-success");
-                                        button.textContent = "Program Inkubasi";
-                                    } else {
-                                        // Jika tidak, kembalikan ke kelas 'btn-secondary'
-                                        button.classList.remove("btn-success");
-                                        button.classList.add("btn-secondary");
-                                        button.textContent = "Program Inkubasi";
-                                    }
-                                });
-                            </script>
                         </div>
                     </nav>
                 </div>
@@ -131,6 +120,30 @@ $result = $conn->query($sql);
             </div>
         </div>
     </div>
+    <script>
+        const dropdownButton = document.getElementById("dropdownMenuButton");
+        const dropdownItems = document.querySelectorAll(".dropdown-item");
+
+        // Tambahkan event listener untuk setiap item di dropdown
+        dropdownItems.forEach(item => {
+            item.addEventListener("click", function(event) {
+                event.preventDefault(); // Mencegah link default
+
+                // Ambil teks dan status warna dari atribut data-status
+                const selectedText = this.textContent;
+                const selectedClass = this.getAttribute("data-status");
+
+                // Reset semua kelas warna tombol
+                dropdownButton.classList.remove("btn-secondary", "btn-success", "btn-warning", "btn-info");
+
+                // Tambahkan kelas warna sesuai pilihan
+                dropdownButton.classList.add(selectedClass);
+
+                // Ubah teks tombol sesuai pilihan dropdown
+                dropdownButton.textContent = selectedText;
+            });
+        });
+    </script>
 </body>
 
 </html>

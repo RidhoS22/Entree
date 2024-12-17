@@ -117,20 +117,20 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
                                 </div>
                                 <div class="collapse" id="collapseExample">
                                     <div class="d-flex justify-content-center collapse" id="collapseExample">
-                                            <div class="card-mentor p-3">
-                                                <img alt="Profile picture of the mentor" height="50" src="https://storage.googleapis.com/a1aa/image/Q1BtK1AStCLeOKUuTRnqzR27EJRLg5SmUePjrHw1ilMCaVsTA.jpg" width="50" class="card-img-top mx-auto d-block mt-3"/>
-                                                <h2 class="card-mentor-title text-center">NAMA MEENTOR</h2>
-                                                <div class="card-mentor-body">
-                                                    <p class="card-mentor-text">Peran:</p>
-                                                    <p class="card-mentor-text">Keahlian:</p>
-                                                    <p class="card-mentor-text">Fakultas:</p>
-                                                    <p class="card-mentor-text">Prodi:</p>
-                                                    <p class="card-mentor-text">Nomor Telepon:</p>
-                                                    <p class="card-mentor-text">Alamat Email:</p>
-                                                </div>
+                                        <div class="card-mentor p-3">
+                                            <img alt="Profile picture of the mentor" height="50" src="https://storage.googleapis.com/a1aa/image/Q1BtK1AStCLeOKUuTRnqzR27EJRLg5SmUePjrHw1ilMCaVsTA.jpg" width="50" class="card-img-top mx-auto d-block mt-3"/>
+                                            <h2 class="card-mentor-title text-center">NAMA MEENTOR</h2>
+                                            <div class="card-mentor-body">
+                                                <p class="card-mentor-text">Peran:</p>
+                                                <p class="card-mentor-text">Keahlian:</p>
+                                                <p class="card-mentor-text">Fakultas:</p>
+                                                <p class="card-mentor-text">Prodi:</p>
+                                                <p class="card-mentor-text">Nomor Telepon:</p>
+                                                <p class="card-mentor-text">Alamat Email:</p>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
                                 
 

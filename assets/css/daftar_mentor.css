@@ -47,3 +47,29 @@
     ); /* Setiap card mengambil 50% lebar, dikurangi margin */
   }
 }
+
+.klik {
+  display: flex;
+  flex-direction: column; /* Elemen diatur ke kolom */
+  align-items: center; /* Pusatkan elemen secara horizontal */
+  justify-content: center; /* Pusatkan elemen secara vertikal */
+  margin-top: 10px; /* Beri jarak antara teks dan ikon */
+}
+
+.klik .toggle-text {
+  cursor: pointer; /* Ubah kursor menjadi pointer saat hover */
+  color: gray; /* Warna teks */
+  font-size: 10px; /* Ukuran font */
+  font-weight: 600; /* Ketebalan font */
+  text-decoration: underline; /* Garis bawah pada teks */
+  transition: color 0.3s ease-in-out; /* Transisi warna teks */
+  margin: 0;
+  padding: 0;
+}
+
+.klik i {
+  color: gray;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}

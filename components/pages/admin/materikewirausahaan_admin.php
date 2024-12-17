@@ -239,6 +239,32 @@ function getFileIcon($fileExtension) {
             </div>
         </div>
     </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const openFormBtn = document.getElementById("openFormBtn");
+        const modalForm = document.getElementById("modalForm");
+        const closeBtn = document.querySelector(".close-btn");
+
+        // Fungsi untuk membuka modal
+        openFormBtn.addEventListener("click", function () {
+            modalForm.style.display = "block";
+        });
+
+        // Fungsi untuk menutup modal
+        closeBtn.addEventListener("click", function () {
+            modalForm.style.display = "none";
+        });
+
+        // Menutup modal jika pengguna klik di luar modal
+        window.addEventListener("click", function (event) {
+            if (event.target === modalForm) {
+                modalForm.style.display = "none";
+            }
+        });
+    });
+</script>
+
 </body>
 
 </html>

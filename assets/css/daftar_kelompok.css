@@ -125,7 +125,13 @@ body {
 
 .filter-tahun {
   width: 60% !important;
-  margin-right: 5px;
+  margin-right: 10px;
+}
+
+.nav_main_wrapper .btn {
+  width: 200px; /* Lebar tombol tetap pada layar besar */
+  text-align: center;
+  margin-left: 10px;
 }
 
 /* Responsiveness */
@@ -140,18 +146,16 @@ body {
     margin-top: 0px !important;
   }
 
+  .nav_main_wrapper .dropdown {
+    width: 100%;
+  }
+
   .nav_main_wrapper .filter-tahun,
   .nav_main_wrapper .d-flex,
-  .nav_main_wrapper .btn-pi {
+  .nav_main_wrapper .dropdown .btn {
+    margin: 0;
     width: 100% !important;
-  }
-
-  .filter-tahun {
     margin-bottom: 5px;
-  }
-
-  .nav_main_wrapper .btn {
-    margin-top: 5px;
   }
 }
 

@@ -287,3 +287,38 @@ body {
 .status.pending {
   background-color: orange;
 }
+
+.btn-container button {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.main_wrapper .card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px; /* Jarak antar kartu */
+}
+
+.main_wrapper .card-container .card {
+  flex: 1 1 calc(30% - 8px); /* Setiap kartu menempati hingga 30% */
+  max-width: 33%; /* Membatasi lebar maksimum kartu ke 30% */
+  box-sizing: border-box; /* Memastikan padding/border tidak memengaruhi ukuran */
+  margin: 0; /* Pastikan tidak ada margin ekstra */
+}
+
+/* Responsif untuk layar sedang */
+@media (max-width: 768px) {
+  .main_wrapper .card-container .card {
+    flex: 1 1 calc(50% - 8px); /* Setiap kartu menempati hingga 50% */
+    max-width: 100%; /* Maksimum lebar kartu 50% */
+  }
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 480px) {
+  .main_wrapper .card-container .card {
+    flex: 1 1 100%; /* Setiap kartu menempati seluruh lebar */
+    max-width: 100%; /* Maksimum lebar kartu 100% */
+  }
+}

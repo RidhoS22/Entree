@@ -47,6 +47,12 @@
                         <span>Materi Kewirausahaan</span>
                     </a>
                 </li>
+                <li class="sidebar-item <?php echo ($activePage == 'daftar_mentor_mentor') ? 'active' : ''; ?>">
+                    <a href="daftar_mentor_mentor.php" class="sidebar-link">
+                        <i class="fa-solid fa-address-card"></i>  
+                        <span>Daftar Mentor Bisnis</span>
+                    </a>
+                </li>
                 <hr>
                 <li class="sidebar-header">
                     <h1>Mentor Bisnis</h1>
