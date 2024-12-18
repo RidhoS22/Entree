@@ -60,6 +60,12 @@
                         <span>Daftar Kelompok Bisnis</span>
                     </a>
                 </li>
+                <li class="sidebar-item <?php echo ($activePage == 'daftar_proposal') ? 'active' : ''; ?>">
+                    <a href="daftar_proposal.php" class="sidebar-link">
+                        <i class="fa-solid fa-calendar"></i>
+                        <span>Daftar Proposal Bisnis</span>
+                    </a>
+                </li>
                 <li class="sidebar-item <?php echo ($activePage == 'tahun_akademik') ? 'active' : ''; ?>">
                     <a href="tahun_akademik.php" class="sidebar-link">
                         <i class="fa-solid fa-calendar"></i>

@@ -254,15 +254,16 @@ body {
 
 .card-header .edit-icon,
 .card-footer .delete-icon,
-.card-body .detail-icon {
+.card-footer .detail-icon {
   font-size: 24px;
   cursor: pointer;
+  color: #000;
   transition: transform 0.2s, color 0.2s;
 }
 
 .card-header .edit-icon:hover,
 .card-footer .delete-icon:hover,
-.card-body .detail-icon:hover {
+.card-footer .detail-icon:hover {
   transform: scale(1.2);
 }
 
@@ -304,11 +305,12 @@ body {
   flex: 1 1 calc(30% - 8px); /* Setiap kartu menempati hingga 30% */
   max-width: 33%; /* Membatasi lebar maksimum kartu ke 30% */
   box-sizing: border-box; /* Memastikan padding/border tidak memengaruhi ukuran */
+  flex-wrap: wrap;
   margin: 0; /* Pastikan tidak ada margin ekstra */
 }
 
 /* Responsif untuk layar sedang */
-@media (max-width: 768px) {
+@media (max-width: 928px) {
   .main_wrapper .card-container .card {
     flex: 1 1 calc(50% - 8px); /* Setiap kartu menempati hingga 50% */
     max-width: 100%; /* Maksimum lebar kartu 50% */

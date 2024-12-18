@@ -26,3 +26,16 @@ body {
 .status.pending {
   background-color: orange;
 }
+
+/* Filter Tahun */
+
+.filter-tahun {
+  width: 60% !important;
+  margin-right: 10px;
+}
+
+.nav_main_wrapper .btn {
+  width: 200px; /* Lebar tombol tetap pada layar besar */
+  text-align: center;
+  margin-left: 10px;
+}

@@ -30,6 +30,40 @@
                     </div>
 
                 <div class="main_wrapper">
+                    <div class="nav_main_wrapper">
+                        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                            <div class="container-fluid">
+                                <select name="year" class="form-select filter-tahun" required>
+                                    <option value="" disabled selected>Pilih Tahun Akademik</option>
+                                    <?php
+                                    // Membuat dropdown tahun dari 2000 hingga tahun sekarang
+                                    $currentYear = date('Y');
+                                    for ($i = 2010; $i <= $currentYear; $i++) {
+                                        echo "<option value='$i'>$i</option>";
+                                    }
+                                    ?>
+                                </select>
+                                <form class="d-flex" role="search">
+                                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                    <button class="btn btn-outline-success" type="submit">Search</button>
+                                </form>
+
+                            <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Semua Kelompok
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" href="#" data-status="btn-warning">Menunggu</a></li>
+                                        <li><a class="dropdown-item" href="#" data-status="btn-success">Disetujui</a></li>
+                                        <li><a class="dropdown-item" href="#" data-status="btn-info">Selesai</a></li>
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </nav>
+                    </div>
+
                     <div class="container mt-4">
                         <?php
                         include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
@@ -98,6 +132,30 @@
                 </div>
 
     </div>
+    <script>
+        const dropdownButton = document.getElementById("dropdownMenuButton");
+        const dropdownItems = document.querySelectorAll(".dropdown-item");
+
+        // Tambahkan event listener untuk setiap item di dropdown
+        dropdownItems.forEach(item => {
+            item.addEventListener("click", function(event) {
+                event.preventDefault(); // Mencegah link default
+
+                // Ambil teks dan status warna dari atribut data-status
+                const selectedText = this.textContent;
+                const selectedClass = this.getAttribute("data-status");
+
+                // Reset semua kelas warna tombol
+                dropdownButton.classList.remove("btn-secondary", "btn-success", "btn-warning", "btn-info");
+
+                // Tambahkan kelas warna sesuai pilihan
+                dropdownButton.classList.add(selectedClass);
+
+                // Ubah teks tombol sesuai pilihan dropdown
+                dropdownButton.textContent = selectedText;
+            });
+        });
+    </script>
 </body>
 
 </html>

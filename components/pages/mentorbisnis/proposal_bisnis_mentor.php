@@ -1,3 +1,13 @@
+<?php
+session_start();
+// Koneksi ke database
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+// Pastikan id_kelompok sudah ada di sesi
+$query = "SELECT id, judul_proposal, status FROM proposal_bisnis";
+$result = mysqli_query($conn, $query);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,21 +40,62 @@
             </div>
 
             <div class="main_wrapper">
-                
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Proposal Bisnis</h2>
-                    </div>
-                    <a href="detail_proposal_bisnis_mentor.php">
-                        <div class="card-body">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente at quidem commodi. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis suscipit dolores sunt molestias. Iusto dignissimos doloremque tempore architecto fuga vero quibusdam molestias quis pariatur impedit, odit delectus explicabo magni vitae quam! Quam aliquam voluptas voluptatem minima aspernatur provident amet atque eligendi eveniet veritatis, ullam eaque iste perspiciatis impedit ex. Reprehenderit aperiam, quod atque voluptas unde facilis mollitia corporis expedita aspernatur asperiores et molestias soluta accusantium repellendus neque itaque consequuntur voluptates laboriosam, minima vitae laborum illum perferendis possimus? Blanditiis provident nihil magni iure nostrum perspiciatis omnis, corrupti ipsa assumenda quisquam maiores esse aliquid quis tenetur veritatis beatae est libero earum nulla! Illum, officia quidem, vel eaque deleniti mollitia voluptate rerum earum nemo quas ex provident doloremque, quis alias fugiat saepe commodi culpa ullam nostrum minus iure. Unde in nostrum optio voluptatibus nemo delectus sed dolore consectetur odit excepturi ab aspernatur rem, tempore iusto et veniam. Hic soluta debitis totam, modi quae doloribus sapiente voluptatem. Possimus voluptatum adipisci, earum corporis consequatur laborum aut illo necessitatibus ducimus quis laboriosam eveniet magni animi neque iste eum facilis tempora sunt? Iste veniam maxime cumque a, eum ab! Enim architecto in repellat modi perferendis et qui, quam, sed maiores veritatis praesentium cupiditate impedit cum accusantium ad dignissimos sapiente. Reprehenderit placeat dicta non nesciunt iusto ad veniam ab laudantium sit ratione. Enim nobis porro repudiandae deserunt totam minima in harum fuga assumenda, consequuntur deleniti velit repellendus ipsa error voluptate cum.</p>
-                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
-                    </div>
-                    </a>
-                    <div class="card-footer">
-                        <a href="detail_proposal_bisnis_mentor.php">Beri Umpan Balik</a>
-                    </div>
+
+                <!-- Menampilkan proposal bisnis dalam bentuk card -->
+                <div class="card-container">
+                    <?php
+                    // Memeriksa apakah ada data proposal yang diambil dari database
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($proposal = mysqli_fetch_assoc($result)) {
+                            // Encode judul_proposal untuk URL
+                            $judul_encoded = urlencode($proposal['judul_proposal']);
+                            ?>
+                            <div class="card" style="width: 33%; margin: 10px;">
+                                <div class="card-icon text-center py-4">
+                                    <img src="\Aplikasi-Kewirausahaan\assets\img\document-file_6424455.png" alt="Dokumen" style="width: 50px; height: 50px;">
+                                </div>
+                                <div class="card-body m-0">
+                                    <h5 class="card-title"><?php echo htmlspecialchars($proposal['judul_proposal']); ?></h5>
+                                </div>
+                                <table class="table table-bordered m-0 styled-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Status Proposal Bisnis</td>
+                                            <td>
+                                                <span id="status-label" class="status" 
+                                                    style="background-color: <?php 
+                                                        if ($proposal['status'] == 'disetujui') {
+                                                            echo '#2ea56f';
+                                                        } elseif ($proposal['status'] == 'ditolak') {
+                                                            echo '#dc3545';
+                                                        } else {
+                                                            echo 'orange';
+                                                        }
+                                                    ?>; padding: 5px 10px; border-radius: 3px;">
+                                                    <?php echo htmlspecialchars($proposal['status']); ?>            
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="card-footer">
+                                <a href="detail_proposal_bisnis_mentor.php?judul=<?php echo urlencode($proposal['judul_proposal']); ?>">
+                                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
+                                    </a>
+                                    <i class="fa-solid fa-trash-can delete-icon" title="Hapus Proposal Bisnis" onclick="window.location.href='delete_proposal.php?id=<?php echo $proposal['id']; ?>';"></i>
+                                </div>
+                            </div>
+
+                            <?php
+                        }
+                    } else {
+                        echo "<p>Tidak ada proposal bisnis yang ditemukan.</p>";
+                    }
+                    ?>
                 </div>
+                
+             
+            </div>
 </body>
 
 </html>

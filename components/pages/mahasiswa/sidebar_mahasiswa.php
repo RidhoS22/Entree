@@ -48,8 +48,8 @@ $kelompokStatus = mysqli_num_rows($cekKelompokResult) > 0 ? true : false;
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <div class="sidebar-logo">
-                    <a href="#">Yarsi Entree</a>
-                </div>
+                    <img src="\Aplikasi-Kewirausahaan\assets\img\Frame 64 1.png" alt="">
+                </div>
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item <?php echo ($activePage == 'profil') ? 'active' : ''; ?>">

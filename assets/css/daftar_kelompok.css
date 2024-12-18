@@ -34,13 +34,13 @@ body {
   box-sizing: border-box;
   transition: transform 0.2s, color 0.2s;
   max-height: 300px;
+  max-width: 49%;
   margin: 10px;
   min-width: 280px; /* Ukuran minimum untuk tampilan kecil */
   background-color: #fff;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-top: -150px !important;
 }
 
 .card:hover {

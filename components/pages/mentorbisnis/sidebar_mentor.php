@@ -57,13 +57,6 @@
                 <li class="sidebar-header">
                     <h1>Mentor Bisnis</h1>
                 </li>
-                <li class="sidebar-item <?php echo ($activePage == 'daftar_kelompok_bisnis_mentor') ? 'active' : ''; ?>">
-                    <a href="daftar_kelompok_bisnis_mentor.php" class="sidebar-link">
-                        <i class="fa-solid fa-users"></i>
-                        <span>Daftar Kelompok Bisnis</span>
-                    </a>
-                </li>
-
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                     data-bs-target="#kelola_bisnis_kelompok" aria-expanded="false" aria-controls="kelola_bisnis_kelompok">
@@ -71,16 +64,10 @@
                         <span>Kelola Bimbingan</span>
                     </a>
                     <ul id="kelola_bisnis_kelompok" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item <?php echo ($activePage == 'proposal_bisnis_mentor') ? 'active' : ''; ?>">
-                            <a href="proposal_bisnis_mentor.php" class="sidebar-link">
-                                <i class="fa-regular fa-file"></i>
-                                <span>Proposal Bisnis</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item <?php echo ($activePage == 'laporan_bisnis_mentor') ? 'active' : ''; ?>">
-                            <a href="laporan_bisnis_mentor.php" class="sidebar-link">
-                                <i class="fa-solid fa-file-invoice"></i>    
-                                <span>Laporan Kemajuan Bisnis</span>
+                        <li class="sidebar-item <?php echo ($activePage == 'daftar_kelompok_bisnis_mentor') ? 'active' : ''; ?>">
+                            <a href="daftar_kelompok_bisnis_mentor.php" class="sidebar-link">
+                                <i class="fa-solid fa-users"></i>
+                                <span>Daftar Kelompok Bisnis</span>
                             </a>
                         </li>
                         <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">

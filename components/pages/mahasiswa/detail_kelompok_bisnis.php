@@ -3,7 +3,7 @@ session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
 // Mendapatkan NPM mahasiswa dari session
-$npm_mahasiswa = $_SESSION['npm'];
+$npm_mahasiswa = $_SESSION['npm'] ?? null; // Pastikan variabel tidak null
 
 // Cek apakah mahasiswa adalah ketua atau anggota kelompok
 $cekKelompokQuery = "
@@ -12,7 +12,7 @@ $cekKelompokQuery = "
     LEFT JOIN anggota_kelompok ak ON kb.id_kelompok = ak.id_kelompok
     WHERE kb.npm_ketua = '$npm_mahasiswa' OR ak.npm_anggota = '$npm_mahasiswa' LIMIT 1";
 $cekKelompokResult = mysqli_query($conn, $cekKelompokQuery);
-$kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
+$kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult) ?: []; // Defaultkan ke array kosong jika null
 
 // Ambil detail mentor berdasarkan nama mentor dari kelompok bisnis
 $mentorData = [];
@@ -32,11 +32,12 @@ if (!empty($kelompokTerdaftar['mentor_bisnis'])) {
     WHERE m.nama = '" . $kelompokTerdaftar['mentor_bisnis'] . "'
     LIMIT 1";
     $mentorResult = mysqli_query($conn, $mentorQuery);
-    $mentorData = mysqli_fetch_assoc($mentorResult);
+    $mentorData = mysqli_fetch_assoc($mentorResult) ?: []; // Defaultkan ke array kosong jika null
 }
 
 $mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -72,7 +73,7 @@ $mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
                         </div>
 
                         <div class="right">
-                            <<!-- Tombol Edit hanya tampil jika mentor belum ditugaskan -->
+                            <!-- Tombol Edit hanya tampil jika mentor belum ditugaskan -->
                         <?php if (!$mentorAda) { ?>
                             <div class="title-edit">
                                 <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
@@ -102,29 +103,61 @@ $mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
 
                             <div class="bottom">
                                 <div class="members">
-                                    <p><strong>Ketua Kelompok:</strong> 
-                                        <?php
-                                            // Mendapatkan nama ketua kelompok berdasarkan npm ketua
-                                            $ketuaQuery = "SELECT nama FROM mahasiswa WHERE npm = '" . $kelompokTerdaftar['npm_ketua'] . "' LIMIT 1";
-                                            $ketuaResult = mysqli_query($conn, $ketuaQuery);
-                                            $ketuaData = mysqli_fetch_assoc($ketuaResult);
-                                            echo $ketuaData['nama'];
-                                        ?>
-                                    </p>
-
-                                    <p><strong>Anggota Kelompok:</strong></p>
+                                <p><strong>Ketua Kelompok:</strong> 
                                     <?php
-                                    // Menampilkan anggota kelompok
-                                    $anggotaQuery = "
-                                        SELECT ak.npm_anggota, m.nama
-                                        FROM anggota_kelompok ak
-                                        JOIN mahasiswa m ON ak.npm_anggota = m.npm
-                                        WHERE ak.id_kelompok = " . $kelompokTerdaftar['id_kelompok'];
-                                    $anggotaResult = mysqli_query($conn, $anggotaQuery);
-                                    while ($anggota = mysqli_fetch_assoc($anggotaResult)) {
-                                        echo "<p><i class='fas fa-user'></i> " . $anggota['nama'] . " (" . $anggota['npm_anggota'] . ")</p>";
-                                    }
+                                    // Mendapatkan nama ketua kelompok berdasarkan npm ketua
+                                    $ketuaQuery = "SELECT nama FROM mahasiswa WHERE npm = '" . ($kelompokTerdaftar['npm_ketua'] ?? '') . "' LIMIT 1";
+                                    $ketuaResult = mysqli_query($conn, $ketuaQuery);
+                                    $ketuaData = mysqli_fetch_assoc($ketuaResult) ?: [];
+                                    echo htmlspecialchars($ketuaData['nama'] ?? 'Data tidak tersedia');
                                     ?>
+                                </p>
+
+                                <p><strong>Anggota Kelompok:</strong></p>
+                                <?php
+                                // Menampilkan anggota kelompok
+                                $anggotaQuery = "
+                                    SELECT ak.npm_anggota, m.nama
+                                    FROM anggota_kelompok ak
+                                    JOIN mahasiswa m ON ak.npm_anggota = m.npm
+                                    WHERE ak.id_kelompok = '" . ($kelompokTerdaftar['id_kelompok'] ?? '') . "'";
+                                $anggotaResult = mysqli_query($conn, $anggotaQuery);
+                                if (mysqli_num_rows($anggotaResult) > 0) {
+                                    while ($anggota = mysqli_fetch_assoc($anggotaResult)) {
+                                        echo "<p><i class='fas fa-user'></i> " . htmlspecialchars($anggota['nama'] ?? 'Nama tidak tersedia') . " (" . htmlspecialchars($anggota['npm_anggota'] ?? 'NPM tidak tersedia') . ")</p>";
+                                    }
+                                } else {
+                                    echo "<p>Belum ada anggota kelompok.</p>";
+                                }
+                                ?>
+                                <p><strong>Ketua Kelompok:</strong> 
+                                    <?php
+                                    // Mendapatkan nama ketua kelompok berdasarkan npm ketua
+                                    $ketuaQuery = "SELECT nama FROM mahasiswa WHERE npm = '" . ($kelompokTerdaftar['npm_ketua'] ?? '') . "' LIMIT 1";
+                                    $ketuaResult = mysqli_query($conn, $ketuaQuery);
+                                    $ketuaData = mysqli_fetch_assoc($ketuaResult) ?: [];
+                                    echo htmlspecialchars($ketuaData['nama'] ?? 'Data tidak tersedia');
+                                    ?>
+                                </p>
+
+                                <p><strong>Anggota Kelompok:</strong></p>
+                                <?php
+                                // Menampilkan anggota kelompok
+                                $anggotaQuery = "
+                                    SELECT ak.npm_anggota, m.nama
+                                    FROM anggota_kelompok ak
+                                    JOIN mahasiswa m ON ak.npm_anggota = m.npm
+                                    WHERE ak.id_kelompok = '" . ($kelompokTerdaftar['id_kelompok'] ?? '') . "'";
+                                $anggotaResult = mysqli_query($conn, $anggotaQuery);
+                                if (mysqli_num_rows($anggotaResult) > 0) {
+                                    while ($anggota = mysqli_fetch_assoc($anggotaResult)) {
+                                        echo "<p><i class='fas fa-user'></i> " . htmlspecialchars($anggota['nama'] ?? 'Nama tidak tersedia') . " (" . htmlspecialchars($anggota['npm_anggota'] ?? 'NPM tidak tersedia') . ")</p>";
+                                    }
+                                } else {
+                                    echo "<p>Belum ada anggota kelompok.</p>";
+                                }
+                                ?>
+
                                 </div>
                                 <!-- Mentor Bisnis Section -->
                                 <div class="tutor">
@@ -150,19 +183,26 @@ $mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
                                     <?php if ($mentorAda) { ?>
                                         <div class="collapse" id="collapseExample">
                                             <div class="card-mentor p-3">
-                                                <img alt="Profile picture of the mentor" height="50" src="<?= htmlspecialchars($mentorData['foto_profile']); ?>" width="50" class="card-img-top mx-auto d-block mt-3"/>
-                                                <h2 class="card-mentor-title text-center"><?php echo htmlspecialchars($mentorData['nama_mentor']); ?></h2>
+                                                <img 
+                                                    alt="Profile picture of the mentor" 
+                                                    height="50" 
+                                                    src="<?= htmlspecialchars($mentorData['foto_profile'] ?? '\Aplikasi-Kewirausahaan\assets\img\user_9071610.png'); ?>" 
+                                                    width="50" 
+                                                    class="card-img-top mx-auto d-block mt-3"
+                                                />
+                                                <h2 class="card-mentor-title text-center"><?= htmlspecialchars($mentorData['nama_mentor'] ?? 'Nama mentor tidak tersedia'); ?></h2>
                                                 <div class="card-mentor-body">
-                                                    <p class="card-mentor-text"><strong>Peran:</strong> <?php echo htmlspecialchars($mentorData['role']); ?></p>
-                                                    <p class="card-mentor-text"><strong>Keahlian:</strong> <?php echo htmlspecialchars($mentorData['keahlian']); ?></p>
-                                                    <p class="card-mentor-text"><strong>Fakultas:</strong> <?php echo htmlspecialchars($mentorData['fakultas']); ?></p>
-                                                    <p class="card-mentor-text"><strong>Prodi:</strong> <?php echo htmlspecialchars($mentorData['prodi']); ?></p>
-                                                    <p class="card-mentor-text"><strong>Nomor Telepon:</strong> <?php echo htmlspecialchars($mentorData['contact']); ?></p>
-                                                    <p class="card-mentor-text"><strong>Alamat Email:</strong> <?php echo htmlspecialchars($mentorData['email']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Peran:</strong> <?= htmlspecialchars($mentorData['role'] ?? 'Data tidak tersedia'); ?></p>
+                                                    <p class="card-mentor-text"><strong>Keahlian:</strong> <?= htmlspecialchars($mentorData['keahlian'] ?? 'Data tidak tersedia'); ?></p>
+                                                    <p class="card-mentor-text"><strong>Fakultas:</strong> <?= htmlspecialchars($mentorData['fakultas'] ?? 'Data tidak tersedia'); ?></p>
+                                                    <p class="card-mentor-text"><strong>Prodi:</strong> <?= htmlspecialchars($mentorData['prodi'] ?? 'Data tidak tersedia'); ?></p>
+                                                    <p class="card-mentor-text"><strong>Nomor Telepon:</strong> <?= htmlspecialchars($mentorData['contact'] ?? 'Data tidak tersedia'); ?></p>
+                                                    <p class="card-mentor-text"><strong>Alamat Email:</strong> <?= htmlspecialchars($mentorData['email'] ?? 'Data tidak tersedia'); ?></p>
                                                 </div>
                                             </div>
                                         </div>
                                     <?php } ?>
+
                                 </div>
 
                                 <div class="action-buttons" style="display: none;">

@@ -39,6 +39,8 @@ function getFileIcon($fileExtension) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>Aplikasi Kewirausahaan</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
@@ -62,13 +64,21 @@ function getFileIcon($fileExtension) {
             </div>
 
             <div class="main_wrapper">
-                <button id="openFormBtn">Tambah Materi</button>
 
-                <!-- Modal Form Tambah Materi -->
-                <div id="modalForm" class="modal modal-form">
+            <!-- Button trigger modal -->
+                <button type="button" class="btn-hijau" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Tambah Materi
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <span class="close-btn">&times;</span>
-                        <h2>Tambahkan Materi</h2>
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Materi Kewirausahaan</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
                         <form method="POST" action="" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="judul">Judul Materi:</label>
@@ -96,17 +106,15 @@ function getFileIcon($fileExtension) {
                                 <label for="deskripsi">Deskripsi Materi: (Maks. 500 karakter)</label>
                                 <textarea id="deskripsi" name="deskripsi" maxlength="500" required></textarea>
                             </div>
-                            <div class="form-group">
-                                <button type="submit" name="kirim">Kirim</button>
-                            </div>
+                    </div>
+                    <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-success" name="kirim">Unggah Materi</button>
                         </form>
                     </div>
+                    </div>
                 </div>
-
-
-
-                
-                
+                </div>
 
                 <?php
                 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
@@ -239,31 +247,6 @@ function getFileIcon($fileExtension) {
             </div>
         </div>
     </div>
-
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const openFormBtn = document.getElementById("openFormBtn");
-        const modalForm = document.getElementById("modalForm");
-        const closeBtn = document.querySelector(".close-btn");
-
-        // Fungsi untuk membuka modal
-        openFormBtn.addEventListener("click", function () {
-            modalForm.style.display = "block";
-        });
-
-        // Fungsi untuk menutup modal
-        closeBtn.addEventListener("click", function () {
-            modalForm.style.display = "none";
-        });
-
-        // Menutup modal jika pengguna klik di luar modal
-        window.addEventListener("click", function (event) {
-            if (event.target === modalForm) {
-                modalForm.style.display = "none";
-            }
-        });
-    });
-</script>
 
 </body>
 

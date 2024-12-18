@@ -72,47 +72,41 @@ $result = $conn->query($sql);
                 </div>
                             
                 <?php
-                // Cek apakah ada data kelompok bisnis
                 if ($result->num_rows > 0) {
-                    echo '<div class="row">'; // Mulai row untuk grid
-                    // Menampilkan data kelompok bisnis
-                    while($row = $result->fetch_assoc()) {
+                    while ($row = $result->fetch_assoc()) {
                         $id_kelompok = $row['id_kelompok'];
                         echo '
-                        <div class="col-md-4 col-sm-6 mb-4"> <!-- Kolom grid responsif -->
-                            <div class="card">
-                                <div class="card-icon text-center py-4">
-                                    <i class="fa-solid fa-users"></i>
-                                </div>
-                                <div class="card-body m-0">
-                                    <h5 class="card-title">Kelompok ' . htmlspecialchars($row['nama_kelompok']) . '</h5>
-                                </div>
-                                <table class="table table-bordered m-0 styled-table">
-                                    <tbody>
-                                        <tr>
-                                            <td>Mentor Bisnis</td>
-                                            <td>Bapak LALA</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Status Proposal Bisnis</td>
-                                            <td>STATUS</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Program Inkubasi Bisnis</td>
-                                            <td>STATUS</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="card-footer">
-                                    <a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
-                                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Kelompok Bisnis"></i>
-                                    </a>
-                                </div>
+                        <div class="card" style="width: 45%; margin: 10px;">
+                            <div class="card-icon text-center py-4">
+                                <i class="fa-solid fa-users"></i>
                             </div>
-                        </div>
-                        ';
+                            <div class="card-body m-0">
+                                <h5 class="card-title">Kelompok ' . htmlspecialchars($row['nama_kelompok']) . '</h5>
+                            </div>
+                            <table class="table table-bordered m-0 styled-table">
+                                <tbody>
+                                    <tr>
+                                        <td>Mentor Bisnis</td>
+                                        <td>Bapak LALA</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status Proposal Bisnis</td>
+                                        <td>STATUS</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Program Inkubasi Bisnis</td>
+                                        <td>STATUS</td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="card-footer">
+                                <a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
+                                    <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Kelompok Bisnis"></i>
+                                </a>
+                            </div> 
+                        </div>';
                     }
-                    echo '</div>'; // Tutup row
                 } else {
                     echo '<p>Tidak ada kelompok bisnis yang tersedia.</p>';
                 }

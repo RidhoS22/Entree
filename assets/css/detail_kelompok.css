@@ -282,14 +282,13 @@ textarea:focus {
 }
 
 .card-mentor {
-  background-color: #fff;
+  background-color: #f4f4f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 20px;
-  width: 100%;
+  width: 95%;
   box-sizing: border-box;
-  float: left;
 }
 .card-mentor img {
   border-radius: 50%;
@@ -309,4 +308,10 @@ textarea:focus {
   content: "";
   clear: both;
   display: table;
+}
+
+.table-container {
+  width: 100% !important;
+  table-layout: auto !important;
+  overflow-x: auto !important;
 }

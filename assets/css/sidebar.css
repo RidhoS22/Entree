@@ -71,10 +71,19 @@ body {
   margin: auto 0;
 }
 
+/* versi tulissan */
+
 .sidebar-logo a {
   color: #fff;
   font-size: 1.15rem;
   font-weight: 600;
+}
+
+/* versi image */
+.sidebar-logo img {
+  color: #fff;
+  width: 70%;
+  height: 70%;
 }
 
 #sidebar:not(.expand) .sidebar-logo,
@@ -248,4 +257,28 @@ a.sidebar-link:hover {
 
 .close-btn:hover {
   color: #e74c3c; /* Warna hover lebih menarik */
+}
+
+.main_wrapper .btn-hijau {
+  background-color: #2ea56f;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.main_wrapper .btn-hijau:hover {
+  background-color: #299363;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.main_wrapper .btn-hijau:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
