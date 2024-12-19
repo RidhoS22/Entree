@@ -79,7 +79,7 @@ if ($id_kelompok) {
                             </button>
                             <!-- Modal Rekomendasi -->
                             <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="recommendationModalLabel">Rekomendasi Program Inkubasi</h5>

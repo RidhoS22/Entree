@@ -62,7 +62,7 @@
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'daftar_proposal') ? 'active' : ''; ?>">
                     <a href="daftar_proposal.php" class="sidebar-link">
-                        <i class="fa-solid fa-calendar"></i>
+                        <i class="fa-solid fa-file"></i>
                         <span>Daftar Proposal Bisnis</span>
                     </a>
                 </li>

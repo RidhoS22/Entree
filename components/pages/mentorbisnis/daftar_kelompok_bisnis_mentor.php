@@ -20,6 +20,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_kelompok'], $_POST
         $errorMessage = "Gagal menambahkan mentor: " . $conn->error;
     }
 }
+
+// Ambil kata kunci pencarian jika ada
+$search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Modifikasi query untuk mencari mentor berdasarkan nama jika ada input pencarian
+$query_mentor = "
+    SELECT 
+        mentor.*, 
+        users.role AS peran 
+    FROM mentor 
+    JOIN users ON mentor.user_id = users.id
+    WHERE mentor.nama LIKE '%$search%'"; // Filter berdasarkan nama mentor
+$result_mentor = $conn->query($query_mentor);
+
+if (!$result_mentor) {
+    die("Error: " . $conn->error);
+}
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_kelompok'], $_POST
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/daftar_kelompok.css">
+    <style>
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 
 <body>
@@ -65,7 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_kelompok'], $_POST
                             <select name="year" class="form-select filter-tahun" required>
                                 <option value="" disabled selected>Pilih Tahun Akademik</option>
                                 <?php
-                                // Membuat dropdown tahun dari 2000 hingga tahun sekarang
                                 $currentYear = date('Y');
                                 for ($i = 2010; $i <= $currentYear; $i++) {
                                     echo "<option value='$i'>$i</option>";
@@ -122,20 +145,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_kelompok'], $_POST
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="card-footer">
-                                <a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
-                                    <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Kelompok Bisnis"></i>
-                                </a>';
+                            <div class="card-footer">';
 
                         if ($_SESSION['role'] == 'Dosen Pengampu') {
-                            echo '<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah Mentor</button>';
+                            echo '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah Mentor</button>';
                         }
+
+                        echo '<a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
+                                <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Kelompok Bisnis"></i>
+                            </a>';
 
                         echo '</div>';
                         echo '</div>';
 
                         echo '<div class="modal fade" id="mentorModal' . $id_kelompok . '" tabindex="-1" aria-labelledby="mentorModalLabel' . $id_kelompok . '" aria-hidden="true">';
-                        echo '<div class="modal-dialog">';
+                        echo '<div class="modal-dialog modal-dialog-centered modal-xl">';
                         echo '<div class="modal-content">';
                         echo '<div class="modal-header">';
                         echo '<h5 class="modal-title" id="mentorModalLabel' . $id_kelompok . '">Pilih Mentor Bisnis</h5>';
@@ -158,6 +182,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_kelompok'], $_POST
                         echo '</div>';
                         echo '<button type="submit" class="btn btn-success">Simpan</button>';
                         echo '</form>';
+
+                        // Query untuk mendapatkan data mentor
+                        $mentorQuery = "SELECT * FROM mentor";
+                        $result_mentor = $conn->query($mentorQuery);
+
+                        echo '<form action="" method="get" class="mb-4">
+                            <div class="input-group mt-4">
+                                <input type="text" class="form-control" placeholder="Cari mentor..." name="search" value="' . htmlspecialchars($search) . '">
+                                <button class="btn btn-success" type="submit">Cari</button>
+                            </div>
+                        </form>';        
+                        if ($result_mentor->num_rows > 0) {
+                            echo '<div class="clearfix">';
+                            while ($mentor = $result_mentor->fetch_assoc()) {
+                                echo '
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card-mentor mb-3">
+                                        <a data-bs-toggle="collapse" href="#collapse' . $mentor['id'] . '" role="button" 
+                                            aria-expanded="false" aria-controls="collapse' . $mentor['id'] . '">
+                                            <div class="card-mentor-header">
+                                                <img alt="Profile picture of the mentor" class="w-12 h-12 rounded-full me-2" height="50" 
+                                                src="' . htmlspecialchars($mentor['foto_profile']) . '" width="50"/>
+                                                <div>
+                                                    <h2 class="font-bold mb-0">' . htmlspecialchars($mentor['nama']) . '</h2>
+                                                    <p class="mb-0">Peran: ' . htmlspecialchars($mentor['peran'] ?? 'Belum ada peran') . '</p>
+                                                </div>
+                                                <div class="klik d-flex flex-column align-items-center">
+                                                    <span class="toggle-text" id="toggle-text-' . $mentor['id'] . '">
+                                                        Klik untuk melihat detail data mentor
+                                                    </span>
+                                                    <i class="fa-solid fa-caret-down"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div id="collapse' . $mentor['id'] . '" class="collapse" data-bs-parent="#accordionExample">
+                                            <div class="card-mentor-body">
+                                                <p>NIDN: ' . htmlspecialchars($mentor['nidn']) . '</p>
+                                                <p>Keahlian: ' . htmlspecialchars($mentor['keahlian']) . '</p>
+                                                <p>Fakultas: ' . htmlspecialchars($mentor['fakultas']) . '</p>
+                                                <p>Prodi: ' . htmlspecialchars($mentor['prodi']) . '</p>
+                                                <p>Email: ' . htmlspecialchars($mentor['email']) . '</p>
+                                                <p>Nomor Telepon: ' . htmlspecialchars($mentor['contact']) . '</p>
+                        
+                                                <button type="submit" class="btn btn-success mt-2">Pilih sebagai Mentor</button>
+                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>';
+                            }
+                            echo '</div>';
+                        } else {
+                            echo '<p>Tidak ada mentor yang ditemukan.</p>';
+                        }
+                        
                         echo '</div>';
                         echo '</div>';
                         echo '</div>';
@@ -170,30 +249,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_kelompok'], $_POST
             </div>
         </div>
     </div>
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Pilih semua elemen collapse yang digunakan
+            const collapses = document.querySelectorAll('.collapse');
+
+            collapses.forEach(function (collapse) {
+                collapse.addEventListener('show.bs.collapse', function () {
+                    const mentorId = this.id.replace('collapse', '');
+                    const toggleText = document.getElementById('toggle-text-' + mentorId);
+                    const caretIcon = toggleText.nextElementSibling; // Mengambil ikon setelah span
+                    
+                    if (toggleText) {
+                        toggleText.style.display = 'none'; // Hilangkan teks
+                    }
+                    if (caretIcon) {
+                        caretIcon.style.display = 'none'; // Hilangkan ikon
+                    }
+                });
+
+                collapse.addEventListener('hide.bs.collapse', function () {
+                    const mentorId = this.id.replace('collapse', '');
+                    const toggleText = document.getElementById('toggle-text-' + mentorId);
+                    const caretIcon = toggleText.nextElementSibling; // Mengambil ikon setelah span
+
+                    if (toggleText) {
+                        toggleText.style.display = 'inline'; // Tampilkan teks
+                    }
+                    if (caretIcon) {
+                        caretIcon.style.display = 'inline'; // Tampilkan ikon
+                    }
+                });
+            });
+        });
+
+    </script>
     <script>
+
         const dropdownButton = document.getElementById("dropdownMenuButton");
         const dropdownItems = document.querySelectorAll(".dropdown-item");
 
-        // Tambahkan event listener untuk setiap item di dropdown
         dropdownItems.forEach(item => {
             item.addEventListener("click", function(event) {
-                event.preventDefault(); // Mencegah link default
+                event.preventDefault();
 
-                // Ambil teks dan status warna dari atribut data-status
                 const selectedText = this.textContent;
                 const selectedClass = this.getAttribute("data-status");
 
-                // Reset semua kelas warna tombol
                 dropdownButton.classList.remove("btn-secondary", "btn-success", "btn-warning", "btn-info");
 
-                // Tambahkan kelas warna sesuai pilihan
                 dropdownButton.classList.add(selectedClass);
 
-                // Ubah teks tombol sesuai pilihan dropdown
                 dropdownButton.textContent = selectedText;
             });
         });
     </script>
+    
 </body>
 
 </html>
