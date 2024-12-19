@@ -87,7 +87,7 @@ $result = $conn->query($sql);
                                 <tbody>
                                     <tr>
                                         <td>Mentor Bisnis</td>
-                                        <td>Bapak LALA</td>
+                                        <td>STATUS</td>
                                     </tr>
                                     <tr>
                                         <td>Status Proposal Bisnis</td>

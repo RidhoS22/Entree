@@ -297,7 +297,7 @@ body {
 .main_wrapper .card-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   gap: 8px; /* Jarak antar kartu */
 }
 

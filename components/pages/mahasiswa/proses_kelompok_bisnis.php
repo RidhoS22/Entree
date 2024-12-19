@@ -90,10 +90,24 @@ $sql = "INSERT INTO kelompok_bisnis (npm_ketua, nama_kelompok, nama_bisnis, logo
 if (mysqli_query($conn, $sql)) {
     $kelompok_id = mysqli_insert_id($conn);
 
+    // Mengupdate id_kelompok pada mahasiswa untuk ketua
+    $updateKetuaQuery = "UPDATE mahasiswa SET id_kelompok = '$kelompok_id' WHERE npm = '$npm_ketua'";
+    mysqli_query($conn, $updateKetuaQuery);
+
+    // Mengupdate id_kelompok pada mahasiswa untuk anggota
     for ($i = 1; $i <= $jumlah_anggota; $i++) {
         $npm_anggota = $_POST['npm_anggota_' . $i];
         $npm_anggota_hanya_angka = preg_replace('/\D/', '', $npm_anggota);
 
+        $updateAnggotaQuery = "UPDATE mahasiswa SET id_kelompok = '$kelompok_id' WHERE npm = '$npm_anggota_hanya_angka'";
+        if (!mysqli_query($conn, $updateAnggotaQuery)) {
+            echo "<script>
+                    alert('Error updating anggota: " . mysqli_error($conn) . "');
+                </script>";
+            exit();
+        }
+
+        // Menyimpan anggota ke dalam tabel anggota_kelompok
         $anggota_sql = "INSERT INTO anggota_kelompok (id_kelompok, npm_anggota)
                         VALUES ('$kelompok_id', '$npm_anggota_hanya_angka')";
         if (!mysqli_query($conn, $anggota_sql)) {
@@ -104,6 +118,7 @@ if (mysqli_query($conn, $sql)) {
         }
     }
 
+    // Redirect ke detail kelompok bisnis
     header('Location: detail_kelompok_bisnis.php?id=' . $kelompok_id);
     exit();
 } else {

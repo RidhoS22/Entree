@@ -67,13 +67,13 @@
                         <li class="sidebar-item <?php echo ($activePage == 'daftar_kelompok_bisnis_mentor') ? 'active' : ''; ?>">
                             <a href="daftar_kelompok_bisnis_mentor.php" class="sidebar-link">
                                 <i class="fa-solid fa-users"></i>
-                                <span>Daftar Kelompok Bisnis</span>
+                                Daftar Kelompok Bisnis
                             </a>
                         </li>
                         <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">
                             <a href="jadwal_bimbingan_mentor.php" class="sidebar-link">
                                 <i class="fa-solid fa-calendar"></i>
-                                <span>Jadwal Bimbingan</span>
+                                Jadwal Bimbingan
                             </a>
                         </li>
                     </ul>

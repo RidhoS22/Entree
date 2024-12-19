@@ -79,7 +79,7 @@ if ($id_kelompok) {
                             </button>
                             <!-- Modal Rekomendasi -->
                             <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="recommendationModalLabel">Rekomendasi Program Inkubasi</h5>
@@ -124,15 +124,14 @@ if ($id_kelompok) {
                         </div>
                         <div class="cards-container">
                             <!-- Card 1 -->
-                            <div class="card" onclick="window.location.href='proposal_bisnis_admin.php'" title="Lihat Proposal Bisnis Kelompok Disini">
+                            <div class="card" onclick="window.location.href='proposal_bisnis_admin.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Lihat Proposal Bisnis Kelompok Disini">
                                 <h5>Proposal Bisnis</h5>
                             </div>
                             <!-- Card 2 -->
-                            <div class="card" onclick="window.location.href='laporan_bisnis_admin.php'" title="Laporan Kemajuan Bisnis Kelompok Disini">
+                            <div class="card" onclick="window.location.href='laporan_bisnis_admin.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Laporan Kemajuan Bisnis Kelompok Disini">
                                 <h5>Laporan Kemajuan Bisnis</h5>
                             </div>
                         </div>
-
                     </div>
                 </div>
             <?php } else { ?>

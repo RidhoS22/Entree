@@ -148,7 +148,7 @@ if ($id) {
                         </div>
                     </form>
 
-                    <a href="jadwal_bimbingan_mahasiswa.php" class="btn btn-secondary">Kembali</a>
+                    <a href="jadwal_bimbingan_mentor.php" class="btn btn-secondary">Kembali</a>
                 </div>       
             </div>
     </div>

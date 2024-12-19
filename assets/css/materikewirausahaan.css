@@ -2,7 +2,7 @@
 /* admin */
 /* FORM */
 
-.main_wrapper button {
+.main_wrapper .btn-hijau {
   background-color: #2ea56f;
   color: white;
   padding: 10px 20px;
@@ -16,13 +16,13 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.main_wrapper button:hover {
+.main_wrapper .btn-hijau:hover {
   background-color: #299363;
   transform: translateY(-3px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
-.main_wrapper button:active {
+.main_wrapper .btn-hijau:active {
   transform: translateY(1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -117,22 +117,6 @@ form input[type="file"]:focus,
 form textarea:focus {
   border-color: #2ea56f;
   outline: none;
-}
-
-form button {
-  width: 100%;
-  padding: 10px;
-  background-color: #2ea56f;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-form button:hover {
-  background-color: #299363;
 }
 
 .modal-form .modal h2 {
@@ -434,7 +418,7 @@ form button:hover {
   object-fit: cover; /* Potong gambar agar sesuai dengan area */
 }
 
-.card button {
+.card .btn-hijau {
   margin: 10px;
 }
 

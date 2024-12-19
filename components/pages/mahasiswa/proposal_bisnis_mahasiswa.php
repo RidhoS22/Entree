@@ -3,9 +3,19 @@ session_start();
 // Koneksi ke database
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
-// Pastikan id_kelompok sudah ada di sesi
-$query = "SELECT id, judul_proposal, status FROM proposal_bisnis";
+$user_id = $_SESSION['user_id'];  // ID pengguna dari session
+$query = "SELECT id_kelompok FROM mahasiswa WHERE user_id = '$user_id'";
 $result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+$_SESSION['id_kelompok'] = $row['id_kelompok'];  // Menyimpan ID Kelompok di session lagi
+$stmt = $conn->prepare("SELECT proposal_bisnis.id, proposal_bisnis.judul_proposal, proposal_bisnis.status 
+                        FROM proposal_bisnis 
+                        JOIN kelompok_bisnis 
+                        ON proposal_bisnis.kelompok_id = kelompok_bisnis.id_kelompok 
+                        WHERE proposal_bisnis.kelompok_id = ?");
+$stmt->bind_param("i", $_SESSION['id_kelompok']); // Sesuaikan dengan session id_kelompok Anda
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +53,7 @@ $result = mysqli_query($conn, $query);
 
                  <!-- Tombol untuk membuka modal -->
                  <button type="button" class="btn-hijau" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Tambah Proposal
+                    Tambah Proposal Bisnis
                 </button>
 
                 <!-- Modal -->
@@ -51,7 +61,7 @@ $result = mysqli_query($conn, $query);
                     <div class="modal-dialog modal-lg"> <!-- Menggunakan modal-xl untuk modal yang lebih lebar -->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Laporan Kemajuan Bisnis</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambahkan Proposal Bisnis</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
@@ -178,8 +188,8 @@ $result = mysqli_query($conn, $query);
                     // Memeriksa apakah ada data proposal yang diambil dari database
                     if (mysqli_num_rows($result) > 0) {
                         while ($proposal = mysqli_fetch_assoc($result)) {
-                            // Encode judul_proposal untuk URL
-                            $judul_encoded = urlencode($proposal['judul_proposal']);
+                            // Ambil id untuk URL
+                            $id = $proposal['id'];
                             ?>
                             <div class="card" style="width: 33%; margin: 10px;">
                                 <div class="card-icon text-center py-4">
@@ -210,17 +220,16 @@ $result = mysqli_query($conn, $query);
                                     </tbody>
                                 </table>
                                 <div class="card-footer">
-                                <a href="detail_proposal_bisnis.php?judul=<?php echo urlencode($proposal['judul_proposal']); ?>">
-                                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
-                                    </a>
-                                    <i class="fa-solid fa-trash-can delete-icon" title="Hapus Proposal Bisnis" onclick="window.location.href='delete_proposal.php?id=<?php echo $proposal['id']; ?>';"></i>
+                                <a href="detail_proposal_bisnis.php?id=<?php echo $id; ?>">
+                                    <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
+                                </a>
+                                    <i class="fa-solid fa-trash-can delete-icon" title="Hapus Proposal Bisnis" onclick="confirmDelete(<?php echo $proposal['id']; ?>);"></i>
                                 </div>
                             </div>
 
                             <?php
                         }
                     } else {
-                        echo "<p>Tidak ada proposal bisnis yang ditemukan.</p>";
                     }
                     ?>
                 </div>
@@ -242,6 +251,15 @@ $result = mysqli_query($conn, $query);
             console.log(values)
         }
     })
+
+    function confirmDelete(proposalId) {
+        // Menampilkan dialog konfirmasi sebelum menghapus
+        const confirmation = confirm("Apakah Anda yakin ingin menghapus proposal ini?");
+        if (confirmation) {
+            // Jika pengguna mengkonfirmasi, redirect ke file PHP untuk menghapus
+            window.location.href = 'hapus_proposal.php?id=' + proposalId;
+        }
+    }
     </script>
 </body>
 

@@ -2,21 +2,21 @@
 // Koneksi ke database
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
-// Ambil judul proposal dari URL
-$judul_proposal = isset($_GET['judul']) ? $_GET['judul'] : '';
+// Mengambil id dari URL
+$id_proposal = isset($_GET['id']) ? $_GET['id'] : '';
 
-// Fetch proposal data from database based on the title
-$query = "SELECT * FROM proposal_bisnis WHERE judul_proposal = ?";
+// Fetch data proposal berdasarkan id
+$query = "SELECT * FROM proposal_bisnis WHERE id = ?";
 $stmt = $conn->prepare($query);
-$stmt->bind_param("s", $judul_proposal);
+$stmt->bind_param("i", $id_proposal);  // Menggunakan "i" untuk integer
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Check if proposal exists
+// Memeriksa apakah proposal ditemukan
 if ($result->num_rows > 0) {
     $proposal = $result->fetch_assoc();
 } else {
-    // Handle the case where no proposal is found
+    // Menangani kasus jika proposal tidak ditemukan
     echo "Proposal tidak ditemukan.";
     exit;
 }

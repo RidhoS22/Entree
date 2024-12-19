@@ -125,6 +125,9 @@ function getFileIcon($fileExtension) {
                                     <a id="detailFileLink" href="#" target="_blank" class="file icon" title="Unduh Materi Kewirausahaan">
                                         <i class="fa-solid fa-edit btn-icon"></i>
                                     </a>
+                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" title="Unduh Materi Kewirausahaan">
+                                        <i class="fa-solid fa-trash-can btn-icon"></i>
+                                    </a>
                                 </div>
                             </div>
                     </div>

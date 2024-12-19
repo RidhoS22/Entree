@@ -29,6 +29,11 @@ body {
 
 /* Filter Tahun */
 
+.nav_main_wrapper {
+  display: block;
+  width: 100%;
+}
+
 .filter-tahun {
   width: 60% !important;
   margin-right: 10px;
@@ -38,4 +43,52 @@ body {
   width: 200px; /* Lebar tombol tetap pada layar besar */
   text-align: center;
   margin-left: 10px;
+}
+
+/* Filter Tahun */
+
+.filter-tahun {
+  width: 60% !important;
+  margin-right: 10px;
+}
+
+.nav_main_wrapper .btn {
+  width: 200px; /* Lebar tombol tetap pada layar besar */
+  text-align: center;
+  margin-left: 10px;
+}
+
+.nav_main_wrapper {
+  display: block;
+  width: 100%;
+}
+
+.nav_main_wrapper .btn-tambah {
+  margin-left: 11px;
+  margin-right: 11px;
+}
+
+.nav_main_wrapper .btn-tambah {
+  min-width: 250px;
+}
+
+/* Responsiveness */
+@media screen and (max-width: 1024px) {
+  .nav_main_wrapper .dropdown {
+    width: 100%;
+  }
+
+  .nav_main_wrapper .filter-tahun,
+  .nav_main_wrapper .d-flex,
+  .nav_main_wrapper .dropdown .btn,
+  .nav_main_wrapper .btn-tambah {
+    margin: 0;
+    width: 100% !important;
+    margin-bottom: 5px;
+  }
+
+  .nav_main_wrapper .btn-tambah {
+    margin-left: 11px;
+    margin-right: 11px;
+  }
 }

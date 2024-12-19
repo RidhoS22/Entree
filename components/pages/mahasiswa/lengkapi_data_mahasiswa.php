@@ -80,12 +80,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Lengkapi Data <?= ucfirst($role) ?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/lengkapi_data.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/lengkapi_dataa.css">
 </head>
 <body>
-    <div class="container">
+<div class="container">
         <div class="image-container">
-            <img alt="Illustration of a person holding a key in front of a computer screen with a user login interface"  src="/Aplikasi-Kewirausahaan/assets/img/user_login.png"/>
+            <img alt="Illustration of user registration" src="/Aplikasi-Kewirausahaan/assets/img/background.png" />
         </div>
         
         <div class="form-container">
@@ -99,6 +99,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="form-group">
                         <label for="npm">NPM</label>
                         <input id="npm" name="npm" type="text" value="<?= htmlspecialchars($_SESSION['npm']) ?>" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label for="fakultas">Fakultas</label>
+                        <input id="fakultas" name="fakultas" type="text" value="<?= htmlspecialchars($_SESSION['fakultas']) ?>" readonly />
                     </div>
                     <div class="form-group">
                         <label for="program_studi">Program Studi</label>
@@ -134,3 +138,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </body>
 </html>
+
+

@@ -130,33 +130,6 @@ $mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
                                     echo "<p>Belum ada anggota kelompok.</p>";
                                 }
                                 ?>
-                                <p><strong>Ketua Kelompok:</strong> 
-                                    <?php
-                                    // Mendapatkan nama ketua kelompok berdasarkan npm ketua
-                                    $ketuaQuery = "SELECT nama FROM mahasiswa WHERE npm = '" . ($kelompokTerdaftar['npm_ketua'] ?? '') . "' LIMIT 1";
-                                    $ketuaResult = mysqli_query($conn, $ketuaQuery);
-                                    $ketuaData = mysqli_fetch_assoc($ketuaResult) ?: [];
-                                    echo htmlspecialchars($ketuaData['nama'] ?? 'Data tidak tersedia');
-                                    ?>
-                                </p>
-
-                                <p><strong>Anggota Kelompok:</strong></p>
-                                <?php
-                                // Menampilkan anggota kelompok
-                                $anggotaQuery = "
-                                    SELECT ak.npm_anggota, m.nama
-                                    FROM anggota_kelompok ak
-                                    JOIN mahasiswa m ON ak.npm_anggota = m.npm
-                                    WHERE ak.id_kelompok = '" . ($kelompokTerdaftar['id_kelompok'] ?? '') . "'";
-                                $anggotaResult = mysqli_query($conn, $anggotaQuery);
-                                if (mysqli_num_rows($anggotaResult) > 0) {
-                                    while ($anggota = mysqli_fetch_assoc($anggotaResult)) {
-                                        echo "<p><i class='fas fa-user'></i> " . htmlspecialchars($anggota['nama'] ?? 'Nama tidak tersedia') . " (" . htmlspecialchars($anggota['npm_anggota'] ?? 'NPM tidak tersedia') . ")</p>";
-                                    }
-                                } else {
-                                    echo "<p>Belum ada anggota kelompok.</p>";
-                                }
-                                ?>
 
                                 </div>
                                 <!-- Mentor Bisnis Section -->

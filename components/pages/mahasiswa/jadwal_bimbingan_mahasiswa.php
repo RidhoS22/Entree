@@ -120,7 +120,7 @@
                                 <input type="text" name="lokasi" id="lokasi" class="form-control"
                                     value="<?php echo isset($edit_data['lokasi']) ? $edit_data['lokasi'] : ''; ?>">
                             </div>
-                            <button type="submit" class="btn btn-primary"><?php echo isset($edit_data) ? "Perbarui" : "Simpan"; ?></button>
+                            <button type="submit" class="btn btn-success"><?php echo isset($edit_data) ? "Perbarui" : "Simpan"; ?></button>
                             <?php if ($edit_data): ?>
                                 <a href="jadwal_bimbingan_mahasiswa.php" class="btn btn-secondary">Batal</a>
                             <?php endif; ?>

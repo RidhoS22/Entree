@@ -59,8 +59,66 @@
                                         <li><a class="dropdown-item" href="#" data-status="btn-info">Selesai</a></li>
                                     </ul>
                                 </div>
-
                             </div>
+
+                            <!-- Tombol untuk Membuka Modal -->
+                            <button type="button" class="btn btn-success btn-tambah" data-bs-toggle="modal" data-bs-target="#altScheduleModal">
+                                Tambah Jadwal Bimbingan
+                            </button>
+
+                            <!-- Modal Jadwal Alternatif -->
+                            <div class="modal fade" id="altScheduleModal" tabindex="-1" aria-labelledby="altScheduleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="altScheduleModalLabel">Tambah Jadwal Bimbingan</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="submit_alternative_schedule.php" method="POST">
+                                            <div class="modal-body">
+                                                <div class="mb-3">
+                                                    <label for="altGroupInput" class="form-label">Pilih Kelompok:</label>
+                                                    <select class="form-select" id="altGroupInput" name="alt_group" required>
+                                                        <option value="" disabled selected>Pilih kelompok</option>
+                                                        <option value="Kelompok 1">Kelompok 1</option>
+                                                        <option value="Kelompok 2">Kelompok 2</option>
+                                                        <option value="Kelompok 3">Kelompok 3</option>
+                                                        <option value="Kelompok 4">Kelompok 4</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="nama_kegiatan" class="form-label">Nama Kegiatan</label>
+                                                    <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control" required
+                                                        value="<?php echo isset($edit_data['nama_kegiatan']) ? $edit_data['nama_kegiatan'] : ''; ?>">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="altDateInput" class="form-label">Tanggal:</label>
+                                                    <input type="date" class="form-control" id="altDateInput" name="alt_date" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="altTimeInput" class="form-label">Waktu:</label>
+                                                    <input type="time" class="form-control" id="altTimeInput" name="alt_time" required>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="agenda" class="form-label">agenda</label>
+                                                    <textarea name="agenda" id="agenda" class="form-control"><?php echo isset($edit_data['agenda']) ? $edit_data['agenda'] : ''; ?></textarea>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="altLocationInput" class="form-label">Lokasi:</label>
+                                                    <input type="text" class="form-control" id="altLocationInput" name="alt_location" placeholder="Masukkan lokasi" required>
+                                                </div>
+                                                <input type="hidden" name="jadwal_id" value="<?php echo htmlspecialchars($id); ?>">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
+                                                <button type="submit" class="btn btn-success btn-submit">Buat Jadwal</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </nav>
                     </div>
 
