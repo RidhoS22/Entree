@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['tahun_angkatan'] = $mahasiswa_data['tahun_angkatan'];
                     $_SESSION['fakultas'] = $mahasiswa_data['fakultas'];
                 }
-            } elseif ($user['role'] == 'Tutor') {
+            } elseif (($user['role'] == 'Tutor') || ($user['role'] == 'Dosen Pengampu')) {
                 $mentor_query = "SELECT * FROM mentor WHERE user_id = '".$user['id']."'";
                 $mentor_result = $conn->query($mentor_query);
 

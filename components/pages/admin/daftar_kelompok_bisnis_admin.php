@@ -20,6 +20,11 @@ $result = $conn->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/daftar_kelompok.css">
+    <style>
+    .card {
+        max-height: 300px !important;
+    }
+    </style>
 </head>
 
 <body>
@@ -71,10 +76,12 @@ $result = $conn->query($sql);
                     </nav>
                 </div>
                             
+
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         $id_kelompok = $row['id_kelompok'];
+                        $mentor_bisnis = htmlspecialchars($row['mentor_bisnis']) ?: 'Belum dapat Mentor Bisnis'; // Tampilkan teks jika kosong
                         echo '
                         <div class="card" style="width: 45%; margin: 10px;">
                             <div class="card-icon text-center py-4">
@@ -87,7 +94,7 @@ $result = $conn->query($sql);
                                 <tbody>
                                     <tr>
                                         <td>Mentor Bisnis</td>
-                                        <td>STATUS</td>
+                                        <td>' . $mentor_bisnis . '</td>
                                     </tr>
                                     <tr>
                                         <td>Status Proposal Bisnis</td>
@@ -96,7 +103,6 @@ $result = $conn->query($sql);
                                     <tr>
                                         <td>Program Inkubasi Bisnis</td>
                                         <td>STATUS</td>
-
                                     </tr>
                                 </tbody>
                             </table>

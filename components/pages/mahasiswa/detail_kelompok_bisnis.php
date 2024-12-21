@@ -90,15 +90,17 @@ $mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
                         <?php } ?>
 
                             <!-- Menambahkan Nama Bisnis -->
-                            <p><strong>Nama Bisnis:</strong></p>
-                            <span id="nama-bisnis-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis']); ?></span>
-                            <input type="text" id="nama-bisnis-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis']); ?>" style="display: none;" />
-
+                            <div class="ide_bisnis">
+                                <p><strong>Nama Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis'] ?? '--'); ?></p>
+                            </div>
+                            <div class="ide_bisnis">
+                                <p><strong>Ide Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['ide_bisnis'] ?? '--'); ?></p>
+                            </div>
                             <div class="category">
-                                <p><strong>Kategori Bisnis:</strong> -</p> <!-- Kategori kosong -->
+                                <p><strong>Kategori Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['kategori_bisnis'] ?? '--'); ?></p>
                             </div>
                             <div class="sdg">
-                                <p><strong>Sustainable Development Goals (SDGs):</strong> -</p> <!-- SDGs kosong -->
+                                <p><strong>Sustainable Development Goals (SDGs):</strong> <?php echo htmlspecialchars($kelompokTerdaftar['sdg'] ?? '--'); ?></p>
                             </div>
 
                             <div class="bottom">

@@ -111,22 +111,18 @@ if ($id_kelompok) {
                                 </div>
                             </div>
                         </div>
-
-                        <p><strong>Ide Bisnis:</strong></p>
-                        <?php if (!empty($kelompok['ide_bisnis'])) { ?>
-                            <span id="ide-bisnis-text"><?php echo htmlspecialchars($kelompok['ide_bisnis']); ?></span>
-                            <textarea id="ide-bisnis-input" style="display: none;"><?php echo htmlspecialchars($kelompok['ide_bisnis']); ?></textarea>
-                        <?php } else { ?>
-                            <span id="ide-bisnis-text" class="text-muted">Belum ada ide bisnis</span>
-                            <textarea id="ide-bisnis-input" style="display: none;"></textarea>
-                        <?php } ?>
-
-
+                        
+                        <div class="Nama_bisnis">
+                            <p><strong>Nama Bisnis:</strong> <?php echo htmlspecialchars($kelompok['nama_bisnis'] ?? '--'); ?></p>
+                        </div>
+                        <div class="Ide_Bisnis">
+                            <p><strong>Ide Bisnis:</strong> <?php echo htmlspecialchars($kelompok['ide_bisnis'] ?? '--'); ?></p>
+                        </div>
                         <div class="category">
-                            <p><strong>Kategori Bisnis:</strong> --</p>
+                            <p><strong>Kategori Bisnis:</strong> <?php echo htmlspecialchars($kelompok['kategori_bisnis'] ?? '--'); ?></p>
                         </div>
                         <div class="sdg">
-                            <p><strong>Sustainable Development Goals (SDGs):</strong> --</p>
+                            <p><strong>Sustainable Development Goals (SDGs):</strong> <?php echo htmlspecialchars($kelompok['sdg'] ?? '--'); ?></p>
                         </div>
 
                         <div class="bottom">
@@ -147,11 +143,11 @@ if ($id_kelompok) {
                         </div>
                         <div class="cards-container">
                             <!-- Card 1 -->
-                            <div class="card" onclick="window.location.href='proposal_bisnis_mentor.php'" title="Lihat Proposal Bisnis Kelompok Disini">
+                            <div class="card" onclick="window.location.href='proposal_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Lihat Proposal Bisnis Kelompok Disini">
                                 <h5>Proposal Bisnis</h5>
                             </div>
                             <!-- Card 2 -->
-                            <div class="card" onclick="window.location.href='laporan_bisnis_mentor.php'" title="Laporan Kemajuan Bisnis Kelompok Disini">
+                            <div class="card" onclick="window.location.href='laporan_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Laporan Kemajuan Bisnis Kelompok Disini">
                                 <h5>Laporan Kemajuan Bisnis</h5>
                             </div>
                         </div>

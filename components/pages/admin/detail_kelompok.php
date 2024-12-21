@@ -99,11 +99,17 @@ if ($id_kelompok) {
                             </div>
                         </div>
 
+                        <div class="Nama_bisnis">
+                            <p><strong>Nama Bisnis:</strong> <?php echo htmlspecialchars($kelompok['nama_bisnis'] ?? '--'); ?></p>
+                        </div>
+                        <div class="ide_bisnis">
+                            <p><strong>Ide Bisnis:</strong> <?php echo htmlspecialchars($kelompok['ide_bisnis'] ?? '--'); ?></p>
+                        </div>
                         <div class="category">
-                            <p><strong>Kategori Bisnis:</strong> --</p>
+                            <p><strong>Kategori Bisnis:</strong> <?php echo htmlspecialchars($kelompok['kategori_bisnis'] ?? '--'); ?></p>
                         </div>
                         <div class="sdg">
-                            <p><strong>Sustainable Development Goals (SDGs):</strong> --</p>
+                            <p><strong>Sustainable Development Goals (SDGs):</strong> <?php echo htmlspecialchars($kelompok['sdg'] ?? '--'); ?></p>
                         </div>
 
                         <div class="bottom">

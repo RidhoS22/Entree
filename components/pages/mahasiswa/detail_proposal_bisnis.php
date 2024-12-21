@@ -160,7 +160,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                 <!-- Feedback Section -->
                 <strong>Umpan Balik Dari Mentor:</strong>
                 <div class="feedback-box">
-                    <p><?php echo htmlspecialchars($proposal['umpan_balik'] ?? 'Belum ada umpan balik.'); ?></p>
+                    <p><?php echo htmlspecialchars($proposal['feedback'] ?? 'Belum ada umpan balik.'); ?></p>
                 </div>
                 <a href="proposal_bisnis_mahasiswa.php" class="btn btn-secondary">Kembali</a>
             </div>

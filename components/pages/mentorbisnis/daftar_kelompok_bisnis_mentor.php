@@ -6,6 +6,7 @@ session_start();
 $sql = "SELECT * FROM kelompok_bisnis";
 $result = $conn->query($sql);
 
+// Menangani form POST untuk menambahkan mentor ke kelompok bisnis
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_kelompok'], $_POST['nama_mentor'])) {
     $id_kelompok = $_POST['id_kelompok'];
     $nama_mentor = $_POST['nama_mentor'];
@@ -15,10 +16,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_kelompok'], $_POST
     $stmt->bind_param('si', $nama_mentor, $id_kelompok);
 
     if ($stmt->execute()) {
-        $successMessage = "Mentor berhasil ditambahkan ke kelompok bisnis.";
+        echo json_encode(['success' => true, 'message' => 'Mentor berhasil ditambahkan ke kelompok bisnis']);
     } else {
-        $errorMessage = "Gagal menambahkan mentor: " . $conn->error;
+        echo json_encode(['success' => false, 'message' => 'Gagal menambahkan mentor: ' . $conn->error]);
     }
+    exit;
 }
 
 // Ambil kata kunci pencarian jika ada
@@ -53,6 +55,10 @@ if (!$result_mentor) {
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/daftar_kelompok.css">
     <style>
+        .card {
+        height: 320px !important;
+        }
+
         .card-footer {
             display: flex;
             align-items: center;
@@ -77,29 +83,13 @@ if (!$result_mentor) {
             </div>
 
             <div class="main_wrapper">
-                <?php if (isset($successMessage)) { ?>
-                    <div class="alert alert-success"><?php echo $successMessage; ?></div>
-                <?php } elseif (isset($errorMessage)) { ?>
-                    <div class="alert alert-danger"><?php echo $errorMessage; ?></div>
-                <?php } ?>
-
                 <div class="nav_main_wrapper">
                     <nav class="navbar navbar-expand-lg bg-body-tertiary">
                         <div class="container-fluid">
-                            <select name="year" class="form-select filter-tahun" required>
-                                <option value="" disabled selected>Pilih Tahun Akademik</option>
-                                <?php
-                                $currentYear = date('Y');
-                                for ($i = 2010; $i <= $currentYear; $i++) {
-                                    echo "<option value='$i'>$i</option>";
-                                }
-                                ?>
                             </select>
-                            <form class="d-flex" role="search">
                                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                                 <button class="btn btn-outline-success" type="submit">Search</button>
                             </form>
-
                            <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
                                         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -111,28 +101,28 @@ if (!$result_mentor) {
                                     <li><a class="dropdown-item" href="#" data-status="btn-info">Kelompok Inkubasi</a></li>
                                 </ul>
                             </div>
-
                         </div>
                     </nav>
                 </div>
-
                 <?php
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         $id_kelompok = $row['id_kelompok'];
+                        $mentor_bisnis = $row['mentor_bisnis']; // Get mentor from the group
+                
                         echo '
                         <div class="card" style="width: 45%; margin: 10px;">
                             <div class="card-icon text-center py-4">
                                 <i class="fa-solid fa-users"></i>
                             </div>
                             <div class="card-body m-0">
-                                <h5 class="card-title">Kelompok ' . htmlspecialchars($row['nama_kelompok']) . '</h5>
+                                <h5 class="card-title">' . htmlspecialchars($row['nama_kelompok']) . '</h5>
                             </div>
                             <table class="table table-bordered m-0 styled-table">
                                 <tbody>
                                     <tr>
                                         <td>Mentor Bisnis</td>
-                                        <td>STATUS</td>
+                                        <td>' . ($mentor_bisnis ? htmlspecialchars($mentor_bisnis) : 'Belum dapat Mentor Bisnis') . '</td>
                                     </tr>
                                     <tr>
                                         <td>Status Proposal Bisnis</td>
@@ -141,12 +131,11 @@ if (!$result_mentor) {
                                     <tr>
                                         <td>Program Inkubasi Bisnis</td>
                                         <td>STATUS</td>
-
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="card-footer">';
-
+                
                         if ($_SESSION['role'] == 'Dosen Pengampu') {
                             echo '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah Mentor</button>';
                         }
@@ -166,7 +155,7 @@ if (!$result_mentor) {
                         echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
                         echo '</div>';
                         echo '<div class="modal-body">';
-                        echo '<form method="POST" action="">';
+                        echo '<form method="POST" action="" class="add-mentor-form">';
                         echo '<input type="hidden" name="id_kelompok" value="' . $id_kelompok . '">';
 
                         $mentorSql = "SELECT nama FROM mentor";
@@ -249,7 +238,28 @@ if (!$result_mentor) {
             </div>
         </div>
     </div>
-     <script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script>
+        $(document).on('submit', '.add-mentor-form', function(e) {
+            e.preventDefault();
+            
+            let form = $(this);
+            $.ajax({
+                type: 'POST',
+                url: '', 
+                data: form.serialize(),
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if(response.success) {
+                        alert(response.message);
+                        location.reload(); // Refresh the page
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            });
+        });
+
         document.addEventListener("DOMContentLoaded", function () {
             // Pilih semua elemen collapse yang digunakan
             const collapses = document.querySelectorAll('.collapse');

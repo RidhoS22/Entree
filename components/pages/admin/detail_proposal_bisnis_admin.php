@@ -2,8 +2,9 @@
 // Koneksi ke database
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
-// Mengambil id dari URL
+// Mengambil id dan id_kelompok dari URL
 $id_proposal = isset($_GET['id']) ? $_GET['id'] : null;
+$id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
 
 if ($id_proposal) {
     // Mengambil data proposal bisnis yang terkait dengan kelompok yang login
@@ -43,7 +44,7 @@ $sdg_mapping = [
 
 // Proses SDG menjadi label deskriptif
 $sdg_selected = explode(",", $proposal['sdg']);
-$sdg_labels = array_map(function($key) use ($sdg_mapping) {
+$sdg_labels = array_map(function ($key) use ($sdg_mapping) {
     return $sdg_mapping[$key] ?? $key;
 }, $sdg_selected);
 ?>
@@ -66,17 +67,17 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
 <body>
     <div class="wrapper">
         <!-- Sidebar -->
-        <?php 
-            $activePage = 'laporan_bisnis_admin'; // Halaman ini aktif
-            include 'sidebar_admin.php'; 
+        <?php
+        $activePage = 'laporan_bisnis_admin'; // Halaman ini aktif
+        include 'sidebar_admin.php';
         ?>
 
         <!-- Main Content -->
         <div class="main">
             <!-- Header -->
-            <?php 
-                $pageTitle = "Detail Proposal Bisnis"; // Judul halaman
-                include 'header_admin.php'; 
+            <?php
+            $pageTitle = "Detail Proposal Bisnis"; // Judul halaman
+            include 'header_admin.php';
             ?>
 
             <!-- Content Wrapper -->
@@ -108,7 +109,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                     <tr>
                         <td><strong>Kategori Bisnis:</strong></td>
                         <td class="file-box">
-                            <?php 
+                            <?php
                             if ($proposal['kategori'] === 'lainnya') {
                                 echo htmlspecialchars($proposal['other_category']);
                             } else {
@@ -140,8 +141,8 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                     <tr>
                         <td><strong>Status:</strong></td>
                         <td class="file-box">
-                            <span id="status-label" class="status" 
-                                style="background-color: <?php 
+                            <span id="status-label" class="status"
+                                style="background-color: <?php
                                     if ($proposal['status'] == 'disetujui') {
                                         echo '#2ea56f';
                                     } elseif ($proposal['status'] == 'ditolak') {
@@ -150,7 +151,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                         echo 'orange';
                                     }
                                 ?>;">
-                            <?php echo htmlspecialchars($proposal['status']); ?>
+                                <?php echo htmlspecialchars($proposal['status']); ?>
                             </span>
                         </td>
                     </tr>
@@ -159,9 +160,11 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                 <!-- Feedback Section -->
                 <strong>Umpan Balik Dari Mentor:</strong>
                 <div class="feedback-box">
-                    <p><?php echo htmlspecialchars($proposal['umpan_balik'] ?? 'Belum ada umpan balik.'); ?></p>
+                    <p><?php echo htmlspecialchars($proposal['feedback'] ?? 'Belum ada umpan balik.'); ?></p>
                 </div>
-                <a href="daftar_kelompok_bisnis_admin.php" class="btn btn-secondary">Kembali Ke Daftar Kelompok Bisnis</a>
+                <div class="mt-3" onclick="window.location.href='proposal_bisnis_admin.php?id_kelompok=<?php echo htmlspecialchars($id_kelompok); ?>'" title="Kembali">
+                    <button class="btn btn-primary mt-3">Kembali</button>
+                </div>
             </div>
         </div>
     </div>

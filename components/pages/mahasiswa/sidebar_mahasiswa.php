@@ -11,15 +11,35 @@ $npm = $_SESSION['npm'];  // Pastikan npm sudah diset dalam session
 
 // Query untuk memeriksa apakah pengguna sudah menjadi ketua atau anggota dalam kelompok
 $cekKelompokQuery = "
-    SELECT k.npm_ketua, a.npm_anggota
+    SELECT k.id_kelompok, k.npm_ketua, a.npm_anggota
     FROM kelompok_bisnis k
-    LEFT JOIN anggota_kelompok a ON a.npm_anggota = '$npm'
+    LEFT JOIN anggota_kelompok a ON a.id_kelompok = k.id_kelompok
     WHERE k.npm_ketua = '$npm' OR a.npm_anggota = '$npm'
 ";
 $cekKelompokResult = mysqli_query($conn, $cekKelompokQuery);
 
 // Jika pengguna sudah menjadi ketua atau anggota dalam kelompok
 $kelompokStatus = mysqli_num_rows($cekKelompokResult) > 0 ? true : false;
+
+// Inisialisasi variabel proposalApproved
+$proposalApproved = false;
+
+// Query untuk memeriksa status proposal
+$cekProposalQuery = "
+    SELECT COUNT(*) AS jumlah_disetujui
+    FROM proposal_bisnis p
+    LEFT JOIN kelompok_bisnis k ON p.kelompok_id = k.id_kelompok
+    LEFT JOIN anggota_kelompok a ON a.id_kelompok = k.id_kelompok
+    WHERE (k.npm_ketua = '$npm' OR a.npm_anggota = '$npm') AND p.status = 'disetujui';
+";
+
+$cekProposalResult = mysqli_query($conn, $cekProposalQuery);
+$proposalApproved = false;
+
+if ($cekProposalResult && mysqli_num_rows($cekProposalResult) > 0) {
+    $proposalData = mysqli_fetch_assoc($cekProposalResult);
+    $proposalApproved = $proposalData['jumlah_disetujui'] > 0;
+}
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +107,7 @@ $kelompokStatus = mysqli_num_rows($cekKelompokResult) > 0 ? true : false;
                     </a>
                 </li>
 
-                <!-- Hanya tampilkan menu ini jika pengguna sudah ada dalam kelompok -->
+                <!-- Sidebar -->
                 <?php if ($kelompokStatus): ?>
                 <li class="sidebar-item">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
@@ -102,12 +122,14 @@ $kelompokStatus = mysqli_num_rows($cekKelompokResult) > 0 ? true : false;
                                 Proposal Bisnis
                             </a>
                         </li>
+                        <?php if ($proposalApproved): ?>
                         <li class="sidebar-item <?php echo ($activePage == 'laporan_bisnis_mahasiswa') ? 'active' : ''; ?>">
                             <a href="laporan_bisnis_mahasiswa.php" class="sidebar-link">
                                 <i class="fa-solid fa-file-invoice"></i>    
                                 Laporan Kemajuan Bisnis
                             </a>
                         </li>
+                        <?php endif; ?>
                         <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">
                             <a href="jadwal_bimbingan_mahasiswa.php" class="sidebar-link">
                                 <i class="fa-solid fa-calendar"></i>

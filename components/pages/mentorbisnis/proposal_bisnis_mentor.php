@@ -1,11 +1,15 @@
 <?php
-session_start();
-// Koneksi ke database
+// Mengimpor koneksi database
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
-// Pastikan id_kelompok sudah ada di sesi
-$query = "SELECT id, judul_proposal, status FROM proposal_bisnis";
-$result = mysqli_query($conn, $query);
+// Mendapatkan ID kelompok dari parameter URL
+$id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
+
+if ($id_kelompok) {
+    // Mengambil data proposal bisnis yang terkait dengan kelompok yang login
+    $sql = "SELECT * FROM proposal_bisnis WHERE kelompok_id = $id_kelompok";
+    $result = $conn->query($sql);
+}
 ?>
 
 <!DOCTYPE html>
@@ -40,15 +44,14 @@ $result = mysqli_query($conn, $query);
             </div>
 
             <div class="main_wrapper">
-
                 <!-- Menampilkan proposal bisnis dalam bentuk card -->
                 <div class="card-container">
                     <?php
                     // Memeriksa apakah ada data proposal yang diambil dari database
-                    if (mysqli_num_rows($result) > 0) {
+                    if ($result && mysqli_num_rows($result) > 0) {
                         while ($proposal = mysqli_fetch_assoc($result)) {
-                            // Encode judul_proposal untuk URL
-                            $judul_encoded = urlencode($proposal['judul_proposal']);
+                            // Ambil id untuk URL
+                            $id = $proposal['id'];
                             ?>
                             <div class="card" style="width: 33%; margin: 10px;">
                                 <div class="card-icon text-center py-4">
@@ -79,23 +82,47 @@ $result = mysqli_query($conn, $query);
                                     </tbody>
                                 </table>
                                 <div class="card-footer">
-                                <a href="detail_proposal_bisnis_mentor.php?judul=<?php echo urlencode($proposal['judul_proposal']); ?>">
-                                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
-                                    </a>
-                                    <i class="fa-solid fa-trash-can delete-icon" title="Hapus Proposal Bisnis" onclick="window.location.href='delete_proposal.php?id=<?php echo $proposal['id']; ?>';"></i>
+                                <a href="detail_proposal_bisnis_mentor.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">
+                                    <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
+                                </a>
                                 </div>
                             </div>
 
                             <?php
                         }
                     } else {
-                        echo "<p>Tidak ada proposal bisnis yang ditemukan.</p>";
+                        echo "<p>No proposals found for this group.</p>";
                     }
                     ?>
                 </div>
-                
-             
-            </div>
+                <div class="mt-3" onclick="window.location.href='detail_kelompok.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Kembali ke Detail Kelompok Bisnis">
+                <!-- Tombol dengan ukuran lebih kecil dan penataan posisi di tengah -->
+                    <button class="btn btn-primary mt-3">Kembali ke Detail Kelompok Bisnis</button>
+                </div>
+            </div>  
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
+    <script>
+        new MultiSelectTag('sdg', {
+        rounded: true,    // default true
+        placeholder: 'Search',  // default Search...
+        tagColor: {
+            textColor: '#327b2c',
+            borderColor: '#92e681',
+            bgColor: '#eaffe6',
+        },
+        onChange: function(values) {
+            console.log(values)
+        }
+    })
+    </script>
 </body>
 
 </html>
+
+<?php
+// Menutup koneksi database
+mysqli_close($conn);
+?> 

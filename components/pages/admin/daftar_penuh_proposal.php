@@ -25,7 +25,7 @@
         <div class="main p-3">
             <!-- Header -->
             <?php 
-                $pageTitle = "Detail Proposal Bisnis"; // Judul halaman
+                $pageTitle = "Daftar Proposal Bisnis"; // Judul halaman
                 include 'header_admin.php'; 
             ?>
 </body>
