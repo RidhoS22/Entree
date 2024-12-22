@@ -97,7 +97,7 @@ if ($id_kelompok) {
                 </div>
                 <div class="mt-3" onclick="window.location.href='detail_kelompok.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Kembali ke Detail Kelompok Bisnis">
                 <!-- Tombol dengan ukuran lebih kecil dan penataan posisi di tengah -->
-                    <button class="btn btn-primary mt-3">Kembali ke Detail Kelompok Bisnis</button>
+                    <button class="btn btn-secondary mt-3">Kembali ke Detail Kelompok Bisnis</button>
                 </div>
             </div>  
         </div>

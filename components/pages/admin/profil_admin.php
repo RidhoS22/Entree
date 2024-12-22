@@ -89,7 +89,7 @@ if (!isset($_SESSION['username'])) {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary btn-submit">Simpan Perubahan</button>
+                        <button type="submit" class="btn btn-secondary btn-submit">Simpan Perubahan</button>
                     </div>
                 </form>
             </div>

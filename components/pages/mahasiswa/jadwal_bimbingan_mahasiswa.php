@@ -128,70 +128,70 @@
                         <hr>
 
                         <h2>Daftar Jadwal</h2>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Kegiatan</th>
-                                    <th>Tanggal</th>
-                                    <th>Waktu</th>
-                                    <th>Lokasi</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if ($result->num_rows > 0): ?>
-                                    <?php $no = 1; ?>
-                                    <?php while ($row = $result->fetch_assoc()): ?>
-                                        <tr>
-                                            <td><?php echo $no++; ?></td>
-                                            <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['waktu']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['lokasi']); ?></td>
-                                            <td>
-                                            <span id="status-label" class="status" 
-                                                style="background-color: <?php 
-                                                    if ($row['status'] == 'disetujui') {
-                                                        echo '#2ea56f'; // Hijau
-                                                    } elseif ($row['status'] == 'ditolak') {
-                                                        echo '#dc3545'; // Merah
-                                                    } elseif ($row['status'] == 'jadwal alternatif') {
-                                                        echo '#ffc107'; // Kuning
-                                                    } elseif ($row['status'] == 'selesai') {
-                                                        echo '#007bff'; // Biru
-                                                    } else {
-                                                        echo '#fd7e14'; // Oranye
-                                                    }
-                                                ?>;">
-                                                <?php echo htmlspecialchars($row['status']); ?>
-                                            </span>
-                                            </td>
-                                            <td>
-                                                <a href="?edit_id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">
-                                                    <i class="fas fa-edit" title="Edit Jadwal Bimbingan"></i> 
-                                                </a>
-                                                <a href="#" class="btn btn-danger btn-sm" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#deleteConfirmModal"
-                                                    onclick="setDeleteUrl(<?php echo $row['id']; ?>)">
-                                                    <i class="fa-solid fa-trash-can" title="Hapus Jadwal Bimbingan"></i> 
-                                                </a>
-                                                <a href="detail_jadwal_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
-                                                    <i class="fa-solid fa-eye" title="Lihat Detail Jadwal Bimbingan"></i>
-                                                </a>
-                                            </td>
-
-                                        </tr>
-                                    <?php endwhile; ?>
-                                <?php else: ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
                                     <tr>
-                                        <td colspan="8">Tidak ada jadwal tersedia.</td>
+                                        <th>No</th>
+                                        <th>Nama Kegiatan</th>
+                                        <th>Tanggal</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php if ($result->num_rows > 0): ?>
+                                        <?php $no = 1; ?>
+                                        <?php while ($row = $result->fetch_assoc()): ?>
+                                            <tr>
+                                                <td><?php echo $no++; ?></td>
+                                                <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
+                                                <td>
+                                                <span id="status-label" class="status" 
+                                                    style="background-color: <?php 
+                                                        if ($row['status'] == 'disetujui') {
+                                                            echo '#2ea56f'; // Hijau
+                                                        } elseif ($row['status'] == 'ditolak') {
+                                                            echo '#dc3545'; // Merah
+                                                        } elseif ($row['status'] == 'jadwal alternatif') {
+                                                            echo '#ffc107'; // Kuning
+                                                        } elseif ($row['status'] == 'selesai') {
+                                                            echo '#007bff'; // Biru
+                                                        } else {
+                                                            echo '#fd7e14'; // Oranye
+                                                        }
+                                                    ?>;">
+                                                    <?php echo htmlspecialchars($row['status']); ?>
+                                                </span>
+                                                </td>
+                                                <td>
+                                                    <div class="btn-aksi-mahasiswa">
+                                                        <a href="?edit_id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">
+                                                            <i class="fas fa-edit" title="Edit Jadwal Bimbingan"></i> 
+                                                        </a>
+                                                        <a href="#" class="btn btn-danger btn-sm" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#deleteConfirmModal"
+                                                            onclick="setDeleteUrl(<?php echo $row['id']; ?>)">
+                                                            <i class="fa-solid fa-trash-can" title="Hapus Jadwal Bimbingan"></i> 
+                                                        </a>
+                                                        <a href="detail_jadwal_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+                                                            <i class="fa-solid fa-eye" title="Lihat Detail Jadwal Bimbingan"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="8">Tidak ada jadwal tersedia.</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     <!-- Modal Konfirmasi -->

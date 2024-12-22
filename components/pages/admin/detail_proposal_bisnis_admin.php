@@ -163,7 +163,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                     <p><?php echo htmlspecialchars($proposal['feedback'] ?? 'Belum ada umpan balik.'); ?></p>
                 </div>
                 <div class="mt-3" onclick="window.location.href='proposal_bisnis_admin.php?id_kelompok=<?php echo htmlspecialchars($id_kelompok); ?>'" title="Kembali">
-                    <button class="btn btn-primary mt-3">Kembali</button>
+                    <button class="btn btn-secondary mt-3">Kembali</button>
                 </div>
             </div>
         </div>

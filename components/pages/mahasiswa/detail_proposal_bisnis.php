@@ -97,7 +97,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                         </td>
                     </tr>
                     <tr>
-                        <td><strong>SDG Bisnis:</strong></td>
+                        <td><strong>Tujuan SDGs:</strong></td>
                         <td class="file-box">
                             <ul>
                                 <?php foreach ($sdg_labels as $label): ?>

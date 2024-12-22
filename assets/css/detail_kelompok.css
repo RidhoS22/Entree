@@ -269,6 +269,11 @@ textarea:focus {
     display: flex;
     flex-direction: column;
   }
+
+  .card-mentor {
+    margin: none;
+    background-color: #007bff;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -314,4 +319,11 @@ textarea:focus {
   width: 100% !important;
   table-layout: auto !important;
   overflow-x: auto !important;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .card-mentor {
+    margin: 10px;
+  }
 }

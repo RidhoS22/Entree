@@ -92,3 +92,8 @@ body {
     margin-right: 11px;
   }
 }
+
+.btn-aksi-mahasiswa {
+  display: flex;
+  gap: 3px;
+}

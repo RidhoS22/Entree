@@ -129,7 +129,7 @@ if ($id) {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-primary btn-submit">Kirim</button>
+                                        <button type="submit" class="btn btn-secondary btn-submit">Kirim</button>
                                     </div>
                                 </form>
                             </div>

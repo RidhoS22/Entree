@@ -44,7 +44,7 @@ $result = $conn->query($sql);
 
             <div class="main_wrapper">
                 <div class="nav_main_wrapper">
-                    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <nav class="navbar navbar-expand-lg">
                         <div class="container-fluid">
                             <select name="year" class="form-select filter-tahun" required>
                                 <option value="" disabled selected>Pilih Tahun Akademik</option>
@@ -57,8 +57,8 @@ $result = $conn->query($sql);
                                 ?>
                             </select>
                             <form class="d-flex" role="search">
-                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Search</button>
+                                <input class="form-control me-2" type="search" placeholder="Cari Kelompok" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit">Cari</button>
                             </form>
 
                             <div class="dropdown">

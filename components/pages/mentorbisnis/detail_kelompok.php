@@ -75,7 +75,7 @@ if ($id_kelompok) {
                         <div class="title-edit">
                             <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
                             <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompok['nama_kelompok']); ?>" style="display: none;" />
-                            <button type="button" class="btn btn-primary mt-3" style="background-color: grey; color: white;" data-bs-toggle="modal" data-bs-target="#recommendationModal">
+                            <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#recommendationModal">
                                 Program Inkubasi
                             </button>
                             <!-- Modal Rekomendasi -->
@@ -104,7 +104,7 @@ if ($id_kelompok) {
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Tutup</button>
-                                                <button type="submit" class="btn btn-primary btn-submit">Simpan</button>
+                                                <button type="submit" class="btn btn-secondary btn-submit">Simpan</button>
                                             </div>
                                         </form>
                                     </div>
@@ -178,7 +178,6 @@ if ($id_kelompok) {
                                                     <th>Nama Kelompok</th>
                                                     <th>Nama Kegiatan</th>
                                                     <th>Tanggal</th>
-                                                    <th>Lokasi</th>
                                                     <th>Status</th>
                                                     <th>Aksi</th>
                                                 </tr>
@@ -192,7 +191,6 @@ if ($id_kelompok) {
                                                             <td>ArTECH</td>
                                                             <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
                                                             <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
-                                                            <td><?php echo htmlspecialchars($row['lokasi']); ?></td>
                                                             <td>
                                                                 <span id="status-label" class="status" 
                                                                     style="background-color: <?php 
@@ -246,7 +244,7 @@ if ($id_kelompok) {
 
                 <!-- Tombol Back -->
                 <div class="mt-3">
-                    <a href="daftar_kelompok_bisnis_mentor.php" class="btn btn-primary mt-3">Kembali ke Daftar Kelompok Bisnis</a>
+                    <a href="daftar_kelompok_bisnis_mentor.php" class="btn btn-secondary mt-3">Kembali ke Daftar Kelompok Bisnis</a>
                 </div>
             </div>
         </div>

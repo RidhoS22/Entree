@@ -241,7 +241,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
             <?php endif; ?>
                 <!-- Tambahkan tombol "Kembali" di luar form -->
             <div class="mt-4 text-left">
-                <button type="button" class="btn btn-primary" onclick="window.location.href='proposal_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok ?>'">Kembali</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='proposal_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok ?>'">Kembali</button>
             </div>
             </div>
         </div>

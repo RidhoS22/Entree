@@ -132,62 +132,63 @@
                         ?>
 
                         <h2>Daftar Jadwal</h2>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Kelompok</th>
-                                    <th>Nama Kegiatan</th>
-                                    <th>Tanggal</th>
-                                    <th>Waktu</th>
-                                    <th>Lokasi</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if ($result->num_rows > 0): ?>
-                                    <?php $no = 1; ?>
-                                    <?php while ($row = $result->fetch_assoc()): ?>
-                                        <tr>
-                                            <td><?php echo $no++; ?></td>
-                                            <td>ArTECH</td>
-                                            <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['waktu']); ?></td>
-                                            <td><?php echo htmlspecialchars($row['lokasi']); ?></td>
-                                            <td>
-                                                <span id="status-label" class="status" 
-                                                    style="background-color: <?php 
-                                                        if ($row['status'] == 'disetujui') {
-                                                            echo '#2ea56f';
-                                                        } elseif ($row['status'] == 'ditolak') {
-                                                            echo '#dc3545';
-                                                        } else {
-                                                            echo 'orange';
-                                                        }
-                                                    ?>;">
-                                                    <?php echo htmlspecialchars($row['status']); ?>
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
-                                                    <i class="fa-solid fa-eye" title="Lihat Detail Jadwal Bimbingan"></i>
-                                                </a>
-                                            </td>
-
-                                        </tr>
-                                    <?php endwhile; ?>
-                                <?php else: ?>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
                                     <tr>
-                                        <td colspan="8">Tidak ada jadwal tersedia.</td>
+                                        <th>No</th>
+                                        <th>Nama Kelompok</th>
+                                        <th>Nama Kegiatan</th>
+                                        <th>Tanggal</th>
+                                        <th>Waktu</th>
+                                        <th>Lokasi</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <?php if ($result->num_rows > 0): ?>
+                                        <?php $no = 1; ?>
+                                        <?php while ($row = $result->fetch_assoc()): ?>
+                                            <tr>
+                                                <td><?php echo $no++; ?></td>
+                                                <td>ArTECH</td>
+                                                <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['waktu']); ?></td>
+                                                <td><?php echo htmlspecialchars($row['lokasi']); ?></td>
+                                                <td>
+                                                    <span id="status-label" class="status" 
+                                                        style="background-color: <?php 
+                                                            if ($row['status'] == 'disetujui') {
+                                                                echo '#2ea56f';
+                                                            } elseif ($row['status'] == 'ditolak') {
+                                                                echo '#dc3545';
+                                                            } else {
+                                                                echo 'orange';
+                                                            }
+                                                        ?>;">
+                                                        <?php echo htmlspecialchars($row['status']); ?>
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+                                                        <i class="fa-solid fa-eye" title="Lihat Detail Jadwal Bimbingan"></i>
+                                                    </a>
+                                                </td>
+
+                                            </tr>
+                                        <?php endwhile; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="8">Tidak ada jadwal tersedia.</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    
-                </div>
+                </div>           
 
     </div>
     <script>

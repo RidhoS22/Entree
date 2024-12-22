@@ -32,6 +32,15 @@
   color: #555;
 }
 
+.main_wrapper img {
+  width: 100vh;
+}
+
+.carousel-inner img {
+  max-height: 200px; /* Atur tinggi maksimum sesuai kebutuhan */
+  object-fit: cover; /* Agar gambar tetap proporsional */
+}
+
 /* Responsiveness */
 @media (max-width: 768px) {
   .card {

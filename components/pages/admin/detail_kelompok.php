@@ -74,7 +74,7 @@ if ($id_kelompok) {
                         <div class="title-edit">
                             <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
                             <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompok['nama_kelompok']); ?>" style="display: none;" />
-                            <button type="button" class="btn btn-primary mt-3" style="background-color: grey; color: white;" data-bs-toggle="modal" data-bs-target="#recommendationModal">
+                            <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#recommendationModal">
                                 Program Ingkubasi
                             </button>
                             <!-- Modal Rekomendasi -->
@@ -91,7 +91,7 @@ if ($id_kelompok) {
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Tolak</button>
-                                                <button type="submit" class="btn btn-primary btn-submit">Setuju</button>
+                                                <button type="submit" class="btn btn-secondary btn-submit">Setuju</button>
                                             </div>
                                         </form>
                                     </div>
@@ -147,7 +147,7 @@ if ($id_kelompok) {
 
                 <!-- Tombol Back -->
                 <div class="mt-3">
-                    <a href="daftar_kelompok_bisnis_admin.php" class="btn btn-primary mt-3">Kembali ke Daftar Kelompok Bisnis</a>
+                    <a href="daftar_kelompok_bisnis_admin.php" class="btn btn-secondary mt-3">Kembali ke Daftar Kelompok Bisnis</a>
                 </div>
             </div>
         </div>

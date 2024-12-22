@@ -142,7 +142,9 @@ body {
   }
 
   .card {
-    flex: 1 1 calc(48% - 10px); /* Menyesuaikan ukuran kartu di layar sedang */
+    flex: 1 1 100%; /* Kartu mengambil lebar penuh pada layar kecil */
+    max-width: none;
+    max-height: none;
     margin-top: 0px !important;
   }
 
@@ -168,13 +170,12 @@ body {
     font-size: 18px;
   }
 
-  .card-footer a {
-    font-size: 14px; /* Mengurangi ukuran teks untuk layar kecil */
+  .card-footer .detail-icon {
+    font-size: 22px;
   }
 
-  .card-icon i,
-  .card-footer .detail-icon {
-    font-size: 18px;
+  .card-footer .btn {
+    font-size: 14px;
   }
 
   .styled-table {
@@ -197,35 +198,10 @@ body {
   .card {
     flex: 1 1 100%;
     margin: 5px 0; /* Jarak antar kartu lebih kecil */
-    max-height: none;
   }
 
   .card h5 {
     font-size: 16px;
-  }
-
-  .card-footer a {
-    font-size: 12px;
-  }
-
-  .card-icon i,
-  .card-footer .detail-icon {
-    font-size: 16px;
-  }
-
-  .styled-table td {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    text-align: left;
-  }
-
-  .styled-table td:before {
-    content: attr(data-label);
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
   }
 }
 

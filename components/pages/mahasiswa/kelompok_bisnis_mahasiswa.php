@@ -96,76 +96,69 @@ if ($currentMonth >= 7) { // Semester Ganjil
             </div>
 
             <div class="main_wrapper">
-                <button id="openFormBtn">Tambah Kelompok Bisnis</button>
 
-                <div id="modalForm" class="modal">
-                    <div class="modal-content">
-                        <span class="close-btn">&times;</span>
-                        <h2>Pengajuan Kelompok Bisnis Kewirausahaan</h2>
+                <!-- Tombol untuk membuka modal -->
+                <button type="button" class="btn-hijau" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Tambah Kelompok Bisnis
+                </button>
 
-                        <!-- Form dengan autocomplete="off" -->
-                        <form method="POST" action="proses_kelompok_bisnis.php" enctype="multipart/form-data" autocomplete="off">
-                            <div class="form-group">
-                                <label for="nama_kelompok">Nama Kelompok:</label>
-                                <input type="text" id="nama_kelompok" name="nama_kelompok" required>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg"> <!-- Menggunakan modal-xl untuk modal yang lebih lebar -->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Kelompok Bisnis</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
+                            <div class="modal-body">
+                                <!-- Form dengan autocomplete="off" -->
+                                    <form method="POST" action="proses_kelompok_bisnis.php" enctype="multipart/form-data" autocomplete="off">
+                                        <div class="form-group">
+                                            <label for="nama_kelompok">Nama Kelompok:</label>
+                                            <input type="text" id="nama_kelompok" name="nama_kelompok" required>
+                                        </div>
 
-                            <div class="form-group">
-                                <label for="jumlah_anggota">Jumlah Anggota:</label>
-                                <select id="jumlah_anggota" name="jumlah_anggota" required>
-                                    <option value="0">Pilih Jumlah Anggota kelompok</option>
-                                    <option value="1">1 Anggota</option>
-                                    <option value="2">2 Anggota</option>
-                                    <option value="3">3 Anggota</option>
-                                    <option value="4">4 Anggota</option>
-                                    <option value="5">5 Anggota</option>
-                                </select>
+                                        <div class="form-group">
+                                            <label for="jumlah_anggota">Jumlah Anggota:</label>
+                                            <select id="jumlah_anggota" name="jumlah_anggota" required>
+                                                <option value="0">Pilih Jumlah Anggota kelompok</option>
+                                                <option value="1">1 Anggota</option>
+                                                <option value="2">2 Anggota</option>
+                                                <option value="3">3 Anggota</option>
+                                                <option value="4">4 Anggota</option>
+                                                <option value="5">5 Anggota</option>
+                                            </select>
+                                        </div>
+
+                                        <div id="anggota_fields"></div>
+
+                                        <div class="form-group">
+                                            <label for="nama_bisnis">Nama Bisnis:</label>
+                                            <input type="text" id="nama_bisnis" name="nama_bisnis" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="logo_bisnis">Logo Bisnis:</label>
+                                            <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".png, .jpg" required>
+                                            <div id="logo_preview" class="mt-2"></div>
+                                        </div>
+
+                                        <input type="hidden" name="tahun_akademik" value="<?php echo $tahun_akademik; ?>">
+                               
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success" name="kirim">Tambah Kelompok Bisnis</button>
+                                    </div>
+                                </form>
                             </div>
-
-                            <div id="anggota_fields"></div>
-
-                            <div class="form-group">
-                                <label for="nama_bisnis">Nama Bisnis:</label>
-                                <input type="text" id="nama_bisnis" name="nama_bisnis" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="logo_bisnis">Logo Bisnis:</label>
-                                <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".png, .jpg" required>
-                                <div id="logo_preview" class="mt-2"></div>
-                            </div>
-
-                            <input type="hidden" name="tahun_akademik" value="<?php echo $tahun_akademik; ?>">
-
-                            <div class="form-group">
-                                <button type="submit">Kirim</button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
 
     <script>
-        var modal = document.getElementById("modalForm");
-        var openBtn = document.getElementById("openFormBtn");
-        var closeBtn = document.getElementsByClassName("close-btn")[0];
-
-        openBtn.onclick = function() {
-            modal.style.display = "block";
-        }
-
-        closeBtn.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
         var jumlahAnggota = document.getElementById("jumlah_anggota");
         var anggotaFieldsContainer = document.getElementById("anggota_fields");
 

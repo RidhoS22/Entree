@@ -61,7 +61,7 @@ $result = $stmt->get_result();
                     <div class="modal-dialog modal-lg"> <!-- Menggunakan modal-xl untuk modal yang lebih lebar -->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambahkan Proposal Bisnis</h1>
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Proposal Bisnis</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
