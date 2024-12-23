@@ -229,8 +229,7 @@ $result = $stmt->get_result();
 
                             <?php
                         }
-                    } else {
-                    }
+                    } 
                     ?>
                 </div>
             </div>  

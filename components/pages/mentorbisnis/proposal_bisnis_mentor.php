@@ -91,7 +91,7 @@ if ($id_kelompok) {
                             <?php
                         }
                     } else {
-                        echo "<p>No proposals found for this group.</p>";
+                        echo "<p>Tidak ada proposal untuk kelompok ini</p>";
                     }
                     ?>
                 </div>

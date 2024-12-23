@@ -46,14 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validasi dan proses file PDF
     if ($proposal_file['error'] == 0) {
         $fileTmpName = $proposal_file['tmp_name'];
-        $fileName = $proposal_file['name'];
-        $filePath = 'uploads/' . $fileName;
+        $fileName = basename($proposal_file['name']); // Ambil hanya nama file (tanpa path)
+        $filePath = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/' . $fileName;
 
         // Pindahkan file ke folder yang ditentukan
         if (move_uploaded_file($fileTmpName, $filePath)) {
-            // Masukkan data ke database
+            // Masukkan data ke database, simpan hanya nama file (bukan path)
             $sql = "INSERT INTO proposal_bisnis (judul_proposal, tahapan_bisnis, sdg, kategori, other_category, proposal_pdf, kelompok_id, ide_bisnis)
-                    VALUES ('$judul_proposal', '$tahapan_bisnis', '$sdg', '$kategori', '$other_category', '$filePath', '$id_kelompok', '$ide_bisnis')";
+                    VALUES ('$judul_proposal', '$tahapan_bisnis', '$sdg', '$kategori', '$other_category', '$fileName', '$id_kelompok', '$ide_bisnis')";
             
             if (mysqli_query($conn, $sql)) {
                 echo "<script>alert('Proposal berhasil diajukan!');</script>";

@@ -1,3 +1,26 @@
+<?php
+// Mengimpor koneksi database
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+// Mendapatkan ID kelompok dari parameter URL dan validasi
+$id_kelompok = isset($_GET['id_kelompok']) ? (int)$_GET['id_kelompok'] : null;
+
+if ($id_kelompok) {
+    // Mengambil data laporan bisnis yang terkait dengan kelompok yang login
+    $sql = "SELECT * FROM laporan_bisnis WHERE id_kelompok = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_kelompok);  // Mengikat parameter id_kelompok
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Menutup prepared statement setelah eksekusi
+    $stmt->close();
+} else {
+    // Jika id_kelompok tidak diberikan, tampilkan pesan atau redirect
+    echo "ID kelompok tidak ditemukan!";
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,23 +53,39 @@
 
             <div class="main_wrapper">
 
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Laporan Bisnis</h2>
-                    </div>
-                    <a href="detail_laporan_bisnis_mentor.php">
-                        <div class="card-body">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente at quidem commodi. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis suscipit dolores sunt molestias. Iusto dignissimos doloremque tempore architecto fuga vero quibusdam molestias quis pariatur impedit, odit delectus explicabo magni vitae quam! Quam aliquam voluptas voluptatem minima aspernatur provident amet atque eligendi eveniet veritatis, ullam eaque iste perspiciatis impedit ex. Reprehenderit aperiam, quod atque voluptas unde facilis mollitia corporis expedita aspernatur asperiores et molestias soluta accusantium repellendus neque itaque consequuntur voluptates laboriosam, minima vitae laborum illum perferendis possimus? Blanditiis provident nihil magni iure nostrum perspiciatis omnis, corrupti ipsa assumenda quisquam maiores esse aliquid quis tenetur veritatis beatae est libero earum nulla! Illum, officia quidem, vel eaque deleniti mollitia voluptate rerum earum nemo quas ex provident doloremque, quis alias fugiat saepe commodi culpa ullam nostrum minus iure. Unde in nostrum optio voluptatibus nemo delectus sed dolore consectetur odit excepturi ab aspernatur rem, tempore iusto et veniam. Hic soluta debitis totam, modi quae doloribus sapiente voluptatem. Possimus voluptatum adipisci, earum corporis consequatur laborum aut illo necessitatibus ducimus quis laboriosam eveniet magni animi neque iste eum facilis tempora sunt? Iste veniam maxime cumque a, eum ab! Enim architecto in repellat modi perferendis et qui, quam, sed maiores veritatis praesentium cupiditate impedit cum accusantium ad dignissimos sapiente. Reprehenderit placeat dicta non nesciunt iusto ad veniam ab laudantium sit ratione. Enim nobis porro repudiandae deserunt totam minima in harum fuga assumenda, consequuntur deleniti velit repellendus ipsa error voluptate cum.</p>
-                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Laporan Kemajuan Bisnis"></i>
-                    </div>
-                    </a>
-                    <div class="card-footer">
-                        <a href="detail_laporan_bisnis_mentor.php">Beri Umpan Balik</a>
-                    </div>
+                <?php
+                    // Mengecek apakah ada hasil laporan yang diambil
+                    if ($result->num_rows > 0) {
+                        while ($laporan = $result->fetch_assoc()) {
+                            $id = $laporan['id'];
+                            ?>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
+                                </div>
+                                <a href="detail_laporan_bisnis_mentor.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">
+                                    <div class="card-body">
+                                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Laporan Kemajuan Bisnis"></i>
+                                    </div>
+                                </a>
+                                <div class="card-footer">
+                                    <a href="detail_laporan_bisnis_mentor.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">Lihat Umpan Balik</a>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        // Jika tidak ada laporan, tampilkan pesan
+                        echo "<p>Belum ada laporan kemajuan bisnis untuk kelompok ini.</p>";
+                    }
+                    ?> 
+                <div class="mt-3" onclick="window.location.href='detail_kelompok.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Kembali ke Detail Kelompok Bisnis">
+                <!-- Tombol dengan ukuran lebih kecil dan penataan posisi di tengah -->
+                    <button class="btn btn-secondary mt-3">Kembali ke Detail Kelompok Bisnis</button>
                 </div>
-
             </div>
         </div>
+    </div>
 </body>
 
 </html>

@@ -1,3 +1,48 @@
+<?php
+session_start();
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+// Mendapatkan ID laporan dan ID kelompok dari parameter URL dan validasi
+$id_laporan = isset($_GET['id']) ? $_GET['id'] : null;
+$id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
+
+// Memeriksa apakah ID laporan dan ID kelompok ada
+if ($id_laporan) {
+    // Ambil data laporan berdasarkan ID laporan
+    $sql = "SELECT * FROM laporan_bisnis WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id_laporan);  // Mengikat parameter id_laporan dan id_kelompok
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Menutup prepared statement setelah eksekusi
+    $stmt->close();
+
+    if ($result->num_rows > 0) {
+        // Ambil data laporan
+        $laporan = $result->fetch_assoc();
+        // Tampilkan detail laporan di sini
+    } else {
+        echo "Laporan tidak ditemukan.";
+    }
+} else {
+    echo "ID laporan atau ID kelompok tidak ditemukan!";
+    exit;
+}
+
+// Mendapatkan nama-nama file PDF yang diupload
+$laporan_pdf = $laporan['laporan_pdf']; // Nama file-file PDF disimpan dalam kolom ini
+$pdf_files_clean = [];
+
+// Jika kolom tidak kosong, bersihkan nama file dari simbol tidak diinginkan
+if (!empty($laporan_pdf)) {
+    $pdf_files = explode(',', $laporan_pdf); // Pisahkan file PDF berdasarkan koma
+    $pdf_files_clean = array_map(function ($file) {
+        return trim($file, ' "[]'); // Menghapus spasi, tanda kutip, dan []
+    }, $pdf_files);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,6 +57,17 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_laporan_bisnis.css">
 </head>
+<style>
+    .Feedback {
+        margin: 20px 0;
+        padding: 15px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        line-height: 1.6;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+</style>
 
 <body>
     <div class="wrapper">
@@ -31,87 +87,85 @@
 
             <!-- Content Wrapper -->
             <div class="main_wrapper">
-                <h2>Judul Laporan</h2>
+                <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
 
                 <p>Laporan Penjualan:</p>
                 <div class="file-box">
-                    <p>Laporan Penjualan</p>
+                    <p><?php echo htmlspecialchars($laporan['laporan_penjualan']); ?></p>
                 </div>
 
                 <p>Laporan Pemasaran:</p>
                 <div class="file-box">
-                    <p>Laporan Pemasaran</p>
+                    <p><?php echo htmlspecialchars($laporan['laporan_pemasaran']); ?></p>
                 </div>
 
                 <p>Laporan Produksi:</p>
                 <div class="file-box">
-                    <p>Laporan Produksi</p>
+                    <p><?php echo htmlspecialchars($laporan['laporan_produksi']); ?></p>
                 </div>
 
                 <p>Laporan SDM:</p>
                 <div class="file-box">
-                    <p>Laporan SDM Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias, mollitia. Nesciunt eaque delectus tempora id temporibus, odit ut consectetur necessitatibus laboriosam assumenda vitae quos dolores cumque dolor ipsam, rerum quod hic culpa tempore earum? Ratione provident magni adipisci possimus molestiae quidem aliquid veritatis at natus, neque atque facilis ad tempora cupiditate vel minus? Distinctio magni ad expedita ullam possimus laboriosam tempora alias porro consequuntur quo non, necessitatibus temporibus dolores accusantium dignissimos architecto libero ex aliquam vitae eius corrupti sunt enim, tenetur delectus? Praesentium non perspiciatis quae necessitatibus. Accusamus numquam minus nostrum. Cupiditate quam vero praesentium eveniet, culpa obcaecati quo ut aliquid optio, doloremque, ullam est qui nihil a! Repellat dolore, eaque, deserunt ducimus tenetur maxime rem facilis hic nemo illum, illo tempore! Nesciunt?</p>
+                    <p><?php echo htmlspecialchars($laporan['laporan_sdm']); ?></p>
                 </div>
 
-                <div>
-                    <!-- Heading untuk daftar file -->
-                    <h3 id="fileHeading">Daftar Lampiran</h3>
+                <p>Laporan Keuangan:</p>
+                <div class="file-box">
+                    <p><?php echo htmlspecialchars($laporan['laporan_keuangan']); ?></p>
+                </div>
 
-                    <!-- Daftar file -->
+                <!-- Menampilkan Lampiran PDF -->
+                <div>
+                    <h3 id="fileHeading">Daftar Lampiran</h3>
                     <ul id="fileList">
-                    <li>
-                        <div class="file-info">
-                        Lampiran 1 - Laporan Keuangan 
-                        <span>(PDF, 2MB)</span>
-                        </div>
-                        <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon" ></i>
-                        <i class="fa-solid fa-download btn-icon"></i>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="file-info">
-                        Lampiran 2 - Laporan Penjualan 
-                        <span>(Excel, 1MB)</span>
-                        </div>
-                        <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon" ></i>
-                        <i class="fa-solid fa-download btn-icon"></i>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="file-info">
-                        Lampiran 3 - Laporan Produksi 
-                        <span>(Word, 1.5MB)</span>
-                        </div>
-                        <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon" ></i>
-                        <i class="fa-solid fa-download btn-icon"></i>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="file-info">
-                        Lampiran 4 - Laporan SDM 
-                        <span>(PDF, 1.2MB)</span>
-                        </div>
-                        <div class="icon-group">
-                        <i class="fa-solid fa-eye detail-icon" ></i>
-                        <i class="fa-solid fa-download btn-icon"></i>
-                        </div>
-                    </li>
+                    <?php
+                    // Periksa jika ada file PDF
+                    if (!empty($pdf_files_clean)) {
+                        foreach ($pdf_files_clean as $file) {
+                            // Path aktual tempat file PDF disimpan
+                            $file_path = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; 
+                            $download_path = '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; // Path untuk akses di URL
+
+                            if (file_exists($file_path)) {
+                                // Mendapatkan ukuran file
+                                $file_size = filesize($file_path);
+                                if ($file_size >= 1048576) {
+                                    $file_size = number_format($file_size / 1048576, 2) . ' MB';
+                                } elseif ($file_size >= 1024) {
+                                    $file_size = number_format($file_size / 1024, 2) . ' KB';
+                                } else {
+                                    $file_size = $file_size . ' bytes';
+                                }
+
+                                // Tampilkan file jika ditemukan
+                                echo '<li>
+                                        <div class="file-info">
+                                            ' . htmlspecialchars(basename($file)) . ' 
+                                            <span>(' . $file_size . ')</span>
+                                        </div>
+                                        <div class="icon-group">
+                                            <a href="' . $download_path . '" target="_blank" class="fa-solid fa-eye detail-icon" title="Lihat PDF"></a>
+                                            <a href="' . $download_path . '" download class="fa-solid fa-download btn-icon" title="Unduh PDF"></a>
+                                        </div>
+                                    </li>';
+                            } else {
+                                // Debugging untuk mencetak path yang dicari
+                                echo '<li>File tidak ditemukan: ' . htmlspecialchars($file) . '<br>Path: ' . htmlspecialchars($file_path) . '</li>';
+                            }
+                        }
+                    } else {
+                        echo '<li>Tidak ada lampiran PDF yang tersedia.</li>';
+                    }
+                    ?>
                     </ul>
                 </div>
-
                 <p>Umpan Balik Dari Mentor:</p>
                 <div class="feedback-box">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi molestiae adipisci necessitatibus
-                        repudiandae... Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem, nobis. Magni ducimus repellat inventore sapiente numquam facere quasi beatae velit ea illo vero, suscipit ullam? Laudantium voluptate ex illo iure expedita minus eligendi fuga doloremque rerum. Ratione, ipsum. Suscipit velit quis animi. Voluptas earum doloribus suscipit dolorem cumque id voluptatem maiores, deserunt aliquid. Dolor reprehenderit repudiandae, porro ratione sunt animi perspiciatis vitae neque quam deserunt officia sequi, velit perferendis similique. Ut debitis, assumenda et tenetur aperiam obcaecati voluptatum, excepturi sapiente earum laboriosam eos esse magni ducimus, minus neque doloribus quod necessitatibus? Natus provident sit quaerat suscipit sunt numquam quibusdam reiciendis iste deleniti at. Corrupti odio eaque tempora magni repellat facilis quasi consequatur, assumenda reiciendis dicta harum veniam itaque labore iure commodi exercitationem beatae!</p>
+                    <p><?php echo htmlspecialchars($laporan['feedback']); ?></p>
                 </div>
-                <a href="laporan_bisnis_admin.php" class="btn btn-secondary">Kembali</a>
+                <a href="laporan_bisnis_admin.php?id_kelompok=<?php echo $id_kelompok; ?>" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
     </div>
-
 </body>
-
 </html>
