@@ -210,7 +210,7 @@ if ($id_kelompok) {
                                                                 </span>
                                                             </td>
                                                             <td>
-                                                                <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+                                                                <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Jadwal Bimbingan">
                                                                     <i class="fa-solid fa-eye" ></i>
                                                                 </a>
                                                             </td>

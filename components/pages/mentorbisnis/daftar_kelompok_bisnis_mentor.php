@@ -141,7 +141,7 @@ if (!$result_mentor) {
                         }
 
                         echo '<a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
-                                <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Kelompok Bisnis"></i>
+                                <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Kelompok Bisnis"></i>
                             </a>';
 
                         echo '</div>';
@@ -314,6 +314,7 @@ if (!$result_mentor) {
             });
         });
     </script>
+
     
 </body>
 

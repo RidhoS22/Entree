@@ -221,9 +221,9 @@ $result = $stmt->get_result();
                                 </table>
                                 <div class="card-footer">
                                 <a href="detail_proposal_bisnis.php?id=<?php echo $id; ?>">
-                                    <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
+                                    <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Proposal Bisnis"></i>
                                 </a>
-                                    <i class="fa-solid fa-trash-can delete-icon" title="Hapus Proposal Bisnis" onclick="confirmDelete(<?php echo $proposal['id']; ?>);"></i>
+                                    <i class="fa-solid fa-trash-can delete-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Hapus Proposal Bisnis" onclick="confirmDelete(<?php echo $proposal['id']; ?>);"></i>
                                 </div>
                             </div>
 
@@ -260,6 +260,7 @@ $result = $stmt->get_result();
         }
     }
     </script>
+
 </body>
 
 </html>

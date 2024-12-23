@@ -173,7 +173,7 @@
                                                 </td>
                                                 <td>
                                                     <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
-                                                        <i class="fa-solid fa-eye" title="Lihat Detail Jadwal Bimbingan"></i>
+                                                        <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Jadwal Bimbingan"></i>
                                                     </a>
                                                 </td>
 

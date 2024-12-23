@@ -57,7 +57,7 @@ if ($result_mentor->num_rows > 0) {
             </div>
 
             <div class="main_wrapper">
-                <button class="edit-btn" type="button">
+                <button class="edit-btn" type="button" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Profil">
                     <i class="fas fa-edit"></i>
                 </button>
                 <!-- Profile Header with Edit Photo -->

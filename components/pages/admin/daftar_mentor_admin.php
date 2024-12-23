@@ -75,7 +75,7 @@ if (!$result_mentor) {
                                     <div class="card-header">
                                         <img alt="Profile picture of the mentor" class="w-12 h-12 rounded-full me-2" height="50" 
                                         src="<?= htmlspecialchars($mentor['foto_profile']); ?>" width="50"/>
-                                        <div>
+                                        <div class="nama-mentor">
                                             <h2 class="font-bold mb-0"><?= htmlspecialchars($mentor['nama']); ?></h2>
                                             <p class="mb-0">Peran: <?= htmlspecialchars($mentor['peran']); ?></p>
                                         </div>
@@ -155,6 +155,40 @@ if (!$result_mentor) {
             });
         });
 
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const namaMentorElements = document.querySelectorAll('.nama-mentor');
+            let maxHeight = 0;
+
+            namaMentorElements.forEach((element) => {
+                const height = element.offsetHeight;
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
+            });
+
+            namaMentorElements.forEach((element) => {
+                element.style.height = maxHeight + 'px';
+            });
+        });
+
+        window.addEventListener('resize', function () {
+            const namaMentorElements = document.querySelectorAll('.nama-mentor');
+            let maxHeight = 0;
+
+            namaMentorElements.forEach((element) => {
+                element.style.height = ''; // Reset height
+                const height = element.offsetHeight;
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
+            });
+
+            namaMentorElements.forEach((element) => {
+                element.style.height = maxHeight + 'px';
+            });
+        });
     </script>
 </body>
 

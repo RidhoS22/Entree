@@ -86,7 +86,7 @@ function getFileIcon($fileExtension) {
     <title>Aplikasi Kewirausahaan</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/sidebar_mahasiswa.css">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan.css">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_materikewirausahaan.css">
@@ -117,10 +117,10 @@ function getFileIcon($fileExtension) {
                             <p><?= htmlspecialchars($row["deskripsi"]) ?></p>
                             <div class="mt-3">
                                 <div class="btn_container">
-                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" title="Lihat Materi Kewirausahaan">
+                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
                                         <i class="fa-solid fa-eye btn-icon"></i>
                                     </a>
-                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" title="Unduh Materi Kewirausahaan">
+                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh Materi">
                                         <i class="fa-solid fa-download btn-icon"></i>
                                     </a>
                                 </div>
@@ -168,6 +168,7 @@ function getFileIcon($fileExtension) {
             </div>
         </div>
     </div>
+
 </body>
 
 </html>

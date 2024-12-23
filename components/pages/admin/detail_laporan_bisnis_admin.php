@@ -144,8 +144,8 @@ if (!empty($laporan_pdf)) {
                                             <span>(' . $file_size . ')</span>
                                         </div>
                                         <div class="icon-group">
-                                            <a href="' . $download_path . '" target="_blank" class="fa-solid fa-eye detail-icon" title="Lihat PDF"></a>
-                                            <a href="' . $download_path . '" download class="fa-solid fa-download btn-icon" title="Unduh PDF"></a>
+                                            <a href="' . $download_path . '" target="_blank" class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File"></a>
+                                            <a href="' . $download_path . '" download class="fa-solid fa-download btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File"></a>
                                         </div>
                                     </li>';
                             } else {
@@ -167,5 +167,6 @@ if (!empty($laporan_pdf)) {
             </div>
         </div>
     </div>
+
 </body>
 </html>

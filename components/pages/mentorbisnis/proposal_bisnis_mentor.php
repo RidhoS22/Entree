@@ -83,7 +83,7 @@ if ($id_kelompok) {
                                 </table>
                                 <div class="card-footer">
                                 <a href="detail_proposal_bisnis_mentor.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">
-                                    <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Proposal Bisnis"></i>
+                                    <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Proposal Bisnis"></i>
                                 </a>
                                 </div>
                             </div>
@@ -118,6 +118,7 @@ if ($id_kelompok) {
         }
     })
     </script>
+
 </body>
 
 </html>

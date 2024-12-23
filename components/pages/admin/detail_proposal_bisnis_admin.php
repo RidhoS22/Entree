@@ -127,10 +127,10 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                                         <?php echo htmlspecialchars(basename($proposal['proposal_pdf'])); ?>
                                     </div>
                                     <div class="icon-group">
-                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon">
+                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
-                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" download class="btn-icon">
+                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" download class="btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File">
                                             <i class="fa-solid fa-download"></i>
                                         </a>
                                     </div>

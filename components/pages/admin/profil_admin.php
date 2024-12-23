@@ -51,7 +51,7 @@ if (!isset($_SESSION['username'])) {
             </div>
 
             <div class="main_wrapper">
-                <button class="edit-btn" type="button" title="Edit Profil">
+                <button class="edit-btn" type="button" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Profil">
                     <i class="fas fa-edit"></i>
                 </button>
                 <div class="profile-header">
@@ -102,6 +102,7 @@ if (!isset($_SESSION['username'])) {
             changePasswordBtn.style.display = 'block'; // Tampilkan tombol "Ganti Kata Sandi"
         });
     </script>
+
 </body>
 
 </html>

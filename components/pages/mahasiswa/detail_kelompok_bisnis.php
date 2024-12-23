@@ -78,7 +78,7 @@ $mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
                             <div class="title-edit">
                                 <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
                                 <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" style="display: none;" />
-                                <button class="edit-btn" type="button" title="Edit Kelompok Bisnis">
+                                <button class="edit-btn" type="button" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Kelompok Bisnis">
                                     <i class="fas fa-edit"></i>
                                 </button>
                             </div>

@@ -143,7 +143,7 @@ td {
   gap: 10px; /* Jarak antar ikon */
 }
 
-#fileList li .icon-group i {
+#fileList li .icon-group a {
   font-size: 1.2rem;
   color: #2ea56f; /* Warna hijau untuk ikon */
   cursor: pointer;
@@ -157,7 +157,7 @@ td {
 }
 
 /* Efek hover pada ikon */
-#fileList li .icon-group i:hover {
+#fileList li .icon-group a:hover {
   color: #1b7e4b; /* Warna hijau lebih gelap saat hover */
 }
 
@@ -168,3 +168,6 @@ td {
   margin-left: 10px;
   white-space: nowrap;
 }
+
+
+

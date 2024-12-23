@@ -168,16 +168,16 @@
                                                 <td>
                                                     <div class="btn-aksi-mahasiswa">
                                                         <a href="?edit_id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">
-                                                            <i class="fas fa-edit" title="Edit Jadwal Bimbingan"></i> 
+                                                            <i class="fas fa-edit" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Jadwal Bimbingan"></i> 
                                                         </a>
                                                         <a href="#" class="btn btn-danger btn-sm" 
                                                             data-bs-toggle="modal" 
                                                             data-bs-target="#deleteConfirmModal"
                                                             onclick="setDeleteUrl(<?php echo $row['id']; ?>)">
-                                                            <i class="fa-solid fa-trash-can" title="Hapus Jadwal Bimbingan"></i> 
+                                                            <i class="fa-solid fa-trash-can" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Hapus Jadwal Bimbingan"></i> 
                                                         </a>
                                                         <a href="detail_jadwal_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
-                                                            <i class="fa-solid fa-eye" title="Lihat Detail Jadwal Bimbingan"></i>
+                                                            <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Jadwal Bimbingan"></i>
                                                         </a>
                                                     </div>
                                                 </td>

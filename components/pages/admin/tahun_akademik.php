@@ -118,15 +118,21 @@
                                 echo "
                                 <li>
                                     <div class='file-info'>
-                                        {$row['tahun']}/{$tahun_berikutnya} {$row['jenis_tahun']} 
+                                        {$row['tahun']}/{$tahun_berikutnya} {$row['jenis_tahun']}
                                         <span>($status_tahun)</span>
                                     </div>
                                     <div class='icon-group'>
-                                        <a href='hapus_tahun_akademik.php?tahun={$row['tahun']}&jenis={$row['jenis_tahun']}' onclick='return confirm(\"Hapus tahun akademik ini?\");'>
-                                            <i class='fa-solid fa-trash-can' style='color: red;'></i>
+                                        <a 
+                                            href='hapus_tahun_akademik.php?tahun={$row['tahun']}&jenis={$row['jenis_tahun']}' 
+                                            onclick='return confirm(\"Hapus tahun akademik ini?\");' 
+                                            data-bs-toggle='tooltip' 
+                                            data-bs-custom-class='custom-tooltip' 
+                                            data-bs-title='Hapus Tahun Akademik'>
+                                            <i class='fa-solid fa-trash-can' style='color: red;'></i> 
                                         </a>
                                     </div>
                                 </li>";
+                                
                             }
                         } else {
                             echo "<li>Belum ada data tahun akademik.</li>";

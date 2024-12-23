@@ -282,3 +282,14 @@ a.sidebar-link:hover {
   transform: translateY(1px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* tooltip */
+.tooltip-inner {
+  background-color: #2ea56f !important;
+  color: #ffffff !important;
+  font-weight: bold;
+}
+
+/* .tooltip-arrow::before {
+  background-color: #3498db !important;
+} */

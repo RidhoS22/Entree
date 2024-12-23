@@ -188,5 +188,74 @@ $laporan_result = $stmt->get_result();
             }
         }
     </script>
+    <script>
+        const fileInput = document.getElementById('lampiran_laporan');
+        const fileList = document.getElementById('fileList');
+        const fileHeading = document.getElementById('fileHeading'); // Elemen <h3>
+        const filesArray = [];
+
+        fileInput.addEventListener('change', function(event) {
+            const newFiles = Array.from(event.target.files); // Dapatkan file baru
+            filesArray.push(...newFiles); // Tambahkan file ke array
+
+            // Tampilkan atau sembunyikan heading berdasarkan isi filesArray
+            fileHeading.style.display = filesArray.length > 0 ? 'block' : 'none';
+
+            // Update daftar file yang dipilih
+            fileList.innerHTML = '';
+            filesArray.forEach((file, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${index + 1}. ${file.name}`;
+                fileList.appendChild(listItem);
+            });
+
+            // Reset input file untuk memungkinkan file baru dipilih
+            fileInput.value = '';
+        });
+
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+            if (filesArray.length === 0) {
+                alert('Anda belum memilih file.');
+                event.preventDefault(); // Mencegah aksi lebih lanjut
+            } else {
+                alert(`${filesArray.length} file siap diunggah.`);
+                // Lakukan pengiriman data di sini jika diperlukan
+                event.preventDefault(); // Hanya untuk demo, agar tidak mengirim
+            }
+        });
+    </script>
+
+    <script>
+        const fileInput = document.getElementById('lampiran_laporan');
+        const fileList = document.getElementById('fileList');
+        const filesArray = [];
+
+        fileInput.addEventListener('change', function(event) {
+            const newFiles = Array.from(event.target.files); // Dapatkan file baru
+            filesArray.push(...newFiles); // Tambahkan file ke array
+
+            // Update daftar file yang dipilih
+            fileList.innerHTML = '';
+            filesArray.forEach((file, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${index + 1}. ${file.name}`;
+                fileList.appendChild(listItem);
+            });
+
+            // Reset input file untuk memungkinkan file baru dipilih
+            fileInput.value = '';
+        });
+
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+            if (filesArray.length === 0) {
+                alert('Anda belum memilih file.');
+                event.preventDefault(); // Mencegah aksi lebih lanjut
+            } else {
+                alert(`${filesArray.length} file siap diunggah.`);
+                // Lakukan pengiriman data di sini jika diperlukan
+                event.preventDefault(); // Hanya untuk demo, agar tidak mengirim
+            }
+        });
+    </script>
 </body>
 </html>
