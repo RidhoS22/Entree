@@ -1,6 +1,29 @@
 <?php
 session_start();
+
 include 'db_connection.php';  // Koneksi database
+
+/**
+ * Perform an LDAP search using comma seperated search strings
+ *
+ * @param string search string of search values
+ */
+function _ldap_simple_search($ds,$dn,$search) {
+	$results = explode(';', $search);
+	foreach($results as $key=>$result) {
+		$results[$key] = '('.$result.')';
+	}
+	return _ldap_search($ds,$dn,$results);
+}
+
+/**
+ * Perform an LDAP search
+ *
+ * @param array Search Filters (array of strings)
+ * @param string DN Override
+ * @return array Multidimensional array of results
+ * @access public
+ */
 
 // Set zona waktu ke Indonesia (WIB)
 date_default_timezone_set('Asia/Jakarta');
@@ -44,7 +67,51 @@ function log_activity($username, $status, $role, $aksi, $error_message = NULL) {
     }
 }
 
-// Proses login
+ function _ldap_search($lconn, $dn, $filters) {
+	$attributes = array ();
+
+	foreach ($filters as $search_filter)
+	{
+		$search_result = @ldap_search($lconn, $dn, $search_filter);
+		if ($search_result && ($count = @ldap_count_entries($lconn, $search_result)) > 0)
+		{
+			for ($i = 0; $i < $count; $i++)
+			{
+				$attributes[$i] = Array ();
+				if (!$i) {
+					$firstentry = @ldap_first_entry($lconn, $search_result);
+				} else {
+					$firstentry = @ldap_next_entry($lconn, $firstentry);
+				}
+				$attributes_array = @ldap_get_attributes($lconn, $firstentry); // load user-specified attributes
+				// ldap returns an array of arrays, fit this into attributes result array
+				foreach ($attributes_array as $ki => $ai)
+				{
+					if (is_array($ai))
+					{
+						$subcount = $ai['count'];
+						$attributes[$i][$ki] = Array ();
+						for ($k = 0; $k < $subcount; $k++) {
+							$attributes[$i][$ki][$k] = $ai[$k];
+						}
+					}
+				}
+				$attributes[$i]['dn'] = @ldap_get_dn($lconn, $firstentry);
+			}
+		}
+	}
+	return $attributes;
+}
+
+$ldap_success = false;
+
+// Konfigurasi LDAP
+$CONFIG['ldap_host'] = 'pdc.yarsi.ac.id';
+$CONFIG['ldap_port'] = '389';
+$CONFIG['ldap_basedn'] = 'dc=yarsi,dc=ac,dc=id';
+$CONFIG['ldap_users_ou'] = 'ou=Users,dc=yarsi,dc=ac,dc=id';
+$CONFIG['ldap_groups_ou'] = 'ou=Groups,dc=yarsi,dc=ac,dc=id';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
@@ -136,6 +203,119 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } else {
     echo "Metode pengiriman tidak valid.";
 }
+	$uname = addslashes($_POST['username']);
+	$passwd = addslashes($_POST['password']);
+	$ds=ldap_connect($CONFIG['ldap_host'],$CONFIG['ldap_port']);  // must be a valid LDAP server!
+	if ($ds) {
+        $con = ldap_bind($ds);
+        if($con) {
+            $binddata = _ldap_simple_search($ds,$CONFIG['ldap_basedn'],'uid='.$uname);
+            if(isset($binddata[0]) && isset($binddata[0]['dn'])) {
+                // Verify Users Credentials
+                $success = @ldap_bind($ds, $binddata[0]['dn'], $passwd);
+                
+                if ($success) {
+                    $ldap_success = true;
+                } else {
+                    $_SESSION['error'] = "Password tidak valid!";								
+                    $ldap_success = false;
+                    $status = 'Login Gagal';
+                    $role = 'Unknown';  // Role tidak diketahui karena login gagal
+                    $aksi = 'Login';
+                    $error_message = "Password salah";  // Pesan kesalahan
+                    log_activity($username, $status, $role, $aksi, $error_message);
+                    header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+                }
+            } else {
+                $_SESSION['error'] = "Username tidak ditemukan!";
+                $ldap_success = false;
+                $status = 'Login Gagal';
+                $role = 'Unknown';  // Role tidak diketahui karena login gagal
+                $aksi = 'Login';
+                $error_message = "Username tidak ditemukan";  // Pesan kesalahan
+                log_activity($username, $status, $role, $aksi, $error_message);
+                header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+            }
+        } else {
+            $_SESSION['error'] = 'Gagal melakukan autentikasi ke server LDAP.<br>';
+            $ldap_success = false;
+        }
+        
+        //echo "Closing connection";
+        ldap_close($ds);
+	} else {
+		$msgz = 'Gagal melakukan koneksi ke server LDAP.<br>';
+		$ldap_success = false;
+	}
 
-$conn->close();
+if ($ldap_success) {
+    echo '<pre>';
+    print_r($_SESSION);
+    echo '</pre>';
+    // Regenerasi ID session untuk mencegah tab berbagi sesi yang sama
+    session_regenerate_id();
+
+    // Mendapatkan informasi dari LDAP
+    $nama = $binddata[0]['displayName'][0];
+    $npm = $binddata[0]['description'][0];
+    $role = $binddata[0]['title'][0];
+    $contact = $binddata[0]['telephoneNumber'][0];
+    $street = isset($binddata[0]['street'][0]) ? $binddata[0]['street'][0] : null;
+
+    $_SESSION['username'] = $uname;
+    $_SESSION['displayName'] = $nama;
+    $_SESSION['npm'] = $npm;
+    $_SESSION['role'] = $role;
+    $_SESSION['contact'] = $contact;
+    $_SESSION['street'] = $street;
+
+    // Cek apakah user sudah ada di database
+    $check_user_query = "SELECT * FROM users WHERE username = ?";
+    $stmt = $conn->prepare($check_user_query);
+    $stmt->bind_param("s", $uname);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 0) {
+        // Jika belum ada, tambahkan user ke database
+        $insert_user_query = "INSERT INTO users (username, password, role, first_login) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($insert_user_query);
+        $hashed_password = password_hash($passwd, PASSWORD_BCRYPT);
+        $first_login = 1; 
+
+        // Menyesuaikan role berdasarkan session
+        $role_in_db = ($role == 'M') ? 'Mahasiswa' : (($role == 'D') ? 'Tutor' : 'Unknown');
+        
+        $stmt->bind_param("sssi", $uname, $hashed_password, $role_in_db, $first_login);
+        $stmt->execute();
+    }
+
+    // Cek status first_login
+    $check_user_query = "SELECT * FROM users WHERE username = ?";
+    $stmt = $conn->prepare($check_user_query);
+    $stmt->bind_param("s", $uname);
+    $stmt->execute();
+    $user_result = $stmt->get_result();
+    $user = $user_result->fetch_assoc();
+
+    $_SESSION['user_id'] = $user['id'];
+
+    // Redirect berdasarkan role dan first_login
+    if ($user['role'] == 'Admin') {
+        header("Location: /Aplikasi-Kewirausahaan/components/pages/admin/pageadmin.php");
+    } elseif ($user['first_login'] == 1) {
+        if ($user['role'] == 'Mahasiswa') {
+            header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/lengkapi_data_mahasiswa.php");
+        } elseif ($user['role'] == 'Tutor') {
+            header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/lengkapi_data_mentor.php");
+        }
+    } else {
+        if ($user['role'] == 'Mahasiswa') {
+            header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/pagemahasiswa.php");
+        } elseif ($user['role'] == 'Tutor' || $user['role'] == 'Dosen Pengampu') {
+            header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/pagementor.php");
+        }
+    }
+    exit;
+}
 ?>

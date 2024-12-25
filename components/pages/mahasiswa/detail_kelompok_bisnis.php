@@ -16,7 +16,7 @@ $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult) ?: []; // Defaultkan
 
 // Ambil detail mentor berdasarkan nama mentor dari kelompok bisnis
 $mentorData = [];
-if (!empty($kelompokTerdaftar['mentor_bisnis'])) {
+if (!empty($kelompokTerdaftar['id_mentor'])) {
     // Query untuk detail mentor
     $mentorQuery = "
     SELECT m.nama AS nama_mentor, 
@@ -29,13 +29,14 @@ if (!empty($kelompokTerdaftar['mentor_bisnis'])) {
         u.role 
     FROM mentor m
     JOIN users u ON m.user_id = u.id
-    WHERE m.nama = '" . $kelompokTerdaftar['mentor_bisnis'] . "'
+    WHERE m.id = '" . $kelompokTerdaftar['id_mentor'] . "' 
     LIMIT 1";
-    $mentorResult = mysqli_query($conn, $mentorQuery);
-    $mentorData = mysqli_fetch_assoc($mentorResult) ?: []; // Defaultkan ke array kosong jika null
+    
+$mentorResult = mysqli_query($conn, $mentorQuery);
+$mentorData = mysqli_fetch_assoc($mentorResult); 
 }
 
-$mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
+$mentorAda = !empty($kelompokTerdaftar['id_mentor']);
 ?>
 
 
@@ -74,66 +75,66 @@ $mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
 
                         <div class="right">
                             <!-- Tombol Edit hanya tampil jika mentor belum ditugaskan -->
-                        <?php if (!$mentorAda) { ?>
-                            <div class="title-edit">
-                                <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
-                                <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" style="display: none;" />
-                                <button class="edit-btn" type="button" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Kelompok Bisnis">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        <?php } else { ?>
-                            <!-- Jika sudah ada mentor, tombol edit tidak ditampilkan -->
-                            <div class="title-edit">
-                                <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
-                            </div>
-                        <?php } ?>
+                            <?php if (!$mentorAda) { ?>
+                                <div class="title-edit">
+                                    <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
+                                    <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" style="display: none;" />
+                                    <button class="edit-btn" type="button" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Kelompok Bisnis">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            <?php } else { ?>
+                                <!-- Jika sudah ada mentor, tombol edit tidak ditampilkan -->
+                                <div class="title-edit">
+                                    <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
+                                </div>
+                            <?php } ?>
 
-                            <!-- Menambahkan Nama Bisnis -->
-                            <div class="ide_bisnis">
-                                <p><strong>Nama Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis'] ?? '--'); ?></p>
-                            </div>
-                            <div class="ide_bisnis">
-                                <p><strong>Ide Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['ide_bisnis'] ?? '--'); ?></p>
-                            </div>
-                            <div class="category">
-                                <p><strong>Kategori Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['kategori_bisnis'] ?? '--'); ?></p>
-                            </div>
-                            <div class="sdg">
-                                <p><strong>Sustainable Development Goals (SDGs):</strong> <?php echo htmlspecialchars($kelompokTerdaftar['sdg'] ?? '--'); ?></p>
-                            </div>
+                                <!-- Menambahkan Nama Bisnis -->
+                                <div class="ide_bisnis">
+                                    <p><strong>Nama Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis'] ?? '--'); ?></p>
+                                </div>
+                                <div class="ide_bisnis">
+                                    <p><strong>Ide Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['ide_bisnis'] ?? '--'); ?></p>
+                                </div>
+                                <div class="category">
+                                    <p><strong>Kategori Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['kategori_bisnis'] ?? '--'); ?></p>
+                                </div>
+                                <div class="sdg">
+                                    <p><strong>Sustainable Development Goals (SDGs):</strong> <?php echo htmlspecialchars($kelompokTerdaftar['sdg'] ?? '--'); ?></p>
+                                </div>
 
                             <div class="bottom">
                                 <div class="members">
-                                <p><strong>Ketua Kelompok:</strong> 
+                                    <p><strong>Ketua Kelompok:</strong> 
+                                        <?php
+                                        // Mendapatkan nama ketua kelompok berdasarkan npm ketua
+                                        $ketuaQuery = "SELECT nama FROM mahasiswa WHERE npm = '" . ($kelompokTerdaftar['npm_ketua'] ?? '') . "' LIMIT 1";
+                                        $ketuaResult = mysqli_query($conn, $ketuaQuery);
+                                        $ketuaData = mysqli_fetch_assoc($ketuaResult) ?: [];
+                                        echo htmlspecialchars($ketuaData['nama'] ?? 'Data tidak tersedia');
+                                        ?>
+                                    </p>
+
+                                    <p><strong>Anggota Kelompok:</strong></p>
                                     <?php
-                                    // Mendapatkan nama ketua kelompok berdasarkan npm ketua
-                                    $ketuaQuery = "SELECT nama FROM mahasiswa WHERE npm = '" . ($kelompokTerdaftar['npm_ketua'] ?? '') . "' LIMIT 1";
-                                    $ketuaResult = mysqli_query($conn, $ketuaQuery);
-                                    $ketuaData = mysqli_fetch_assoc($ketuaResult) ?: [];
-                                    echo htmlspecialchars($ketuaData['nama'] ?? 'Data tidak tersedia');
-                                    ?>
-                                </p>
-
-                                <p><strong>Anggota Kelompok:</strong></p>
-                                <?php
-                                // Menampilkan anggota kelompok
-                                $anggotaQuery = "
-                                    SELECT ak.npm_anggota, m.nama
-                                    FROM anggota_kelompok ak
-                                    JOIN mahasiswa m ON ak.npm_anggota = m.npm
-                                    WHERE ak.id_kelompok = '" . ($kelompokTerdaftar['id_kelompok'] ?? '') . "'";
-                                $anggotaResult = mysqli_query($conn, $anggotaQuery);
-                                if (mysqli_num_rows($anggotaResult) > 0) {
-                                    while ($anggota = mysqli_fetch_assoc($anggotaResult)) {
-                                        echo "<p><i class='fas fa-user'></i> " . htmlspecialchars($anggota['nama'] ?? 'Nama tidak tersedia') . " (" . htmlspecialchars($anggota['npm_anggota'] ?? 'NPM tidak tersedia') . ")</p>";
+                                    // Menampilkan anggota kelompok
+                                    $anggotaQuery = "
+                                        SELECT ak.npm_anggota, m.nama
+                                        FROM anggota_kelompok ak
+                                        JOIN mahasiswa m ON ak.npm_anggota = m.npm
+                                        WHERE ak.id_kelompok = '" . ($kelompokTerdaftar['id_kelompok'] ?? '') . "'";
+                                    $anggotaResult = mysqli_query($conn, $anggotaQuery);
+                                    if (mysqli_num_rows($anggotaResult) > 0) {
+                                        while ($anggota = mysqli_fetch_assoc($anggotaResult)) {
+                                            echo "<p><i class='fas fa-user'></i> " . htmlspecialchars($anggota['nama'] ?? 'Nama tidak tersedia') . " (" . htmlspecialchars($anggota['npm_anggota'] ?? 'NPM tidak tersedia') . ")</p>";
+                                        }
+                                    } else {
+                                        echo "<p>Belum ada anggota kelompok.</p>";
                                     }
-                                } else {
-                                    echo "<p>Belum ada anggota kelompok.</p>";
-                                }
-                                ?>
-
+                                    ?>
                                 </div>
+
                                 <!-- Mentor Bisnis Section -->
                                 <div class="tutor">
                                     <div class="d-flex align-items-center mentor">
@@ -143,7 +144,7 @@ $mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
                                                 <div class="card d-inline-block" title="Lihat Detail Mentor Bisnis">
                                                     <div class="card-body p-0">
                                                         <p class="card-text m-0 text-center">
-                                                            <?php echo htmlspecialchars($kelompokTerdaftar['mentor_bisnis']); ?>
+                                                            <?php echo htmlspecialchars($mentorData['nama_mentor']); ?>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -177,9 +178,7 @@ $mentorAda = !empty($kelompokTerdaftar['mentor_bisnis']);
                                             </div>
                                         </div>
                                     <?php } ?>
-
                                 </div>
-
                                 <div class="action-buttons" style="display: none;">
                                     <button class="save-btn">Simpan</button>
                                     <button class="cancel-btn">Batal</button>

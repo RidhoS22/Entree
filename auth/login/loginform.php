@@ -40,7 +40,7 @@ unset($_SESSION['error']);
            		    	<input type="password" class="input password" name="password" required oninvalid="this.setCustomValidity('Kolom ini tidak boleh kosong')" oninput="this.setCustomValidity('')">
             	   </div>
             	</div>
-            	<input type="submit" class="btnLogin" value="Login">
+            	<input type="submit" class="btnLogin" name="login" value="Login">
 				<a href="/Aplikasi-Kewirausahaan"></a>
             </form>
         </div>

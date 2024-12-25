@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
 if (!isset($_SESSION['username'])) {

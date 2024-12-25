@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_kelompok'], $_POST
     $id_kelompok = $_POST['id_kelompok'];
     $nama_mentor = $_POST['nama_mentor'];
 
-    $updateSql = "UPDATE kelompok_bisnis SET mentor_bisnis = ? WHERE id_kelompok = ?";
+    $updateSql = "UPDATE kelompok_bisnis SET id_mentor = ? WHERE id_kelompok = ?";
     $stmt = $conn->prepare($updateSql);
     $stmt->bind_param('si', $nama_mentor, $id_kelompok);
 
@@ -108,7 +108,14 @@ if (!$result_mentor) {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         $id_kelompok = $row['id_kelompok'];
-                        $mentor_bisnis = $row['mentor_bisnis']; // Get mentor from the group
+                        $id_mentor = $row['id_mentor']; // Get mentor from the group
+                        $mentorQuery = "
+                            SELECT m.nama AS nama_mentor
+                            FROM mentor m
+                            WHERE m.id = '" . $id_mentor . "' LIMIT 1";
+                        $mentorResult = mysqli_query($conn, $mentorQuery);
+                        $mentor = mysqli_fetch_assoc($mentorResult);
+                        $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                 
                         echo '
                         <div class="card" style="width: 45%; margin: 10px;">
@@ -122,7 +129,7 @@ if (!$result_mentor) {
                                 <tbody>
                                     <tr>
                                         <td>Mentor Bisnis</td>
-                                        <td>' . ($mentor_bisnis ? htmlspecialchars($mentor_bisnis) : 'Belum dapat Mentor Bisnis') . '</td>
+                                        <td>' . ($namaMentor) . '</td>
                                     </tr>
                                     <tr>
                                         <td>Status Proposal Bisnis</td>

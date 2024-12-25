@@ -1,37 +1,57 @@
 <?php
+// Memastikan koneksi ke database dan session sudah aktif
 session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
-// Mengambil id dan id_kelompok dari URL
-$id_proposal = isset($_GET['id']) ? $_GET['id'] : null;
-$id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
+// Mengambil id_proposal dan id_kelompok dari URL
+$id_proposal = isset($_GET['id']) ? intval($_GET['id']) : null;
+$id_kelompok = isset($_GET['id_kelompok']) ? intval($_GET['id_kelompok']) : null;
 
-// Memastikan mentor yang login
+// Validasi mentor yang login
 $mentor_name = isset($_SESSION['nama']) ? $_SESSION['nama'] : null;
 
+// Query untuk mengambil data proposal bisnis
 if ($id_proposal) {
-    // Mengambil data proposal bisnis yang terkait dengan kelompok yang login
-    $sql = "SELECT * FROM proposal_bisnis WHERE id = $id_proposal";
-    $result = $conn->query($sql);
+    $stmt = $conn->prepare("SELECT * FROM proposal_bisnis WHERE id = ?");
+    $stmt->bind_param("i", $id_proposal);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Memeriksa apakah proposal ditemukan
+    if ($result->num_rows > 0) {
+        $proposal = $result->fetch_assoc();
+    } else {
+        echo "Proposal tidak ditemukan.";
+        exit;
+    }
 }
 
-// Memeriksa apakah proposal ditemukan
-if ($result->num_rows > 0) {
-    $proposal = $result->fetch_assoc();
+// Query untuk mengambil id_mentor berdasarkan id_kelompok
+if ($id_kelompok) {
+    $stmt = $conn->prepare("SELECT id_mentor FROM kelompok_bisnis WHERE id_kelompok = ?");
+    $stmt->bind_param("i", $id_kelompok);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Memeriksa apakah data ditemukan
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $id_mentor = $row['id_mentor'];
+    }
 } else {
-    // Menangani kasus jika proposal tidak ditemukan
-    echo "Proposal tidak ditemukan.";
-    exit;
+    echo "ID Kelompok tidak valid.";
 }
 
-// Mengambil nama mentor dari kelompok bisnis
-$sql_kelompok = "SELECT mentor_bisnis FROM kelompok_bisnis WHERE id_kelompok = $id_kelompok";
-$kelompok_result = $conn->query($sql_kelompok);
-$kelompok_data = $kelompok_result->fetch_assoc();
-$kelompok_mentor = $kelompok_data['mentor_bisnis'] ?? null;
+$mentorQuery = "
+        SELECT m.nama AS nama_mentor
+        FROM mentor m
+        WHERE m.id = '" . $id_mentor . "' LIMIT 1";
+    $mentorResult = mysqli_query($conn, $mentorQuery);
+    $mentor = mysqli_fetch_assoc($mentorResult);
+    $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
 
 // Cek apakah mentor yang login sama dengan mentor yang terdaftar di kelompok
-$is_mentor_matched = ($mentor_name === $kelompok_mentor);
+$is_mentor_matched = ($mentor_name === $namaMentor);
 
 // Proses SDG menjadi label deskriptif
 $sdg_mapping = [

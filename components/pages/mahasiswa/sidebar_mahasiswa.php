@@ -40,6 +40,22 @@ if ($cekProposalResult && mysqli_num_rows($cekProposalResult) > 0) {
     $proposalData = mysqli_fetch_assoc($cekProposalResult);
     $proposalApproved = $proposalData['jumlah_disetujui'] > 0;
 }
+
+$cekKelompokMentorQuery = "
+    SELECT k.id_mentor
+    FROM kelompok_bisnis k
+    WHERE k.npm_ketua = '$npm' OR EXISTS (
+        SELECT 1 FROM anggota_kelompok a WHERE a.npm_anggota = '$npm' AND a.id_kelompok = k.id_kelompok
+    )
+";
+
+$cekKelompokMentorResult = mysqli_query($conn, $cekKelompokMentorQuery);
+$kelompokDenganMentor = false;
+
+if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
+    $kelompokData = mysqli_fetch_assoc($cekKelompokMentorResult);
+    $kelompokDenganMentor = !is_null($kelompokData['id_mentor']); // Cek apakah id_mentor null
+}
 ?>
 
 <!DOCTYPE html>
@@ -107,35 +123,66 @@ if ($cekProposalResult && mysqli_num_rows($cekProposalResult) > 0) {
                     </a>
                 </li>
 
-                <!-- Sidebar -->
-                <?php if ($kelompokStatus): ?>
-                <li class="sidebar-item">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
-                    data-bs-target="#kelola_bisnis_kelompok" aria-expanded="false" aria-controls="kelola_bisnis_kelompok">
-                        <i class="fa-solid fa-user-pen"></i>
-                        <span>Kelola Bisnis</span>
-                    </a>
-                    <ul id="kelola_bisnis_kelompok" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-                        <li class="sidebar-item <?php echo ($activePage == 'proposal_bisnis_mahasiswa') ? 'active' : ''; ?>">
-                            <a href="proposal_bisnis_mahasiswa.php" class="sidebar-link">
-                                <i class="fa-regular fa-file"></i>
-                                Proposal Bisnis
-                            </a>
-                        </li>
-                        <?php if ($proposalApproved): ?>
-                        <li class="sidebar-item <?php echo ($activePage == 'laporan_bisnis_mahasiswa') ? 'active' : ''; ?>">
-                            <a href="laporan_bisnis_mahasiswa.php" class="sidebar-link">
-                                <i class="fa-solid fa-file-invoice"></i>    
-                                Laporan Kemajuan Bisnis
-                            </a>
-                        </li>
-                        <?php endif; ?>
-                        <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">
-                            <a href="jadwal_bimbingan_mahasiswa.php" class="sidebar-link">
-                                <i class="fa-solid fa-calendar"></i>
-                                Jadwal Bimbingan
-                            </a>
-                        </li>
+                    <!-- Sidebar -->
+                    <?php if ($kelompokStatus): ?>
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#kelola_bisnis_kelompok" aria-expanded="false" aria-controls="kelola_bisnis_kelompok">
+                            <i class="fa-solid fa-user-pen"></i>
+                            <span>Kelola Bisnis</span>
+                        </a>
+                        <ul id="kelola_bisnis_kelompok" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                            <li class="sidebar-item <?php echo ($activePage == 'proposal_bisnis_mahasiswa') ? 'active' : ''; ?>">
+                                <a href="proposal_bisnis_mahasiswa.php" class="sidebar-link">
+                                    <i class="fa-regular fa-file"></i>
+                                    Proposal Bisnis
+                                </a>
+                            </li>
+                            <!-- Fitur Laporan Kemajuan -->
+                            <li class="sidebar-item <?php echo ($activePage == 'laporan_bisnis_mahasiswa') ? 'active' : ''; ?>">
+                                <?php if ($proposalApproved): ?>
+                                    <a href="laporan_bisnis_mahasiswa.php" class="sidebar-link">
+                                        <i class="fa-solid fa-file-invoice"></i>    
+                                        Laporan Kemajuan
+                                    </a>
+                                <?php else: ?>
+                                    <a href="javascript:void(0);" class="sidebar-link" data-bs-toggle="tooltip" title="Tidak tersedia kecuali: Status proposal bisnis sudah disetujui">
+                                        <i class="fa-solid fa-lock"></i> <!-- Ikon gembok -->
+                                        Laporan Kemajuan
+                                    </a>
+                                <?php endif; ?>
+                            </li>
+
+                            <!-- Fitur Jadwal Bimbingan -->
+                            <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">
+                                <?php if ($kelompokDenganMentor): ?>
+                                    <a href="jadwal_bimbingan_mahasiswa.php" class="sidebar-link">
+                                        <i class="fa-solid fa-calendar"></i>
+                                        Jadwal Bimbingan
+                                    </a>
+                                <?php else: ?>
+                                    <a href="javascript:void(0);" class="sidebar-link" data-bs-toggle="tooltip" title="Tidak tersedia kecuali: Kelompok Bisnis sudah mempunyai Mentor Bisnis">
+                                        <i class="fa-solid fa-lock"></i> <!-- Ikon gembok -->
+                                        Jadwal Bimbingan
+                                    </a>
+                                <?php endif; ?>
+                            </li>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const lockedLinks = document.querySelectorAll('.sidebar-link[data-bs-toggle="tooltip"]');
+
+                                lockedLinks.forEach(function(link) {
+                                    link.addEventListener('click', function(event) {
+                                        // Ambil title dari elemen yang diklik
+                                        const tooltipText = event.target.getAttribute('data-bs-toggle') === 'tooltip' ? event.target.getAttribute('title') : '';
+                                        
+                                        if (tooltipText) {
+                                            alert(tooltipText); // Menampilkan pesan tooltip sesuai dengan fitur yang diklik
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
                     </ul>
                 </li>
                 <?php endif; ?>

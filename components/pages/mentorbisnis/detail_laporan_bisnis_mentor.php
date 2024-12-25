@@ -31,13 +31,31 @@ if ($id_laporan) {
     exit;
 }
 
-$sql_kelompok = "SELECT mentor_bisnis FROM kelompok_bisnis WHERE id_kelompok = $id_kelompok";
-$kelompok_result = $conn->query($sql_kelompok);
-$kelompok_data = $kelompok_result->fetch_assoc();
-$kelompok_mentor = $kelompok_data['mentor_bisnis'] ?? null;
+if ($id_kelompok) {
+    $stmt = $conn->prepare("SELECT id_mentor FROM kelompok_bisnis WHERE id_kelompok = ?");
+    $stmt->bind_param("i", $id_kelompok);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Memeriksa apakah data ditemukan
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $id_mentor = $row['id_mentor'];
+    }
+} else {
+    echo "ID Kelompok tidak valid.";
+}
+
+$mentorQuery = "
+        SELECT m.nama AS nama_mentor
+        FROM mentor m
+        WHERE m.id = '" . $id_mentor . "' LIMIT 1";
+    $mentorResult = mysqli_query($conn, $mentorQuery);
+    $mentor = mysqli_fetch_assoc($mentorResult);
+    $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
 
 // Cek apakah mentor yang login sama dengan mentor yang terdaftar di kelompok
-$is_mentor_matched = ($mentor_name === $kelompok_mentor);
+$is_mentor_matched = ($mentor_name === $namaMentor);
 
 // Mendapatkan nama-nama file PDF yang diupload
 $laporan_pdf = $laporan['laporan_pdf']; // Nama file-file PDF disimpan dalam kolom ini

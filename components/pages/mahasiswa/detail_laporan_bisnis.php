@@ -68,6 +68,11 @@ if (!empty($laporan_pdf)) {
             <div class="main_wrapper">
                 <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
 
+                <p>Jenis Laporan:</p>
+                <div class="file-box">
+                    <p><?php echo htmlspecialchars($laporan['jenis_laporan']); ?></p>
+                </div>
+
                 <p>Laporan Penjualan:</p>
                 <div class="file-box">
                     <p><?php echo htmlspecialchars($laporan['laporan_penjualan']); ?></p>

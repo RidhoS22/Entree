@@ -81,7 +81,14 @@ $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         $id_kelompok = $row['id_kelompok'];
-                        $mentor_bisnis = htmlspecialchars($row['mentor_bisnis']) ?: 'Belum dapat Mentor Bisnis'; // Tampilkan teks jika kosong
+                        $id_mentor = $row['id_mentor'];
+                        $mentorQuery = "
+                            SELECT m.nama AS nama_mentor
+                            FROM mentor m
+                            WHERE m.id = '" . $id_mentor . "' LIMIT 1";
+                        $mentorResult = mysqli_query($conn, $mentorQuery);
+                        $mentor = mysqli_fetch_assoc($mentorResult);
+                        $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                         echo '
                         <div class="card" style="width: 45%; margin: 10px;">
                             <div class="card-icon text-center py-4">
@@ -94,7 +101,7 @@ $result = $conn->query($sql);
                                 <tbody>
                                     <tr>
                                         <td>Mentor Bisnis</td>
-                                        <td>' . $mentor_bisnis . '</td>
+                                        <td>' . $namaMentor . '</td>
                                     </tr>
                                     <tr>
                                         <td>Status Proposal Bisnis</td>

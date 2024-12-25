@@ -26,6 +26,14 @@ if ($id_kelompok) {
     echo "Kelompok bisnis tidak ditemukan.";
     exit;
 }
+
+$mentorQuery = "
+    SELECT m.nama AS nama_mentor
+    FROM mentor m
+    WHERE m.id = '" . $kelompok['id_mentor'] . "' LIMIT 1";
+$mentorResult = mysqli_query($conn, $mentorQuery);
+$mentor = mysqli_fetch_assoc($mentorResult);
+$namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
 ?>
 
 <!DOCTYPE html>
@@ -125,7 +133,7 @@ if ($id_kelompok) {
                             </div>
 
                             <div class="tutor">
-                                <p><strong>Mentor Bisnis:</strong> <?php echo htmlspecialchars($kelompok['mentor_bisnis']); ?></p>
+                                <p><strong>Mentor Bisnis:</strong> <?php echo htmlspecialchars($namaMentor); ?></p>
                             </div>
                         </div>
                         <div class="cards-container">
