@@ -32,7 +32,7 @@
 }
 
 /* Responsiveness */
-@media (max-width: 800px) {
+@media (max-width: 1000px) {
   .card {
     width: calc(
       50% - 40px
@@ -40,7 +40,7 @@
   }
 }
 
-@media (max-width: 670px) {
+@media (max-width: 768px) {
   .card {
     width: calc(
       100% - 40px

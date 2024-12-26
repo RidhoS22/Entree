@@ -206,14 +206,18 @@ body {
 }
 
 .card-mentor {
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 20px;
-  width: calc(33.333% - 40px);
+  width: calc(50% - 40px);
   box-sizing: border-box;
   float: left;
+}
+
+.nama-mentor {
+  min-height: 75px;
 }
 .card-mentor img {
   border-radius: 50%;
@@ -237,15 +241,7 @@ body {
 }
 
 /* Responsiveness */
-@media (max-width: 800px) {
-  .card-mentor {
-    width: calc(
-      50% - 40px
-    ); /* Setiap card mengambil 50% lebar, dikurangi margin */
-  }
-}
-
-@media (max-width: 670px) {
+@media (max-width: 991px) {
   .card-mentor {
     width: calc(
       100% - 40px
@@ -278,5 +274,3 @@ body {
   margin: 0;
   padding: 0;
 }
-
-

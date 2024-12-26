@@ -56,13 +56,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     VALUES ('$judul_proposal', '$tahapan_bisnis', '$sdg', '$kategori', '$other_category', '$fileName', '$id_kelompok', '$ide_bisnis')";
             
             if (mysqli_query($conn, $sql)) {
-                echo "<script>alert('Proposal berhasil diajukan!');</script>";
-                // Redirect ke halaman lain setelah berhasil mengirim data
+                $_SESSION['toast_message'] = [
+                    'message' => 'Proposal berhasil diajukan!',
+                    'isSuccess' => true
+                ];
                 header('Location: proposal_bisnis_mahasiswa.php');
                 exit;
             } else {
-                echo "<script>alert('Terjadi kesalahan dalam mengajukan proposal!');</script>";
+                $_SESSION['toast_message'] = [
+                    'message' => 'Terjadi kesalahan dalam mengajukan proposal!',
+                    'isSuccess' => false
+                ];
+                header('Location: proposal_bisnis_mahasiswa.php');
+                exit;
             }
+            
         } else {
             echo "<script>alert('Gagal mengunggah file!');</script>";
         }

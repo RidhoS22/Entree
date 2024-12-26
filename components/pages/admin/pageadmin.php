@@ -30,17 +30,84 @@
             </div>
 
             <div class="main_wrapper">
-                <div class="card-container">
-                    <a href="materikewirausahaan_admin.php" class="card">
-                        <div class="card-content">
-                            <h2>Materi Kewirausahaan</h2>
-                            <p>Materi kewirausahaan adalah materi yang disediakan oleh PIKK untuk para mahasiswa mempelajari secara mandiri materi tentang kewirausahaan.</p>
+                
+             <!-- Hero Section -->
+            <header class="bg-success text-white text-center py-5">
+                <div class="container">
+                    <h1 class="display-4">Entree</h1>
+                    <p class="lead">Platform Bimbingan Kewirausahaan Mahasiswa</p>
+                </div>
+            </header>
+
+            <!-- Highlight Features Section -->
+            <section id="features" class="py-5">
+                <div class="container text-center">
+                    <h2 class="mb-4">Fitur Unggulan</h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="p-4 border rounded">
+                            <i class="fa-solid fa-address-card icon"
+                                data-bs-target="#exampleModalToggle" 
+                                data-bs-toggle="modal"></i>  
+                            <h5 class="mt-3">Mentor Berkualitas</h5>
+                                <p>Dapatkan bimbingan dari para ahli di bidangnya.</p>
+                            </div>
                         </div>
-                    </a>
+                        <div class="col-md-4">
+                            <div class="p-4 border rounded">
+                                <i class="bi bi-bar-chart-line fs-1 text-primary"></i>
+                                <h5 class="mt-3">Dashboard Interaktif</h5>
+                                <p>Pantau progres Anda secara real-time.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="p-4 border rounded">
+                                <i class="bi bi-bell fs-1 text-primary"></i>
+                                <h5 class="mt-3">Notifikasi Pintar</h5>
+                                <p>Tetap terhubung dengan pengingat otomatis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+   
          
             </div>
         </div>
-
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Modal 1</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Show a second modal and hide this one with the button below.
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Open second modal</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
+                <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Modal 2</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Hide this modal and show the first with the button below.
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back to first</button>
+                    </div>
+                    </div>
+                </div>
+                </div>
     </div>
 </body>
 

@@ -35,6 +35,7 @@ $result = $stmt->get_result();
 </head>
 
 <body>
+
     <div class="wrapper">
         <?php 
         $activePage = 'proposal_bisnis_mahasiswa'; // Halaman ini aktif
@@ -234,6 +235,31 @@ $result = $stmt->get_result();
                 </div>
             </div>  
         </div>
+        
+        <!-- Toast Notification -->
+
+        <?php if (isset($_SESSION['toast_message'])): ?>
+            <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1055;">
+                <div class="toast text-bg-success border-0" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="\Aplikasi-Kewirausahaan\assets\img\Frame 64 1.png" style="width:20%; height:20%;" class="rounded me-2" alt="Logo">
+                        <strong class="me-auto">Berhasil</strong>
+                        <small>Baru Saja</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Materi berhasil diunggah!
+                    </div>
+                </div>
+            </div>
+            <script>
+                window.onload = function() {
+                    showToast('<?php echo $_SESSION['toast_message']['message']; ?>', <?php echo $_SESSION['toast_message']['isSuccess'] ? 'true' : 'false'; ?>);
+                };
+            </script>
+            <?php unset($_SESSION['toast_message']); ?>
+        <?php endif; ?>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script>
@@ -260,6 +286,22 @@ $result = $stmt->get_result();
         }
     }
     </script>
+    <script>
+        function showToast(message, isSuccess = true) {
+            // Ubah warna toast berdasarkan status
+            const toastElement = document.getElementById('liveToast');
+            toastElement.classList.remove('bg-success', 'bg-danger');
+            toastElement.classList.add(isSuccess ? 'bg-success' : 'bg-danger');
+
+            // Ubah pesan toast
+            toastElement.querySelector('.toast-body').textContent = message;
+
+            // Tampilkan toast
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+        }
+    </script>
+
 
 </body>
 

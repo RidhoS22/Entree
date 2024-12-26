@@ -194,8 +194,8 @@ if (!empty($laporan_pdf)) {
                             <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
                         </div>
                         <input type="hidden" id="laporanId" value="<?php echo htmlspecialchars($laporan['id']); ?>">
-                        <div class="btn_container d-flex justify-content-between">
-                            <button type="submit" class="btn btn-danger">Kirim Umpan Balik</button>
+                        <div class="btn_container d-flex justify-content-end">
+                            <button type="submit" class="btn">Kirim Umpan Balik</button>
                         </div>
                     </form>
                     <div id="feedbackMessage" class="mt-3"></div>

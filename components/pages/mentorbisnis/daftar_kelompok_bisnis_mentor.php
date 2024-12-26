@@ -200,7 +200,7 @@ if (!$result_mentor) {
                                             <div class="card-mentor-header">
                                                 <img alt="Profile picture of the mentor" class="w-12 h-12 rounded-full me-2" height="50" 
                                                 src="' . htmlspecialchars($mentor['foto_profile']) . '" width="50"/>
-                                                <div>
+                                                <div class="nama-mentor">
                                                     <h2 class="font-bold mb-0">' . htmlspecialchars($mentor['nama']) . '</h2>
                                                     <p class="mb-0">Peran: ' . htmlspecialchars($mentor['peran'] ?? 'Belum ada peran') . '</p>
                                                 </div>
@@ -221,8 +221,10 @@ if (!$result_mentor) {
                                                 <p>Email: ' . htmlspecialchars($mentor['email']) . '</p>
                                                 <p>Nomor Telepon: ' . htmlspecialchars($mentor['contact']) . '</p>
                         
-                                                <button type="submit" class="btn btn-success mt-2">Pilih sebagai Mentor</button>
-                        
+                                                <div class="btn-div d-flex justify-content-center mt-4">
+                                                    <button type="submit" class="btn btn-success mt-2">Pilih sebagai Mentor</button>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -247,26 +249,6 @@ if (!$result_mentor) {
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script>
-        $(document).on('submit', '.add-mentor-form', function(e) {
-            e.preventDefault();
-            
-            let form = $(this);
-            $.ajax({
-                type: 'POST',
-                url: '', 
-                data: form.serialize(),
-                success: function(response) {
-                    response = JSON.parse(response);
-                    if(response.success) {
-                        alert(response.message);
-                        location.reload(); // Refresh the page
-                    } else {
-                        alert(response.message);
-                    }
-                }
-            });
-        });
-
         document.addEventListener("DOMContentLoaded", function () {
             // Pilih semua elemen collapse yang digunakan
             const collapses = document.querySelectorAll('.collapse');
@@ -300,6 +282,27 @@ if (!$result_mentor) {
             });
         });
 
+    </script>
+    <script>
+        $(document).on('submit', '.add-mentor-form', function(e) {
+            e.preventDefault();
+            
+            let form = $(this);
+            $.ajax({
+                type: 'POST',
+                url: '', 
+                data: form.serialize(),
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if(response.success) {
+                        alert(response.message);
+                        location.reload(); // Refresh the page
+                    } else {
+                        alert(response.message);
+                    }
+                }
+            });
+        });
     </script>
     <script>
 

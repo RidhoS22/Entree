@@ -98,18 +98,20 @@ if (!$result_mentor) {
                                         <p>Email: <?= htmlspecialchars($mentor['email']); ?></p>
                                         <p>Nomor Telepon: <?= htmlspecialchars($mentor['contact']); ?></p>
 
-                                        <form action="update_role.php" method="POST">
-                                            <input type="hidden" name="mentor_id" value="<?= $mentor['id']; ?>">
-                                            <?php if ($mentor['peran'] === 'Tutor') : ?>
-                                                <button name="action" value="naik" class="btn btn-success mt-2">
-                                                    Naikkan Role
-                                                </button>
-                                            <?php elseif ($mentor['peran'] === 'Dosen Pengampu') : ?>
-                                                <button name="action" value="turun" class="btn btn-danger mt-2">
-                                                    Turunkan Role
-                                                </button>
-                                            <?php endif; ?>
-                                        </form>
+                                        <div class="btn-div d-flex justify-content-center mt-4">
+                                            <form action="update_role.php" method="POST">
+                                                <input type="hidden" name="mentor_id" value="<?= $mentor['id']; ?>">
+                                                <?php if ($mentor['peran'] === 'Tutor') : ?>
+                                                    <button name="action" value="naik" class="btn btn-success mt-2">
+                                                        Naikkan Role
+                                                    </button>
+                                                <?php elseif ($mentor['peran'] === 'Dosen Pengampu') : ?>
+                                                    <button name="action" value="turun" class="btn btn-danger mt-2">
+                                                        Turunkan Role
+                                                    </button>
+                                                <?php endif; ?>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
