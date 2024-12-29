@@ -8,6 +8,8 @@ if (!isset($_GET['id'])) {
 
 $id = $conn->real_escape_string($_GET['id']);
 
+$baseDir = '/Aplikasi-Kewirausahaan/components/pages/admin/uploads/';
+
 $sql = "SELECT * FROM materi_kewirausahaan WHERE id = '$id'";
 $result = $conn->query($sql);
 
@@ -17,7 +19,7 @@ if ($result === false || $result->num_rows === 0) {
 }
 
 $row = $result->fetch_assoc();
-$filePath = htmlspecialchars($row["file_path"]);
+$filePath = $baseDir . htmlspecialchars($row["file_path"]);
 $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
 // Fungsi hanya dideklarasikan sekali
@@ -42,6 +44,7 @@ if (!function_exists('generateFilePreview')) {
     }
 }
 ?>
+
 <?php
 function getFileIcon($fileExtension) {
     // Standarisasi ekstensi menjadi huruf kecil
@@ -90,6 +93,23 @@ function getFileIcon($fileExtension) {
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan.css">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_materikewirausahaan.css">
 </head>
+<style>
+    .toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050; /* Agar toast muncul di atas konten lainnya */
+    display: flex;
+    align-items: center;
+    }
+
+    .toast .btn-close {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        z-index: 1051; /* Pastikan berada di atas konten toast */
+    }
+</style>
 
 <body>
     <div class="wrapper">
@@ -106,6 +126,24 @@ function getFileIcon($fileExtension) {
                 ?>
             </div>
 
+            <div id="successToast" class="toast align-items-center text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Materi berhasil diperbarui!
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <div id="errorToast" class="toast align-items-center text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Gagal memperbarui materi!
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+
             <div class="main_wrapper">
                             <div class="file-preview">
                                 <?= generateFilePreview($filePath, $fileExtension) ?>
@@ -116,21 +154,82 @@ function getFileIcon($fileExtension) {
                             <p><?= htmlspecialchars($row["deskripsi"]) ?></p>
                             <div class="mt-3">
                                 <div class="btn_container">
-                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
+                                    <a href="<?= htmlspecialchars($filePath) ?>" target="_blank" class="file icon" data-bs-toggle="tooltip" title="Lihat Materi">
                                         <i class="fa-solid fa-eye btn-icon"></i>
                                     </a>
-                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh Materi">
+                                    <a href="<?= htmlspecialchars($filePath) ?>" target="_blank" download class="file icon" data-bs-toggle="tooltip" title="Unduh Materi">
                                         <i class="fa-solid fa-download btn-icon"></i>
                                     </a>
-                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Materi">
+                                    <a href="#" class="file icon edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" title="Edit Materi">
                                         <i class="fa-solid fa-edit btn-icon"></i>
                                     </a>
-                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Hapus Materi">
+                                    <a href="#" class="file icon delete-btn" data-bs-toggle="tooltip" title="Hapus Materi" data-id="<?= $id ?>">
                                         <i class="fa-solid fa-trash-can btn-icon"></i>
                                     </a>
                                 </div>
+
+                                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editModalLabel">Edit Materi</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="edit_materi.php" method="POST">
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="id" value="<?= htmlspecialchars($row["id"]) ?>">
+                                                    <div class="mb-3">
+                                                        <label for="judul" class="form-label">Judul</label>
+                                                        <input type="text" class="form-control" id="judul" name="judul" value="<?= htmlspecialchars($row["judul"]) ?>" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="deskripsi" class="form-label">Deskripsi</label>
+                                                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required><?= htmlspecialchars($row["deskripsi"]) ?></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal Konfirmasi Penghapusan -->
+                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah Anda yakin ingin menghapus materi ini? Penghapusan tidak dapat dibatalkan.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                <a id="deleteLink" href="delete_materi.php" class="btn btn-danger">Hapus</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    // Menampilkan modal konfirmasi penghapusan
+                                    document.querySelectorAll('.delete-btn').forEach(function (element) {
+                                        element.addEventListener('click', function (e) {
+                                            e.preventDefault(); // Mencegah aksi default
+                                            var deleteUrl = "delete_materi.php?id=" + this.getAttribute('data-id'); // Mengambil ID dari data-id
+                                            document.getElementById('deleteLink').setAttribute('href', deleteUrl); // Set URL penghapusan pada tombol Hapus
+                                            var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                                            deleteModal.show(); // Tampilkan modal
+                                        });
+                                    });
+                                </script>
                             </div>
                     </div>
+                    
                     <div class="layout-right">
                         <div class="card-container">
                             <?php
@@ -143,14 +242,13 @@ function getFileIcon($fileExtension) {
                                 while ($row = $result->fetch_assoc()) {
                                     $filePath = htmlspecialchars($row["file_path"]);
                                     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
-                                
-                                    // Gunakan fungsi getFileIcon untuk mendapatkan jalur icon
+                                  
                                     $iconSrc = getFileIcon($fileExtension);
-                                
+                                  
                                     echo '
                                     <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '">
                                         <div title="Lihat Detail Materi" class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
-                                            <div class="icon-container""> 
+                                            <div class="icon-container"> 
                                                 <img src="' . $iconSrc . '" alt="File Icon" class="icon">
                                             </div>
                                             <div class="card-body">
@@ -169,10 +267,25 @@ function getFileIcon($fileExtension) {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fungsi untuk menampilkan toast
+        function showToast(type) {
+            const toast = new bootstrap.Toast(document.getElementById(type));
+            toast.show();
+        }
+
+        // Cek URL untuk parameter status (success/error)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('status') === 'success') {
+            showToast('successToast');
+        } else if (urlParams.get('status') === 'error') {
+            showToast('errorToast');
+        }
+    </script>
 
 </body>
 

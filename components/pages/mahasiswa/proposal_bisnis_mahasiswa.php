@@ -221,14 +221,50 @@ $result = $stmt->get_result();
                                     </tbody>
                                 </table>
                                 <div class="card-footer">
-                                <a href="detail_proposal_bisnis.php?id=<?php echo $id; ?>">
-                                    <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Proposal Bisnis"></i>
-                                </a>
-                                    <i class="fa-solid fa-trash-can delete-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Hapus Proposal Bisnis" onclick="confirmDelete(<?php echo $proposal['id']; ?>);"></i>
+                                    <a href="detail_proposal_bisnis.php?id=<?php echo $id; ?>">
+                                        <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Proposal Bisnis"></i>
+                                    </a>
+                                    <i class="fa-solid fa-trash-can delete-icon" data-bs-toggle="modal" data-bs-target="#deleteModal" 
+                                    data-id="<?php echo $proposal['id']; ?>" 
+                                    data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" 
+                                    data-bs-title="Hapus Proposal Bisnis"></i>
                                 </div>
                             </div>
+                            <!-- Modal Konfirmasi Hapus -->
+                            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus Proposal</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Apakah Anda yakin ingin menghapus proposal <span id="proposalTitle" class="fw-bold"></span>?</p>
+                                            <p class="text-danger">Aksi ini tidak dapat dibatalkan.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                            <a href="#" id="confirmDeleteButton" class="btn btn-danger">Hapus</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                // Event listener saat modal delete terbuka
+                                const deleteModal = document.getElementById('deleteModal');
+                                deleteModal.addEventListener('show.bs.modal', function (event) {
+                                    const button = event.relatedTarget; // Tombol yang memicu modal
+                                    const proposalId = button.getAttribute('data-id'); // Ambil ID proposal
+                                    const proposalTitle = button.getAttribute('data-title'); // Ambil judul proposal
 
-                            <?php
+                                    // Perbarui isi modal
+                                    const modalTitle = deleteModal.querySelector('#proposalTitle');
+                                    const confirmDeleteButton = deleteModal.querySelector('#confirmDeleteButton');
+                                    modalTitle.textContent = proposalTitle;
+                                    confirmDeleteButton.setAttribute('href', `hapus_proposal.php?id=${proposalId}`);
+                                });
+                            </script>
+                        <?php
                         }
                     } 
                     ?>
@@ -276,15 +312,6 @@ $result = $stmt->get_result();
             console.log(values)
         }
     })
-
-    function confirmDelete(proposalId) {
-        // Menampilkan dialog konfirmasi sebelum menghapus
-        const confirmation = confirm("Apakah Anda yakin ingin menghapus proposal ini?");
-        if (confirmation) {
-            // Jika pengguna mengkonfirmasi, redirect ke file PHP untuk menghapus
-            window.location.href = 'hapus_proposal.php?id=' + proposalId;
-        }
-    }
     </script>
     <script>
         function showToast(message, isSuccess = true) {

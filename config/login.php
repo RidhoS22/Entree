@@ -148,6 +148,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['program_studi'] = $mahasiswa_data['program_studi'];
                     $_SESSION['tahun_angkatan'] = $mahasiswa_data['tahun_angkatan'];
                     $_SESSION['fakultas'] = $mahasiswa_data['fakultas'];
+                    $_SESSION['id_kelompok'] = $mahasiswa_data['id_kelompok'];
+
                 }
             } elseif (($user['role'] == 'Tutor') || ($user['role'] == 'Dosen Pengampu')) {
                 $mentor_query = "SELECT * FROM mentor WHERE user_id = '".$user['id']."'";
@@ -237,7 +239,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
             }
         } else {
-            $_SESSION['error'] = 'Gagal melakukan autentikasi ke server LDAP.<br>';
+            $_SESSION['error'] = 'Gagal melakukan autentikasi ke server LDAP.';
             $ldap_success = false;
         }
         

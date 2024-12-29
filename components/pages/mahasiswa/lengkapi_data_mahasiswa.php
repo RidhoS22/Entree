@@ -25,6 +25,80 @@ if ($role == 'Mahasiswa') {
     die("Role tidak valid.");
 }
 
+function getFakultasProdi($npm) {
+    $kodeProdi = substr($npm, 0, 3);
+
+    $prodi = '';
+    $fakultas = '';
+
+    switch ($kodeProdi) {
+        case '110':
+            $prodi = 'Kedokteran';
+            $fakultas = 'Kedokteran';
+            break;
+        case '111':
+            $prodi = 'Kedokteran Gigi';
+            $fakultas = 'Kedokteran';
+            break;
+        case '120':
+            $prodi = 'Manajemen';
+            $fakultas = 'Ekonomi';
+            break;
+        case '121':
+            $prodi = 'Akuntansi';
+            $fakultas = 'Ekonomi';
+            break;
+        case '130':
+            $prodi = 'Ilmu Hukum';
+            $fakultas = 'Hukum';
+            break;
+        case '140':
+            $prodi = 'Teknik Informatika';
+            $fakultas = 'Teknologi Informasi';
+            break;
+        case '150':
+            $prodi = 'Ilmu Perpustakaan';
+            $fakultas = 'Teknologi Informasi';
+            break;
+        case '160':
+            $prodi = 'Psikologi';
+            $fakultas = 'Psikologi';
+            break;
+        default:
+            $prodi = 'Prodi tidak ditemukan';
+            $fakultas = 'Fakultas tidak ditemukan';
+    }
+
+    return ['fakultas' => $fakultas, 'prodi' => $prodi];
+}
+
+$fakultas = '';
+$prodi = '';
+if (isset($_SESSION['npm'])) {
+    $fakultasProdi = getFakultasProdi($_SESSION['npm']);
+    $fakultas = $fakultasProdi['fakultas'];
+    $prodi = $fakultasProdi['prodi'];
+}
+
+// Menghitung tahun ajaran dan semester
+$tahunAjaran = '';
+if (isset($_SESSION['npm'])) {
+    $npm = $_SESSION['npm'];
+    $angkatan = intval(substr($npm, 5, 2)); // Ambil dua digit tahun angkatan
+    $tahunMasuk = 2000 + $angkatan;
+    $tahunSekarang = date('Y');
+    $bulanSekarang = date('n');
+
+    $tahunSelisih = $tahunSekarang - $tahunMasuk;
+    $semester = ($tahunSelisih * 2) + ($bulanSekarang >= 7 ? 1 : 2);
+
+    $tahunAjaranStart = $tahunMasuk;
+    $tahunAjaranEnd = $tahunAjaranStart + 1;
+    $semesterText = ($bulanSekarang >= 7) ? 'Ganjil' : 'Genap';
+
+    $tahunAjaran = "$tahunAjaranStart / $tahunAjaranEnd $semesterText (Semester $semester)";
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama = $_POST['nama'];
     $npm = $_POST['npm'];
@@ -32,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $alamat = $_POST['alamat'];
     $email = $_POST['email'];
     $contact = $_POST['contact'];
-    $insert_query = "INSERT INTO mahasiswa (user_id, nama, npm, email, contact, alamat) VALUES ('$user_id', '$nama', '$npm', '$email', '$contact', '$alamat')";
+    $insert_query = "INSERT INTO mahasiswa (user_id, nama, npm, program_studi, tahun_ajaran, email, contact, fakultas, alamat) VALUES ('$user_id', '$nama', '$npm', '$prodi', '$tahunAjaran',  '$email', '$contact', '$fakultas', '$alamat')";
     $conn->query($insert_query);
         
     // Update first_login pada tabel users
@@ -75,23 +149,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
                 <div class="form-group">
                     <label for="fakultas">Fakultas</label>
-                    <input id="fakultas" name="fakultas" type="text" readonly />
+                    <input id="fakultas" name="fakultas" type="text" value="<?= htmlspecialchars($fakultas) ?>" readonly />
                 </div>
                 <div class="form-group">
                     <label for="program_studi">Program Studi</label>
-                    <input id="program_studi" name="program_studi" type="text" readonly />
+                    <input id="program_studi" name="program_studi" type="text" value="<?= htmlspecialchars($prodi) ?>" readonly />
                 </div>
                 <div class="form-group">
                     <label for="tahun_ajaran">Tahun Ajaran</label>
-                    <input id="tahun_ajaran" name="tahun_ajaran" type="text" placeholder="Tahun Ajaran" readonly />
-                </div>
-                <div class="form-group">
-                    <label for="alamat">Alamat</label>
-                    <input id="alamat" name="alamat" type="text" value="<?= htmlspecialchars($_SESSION['street']) ?>" required />
+                    <input id="tahun_ajaran" name="tahun_ajaran" type="text" value="<?= htmlspecialchars($tahunAjaran) ?>" readonly />
                 </div>
                 <div class="form-group">
                     <label for="contact">Nomor Telepon</label>
                     <input id="contact" name="contact" type="text" value="<?= htmlspecialchars($_SESSION['contact']) ?>" readonly/>
+                </div>
+                <div class="form-group">
+                    <label for="alamat">Alamat</label>
+                    <input id="alamat" name="alamat" type="text" value="<?= htmlspecialchars($_SESSION['street']) ?>" required />
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
@@ -101,33 +175,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </form>
         </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const npmField = document.getElementById('npm');
-            const tahunAjaranField = document.getElementById('tahun_ajaran');
-            const npm = npmField.value;
-            const angkatan = parseInt(npm.substring(5, 7));
-            const tahunAjaranStart = 2000 + angkatan;
-            const tahunAjaranEnd = tahunAjaranStart + 1;
-            const tahunSekarang = new Date().getFullYear();
-            const tahunSelisih = tahunSekarang - tahunAjaranStart;
-            const semesterLalu = tahunSelisih * 2;
-            const bulanSekarang = new Date().getMonth() + 1;
-            let semesterText;
-            let currentSemester;
-
-            if (bulanSekarang >= 7) {
-                semesterText = 'Ganjil';
-                currentSemester = semesterLalu + 1;
-            } else {
-                semesterText = 'Genap';
-                currentSemester = semesterLalu + 2;
-            }
-
-            const tahunAjaranText = `${tahunAjaranStart} / ${tahunAjaranEnd} ${semesterText} (Semester ${currentSemester})`;
-            tahunAjaranField.value = tahunAjaranText;
-        });
-    </script>
 </body>
 
 </html>

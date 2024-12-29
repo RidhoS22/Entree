@@ -34,6 +34,8 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/profil.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 
 <body>
@@ -58,7 +60,6 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
                 <div class="profile-header">
                     <div class="profile-item">
                         <h2>Username</h2>
-                        <!-- Menampilkan username dari session -->
                         <p><?= htmlspecialchars($_SESSION['username']); ?></p>
                     </div>
                 </div>
@@ -73,6 +74,10 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
                         <p><?= htmlspecialchars($mahasiswa['npm'] ?? 'Belum diisi'); ?></p>
                     </div>
                     <div class="profile-item">
+                        <h2>Fakultas</h2>
+                        <p><?= htmlspecialchars($mahasiswa['fakultas'] ?? 'Belum diisi'); ?></p>
+                    </div>
+                    <div class="profile-item">
                         <h2>Program Studi</h2>
                         <p><?= htmlspecialchars($mahasiswa['program_studi'] ?? 'Belum diisi'); ?></p>
                     </div>
@@ -84,6 +89,11 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
                         <h2>Nomor Telepon</h2>
                         <p class="phone-text"><?= htmlspecialchars($mahasiswa['contact'] ?? 'Belum diisi'); ?></p>
                         <input type="text" class="phone-input" style="display: none;" value="<?= htmlspecialchars($mahasiswa['contact'] ?? ''); ?>">
+                    </div>
+                    <div class="profile-item" id="alamat-item">
+                        <h2>Alamat</h2>
+                        <p class="alamat-text"><?= htmlspecialchars($mahasiswa['alamat'] ?? 'Belum diisi'); ?></p>
+                        <input type="text" class="alamat-input" style="display: none;" value="<?= htmlspecialchars($mahasiswa['alamat'] ?? ''); ?>">
                     </div>
                 </div>
 
@@ -99,10 +109,14 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
         document.querySelector('.edit-btn').addEventListener('click', function () {
             const phoneText = document.querySelector('.phone-text');
             const phoneInput = document.querySelector('.phone-input');
+            const alamatText = document.querySelector('.alamat-text');
+            const alamatInput = document.querySelector('.alamat-input');
             const actionButtons = document.querySelector('.action-buttons');
                 
             phoneText.style.display = 'none';
             phoneInput.style.display = 'block';
+            alamatText.style.display = 'none';
+            alamatInput.style.display = 'block';
             actionButtons.style.display = 'flex';
 
             phoneInput.focus();
@@ -111,13 +125,16 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
         document.querySelector('.save-btn').addEventListener('click', function () {
             const phoneText = document.querySelector('.phone-text');
             const phoneInput = document.querySelector('.phone-input');
+            const alamatText = document.querySelector('.alamat-text');
+            const alamatInput = document.querySelector('.alamat-input');
             const actionButtons = document.querySelector('.action-buttons');
 
-            const newValue = phoneInput.value;
+            const newPhone = phoneInput.value;
+            const newAlamat = alamatInput.value;
 
-            // Validasi input
-            if (!newValue.match(/^\d{10,15}$/)) {
-                alert('Nomor telepon tidak valid. Masukkan 10-15 digit angka.');
+            // Validasi input nomor telepon
+            if (!newPhone.match(/^\d{10,15}$/)) {
+                showToast('Nomor telepon tidak valid. Masukkan 10-15 digit angka.', 'error');
                 return;
             }
 
@@ -126,24 +143,27 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ phone: newValue })
+                body: JSON.stringify({ phone: newPhone, alamat: newAlamat })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
-                    phoneText.textContent = newValue || 'Belum diisi';
-                    alert(data.message);
+                    phoneText.textContent = newPhone || 'Belum diisi';
+                    alamatText.textContent = newAlamat || 'Belum diisi';
+                    showToast(data.message, 'success');
                 } else {
-                    alert(`Error: ${data.message}`);
+                    showToast(`Error: ${data.message}`, 'error');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Terjadi kesalahan saat memperbarui nomor telepon.');
+                showToast('Terjadi kesalahan saat memperbarui data.', 'error');
             })
             .finally(() => {
                 phoneText.style.display = 'block';
                 phoneInput.style.display = 'none';
+                alamatText.style.display = 'block';
+                alamatInput.style.display = 'none';
                 actionButtons.style.display = 'none';
             });
         });
@@ -151,17 +171,31 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
         document.querySelector('.cancel-btn').addEventListener('click', function () {
             const phoneText = document.querySelector('.phone-text');
             const phoneInput = document.querySelector('.phone-input');
+            const alamatText = document.querySelector('.alamat-text');
+            const alamatInput = document.querySelector('.alamat-input');
             const actionButtons = document.querySelector('.action-buttons');
 
             // Kembalikan tampilan awal
             phoneInput.value = phoneText.textContent.trim();
+            alamatInput.value = alamatText.textContent.trim();
             phoneText.style.display = 'block';
             phoneInput.style.display = 'none';
+            alamatText.style.display = 'block';
+            alamatInput.style.display = 'none';
             actionButtons.style.display = 'none';
         });
+
+        function showToast(message, type) {
+            Toastify({
+                text: message,
+                duration: 3000,
+                close: true,
+                gravity: 'top',
+                position: 'center',
+                backgroundColor: type === 'success' ? 'green' : 'red',
+            }).showToast();
+        }
     </script>
-
-
 </body>
 
 </html>

@@ -24,8 +24,36 @@ if ($id) {
     echo "ID tidak valid!";
     exit;
 }
-?>
 
+// Cek jika form disubmit dan status jadwal adalah 'selesai'
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && $data['status'] == 'selesai') {
+    // Tentukan lokasi penyimpanan file
+    $targetDir = "uploads/bukti_kegiatan"; // Pastikan folder ini ada di server Anda
+    $targetFile = basename($_FILES["bukti_kegiatan"]["name"]);
+    $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+    // Cek apakah file adalah PDF atau gambar
+    $allowedTypes = array("pdf", "jpg", "jpeg", "png", "gif");
+    if (in_array($fileType, $allowedTypes)) {
+        // Pindahkan file ke folder upload
+        if (move_uploaded_file($_FILES["bukti_kegiatan"]["tmp_name"], $targetFile)) {
+            // Simpan nama file ke database
+            $sqlUpdate = "UPDATE jadwal SET bukti_kegiatan = ? WHERE id = ?";
+            $stmtUpdate = $conn->prepare($sqlUpdate);
+            $stmtUpdate->bind_param("si", $targetFile, $id);
+            if ($stmtUpdate->execute()) {
+                $message = "Bukti kegiatan telah dikirim!";
+            } else {
+                $message = "Terjadi kesalahan saat menyimpan bukti kegiatan.";
+            }
+        } else {
+            $message = "File gagal diunggah.";
+        }
+    } else {
+        $message = "Hanya file PDF atau gambar yang diperbolehkan.";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -61,87 +89,91 @@ if ($id) {
             <div class="main_wrapper">
                 <div class="container mt-5">
                     <h1>Detail Jadwal</h1>
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Nama Kegiatan</th>
-                            <td><?php echo htmlspecialchars($data['nama_kegiatan']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Tanggal</th>
-                            <td><?php echo htmlspecialchars($data['tanggal']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Waktu</th>
-                            <td><?php echo htmlspecialchars($data['waktu']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Agenda</th>
-                            <td><?php echo htmlspecialchars($data['agenda']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Lokasi</th>
-                            <td><?php echo htmlspecialchars($data['lokasi']); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Status</th>
-                            <td>
-                                <span id="status-label" class="status" 
-                                    style="background-color: <?php 
-                                         if ($data['status'] == 'disetujui') {
-                                            echo '#2ea56f'; // Hijau
-                                        } elseif ($data['status'] == 'ditolak') {
-                                            echo '#dc3545'; // Merah
-                                        } elseif ($data['status'] == 'jadwal alternatif') {
-                                            echo '#ffc107'; // Kuning
-                                        } elseif ($data['status'] == 'selesai') {
-                                            echo '#007bff'; // Biru
-                                        } else {
-                                            echo '#fd7e14'; // Oranye
-                                        }
-                                    ?>;">
-                                    <?php echo htmlspecialchars($data['status']); ?>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Umpan Balik Dari Mentor</th>
-                            <td><?php echo isset($data['status']) ? htmlspecialchars($data['feedback_mentor']) : 'N/A'; ?></td>
-                        </tr>
-                        <tr>
-                            <th title="Masukkan Bukti Kegiatan Anda dalam format Pdf atau Gambar disini" >Bukti Kegiatan</th>
-                            <td>
-                                <div class="input-group">
-                                    <input type="file" class="form-control" id="customFile" accept=".pdf, .jpg, .jpeg, .png, .gif">
-                                </div>
-                            </td>                        
-                        </tr>
-                    </table>
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Nama Kegiatan</th>
+                                <td><?php echo htmlspecialchars($data['nama_kegiatan']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Tanggal</th>
+                                <td><?php echo htmlspecialchars($data['tanggal']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Waktu</th>
+                                <td><?php echo htmlspecialchars($data['waktu']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Agenda</th>
+                                <td><?php echo htmlspecialchars($data['agenda']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Lokasi</th>
+                                <td><?php echo htmlspecialchars($data['lokasi']); ?></td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td>
+                                    <span id="status-label" class="status" 
+                                        style="background-color: <?php 
+                                             if ($data['status'] == 'disetujui') {
+                                                echo '#2ea56f'; // Hijau
+                                            } elseif ($data['status'] == 'ditolak') {
+                                                echo '#dc3545'; // Merah
+                                            } elseif ($data['status'] == 'jadwal alternatif') {
+                                                echo '#ffc107'; // Kuning
+                                            } elseif ($data['status'] == 'selesai') {
+                                                echo '#007bff'; // Biru
+                                            } else {
+                                                echo '#fd7e14'; // Oranye
+                                            }
+                                        ?>;">
+                                        <?php echo htmlspecialchars($data['status']); ?>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th title="Masukkan Bukti Kegiatan Anda dalam format Pdf atau Gambar disini">Bukti Kegiatan</th>
+                                <td>
+                                    <div class="input-group">
+                                        <input type="file" class="form-control" id="customFile" name="bukti_kegiatan" accept=".pdf, .jpg, .jpeg, .png, .gif" <?php echo $data['status'] != 'selesai' ? 'disabled' : ''; ?> >
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
 
-                    <div class="btn_container">
-                        <div class="action-buttons" style="display: none;">
-                            <button class="save-btn">Simpan</button>
-                            <button class="cancel-btn">Batal</button>
-                        </div>
-                    </div>
+                        <a href="jadwal_bimbingan_mahasiswa.php" class="btn btn-secondary">Kembali</a>
+                        <?php if ($data['status'] == 'selesai'): ?>
+                            <div class="d-flex justify-content-end mt-3">
+                                <button type="submit" class="btn btn-success me-2">Simpan</button>
+                                <button type="button" class="btn btn-danger me-2" onclick="window.location.href='jadwal_bimbingan_mahasiswa.php';">Batal</button>
+                            </div>
+                        <?php else: ?>
+                            <div class="alert alert-warning mt-3">Bukti Kegiatan hanya bisa diunggah jika status jadwal bimbingan adalah "Selesai".</div>
+                            <div class="d-flex justify-content-end mt-3">
+                            </div>
+                        <?php endif; ?>
 
-                    <a href="jadwal_bimbingan_mahasiswa.php" class="btn btn-secondary">Kembali</a>
+                        <?php if (isset($message)): ?>
+                            <div class="alert alert-info mt-3"><?php echo $message; ?></div>
+                        <?php endif; ?>
+                    </form>
                 </div>       
             </div>
-
-
+        </div>
     </div>
     <script>
-    const fileInput = document.getElementById("customFile");
-    const actionButtons = document.querySelector(".action-buttons");
+        const fileInput = document.getElementById("customFile");
+        const actionButtons = document.querySelector(".action-buttons");
 
-    // Event listener untuk input file
-    fileInput.addEventListener("change", function () {
-        if (fileInput.files.length > 0) {
-            actionButtons.style.display = "block"; // Tampilkan tombol jika ada file
-        } else {
-            actionButtons.style.display = "none"; // Sembunyikan tombol jika tidak ada file
-        }
-    });
-</script>
+        // Event listener untuk input file
+        fileInput.addEventListener("change", function () {
+            if (fileInput.files.length > 0) {
+                actionButtons.style.display = "block"; // Tampilkan tombol jika ada file
+            } else {
+                actionButtons.style.display = "none"; // Sembunyikan tombol jika tidak ada file
+            }
+        });
+    </script>
 </body>
 </html>

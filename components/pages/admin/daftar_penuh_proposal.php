@@ -1,3 +1,35 @@
+<?php
+// Sambungkan ke database
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+// Query untuk mengambil data
+$query = "
+    SELECT 
+        k.nama_kelompok, 
+        p.judul_proposal, 
+        p.ide_bisnis, 
+        p.tahapan_bisnis, 
+        p.sdg, 
+        p.kategori, 
+        p.other_category,
+        p.proposal_pdf, 
+        p.status
+    FROM 
+        proposal_bisnis p
+    JOIN 
+        kelompok_bisnis k 
+    ON 
+        p.kelompok_id = k.id_kelompok
+";
+
+// Eksekusi query
+$result = mysqli_query($conn, $query);
+
+if (!$result) {
+    die("Query error: " . mysqli_error($conn));
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +42,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_laporan_bisnis.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_proposal.css">
 </head>
 
 <body>
@@ -28,6 +60,98 @@
                 $pageTitle = "Daftar Proposal Bisnis"; // Judul halaman
                 include 'header_admin.php'; 
             ?>
-</body>
 
+            <div class="main_wrapper">
+                <div class="container mt-4">
+                    <?php
+                    if (isset($_SESSION['toast_message'])) {
+                        echo "<script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var toastMessage = document.getElementById('toastMessage');
+                                var toastContent = document.getElementById('toastMessageContent');
+                                toastContent.textContent = '" . $_SESSION['toast_message'] . "'; // Set the message dynamically
+                                var toast = new bootstrap.Toast(toastMessage);
+                                toast.show(); // Show the toast message
+                            });
+                        </script>";
+                        unset($_SESSION['toast_message']); // Clear the message after displaying it
+                    }
+                    ?>
+
+                    <h2>Daftar Proposal</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nama Kelompok</th>
+                                    <th>Judul Proposal</th>
+                                    <th>Ide Bisnis</th>
+                                    <th>Tahapan Bisnis</th>
+                                    <th>SDG</th>
+                                    <th>Kategori Bisnis</th>
+                                    <th>Proposal</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($row['nama_kelompok']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['judul_proposal']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['ide_bisnis']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['tahapan_bisnis']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['sdg']); ?></td>
+                                        <td>
+                                            <?php
+                                                if ($row['kategori'] === 'lainnya') {
+                                                    echo htmlspecialchars($row['other_category']);
+                                                } else {
+                                                    echo htmlspecialchars($row['kategori']);
+                                                }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <ul id="fileList">
+                                                <li class="file-box">
+                                                    <div class="file-info">
+                                                        <?php echo htmlspecialchars(basename($row['proposal_pdf'])); ?>
+                                                    </div>
+                                                    <div class="icon-group">
+                                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($row['proposal_pdf']); ?>" target="_blank" class="detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </a>
+                                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($row['proposal_pdf']); ?>" download class="btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File">
+                                                            <i class="fa-solid fa-download"></i>
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <span id="status-label" class="status"
+                                                style="background-color: <?php
+                                                    if ($row['status'] == 'disetujui') {
+                                                        echo '#2ea56f';
+                                                    } elseif ($row['status'] == 'ditolak') {
+                                                        echo '#dc3545';
+                                                    } else {
+                                                        echo 'orange';
+                                                    }
+                                                ?>;">
+                                                <?php echo htmlspecialchars($row['status']); ?>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

@@ -11,15 +11,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
     $data = json_decode(file_get_contents("php://input"), true);
     $new_phone = $data['phone'] ?? '';
+    $new_address = $data['alamat'] ?? '';
 
     // Validasi format nomor telepon
-    if (!preg_match('/^\d{10,15}$/', $new_phone)) {
+    if ($new_phone && !preg_match('/^\d{10,15}$/', $new_phone)) {
         echo json_encode(['status' => 'error', 'message' => 'Nomor telepon tidak valid.']);
         exit;
     }
 
-    // Ambil nomor telepon lama dari database
-    $query_check = "SELECT contact FROM mahasiswa WHERE user_id = ?";
+    // Ambil data lama (nomor telepon dan alamat) dari database
+    $query_check = "SELECT contact, alamat FROM mahasiswa WHERE user_id = ?";
     $stmt_check = $conn->prepare($query_check);
 
     if (!$stmt_check) {
@@ -38,15 +39,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $current_phone = $row['contact'];
+    $current_address = $row['alamat'];
 
-    // Periksa apakah nomor telepon baru sama dengan nomor telepon lama
-    if ($new_phone === $current_phone) {
-        echo json_encode(['status' => 'error', 'message' => 'Tolong masukkan nomor telepon yang ingin diperbarui.']);
+    // Periksa apakah data baru sama dengan data lama
+    if ($new_phone === $current_phone && $new_address === $current_address) {
+        echo json_encode(['status' => 'error', 'message' => 'Tolong masukkan data yang ingin diperbarui.']);
         exit;
     }
 
-    // Update nomor telepon jika berbeda
-    $query_update = "UPDATE mahasiswa SET contact = ? WHERE user_id = ?";
+    // Siapkan query update
+    $update_fields = [];
+    $update_params = [];
+    $param_types = '';
+
+    if ($new_phone && $new_phone !== $current_phone) {
+        $update_fields[] = "contact = ?";
+        $update_params[] = $new_phone;
+        $param_types .= 's';
+    }
+
+    if ($new_address && $new_address !== $current_address) {
+        $update_fields[] = "alamat = ?";
+        $update_params[] = $new_address;
+        $param_types .= 's';
+    }
+
+    $update_params[] = $user_id;
+    $param_types .= 'i';
+
+    $query_update = "UPDATE mahasiswa SET " . implode(", ", $update_fields) . " WHERE user_id = ?";
     $stmt_update = $conn->prepare($query_update);
 
     if (!$stmt_update) {
@@ -54,12 +75,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $stmt_update->bind_param("si", $new_phone, $user_id);
+    $stmt_update->bind_param($param_types, ...$update_params);
 
     if ($stmt_update->execute()) {
-        echo json_encode(['status' => 'success', 'message' => 'Nomor telepon berhasil diperbarui.']);
+        echo json_encode(['status' => 'success', 'message' => 'Profil berhasil diperbarui.']);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Terjadi kesalahan saat memperbarui nomor telepon.']);
+        echo json_encode(['status' => 'error', 'message' => 'Terjadi kesalahan saat memperbarui profil.']);
     }
 
     $stmt_check->close();

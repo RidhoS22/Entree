@@ -3,28 +3,49 @@ include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connectio
 
 session_start();
 
-$sql = "SELECT * FROM kelompok_bisnis";
-$result = $conn->query($sql);
+$user_id = $_SESSION['user_id']; // Ambil user ID dari sesi
 
-// Menangani form POST untuk menambahkan mentor ke kelompok bisnis
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_kelompok'], $_POST['nama_mentor'])) {
-    $id_kelompok = $_POST['id_kelompok'];
-    $nama_mentor = $_POST['nama_mentor'];
+// Ambil peran pengguna (Tutor/Dosen Pengampu)
+$user_role = $_SESSION['role'];
 
-    $updateSql = "UPDATE kelompok_bisnis SET id_mentor = ? WHERE id_kelompok = ?";
-    $stmt = $conn->prepare($updateSql);
-    $stmt->bind_param('si', $nama_mentor, $id_kelompok);
-
-    if ($stmt->execute()) {
-        echo json_encode(['success' => true, 'message' => 'Mentor berhasil ditambahkan ke kelompok bisnis']);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Gagal menambahkan mentor: ' . $conn->error]);
-    }
-    exit;
+// Modifikasi query berdasarkan peran pengguna
+if ($user_role === 'Tutor') {
+    // Jika pengguna adalah Tutor, hanya ambil kelompok yang di-mentor oleh pengguna
+    $sql = "
+        SELECT * FROM kelompok_bisnis
+        WHERE id_mentor = (SELECT id FROM mentor WHERE user_id = ?)
+    ";
+} else {
+    // Jika bukan Tutor, ambil semua kelompok
+    $sql = "SELECT * FROM kelompok_bisnis";
 }
+
+$stmt = $conn->prepare($sql);
+
+if ($user_role === 'Tutor') {
+    // Jika pengguna adalah Tutor, bind user_id untuk filter
+    $stmt->bind_param('i', $user_id);
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Ambil kata kunci pencarian jika ada
 $search = isset($_GET['search']) ? $_GET['search'] : '';
+
+if (isset($_GET['success']) && $_GET['success'] == 1) {
+    echo "
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: 'Mentor berhasil ditambahkan ke kelompok bisnis.',
+            confirmButtonText: 'OK',
+            timer: 3000
+        });
+    </script>
+    ";
+}
 
 // Modifikasi query untuk mencari mentor berdasarkan nama jika ada input pencarian
 $query_mentor = "
@@ -33,8 +54,14 @@ $query_mentor = "
         users.role AS peran 
     FROM mentor 
     JOIN users ON mentor.user_id = users.id
-    WHERE mentor.nama LIKE '%$search%'"; // Filter berdasarkan nama mentor
-$result_mentor = $conn->query($query_mentor);
+    WHERE mentor.nama LIKE ?
+";
+$stmt = $conn->prepare($query_mentor);
+$search_term = "%$search%";
+$stmt->bind_param("s", $search_term);
+$stmt->execute();
+$result_mentor = $stmt->get_result();
+
 
 if (!$result_mentor) {
     die("Error: " . $conn->error);
@@ -64,7 +91,43 @@ if (!$result_mentor) {
             align-items: center;
             justify-content: space-between;
         }
+        .toast {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="toast-container">
+        <div id="success-toast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Mentor berhasil ditambahkan ke kelompok bisnis.
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if the success parameter is present in the URL
+        window.onload = function() {
+            // Get URL query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // If success=1 is in the query string, show the toast
+            if (urlParams.has('success') && urlParams.get('success') === '1') {
+                var toastEl = new bootstrap.Toast(document.getElementById('success-toast'));
+                toastEl.show();
+            }
+        };
+    </script>
+
 </head>
 
 <body>
@@ -222,9 +285,12 @@ if (!$result_mentor) {
                                                 <p>Nomor Telepon: ' . htmlspecialchars($mentor['contact']) . '</p>
                         
                                                 <div class="btn-div d-flex justify-content-center mt-4">
-                                                    <button type="submit" class="btn btn-success mt-2">Pilih sebagai Mentor</button>
+                                                    <form method="POST" action="update_kelompok_bisnis.php">
+                                                        <input type="hidden" name="id_kelompok" value="' . $id_kelompok . '">
+                                                        <input type="hidden" name="id_mentor" value="' . $mentor['id'] . '">
+                                                        <button type="submit" class="btn btn-success mt-2">Pilih sebagai Mentor</button>
+                                                    </form>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -241,13 +307,22 @@ if (!$result_mentor) {
                         echo '</div>';
                     }
                 } else {
-                    echo '<p>Tidak ada kelompok bisnis yang tersedia.</p>';
+                    echo "
+                    <script>
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Tidak ada kelompok bisnis yang tersedia.',
+                            text: 'Silakan coba lagi nanti.',
+                            confirmButtonText: 'OK',
+                            timer: 3000
+                        });
+                    </script>
+                    ";
                 }
                 ?>
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Pilih semua elemen collapse yang digunakan
@@ -284,27 +359,6 @@ if (!$result_mentor) {
 
     </script>
     <script>
-        $(document).on('submit', '.add-mentor-form', function(e) {
-            e.preventDefault();
-            
-            let form = $(this);
-            $.ajax({
-                type: 'POST',
-                url: '', 
-                data: form.serialize(),
-                success: function(response) {
-                    response = JSON.parse(response);
-                    if(response.success) {
-                        alert(response.message);
-                        location.reload(); // Refresh the page
-                    } else {
-                        alert(response.message);
-                    }
-                }
-            });
-        });
-    </script>
-    <script>
 
         const dropdownButton = document.getElementById("dropdownMenuButton");
         const dropdownItems = document.querySelectorAll(".dropdown-item");
@@ -325,9 +379,7 @@ if (!$result_mentor) {
         });
     </script>
 
-    
 </body>
-
 </html>
 
 <?php

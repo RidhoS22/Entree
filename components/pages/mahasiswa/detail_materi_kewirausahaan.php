@@ -8,6 +8,8 @@ if (!isset($_GET['id'])) {
 
 $id = $conn->real_escape_string($_GET['id']);
 
+$baseDir = '/Aplikasi-Kewirausahaan/components/pages/admin/uploads/';
+
 $sql = "SELECT * FROM materi_kewirausahaan WHERE id = '$id'";
 $result = $conn->query($sql);
 
@@ -17,7 +19,7 @@ if ($result === false || $result->num_rows === 0) {
 }
 
 $row = $result->fetch_assoc();
-$filePath = htmlspecialchars($row["file_path"]);
+$filePath = $baseDir . htmlspecialchars($row["file_path"]);
 $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
 // Fungsi hanya dideklarasikan sekali
@@ -117,10 +119,10 @@ function getFileIcon($fileExtension) {
                             <p><?= htmlspecialchars($row["deskripsi"]) ?></p>
                             <div class="mt-3">
                                 <div class="btn_container">
-                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
+                                    <a id="detailFileLink" href="<?= htmlspecialchars($filePath) ?>" target="_blank" class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
                                         <i class="fa-solid fa-eye btn-icon"></i>
                                     </a>
-                                    <a id="detailFileLink" href="#" target="_blank" class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh Materi">
+                                    <a id="detailFileLink" href="<?= htmlspecialchars($filePath) ?>" target="_blank" download class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh Materi">
                                         <i class="fa-solid fa-download btn-icon"></i>
                                     </a>
                                 </div>

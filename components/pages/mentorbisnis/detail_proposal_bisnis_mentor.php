@@ -247,6 +247,9 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                             } else {
                                 messageDiv.innerHTML = `<div class="alert alert-danger">${result.message}</div>`;
                             }
+                            setTimeout(function() {
+                                messageDiv.innerHTML = '';
+                            }, 1500);
                         } catch (error) {
                             console.error('Error:', error);
                             document.getElementById('feedbackMessage').innerHTML = `<div class="alert alert-danger">Terjadi kesalahan. Silakan coba lagi.</div>`;

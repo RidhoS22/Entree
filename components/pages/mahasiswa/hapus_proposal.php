@@ -16,9 +16,11 @@ if (isset($_GET['id'])) {
 
         // Eksekusi query
         if ($stmt->execute()) {
-            // Jika berhasil menghapus, redirect ke halaman daftar proposal
-            header("Location: proposal_bisnis_mahasiswa.php?message=Proposal berhasil dihapus");
-            exit();
+            $_SESSION['toast_message'] = [
+                'message' => 'Proposal berhasil dihapus!',
+                'isSuccess' => true
+            ];
+            header('Location: proposal_bisnis_mahasiswa.php');
         } else {
             // Jika gagal menghapus, tampilkan pesan error
             echo "Terjadi kesalahan saat menghapus proposal.";

@@ -1,9 +1,44 @@
 <?php
-// Koneksi ke database
+session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
 // Ambil ID dari parameter URL
+$toastMessage = isset($_GET['toast']) ? $_GET['toast'] : null;
 $id = isset($_GET['id']) ? $_GET['id'] : null;
+$userRole = $_SESSION['role'];
+$userId = $_SESSION['user_id'];
+
+// 1. Ambil ID dari tabel mentor_bisnis
+$sql_id = "SELECT id FROM mentor WHERE user_id = '$userId'";
+$result_id = $conn->query($sql_id);
+
+if (!$result_id) {
+    die("Error query sql_id: " . $conn->error); // Handle error query
+}
+
+if ($result_id->num_rows > 0) {
+    $row_id = $result_id->fetch_assoc();
+    $id_mentor = $row_id['id']; // Ambil nilai ID mentor
+}
+
+// 2. Cek apakah id_klmpk pada jadwal berhubungan dengan kelompok bisnis yang benar dan id_mentor sesuai
+$groupCheckQuery = "SELECT k.id_mentor 
+                    FROM kelompok_bisnis k 
+                    INNER JOIN jadwal j ON k.id_kelompok = j.id_klmpk
+                    WHERE j.id = ? AND k.id_mentor = ?";
+$stmt_group_check = $conn->prepare($groupCheckQuery);
+$stmt_group_check->bind_param("ii", $id, $id_mentor);
+$stmt_group_check->execute();
+$result_group_check = $stmt_group_check->get_result();
+
+// Jika hasil query ada, maka id_mentor pada kelompok bisnis sama dengan id_mentor yang sedang login
+if ($result_group_check->num_rows > 0) {
+    // ID mentor pada kelompok bisnis cocok, fitur aksi dan feedback bisa diakses
+    $canTakeAction = true;
+} else {
+    // Tidak cocok, berarti tidak bisa menggunakan fitur aksi dan feedback
+    $canTakeAction = false;
+}
 
 if ($id) {
     // Query untuk mengambil detail jadwal
@@ -85,21 +120,49 @@ if ($id) {
                         <tr>
                             <th>Status:</th>
                             <td class="file-box">
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Pilih Aksi
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="actionDropdown">
-                                        <li><button class="dropdown-item accept-btn">Setujui Jadwal</button></li>
-                                        <li><button class="dropdown-item reject-btn">Tolak Jadwal</button></li>
-                                        <li><button class="dropdown-item alt-schedule-btn">Berikan Jadwal Alternatif</button></li>
-                                    </ul>
-                                </div>
+                                <?php if ($canTakeAction): ?>
+                                    <div class="dropdown d-flex align-items-center">
+                                        <span id="status-label" class="status me-3" 
+                                            style="background-color: <?php 
+                                                if ($data['status'] == 'disetujui') {
+                                                    echo '#2ea56f';
+                                                } elseif ($data['status'] == 'ditolak') {
+                                                    echo '#dc3545';
+                                                } elseif  ($data['status'] == 'selesai') {
+                                                    echo '#007bff';
+                                                } elseif  ($data['status'] == 'alternatif'){
+                                                    echo '#ffc107';
+                                                } else {
+                                                    echo 'orange';
+                                                }
+                                            ?>;">
+                                            <?php echo htmlspecialchars($data['status']); ?>
+                                        </span>
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Pilih Aksi
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="actionDropdown">
+                                            <li><button class="dropdown-item accept-btn">Setujui Jadwal</button></li>
+                                            <li><button class="dropdown-item reject-btn">Tolak Jadwal</button></li>
+                                            <li><button class="dropdown-item alt-schedule-btn">Berikan Jadwal Alternatif</button></li>
+                                            <li><button class="dropdown-item done-btn">Selesai</button></li>
+                                        </ul>
+                                    </div>
+                                <?php else: ?>
+                                        <span id="status-label" class="status" 
+                                            style="background-color: <?php 
+                                                if ($data['status'] == 'disetujui') {
+                                                    echo '#2ea56f';
+                                                } elseif ($data['status'] == 'ditolak') {
+                                                    echo '#dc3545';
+                                                } else {
+                                                    echo 'orange';
+                                                }
+                                            ?>;">
+                                            <?php echo htmlspecialchars($data['status']); ?>
+                                        </span>
+                                <?php endif; ?>
                             </td>
-                        </tr>                                               
-                        <tr>
-                            <th title="Masukkan Bukti Kegiatan Anda dalam format Pdf atau Gambar disini" >Bukti Kegiatan</th>
-                            <td>Mahasiswa akan mengunggah bukti kegiatan disini</td>                        
                         </tr>
                     </table>
 
@@ -111,7 +174,9 @@ if ($id) {
                                     <h5 class="modal-title" id="altScheduleModalLabel">Berikan Jadwal Alternatif</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form action="submit_alternative_schedule.php" method="POST">
+                                <form action="submit_action.php" method="POST">
+                                    <input type="hidden" name="action" value="jadwal_alternatif">
+                                    <input type="hidden" name="jadwal_id" value="<?php echo htmlspecialchars($id); ?>">
                                     <div class="modal-body">
                                         <div class="mb-3">
                                             <label for="altDateInput" class="form-label">Tanggal:</label>
@@ -136,17 +201,45 @@ if ($id) {
                         </div>
                     </div>
 
+                    <?php if ($canTakeAction): ?>
+                        <form action="submit_feedback.php" method="POST">
+                            <div class="mb-3">
+                                <label for="feedbackInput" class="form-label">Masukkan Umpan Balik Anda:</label>
+                                <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
+                            </div>
+                            <div class="btn_container mentor-buttons">
+                                <button type="submit">Kirim Feedback</button>
+                            </div>
+                        </form>
+                    <?php else: ?>
+                        <table class="table table-borderer">
+                            <tr>
+                                <th>Umpan Balik</th>
+                                <td><?php echo htmlspecialchars($data['feecback_menor'] ?? 'Belum ada umpan balik'); ?></td>
+                            </tr>
+                        </table>
+                    <?php endif; ?>
 
-                                    <!-- Feedback Section -->
-                    <form action="submit_feedback.php" method="POST">
-                        <div class="mb-3">
-                            <label for="feedbackInput" class="form-label">Masukkan Umpan Balik Anda:</label>
-                            <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
+                    <?php if ($toastMessage): ?>
+                         <!-- Toast Container -->
+                        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1050">
+                            <div id="toastMessage" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="d-flex">
+                                    <div class="toast-body">
+                                        <?php echo htmlspecialchars($toastMessage); ?>
+                                    </div>
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="btn_container mentor-buttons">
-                            <button type="submit">Kirim Feedback</button>
-                        </div>
-                    </form>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                var toastEl = document.querySelector('.toast');
+                                var toast = new bootstrap.Toast(toastEl);
+                                toast.show();
+                            });
+                        </script>
+                    <?php endif; ?>
 
                     <a href="jadwal_bimbingan_mentor.php" class="btn btn-secondary">Kembali</a>
                 </div>       
@@ -155,13 +248,19 @@ if ($id) {
     <script>
         document.querySelector('.accept-btn').addEventListener('click', () => {
             if (confirm("Apakah Anda yakin ingin menyetujui Jadwal ini?")) {
-                alert("Jadwal berhasil disetujui!");
+                submitAction("setujui");
             }
         });
 
         document.querySelector('.reject-btn').addEventListener('click', () => {
             if (confirm("Apakah Anda yakin ingin menolak Jadwal ini?")) {
-                alert("Jadwal berhasil ditolak!");
+                submitAction("tolak");
+            }
+        });
+
+        document.querySelector('.done-btn').addEventListener('click', () => {
+            if (confirm("Apakah Anda yakin ingin menandai Jadwal ini selesai?")) {
+                submitAction("selesai");
             }
         });
 
@@ -169,6 +268,28 @@ if ($id) {
             const altScheduleModal = new bootstrap.Modal(document.getElementById('altScheduleModal'));
             altScheduleModal.show();
         });
+
+        // Fungsi untuk submit form
+        function submitAction(action) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'submit_action.php';
+
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = action;
+            form.appendChild(actionInput);
+
+            const jadwalIdInput = document.createElement('input');
+            jadwalIdInput.type = 'hidden';
+            jadwalIdInput.name = 'jadwal_id';
+            jadwalIdInput.value = "<?php echo htmlspecialchars($id); ?>";
+            form.appendChild(jadwalIdInput);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
     </script>
 </body>
 </html>

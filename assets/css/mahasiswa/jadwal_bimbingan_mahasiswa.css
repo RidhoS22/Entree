@@ -3,6 +3,7 @@
 body {
   height: 100vh !important;
   overflow: hidden !important;
+  font-family: 'Poppins', sans-serif; 
 }
 
 .status {

@@ -1,3 +1,61 @@
+<?php
+session_start();
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+// Mendapatkan role pengguna dari session
+$userRole = $_SESSION['role'];
+$userId = $_SESSION['user_id'];
+
+// 1. Ambil ID dari tabel mentor_bisnis
+$sql_id = "SELECT id FROM mentor WHERE user_id = '$userId'";
+$result_id = $conn->query($sql_id);
+
+if (!$result_id) {
+    die("Error query sql_id: " . $conn->error); // Handle error query
+}
+
+if ($result_id->num_rows > 0) {
+    $row_id = $result_id->fetch_assoc();
+    $id_mentor = $row_id['id']; // Ambil nilai ID mentor
+}
+
+$sql_kelompok = "SELECT id_kelompok, nama_kelompok FROM kelompok_bisnis";
+$result_kelompok = $conn->query($sql_kelompok);
+
+$namaKelompok = []; // Inisialisasi array di luar loop
+
+while ($row = $result_kelompok->fetch_assoc()) {
+    $namaKelompok[$row['id_kelompok']] = $row['nama_kelompok'];
+}
+
+// Jika role adalah 'tutor', kita hanya ambil jadwal untuk kelompok yang dia mentor
+if ($userRole == 'Tutor') {
+    // Ambil kelompok yang menjadi mentor pengguna
+    $sql_kelompok = "SELECT id_kelompok FROM kelompok_bisnis WHERE id_mentor = '$id_mentor'";
+    $result_kelompoktutor = $conn->query($sql_kelompok);
+
+    // Simpan id_kelompok dalam array
+    $kelompokIds = [];
+    while ($row = $result_kelompoktutor->fetch_assoc()) {
+        $kelompokIds[] = $row['id_kelompok'];
+    }
+
+    // Jika ada kelompok yang di-mentor, tampilkan jadwal yang relevan
+    if (count($kelompokIds) > 0) {
+        $ids = implode(',', $kelompokIds); // Menggabungkan id_kelompok menjadi string
+        $sql = "SELECT * FROM jadwal WHERE id_klmpk IN ($ids) ORDER BY tanggal, waktu";
+    } else {
+        // Jika tidak ada kelompok yang di-mentor, tampilkan pesan
+        $sql = "SELECT * FROM jadwal WHERE 1 = 0";  // Tidak ada data yang ditampilkan
+    }
+} else {
+    // Jika role adalah dosen pengampu, tampilkan semua jadwal
+    $sql = "SELECT * FROM jadwal ORDER BY tanggal, waktu";
+}
+
+$result = $conn->query($sql);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,22 +72,24 @@
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <div class="wrapper">
    
+        <?php 
+        $activePage = 'jadwal_bimbingan_mentor'; // Halaman ini adalah Profil
+        include 'sidebar_mentor.php'; 
+        ?>
+
+        <div class="main p-3">
+            <div class="main_header">
                 <?php 
-                $activePage = 'jadwal_bimbingan_mentor'; // Halaman ini adalah Profil
-                include 'sidebar_mentor.php'; 
+                    $pageTitle = "Jadwal Bimbingan"; // Judul halaman
+                    include 'header_mentor.php'; 
                 ?>
+            </div>
 
-                <div class="main p-3">
-                    <div class="main_header">
-                        <?php 
-                            $pageTitle = "Jadwal Bimbingan"; // Judul halaman
-                            include 'header_mentor.php'; 
-                        ?>
-                    </div>
-
-                <div class="main_wrapper">
+            <div class="main_wrapper">
                     <div class="nav_main_wrapper">
                         <nav class="navbar navbar-expand-lg bg-body-tertiary">
                             <div class="container-fluid">
@@ -76,16 +136,27 @@
                                         </div>
                                         <form action="submit_alternative_schedule.php" method="POST">
                                             <div class="modal-body">
-                                                <div class="mb-3">
-                                                    <label for="altGroupInput" class="form-label">Pilih Kelompok:</label>
-                                                    <select class="form-select" id="altGroupInput" name="alt_group" required>
-                                                        <option value="" disabled selected>Pilih kelompok</option>
-                                                        <option value="Kelompok 1">Kelompok 1</option>
-                                                        <option value="Kelompok 2">Kelompok 2</option>
-                                                        <option value="Kelompok 3">Kelompok 3</option>
-                                                        <option value="Kelompok 4">Kelompok 4</option>
-                                                    </select>
-                                                </div>
+                                            <div class="mb-3">
+                                                <label for="altGroupInput" class="form-label">Pilih Kelompok:</label>
+                                                <select class="form-select" id="altGroupInput" name="alt_group" required>
+                                                    <option value="" disabled selected>Pilih kelompok</option>
+                                                    <?php
+                                                    // PHP untuk memasukkan data kelompok ke dalam dropdown
+                                                    $sql_kelompok = "SELECT id_kelompok, nama_kelompok FROM kelompok_bisnis WHERE id_mentor = '$id_mentor'";
+                                                    $result_kelompok = $conn->query($sql_kelompok);
+
+                                                    if ($result_kelompok->num_rows > 0) {
+                                                        while ($row = $result_kelompok->fetch_assoc()) {
+                                                            $nama_kelompok = htmlspecialchars($row['nama_kelompok']);
+                                                            $id_kelompok = htmlspecialchars($row['id_kelompok']);
+                                                            echo "<option value=\"$id_kelompok\">$nama_kelompok</option>";
+                                                        }
+                                                    } else {
+                                                        echo "<option value=\"\" disabled>Tidak ada kelompok tersedia</option>";
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
                                                 <div class="mb-3">
                                                     <label for="nama_kegiatan" class="form-label">Nama Kegiatan</label>
                                                     <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control" required
@@ -121,75 +192,86 @@
 
                         </nav>
                     </div>
-
-                    <div class="container mt-4">
-                        <?php
-                        include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
-
-                        // Ambil semua jadwal
-                        $sql = "SELECT * FROM jadwal ORDER BY tanggal, waktu";
-                        $result = $conn->query($sql);
-                        ?>
-
-                        <h2>Daftar Jadwal</h2>
-                        <div class="table-responsive">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Nama Kelompok</th>
-                                        <th>Nama Kegiatan</th>
-                                        <th>Tanggal</th>
-                                        <th>Waktu</th>
-                                        <th>Lokasi</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if ($result->num_rows > 0): ?>
-                                        <?php $no = 1; ?>
-                                        <?php while ($row = $result->fetch_assoc()): ?>
-                                            <tr>
-                                                <td><?php echo $no++; ?></td>
-                                                <td>ArTECH</td>
-                                                <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
-                                                <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
-                                                <td><?php echo htmlspecialchars($row['waktu']); ?></td>
-                                                <td><?php echo htmlspecialchars($row['lokasi']); ?></td>
-                                                <td>
-                                                    <span id="status-label" class="status" 
-                                                        style="background-color: <?php 
-                                                            if ($row['status'] == 'disetujui') {
-                                                                echo '#2ea56f';
-                                                            } elseif ($row['status'] == 'ditolak') {
-                                                                echo '#dc3545';
-                                                            } else {
-                                                                echo 'orange';
-                                                            }
-                                                        ?>;">
-                                                        <?php echo htmlspecialchars($row['status']); ?>
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
-                                                        <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Jadwal Bimbingan"></i>
-                                                    </a>
-                                                </td>
-
-                                            </tr>
-                                        <?php endwhile; ?>
-                                    <?php else: ?>
+                    
+                <div class="container mt-4">
+                    <h2>Daftar Jadwal</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Kelompok</th>
+                                    <th>Nama Kegiatan</th>
+                                    <th>Tanggal</th>
+                                    <th>Waktu</th>
+                                    <th>Lokasi</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($result->num_rows > 0): ?>
+                                    <?php $no = 1; ?>
+                                    <?php while ($row = $result->fetch_assoc()): ?>
                                         <tr>
-                                            <td colspan="8">Tidak ada jadwal tersedia.</td>
+                                            <td><?php echo $no++; ?></td>
+                                            <td>
+                                            <?php
+                                                // Tampilkan nama kelompok berdasarkan id_klmpk dari tabel jadwal
+                                                $id_klmpk = $row['id_klmpk'];
+                                                if (isset($namaKelompok[$id_klmpk])) {
+                                                    echo htmlspecialchars($namaKelompok[$id_klmpk]);
+                                                } else {
+                                                    echo "Nama Kelompok Tidak Ditemukan"; // Handle jika ID tidak ada
+                                                }
+                                            ?>
+                                            </td>
+                                            <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['waktu']); ?></td>
+                                            <td><?php echo htmlspecialchars($row['lokasi']); ?></td>
+                                            <td>
+                                                <span id="status-label" class="status" 
+                                                    style="background-color: <?php 
+                                                        if ($row['status'] == 'disetujui') {
+                                                            echo '#2ea56f';
+                                                        } elseif ($row['status'] == 'ditolak') {
+                                                            echo '#dc3545';
+                                                        } elseif  ($row['status'] == 'selesai') {
+                                                            echo '#007bff';
+                                                        } elseif  ($row['status'] == 'alternatif'){
+                                                            echo '#ffc107';
+                                                        } else {
+                                                            echo 'orange';
+                                                        }
+                                                    ?>;">
+                                                    <?php echo htmlspecialchars($row['status']); ?>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+                                                    <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Jadwal Bimbingan"></i>
+                                                </a>
+                                            </td>
                                         </tr>
-                                    <?php endif; ?>
-                                </tbody>
-                            </table>
-                        </div>
+                                    <?php endwhile; ?>
+                                <?php else: ?>
+                                    <script>
+                                            Swal.fire({
+                                                icon: 'info',
+                                                title: 'Tidak ada Jadwal Bimbingan yang tersedia.',
+                                                text: 'Silakan coba lagi nanti.',
+                                                confirmButtonText: 'OK',
+                                                timer: 3000
+                                            });
+                                        </script>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
                     </div>
-                </div>           
-
+                </div>
+            </div>           
+        </div>
     </div>
     <script>
         const dropdownButton = document.getElementById("dropdownMenuButton");
@@ -216,5 +298,4 @@
         });
     </script>
 </body>
-
 </html>

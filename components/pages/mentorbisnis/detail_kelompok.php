@@ -171,11 +171,11 @@ $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                                 <div class="accordion-body">
                                     <div class="container">
                                         <?php
-                                        include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
-
-                                        // Ambil semua jadwal
-                                        $sql = "SELECT * FROM jadwal ORDER BY tanggal, waktu";
-                                        $result = $conn->query($sql);
+                                            $sql = "SELECT * FROM jadwal WHERE id_klmpk = ? ORDER BY tanggal, waktu";
+                                            $stmt = $conn->prepare($sql);
+                                            $stmt->bind_param("i", $id_kelompok); // Bind parameter id_kelompok
+                                            $stmt->execute();
+                                            $result = $stmt->get_result();
                                         ?>
 
                                     <div class="table-container">
@@ -187,7 +187,6 @@ $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                                                     <th>Nama Kegiatan</th>
                                                     <th>Tanggal</th>
                                                     <th>Status</th>
-                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -196,33 +195,27 @@ $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                                                     <?php while ($row = $result->fetch_assoc()): ?>
                                                         <tr>
                                                             <td><?php echo $no++; ?></td>
-                                                            <td>ArTECH</td>
+                                                            <td><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></td>
                                                             <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
                                                             <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
                                                             <td>
                                                                 <span id="status-label" class="status" 
                                                                     style="background-color: <?php 
                                                                         if ($row['status'] == 'disetujui') {
-                                                                            echo '#2ea56f'; // Hijau
+                                                                            echo '#2ea56f';
                                                                         } elseif ($row['status'] == 'ditolak') {
-                                                                            echo '#dc3545'; // Merah
-                                                                        } elseif ($row['status'] == 'jadwal alternatif') {
-                                                                            echo '#ffc107'; // Kuning
-                                                                        } elseif ($row['status'] == 'selesai') {
-                                                                            echo '#007bff'; // Biru
+                                                                            echo '#dc3545';
+                                                                        } elseif  ($row['status'] == 'selesai') {
+                                                                            echo '#007bff';
+                                                                        } elseif  ($row['status'] == 'alternatif'){
+                                                                            echo '#ffc107';
                                                                         } else {
-                                                                            echo '#fd7e14'; // Oranye
+                                                                            echo 'orange';
                                                                         }
                                                                     ?>;">
                                                                     <?php echo htmlspecialchars($row['status']); ?>
                                                                 </span>
                                                             </td>
-                                                            <td>
-                                                                <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Jadwal Bimbingan">
-                                                                    <i class="fa-solid fa-eye" ></i>
-                                                                </a>
-                                                            </td>
-
                                                         </tr>
                                                     <?php endwhile; ?>
                                                 <?php else: ?>

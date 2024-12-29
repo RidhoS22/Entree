@@ -43,12 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $destPath = $uploadFolder . $fileName;
 
         if (move_uploaded_file($fileTmpPath, $destPath)) {
-            $domain = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'];
-            $filePath = $domain . '/Aplikasi-Kewirausahaan/components/pages/admin/uploads/' . $fileName;
-
-            $sql = "INSERT INTO materi_kewirausahaan (judul, deskripsi, file_path) VALUES (?, ?, ?)";
+            // Simpan hanya nama file ke database
+            $sql = "INSERT INTO materi_kewirausahaan (judul, file_path, deskripsi) VALUES (?, ?, ?)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sss", $judul, $deskripsi, $filePath);
+            $stmt->bind_param("sss", $judul, $fileName, $deskripsi);
 
             if ($stmt->execute()) {
                 $_SESSION['toast_success'] = true;
@@ -60,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -164,8 +162,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     if ($result && $result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
-                            $filePath = htmlspecialchars($row["file_path"]);
-                            $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+                            $fileName = htmlspecialchars($row["file_path"]);
+                            $filePath = '/Aplikasi-Kewirausahaan/components/pages/admin/uploads/' . $fileName;
+                            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
                             $iconSrc = getFileIcon($fileExtension);
 
                             echo '
