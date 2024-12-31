@@ -222,13 +222,10 @@ if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
 
             // Fungsi untuk toggle display pada sidebar
             toggleBtn2.addEventListener('click', function () {
-                if (sidebar.style.display === 'block') {
-                    sidebar.style.display = 'none'; // Sembunyikan sidebar
-                } else {
-                    sidebar.style.display = 'block'; // Tampilkan sidebar
-                }
+                sidebar.classList.toggle('active'); // Menambahkan atau menghapus kelas 'active'
             });
         });
+
 
         document.addEventListener('DOMContentLoaded', function () {
             const toggleBtn2 = document.querySelector('.toggle-btn2'); // Tombol toggle

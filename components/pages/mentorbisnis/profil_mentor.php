@@ -61,8 +61,6 @@ if ($result_mentor->num_rows > 0) {
                     <i class="fas fa-edit"></i>
                 </button>
                 <!-- Profile Header with Edit Photo -->
-                <!-- Profile Header with Edit Photo -->
-                <!-- Profile Header with Edit Photo -->
                 <div class="profile-header">
                     <div class="profile-item">
                         <img alt="Profile picture of the mentor" height="50" src="<?= htmlspecialchars($mentor['foto_profile']); ?>" width="50" id="profile-photo"/>

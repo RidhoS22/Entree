@@ -193,21 +193,41 @@ if (isset($_GET['edit_id'])) {
                                                 </td>
                                                 <td>
                                                     <div class="btn-aksi-mahasiswa">
-                                                        <a href="?edit_id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">
-                                                            <i class="fas fa-edit" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Jadwal Bimbingan"></i> 
-                                                        </a>
+                                                        <!-- Tampilkan tombol Edit hanya jika status = "Menunggu" -->
+                                                        <?php if ($row['status'] === 'menunggu'): ?>
+                                                            <a href="?edit_id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">
+                                                                <i class="fas fa-edit" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Jadwal Bimbingan"></i> 
+                                                            </a>
+                                                        <?php endif; ?>
+
+                                                        <!-- Tombol Hapus -->
                                                         <a href="#" class="btn btn-danger btn-sm" 
                                                             data-bs-toggle="modal" 
                                                             data-bs-target="#deleteConfirmModal"
                                                             onclick="setDeleteUrl(<?php echo $row['id']; ?>)">
                                                             <i class="fa-solid fa-trash-can" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Hapus Jadwal Bimbingan"></i>
                                                         </a>
+
+                                                        <!-- Tombol Detail -->
                                                         <a href="detail_jadwal_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
                                                             <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Jadwal Bimbingan"></i>
                                                         </a>
-                                                    </div>
-                                                </td>
 
+                                                        <!-- Dropdown untuk Pilih Aksi jika status = "Alternatif" -->
+                                                        <?php if ($row['status'] === 'alternatif'): ?>
+                                                            <div class="dropdown">
+                                                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    Aksi
+                                                                </button>
+                                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                    <!-- Tombol Setujui dan Tolak -->
+                                                                    <button class="btn btn-success setujui-btn" data-id="<?php echo $row['id']; ?>">Setujui</button>
+                                                                    <button class="btn btn-danger tolak-btn" data-id="<?php echo $row['id']; ?>">Tolak</button>
+                                                                </ul>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                   </div>
+                                                </td>
                                             </tr>
                                         <?php endwhile; ?>
                                     <?php else: ?>
@@ -259,6 +279,26 @@ if (isset($_GET['edit_id'])) {
         </div>
     </div>
 
+    <!-- Modal Konfirmasi -->
+    <div class="modal" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Aksi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Apakah Anda yakin ingin mengkonfirmasi status jadwal alternatif dari tutor anda ini?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-danger" id="confirmBtn">Setujui / Tolak</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         // Fungsi untuk menetapkan URL hapus ke tombol modal
         function setDeleteUrl(id) {
@@ -267,8 +307,54 @@ if (isset($_GET['edit_id'])) {
             confirmDeleteBtn.setAttribute('href', deleteUrl); // Set URL pada tombol modal
         }
     </script>
+    <script>
+        // Fungsi untuk membuka modal dan mengirimkan data
+        function openConfirmModal(jadwal_id, action) {
+            // Set aksi dan id jadwal
+            document.getElementById('confirmBtn').onclick = function() {
+                // Kirim data ke backend menggunakan fetch API
+                fetch('submit_action.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'action=' + action + '&jadwal_id=' + jadwal_id
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert(data.message);  // Tampilkan pesan berhasil
+                        location.reload();  // Refresh halaman jika perlu
+                    } else {
+                        alert(data.message);  // Tampilkan pesan error
+                    }
+                })
+                .catch(error => {
+                    alert('Terjadi kesalahan: ' + error);
+                });
+            };
+
+            // Tampilkan modal
+            var myModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+            myModal.show();
+        }
+
+        // Fungsi untuk memicu modal ketika tombol setujui atau tolak diklik
+        document.querySelectorAll('.setujui-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const jadwalId = this.getAttribute('data-id');
+                openConfirmModal(jadwalId, 'setujui');
+            });
+        });
+
+        document.querySelectorAll('.tolak-btn').forEach(function(button) {
+            button.addEventListener('click', function() {
+                const jadwalId = this.getAttribute('data-id');
+                openConfirmModal(jadwalId, 'tolak');
+            });
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

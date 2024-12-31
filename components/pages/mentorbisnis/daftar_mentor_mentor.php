@@ -59,7 +59,7 @@ if (!$result_mentor) {
                 <form action="" method="get" class="mb-4">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Cari mentor..." name="search" value="<?= htmlspecialchars($search); ?>">
-                        <button class="btn btn-success" type="submit">MAKAN</button>
+                        <button class="btn btn-success" type="submit">Cari</button>
                     </div>
                 </form>
 

@@ -75,7 +75,7 @@ if ($id) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_jadwal_bimbingan.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_proposal.css">
 </head>
 
 <body>
@@ -147,6 +147,40 @@ if ($id) {
                                             <li><button class="dropdown-item alt-schedule-btn">Berikan Jadwal Alternatif</button></li>
                                             <li><button class="dropdown-item done-btn">Selesai</button></li>
                                         </ul>
+                                        <tr>
+                                            <th><strong>Bukti Kegiatan:</strong></td>
+                                            <td class="file-box">
+                                                <ul id="fileList">
+                                                    <li class="file-box">
+                                                        <div class="file-info">
+                                                            <?php echo htmlspecialchars(basename($data['bukti_kegiatan'] ?? 'Bukti kegiatan belum di upload')); ?>
+                                                        </div>
+                                                        <?php if (!empty($data['bukti_kegiatan'])): ?>
+                                                            <div class="icon-group">
+                                                                <!-- Ikon Lihat File -->
+                                                                <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                                target="_blank" 
+                                                                class="detail-icon" 
+                                                                data-bs-toggle="tooltip" 
+                                                                data-bs-custom-class="custom-tooltip" 
+                                                                data-bs-title="Lihat File">
+                                                                    <i class="fa-solid fa-eye"></i>
+                                                                </a>
+                                                                <!-- Ikon Unduh File -->
+                                                                <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                                download 
+                                                                class="btn-icon" 
+                                                                data-bs-toggle="tooltip" 
+                                                                data-bs-custom-class="custom-tooltip" 
+                                                                data-bs-title="Unduh File">
+                                                                    <i class="fa-solid fa-download"></i>
+                                                                </a>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
                                     </div>
                                 <?php else: ?>
                                         <span id="status-label" class="status" 
@@ -202,11 +236,12 @@ if ($id) {
                     </div>
 
                     <?php if ($canTakeAction): ?>
-                        <form action="submit_feedback.php" method="POST">
+                        <form action="submit_feedback_jadwal.php" method="POST">
                             <div class="mb-3">
                                 <label for="feedbackInput" class="form-label">Masukkan Umpan Balik Anda:</label>
                                 <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
                             </div>
+                            <input type="hidden" name="jadwal_id" value="<?php echo htmlspecialchars($id); ?>">
                             <div class="btn_container mentor-buttons">
                                 <button type="submit">Kirim Feedback</button>
                             </div>

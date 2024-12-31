@@ -26,10 +26,12 @@ if ($id) {
 }
 
 // Cek jika form disubmit dan status jadwal adalah 'selesai'
+$message = "";
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && $data['status'] == 'selesai') {
     // Tentukan lokasi penyimpanan file
-    $targetDir = "uploads/bukti_kegiatan"; // Pastikan folder ini ada di server Anda
-    $targetFile = basename($_FILES["bukti_kegiatan"]["name"]);
+    $targetDir = "uploads/bukti_kegiatan/"; // Pastikan folder ini ada di server Anda
+    $targetFile = $targetDir . basename($_FILES["bukti_kegiatan"]["name"]);
     $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
 
     // Cek apakah file adalah PDF atau gambar
@@ -50,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
             $message = "File gagal diunggah.";
         }
     } else {
-        $message = "Hanya file PDF atau gambar yang diperbolehkan.";
+        $message = "Tolong masukan bukti kegiatanya terlebih dahulu.";
     }
 }
 ?>
@@ -146,7 +148,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                         <?php if ($data['status'] == 'selesai'): ?>
                             <div class="d-flex justify-content-end mt-3">
                                 <button type="submit" class="btn btn-success me-2">Simpan</button>
-                                <button type="button" class="btn btn-danger me-2" onclick="window.location.href='jadwal_bimbingan_mahasiswa.php';">Batal</button>
                             </div>
                         <?php else: ?>
                             <div class="alert alert-warning mt-3">Bukti Kegiatan hanya bisa diunggah jika status jadwal bimbingan adalah "Selesai".</div>
@@ -154,8 +155,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                             </div>
                         <?php endif; ?>
 
-                        <?php if (isset($message)): ?>
-                            <div class="alert alert-info mt-3"><?php echo $message; ?></div>
+                        <!-- Menampilkan pesan jika ada -->
+                        <?php if (!empty($message)): ?>
+                            <div id="message" class="alert alert-success">
+                                <?php echo $message; ?>
+                            </div>
+                            
+                            <script type="text/javascript">
+                                // Menghilangkan pesan setelah 2 detik (2000 ms)
+                                setTimeout(function() {
+                                    document.getElementById("message").style.display = "none";
+                                }, 2000); // 2000 ms = 2 detik
+                            </script>
                         <?php endif; ?>
                     </form>
                 </div>       
