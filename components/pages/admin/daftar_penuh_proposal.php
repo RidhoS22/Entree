@@ -85,9 +85,9 @@ if (!$result) {
                                 <tr>
                                     <th>Nama Kelompok</th>
                                     <th>Judul Proposal</th>
-                                    <th>Ide Bisnis</th>
+                                    <!-- <th>Ide Bisnis</th>
                                     <th>Tahapan Bisnis</th>
-                                    <th>SDG</th>
+                                    <th>SDG</th> -->
                                     <th>Kategori Bisnis</th>
                                     <th>Proposal</th>
                                     <th>Status</th>
@@ -98,9 +98,9 @@ if (!$result) {
                                     <tr>
                                         <td><?php echo htmlspecialchars($row['nama_kelompok']); ?></td>
                                         <td><?php echo htmlspecialchars($row['judul_proposal']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['ide_bisnis']); ?></td>
+                                        <!-- <td><?php echo htmlspecialchars($row['ide_bisnis']); ?></td>
                                         <td><?php echo htmlspecialchars($row['tahapan_bisnis']); ?></td>
-                                        <td><?php echo htmlspecialchars($row['sdg']); ?></td>
+                                        <td><?php echo htmlspecialchars($row['sdg']); ?></td> -->
                                         <td>
                                             <?php
                                                 if ($row['kategori'] === 'lainnya') {

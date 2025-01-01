@@ -274,6 +274,12 @@ textarea:focus {
     margin: none;
     background-color: #007bff;
   }
+
+  .title-edit {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
 }
 
 @media screen and (max-width: 480px) {

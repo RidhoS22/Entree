@@ -228,26 +228,12 @@ if (!$result_mentor) {
                         echo '<form method="POST" action="" class="add-mentor-form">';
                         echo '<input type="hidden" name="id_kelompok" value="' . $id_kelompok . '">';
 
-                        $mentorSql = "SELECT nama FROM mentor";
-                        $mentorResult = $conn->query($mentorSql);
-
-                        echo '<div class="mb-3">';
-                        echo '<label for="mentor" class="form-label">Pilih Mentor:</label>';
-                        echo '<select class="form-select" id="mentor" name="nama_mentor" required>';
-                        while ($mentor = $mentorResult->fetch_assoc()) {
-                            echo '<option value="' . htmlspecialchars($mentor['nama']) . '">' . htmlspecialchars($mentor['nama']) . '</option>';
-                        }
-                        echo '</select>';
-                        echo '</div>';
-                        echo '<button type="submit" class="btn btn-success">Simpan</button>';
-                        echo '</form>';
-
                         // Query untuk mendapatkan data mentor
                         $mentorQuery = "SELECT * FROM mentor";
                         $result_mentor = $conn->query($mentorQuery);
 
                         echo '<form action="" method="get" class="mb-4">
-                            <div class="input-group mt-4">
+                            <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Cari mentor..." name="search" value="' . htmlspecialchars($search) . '">
                                 <button class="btn btn-success" type="submit">Cari</button>
                             </div>

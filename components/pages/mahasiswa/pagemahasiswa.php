@@ -34,60 +34,6 @@
         $showToast = true;
         $_SESSION['show_toast'] = true;
     }
-
-    function getFileIcon($fileExtension) {
-        // Standarisasi ekstensi menjadi huruf kecil
-        $fileExtension = strtolower($fileExtension);
-    
-        // Tentukan icon berdasarkan ekstensi
-        switch ($fileExtension) {
-            case 'mp4':
-            case 'webm':
-            case 'mov':
-            case 'avi':
-                return '/Aplikasi-Kewirausahaan/assets/img/icon_video.png'; // Icon video
-            case 'ppt':
-            case 'pptx':
-                return '/Aplikasi-Kewirausahaan/assets/img/icon_ppt.png'; // Icon PPT
-            case 'pdf':
-                return '/Aplikasi-Kewirausahaan/assets/img/icon_pdf.png'; // Icon PDF
-            case 'doc':
-            case 'docx':
-                return '/Aplikasi-Kewirausahaan/assets/img/icon_word.png'; // Icon Word
-            case 'xls':
-            case 'xlsx':
-                return '/Aplikasi-Kewirausahaan/assets/img/icon_excel.png'; // Icon Excel
-            case 'jpg':
-            case 'jpeg':
-            case 'png':
-            case 'gif':
-                return '/Aplikasi-Kewirausahaan/assets/img/icon_image.png'; // Icon gambar
-            default:
-                return '/Aplikasi-Kewirausahaan/assets/img/icon_default.png'; // Icon default
-        }
-    }
-?>
-<?php
-$query_materi = "SELECT * FROM materi_kewirausahaan";
-$result_materi = $conn->query($query_materi);
-
-$materi = [];
-if ($result_materi && $result_materi->num_rows > 0) {
-    while ($row = $result_materi->fetch_assoc()) {
-        $filePath = $row['file_path'];
-        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
-        $icon = getFileIcon($fileExtension);
-
-        $materi[] = [
-            'id' => $row['id'],
-            'judul' => htmlspecialchars($row['judul']),
-            'deskripsi' => htmlspecialchars($row['deskripsi']),
-            'icon' => $icon
-        ];
-    }
-}
-
-echo '<script>const cardsData = ' . json_encode($materi) . ';</script>';
 ?>
 
 <!DOCTYPE html>
@@ -104,16 +50,6 @@ echo '<script>const cardsData = ' . json_encode($materi) . ';</script>';
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIbml3AdvoEwyCvRhtojA0RsIB7BYAYfK59VeBYo6H" crossorigin="anonymous"></script>
     <link href="\Aplikasi-Kewirausahaan\assets\css\materikewirausahaan.css" rel="stylesheet" />
-    <style>
-        .card-container {
-            width: 80%;
-        }
-       
-        .pagination-buttons {
-            margin-top: 1rem;
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body>
@@ -131,14 +67,7 @@ echo '<script>const cardsData = ' . json_encode($materi) . ';</script>';
                 ?>
             </div>
 
-            <div class="main_wrapper">
-                <h4>Materi Kewirausahaan</h4>
-                <div class="card-container" id="card-container"></div>
-                <div class="pagination-buttons">
-                    <button class="btn btn-primary" id="prev-button" disabled>Previous</button>
-                    <button class="btn btn-primary" id="next-button">Next</button>
-                </div>
-            </div>
+            <div class="main_wrapper"></div>
         </div>
     </div>
 
@@ -164,76 +93,6 @@ echo '<script>const cardsData = ' . json_encode($materi) . ';</script>';
         });
     </script>
     <?php endif; ?>
-
-    <?php
-        $query_materi = "SELECT * FROM materi_kewirausahaan";
-        $result_materi = $conn->query($query_materi);
-
-        $materi = [];
-        if ($result_materi && $result_materi->num_rows > 0) {
-            while ($row = $result_materi->fetch_assoc()) {
-                $materi[] = [
-                    'id' => $row['id'],
-                    'judul' => htmlspecialchars($row['judul']),
-                    'deskripsi' => htmlspecialchars($row['deskripsi']),
-                ];
-            }
-        }
-
-        echo '<script>const cardsData = ' . json_encode($materi) . ';</script>';
-    ?>
-
-    <script>
-        const cardsPerPage = 3;
-        let currentPage = 0;
-
-        function renderCards() {
-            const cardContainer = document.getElementById("card-container");
-            cardContainer.innerHTML = "";
-
-            const start = currentPage * cardsPerPage;
-            const end = start + cardsPerPage;
-            const currentCards = cardsData.slice(start, end);
-
-            currentCards.forEach(card => {
-                const cardHtml = `
-                <a href="detail_materi_kewirausahaan.php?id=${card.id}">
-                    <div title="Lihat Detail Materi" class="card" onclick="showDetailModal('${card.id}', '${card.judul}', '${card.deskripsi}', '${card.filePath}')">
-                        <div class="icon-container">
-                            <img src="${card.icon}" alt="File Icon" class="icon">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">${card.judul}</h5>
-                            <p class="card-text">${card.deskripsi}</p>
-                        </div>
-                    </div>
-                </a>
-
-                `;
-                cardContainer.innerHTML += cardHtml;
-            });
-
-            document.getElementById("prev-button").disabled = currentPage === 0;
-            document.getElementById("next-button").disabled = end >= cardsData.length;
-        }
-
-
-        document.getElementById("prev-button").addEventListener("click", () => {
-            if (currentPage > 0) {
-                currentPage--;
-                renderCards();
-            }
-        });
-
-        document.getElementById("next-button").addEventListener("click", () => {
-            if ((currentPage + 1) * cardsPerPage < cardsData.length) {
-                currentPage++;
-                renderCards();
-            }
-        });
-
-        renderCards();
-    </script>
 </body>
 
 </html>

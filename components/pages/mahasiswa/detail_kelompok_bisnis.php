@@ -87,7 +87,45 @@ $mentorAda = !empty($kelompokTerdaftar['id_mentor']);
                                 <!-- Jika sudah ada mentor, tombol edit tidak ditampilkan -->
                                 <div class="title-edit">
                                     <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
+                                    <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#recommendationModal">
+                                        Program Inkubasi
+                                    </button>
                                 </div>
+                                 <!-- Modal Rekomendasi -->
+                                 <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="recommendationModalLabel">Program Inkubasi</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form id="recommendationForm">
+                                                <div class="modal-body">
+                                                    <p>Kelompok anda direkomendasikan untuk masuk ke dalam Program Inkubasi Bisnis,</p>
+                                                    <p>Apakah kelompok anda menyetujui untuk masuk ke dalam Program?</p>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="recommendation" id="recommendYes" value="yes">
+                                                        <label class="form-check-label" for="recommendYes">
+                                                            Iya
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="recommendation" id="recommendNo" value="no">
+                                                        <label class="form-check-label" for="recommendNo">
+                                                            Tidak
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Tutup</button>
+                                                    <button type="submit" class="btn btn-secondary btn-submit">Simpan</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
                             <?php } ?>
 
                                 <!-- Menambahkan Nama Bisnis -->
