@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 31 Des 2024 pada 12.31
+-- Waktu pembuatan: 01 Jan 2025 pada 14.42
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -42,7 +42,32 @@ INSERT INTO `anggota_kelompok` (`id`, `id_kelompok`, `npm_anggota`) VALUES
 (26, 20, '1402022033'),
 (32, 25, '1402022040'),
 (33, 26, '1402022044'),
-(34, 26, '1402022060');
+(34, 26, '1402022060'),
+(35, 27, '1502022028');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `anggota_kelompok_backup`
+--
+
+CREATE TABLE `anggota_kelompok_backup` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `id_kelompok` int(11) DEFAULT NULL,
+  `npm_anggota` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `anggota_kelompok_backup`
+--
+
+INSERT INTO `anggota_kelompok_backup` (`id`, `id_kelompok`, `npm_anggota`) VALUES
+(25, 20, '1402023001'),
+(26, 20, '1402022033'),
+(32, 25, '1402022040'),
+(33, 26, '1402022044'),
+(34, 26, '1402022060'),
+(35, 27, '1502022028');
 
 -- --------------------------------------------------------
 
@@ -82,6 +107,41 @@ INSERT INTO `jadwal` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `agenda`, `loka
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `jadwal_backup`
+--
+
+CREATE TABLE `jadwal_backup` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `nama_kegiatan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `tanggal` date NOT NULL,
+  `waktu` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `agenda` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `lokasi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `feedback_mentor` varchar(1000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `status` enum('menunggu','ditolak','disetujui','alternatif','selesai') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `bukti_kegiatan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+  `id_klmpk` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `jadwal_backup`
+--
+
+INSERT INTO `jadwal_backup` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `agenda`, `lokasi`, `feedback_mentor`, `status`, `bukti_kegiatan`, `id_klmpk`) VALUES
+(26, 'TESTER 2', '2024-12-13', '20:30', 'BIMBINGAN 1', 'Yarsi', '', 'menunggu', NULL, 20),
+(31, 'Bimbingan 2', '2024-12-12', '20:36', 'jabs', 'Yarsi', '', 'ditolak', NULL, 20),
+(34, 'Bimbingan 2', '2024-12-11', '21:02', 'jadkaknd', 'Yarsi', '', 'menunggu', NULL, 20),
+(35, 'Bimbingan 1', '2024-12-19', '04:41', 'jandand', 'Kantin', '', 'menunggu', NULL, 25),
+(36, 'kokoko', '2024-12-18', '23:13', 'ijmbjkh', 'ujj', '', 'menunggu', NULL, 25),
+(37, 'sadksn', '2024-12-13', '21:23', 'as,', 'Takana', 'ts', 'disetujui', NULL, 25),
+(38, 'jsd', '2024-12-04', '14:22', 'sdds', 'dka', '', 'selesai', 'uploads/bukti_kegiatan/CV English Task.pdf', 20),
+(39, 'dknd', '2024-12-11', '17:42', 'asada', 'Tenmer', '', 'disetujui', NULL, 20),
+(40, 'BIMBINGAN', '2024-12-15', '05:32', 'Bimbingan ke 10', 'YARSI', '', 'disetujui', NULL, 20),
+(42, 'Bimbingan satu', '2024-12-17', '08:02', 'Bimbingan', 'Kantin', '', 'disetujui', NULL, 26);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `kelompok_bisnis`
 --
 
@@ -105,7 +165,37 @@ CREATE TABLE `kelompok_bisnis` (
 INSERT INTO `kelompok_bisnis` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `logo_bisnis`, `tahun_akademik_id`, `kategori_bisnis`, `sdg`, `ide_bisnis`, `id_mentor`) VALUES
 (20, '1402022071', 'a', 'a', 'hq720.jpg', 18, 'Bisnis Teknologi atau Digital', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'TESTER', 1),
 (25, '1402022055', 'TESTER', 'BISNIS AYAM', 'wlpper.jpg', 18, NULL, NULL, NULL, 2),
-(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 1);
+(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 1),
+(27, '1402022013', 'Nothing To Lose', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `kelompok_bisnis_backup`
+--
+
+CREATE TABLE `kelompok_bisnis_backup` (
+  `id_kelompok` int(11) NOT NULL DEFAULT 0,
+  `npm_ketua` varchar(20) DEFAULT NULL,
+  `nama_kelompok` varchar(50) DEFAULT NULL,
+  `nama_bisnis` varchar(50) DEFAULT NULL,
+  `logo_bisnis` varchar(255) DEFAULT NULL,
+  `tahun_akademik_id` int(11) DEFAULT NULL,
+  `kategori_bisnis` varchar(255) DEFAULT NULL,
+  `sdg` varchar(255) DEFAULT NULL,
+  `ide_bisnis` varchar(255) DEFAULT NULL,
+  `id_mentor` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `kelompok_bisnis_backup`
+--
+
+INSERT INTO `kelompok_bisnis_backup` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `logo_bisnis`, `tahun_akademik_id`, `kategori_bisnis`, `sdg`, `ide_bisnis`, `id_mentor`) VALUES
+(20, '1402022071', 'a', 'a', 'hq720.jpg', 18, 'Bisnis Teknologi atau Digital', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'TESTER', 1),
+(25, '1402022055', 'TESTER', 'BISNIS AYAM', 'wlpper.jpg', 18, NULL, NULL, NULL, 2),
+(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 1),
+(27, '1402022013', 'Nothing To Lose', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -133,6 +223,35 @@ CREATE TABLE `laporan_bisnis` (
 --
 
 INSERT INTO `laporan_bisnis` (`id`, `judul_laporan`, `jenis_laporan`, `laporan_penjualan`, `laporan_pemasaran`, `laporan_produksi`, `laporan_sdm`, `laporan_keuangan`, `laporan_pdf`, `tanggal_upload`, `id_kelompok`, `feedback`) VALUES
+(52, 'Laporan 1', 'laporan_kemajuan', '', '', '', '', '', '[\"Progres Kerja tanggal 23 December 2024 (1402022055).pdf\",\"Progres Kerja tanggal 18 December 2024 (1402022055) (1).pdf\",\"Progres Kerja tanggal 16 December 2024 (1402022055) (1) (1).pdf\"]', '2024-12-25 14:39:27', 20, 'bagus laporanya'),
+(53, 'LAPORAN 1', 'laporan_kemajuan', 'TES', 'TES', 'TES', 'TES', 'TES', '[\"0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf\",\"Buku-Modul-Kuliah-Kewirausahaan.pdf\"]', '2024-12-29 12:00:03', 26, 'LAPORAN YANG BAGUS');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `laporan_bisnis_backup`
+--
+
+CREATE TABLE `laporan_bisnis_backup` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `judul_laporan` varchar(255) NOT NULL,
+  `jenis_laporan` varchar(30) NOT NULL,
+  `laporan_penjualan` text DEFAULT NULL,
+  `laporan_pemasaran` text DEFAULT NULL,
+  `laporan_produksi` text DEFAULT NULL,
+  `laporan_sdm` text DEFAULT NULL,
+  `laporan_keuangan` text DEFAULT NULL,
+  `laporan_pdf` text DEFAULT NULL,
+  `tanggal_upload` datetime NOT NULL DEFAULT current_timestamp(),
+  `id_kelompok` int(11) DEFAULT NULL,
+  `feedback` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `laporan_bisnis_backup`
+--
+
+INSERT INTO `laporan_bisnis_backup` (`id`, `judul_laporan`, `jenis_laporan`, `laporan_penjualan`, `laporan_pemasaran`, `laporan_produksi`, `laporan_sdm`, `laporan_keuangan`, `laporan_pdf`, `tanggal_upload`, `id_kelompok`, `feedback`) VALUES
 (52, 'Laporan 1', 'laporan_kemajuan', '', '', '', '', '', '[\"Progres Kerja tanggal 23 December 2024 (1402022055).pdf\",\"Progres Kerja tanggal 18 December 2024 (1402022055) (1).pdf\",\"Progres Kerja tanggal 16 December 2024 (1402022055) (1) (1).pdf\"]', '2024-12-25 14:39:27', 20, 'bagus laporanya'),
 (53, 'LAPORAN 1', 'laporan_kemajuan', 'TES', 'TES', 'TES', 'TES', 'TES', '[\"0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf\",\"Buku-Modul-Kuliah-Kewirausahaan.pdf\"]', '2024-12-29 12:00:03', 26, 'LAPORAN YANG BAGUS');
 
@@ -505,7 +624,19 @@ INSERT INTO `log_activity` (`id`, `timestamp`, `username`, `ip_address`, `user_a
 (371, '2024-12-31 11:15:53', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
 (372, '2024-12-31 11:17:07', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
 (373, '2024-12-31 11:18:00', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
-(374, '2024-12-31 11:18:36', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, '');
+(374, '2024-12-31 11:18:36', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(375, '2024-12-31 11:35:04', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Mobile Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2024-12-31 11:35:10', ''),
+(376, '2024-12-31 11:37:01', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(377, '2024-12-31 11:38:16', 'ridho.syahfero', '::1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-01 08:34:42', ''),
+(378, '2024-12-31 11:44:36', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', NULL, ''),
+(379, '2025-01-01 07:02:39', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(380, '2025-01-01 08:34:16', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-01 08:34:42', ''),
+(381, '2025-01-01 08:35:20', 'bilal.hakkul', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-01 10:13:49', ''),
+(382, '2025-01-01 10:13:56', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
+(383, '2025-01-01 10:23:28', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
+(384, '2025-01-01 10:24:09', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
+(385, '2025-01-01 10:24:45', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(386, '2025-01-01 10:34:34', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -540,8 +671,8 @@ INSERT INTO `mahasiswa` (`id`, `user_id`, `nama`, `npm`, `program_studi`, `tahun
 (17, 26, 'Ridho Syahfero', '1402022055', '', '', 'ridhosyahfero35@gmail.com', '089637167774', NULL, 25, 'Jl.Remaja 3 Gg gabus RT.9/RW.8 No.27'),
 (18, 27, 'Muhammad Fadly Abdillah', '1402022040', '', '', 'ridhosyahfero35@gmail.com', '087828628734', NULL, 25, 'JL Sungai Kapuas IV, Semper Barat, Cilincing, Jakarta Utara'),
 (21, 32, 'Muhammad Asril Afandhi', '1402022068', 'Teknik Informatika', '2022 / 2023 Ganjil (Semester 5)', 'Johndoe@gmail.com', '082113185983', 'Teknologi Informasi', 26, 'KAMP RAWA PASUNG'),
-(22, 33, 'Bilal Hakkul Mubin', '1402022013', 'Teknik Informatika', '2022 / 2023 Ganjil (Semester 5)', 'Johndoe@gmail.com', '081317254563', 'Teknologi Informasi', NULL, 'Jalan Lagoa Gg1 C1 Terusan No 14'),
-(23, 34, 'Salsha Billa Yunita Sari', '1502022028', 'Ilmu Perpustakaan', '2022 / 2023 Ganjil (Semester 5)', 'salsabilla@gmailc.com', '083834155938', 'Teknologi Informasi', NULL, 'Jl. Kalibaru Barat IV No.05');
+(22, 33, 'Bilal Hakkul Mubin', '1402022013', 'Teknik Informatika', '2022 / 2023 Ganjil (Semester 5)', 'Johndoe@gmail.com', '081317254563', 'Teknologi Informasi', 27, 'Jalan Lagoa Gg1 C1 Terusan No 14'),
+(23, 34, 'Salsha Billa Yunita Sari', '1502022028', 'Ilmu Perpustakaan', '2022 / 2023 Ganjil (Semester 5)', 'salsabilla@gmailc.com', '083834155938', 'Teknologi Informasi', 27, 'Jl. Kalibaru Barat IV No.05');
 
 -- --------------------------------------------------------
 
@@ -553,18 +684,19 @@ CREATE TABLE `materi_kewirausahaan` (
   `id` int(11) NOT NULL,
   `judul` varchar(255) NOT NULL,
   `file_path` varchar(300) NOT NULL,
-  `deskripsi` varchar(1000) NOT NULL
+  `deskripsi` varchar(1000) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data untuk tabel `materi_kewirausahaan`
 --
 
-INSERT INTO `materi_kewirausahaan` (`id`, `judul`, `file_path`, `deskripsi`) VALUES
-(116, 'Konsep Dasar Kewirausahaan', '0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf', 'Dalam mater ini, Anda akan mempelajari konsep dasar kewirausahaan yang menjadi fondasi penting bagi setiap calon wirausahawan. Kami akan membahas:\r\n\r\nApa itu kewirausahaan? Definisi dan esensi dari menjadi seorang wirausahawan.\r\nKarakteristik seorang wirausahawan sukses seperti inovasi, kreativitas, dan keberanian mengambil risiko.\r\nProses kewirausahaan mulai dari menemukan ide bisnis, memvalidasi pasar, hingga merancang model bisnis.\r\nManfaat kewirausahaan baik secara individu maupun bagi perekonomi'),
-(117, 'Konsep Kewirausahaan Kuliah gratis Prof Rhenald Kasali', 'konsep-kewirausahaan-kuliah-gratis-prof-rhenald-kasali-ytshorts.savetube.me.mp4', 'Dalam video ini, Prof. Rhenald Kasali, seorang pakar dan praktisi terkemuka di bidang kewirausahaan, memberikan kuliah gratis yang membahas Konsep Kewirausahaan secara mendalam. Anda akan belajar:\r\n\r\nPengertian kewirausahaan menurut perspektif akademis dan praktis.\r\nPola pikir wirausaha (entrepreneurial mindset) yang mendorong inovasi dan keberanian dalam menghadapi tantangan.\r\nStrategi menemukan peluang bisnis di era perubahan dan disrupsi.\r\nPrinsip dasar membangun bisnis yang berkelanjutan dan rele'),
-(118, 'Prospek Kerja Kuliah Jurusan Kewirausahaan', 'prospek-kerja-kuliah-jurusan-kewirausahaan-ytshorts.savetube.me.mp4', 'Apakah Anda penasaran dengan peluang karier setelah lulus dari jurusan Kewirausahaan? Dalam video ini, kami akan membahas berbagai prospek kerja menjanjikan bagi lulusan jurusan Kewirausahaan. Anda akan mengetahui:\r\n\r\nBagaimana lulusan jurusan ini bisa menjadi pengusaha sukses di berbagai bidang.\r\nPeluang bekerja sebagai konsultan bisnis dan membantu perusahaan berkembang.\r\nPeran strategis sebagai Business Development Manager atau pendiri startup inovatif.\r\nKarier di dunia sosial sebagai social entre'),
-(119, 'Buku Modul Kuliah Kewirausahaan', 'Buku-Modul-Kuliah-Kewirausahaan.pdf', 'Buku ini merupakan panduan lengkap untuk memahami dan mempraktikkan konsep dasar kewirausahaan dalam dunia nyata. Disusun secara sistematis, modul ini dirancang untuk mendukung mahasiswa dalam mengikuti perkuliahan kewirausahaan dengan materi yang relevan, aplikatif, dan mudah dipahami.\r\n\r\nIsi Buku:\r\nKonsep Dasar Kewirausahaan: Definisi, sejarah, dan pentingnya kewirausahaan.\r\nPola Pikir Wirausaha (Entrepreneurial Mindset): Mengembangkan kreativitas, inovasi, dan keberanian mengambil risiko.\r\nProses ');
+INSERT INTO `materi_kewirausahaan` (`id`, `judul`, `file_path`, `deskripsi`, `created_at`) VALUES
+(116, 'Konsep Dasar Kewirausahaan', '0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf', 'Dalam mater ini, Anda akan mempelajari konsep dasar kewirausahaan yang menjadi fondasi penting bagi setiap calon wirausahawan. Kami akan membahas:\r\n\r\nApa itu kewirausahaan? Definisi dan esensi dari menjadi seorang wirausahawan.\r\nKarakteristik seorang wirausahawan sukses seperti inovasi, kreativitas, dan keberanian mengambil risiko.\r\nProses kewirausahaan mulai dari menemukan ide bisnis, memvalidasi pasar, hingga merancang model bisnis.\r\nManfaat kewirausahaan baik secara individu maupun bagi perekonomi', '2025-01-01 07:01:16'),
+(117, 'Konsep Kewirausahaan Kuliah gratis Prof Rhenald Kasali', 'konsep-kewirausahaan-kuliah-gratis-prof-rhenald-kasali-ytshorts.savetube.me.mp4', 'Dalam video ini, Prof. Rhenald Kasali, seorang pakar dan praktisi terkemuka di bidang kewirausahaan, memberikan kuliah gratis yang membahas Konsep Kewirausahaan secara mendalam. Anda akan belajar:\r\n\r\nPengertian kewirausahaan menurut perspektif akademis dan praktis.\r\nPola pikir wirausaha (entrepreneurial mindset) yang mendorong inovasi dan keberanian dalam menghadapi tantangan.\r\nStrategi menemukan peluang bisnis di era perubahan dan disrupsi.\r\nPrinsip dasar membangun bisnis yang berkelanjutan dan rele', '2025-01-01 07:01:16'),
+(118, 'Prospek Kerja Kuliah Jurusan Kewirausahaan', 'prospek-kerja-kuliah-jurusan-kewirausahaan-ytshorts.savetube.me.mp4', 'Apakah Anda penasaran dengan peluang karier setelah lulus dari jurusan Kewirausahaan? Dalam video ini, kami akan membahas berbagai prospek kerja menjanjikan bagi lulusan jurusan Kewirausahaan. Anda akan mengetahui:\r\n\r\nBagaimana lulusan jurusan ini bisa menjadi pengusaha sukses di berbagai bidang.\r\nPeluang bekerja sebagai konsultan bisnis dan membantu perusahaan berkembang.\r\nPeran strategis sebagai Business Development Manager atau pendiri startup inovatif.\r\nKarier di dunia sosial sebagai social entre', '2025-01-01 07:01:16'),
+(119, 'Buku Modul Kuliah Kewirausahaan', 'Buku-Modul-Kuliah-Kewirausahaan.pdf', 'Buku ini merupakan panduan lengkap untuk memahami dan mempraktikkan konsep dasar kewirausahaan dalam dunia nyata. Disusun secara sistematis, modul ini dirancang untuk mendukung mahasiswa dalam mengikuti perkuliahan kewirausahaan dengan materi yang relevan, aplikatif, dan mudah dipahami.\r\n\r\nIsi Buku:\r\nKonsep Dasar Kewirausahaan: Definisi, sejarah, dan pentingnya kewirausahaan.\r\nPola Pikir Wirausaha (Entrepreneurial Mindset): Mengembangkan kreativitas, inovasi, dan keberanian mengambil risiko.\r\nProses ', '2025-01-01 07:01:16');
 
 -- --------------------------------------------------------
 
@@ -618,6 +750,36 @@ CREATE TABLE `proposal_bisnis` (
 --
 
 INSERT INTO `proposal_bisnis` (`id`, `judul_proposal`, `tahapan_bisnis`, `sdg`, `kategori`, `other_category`, `proposal_pdf`, `kelompok_id`, `status`, `ide_bisnis`, `feedback`) VALUES
+(35, 'TESTER PROPOSAL', 'Tahapan Bertumbuh', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'Bisnis Teknologi atau Digital', '', 'Progres Kerja tanggal 16 December 2024 (1402022055).pdf', 20, 'disetujui', 'TESTER', 'BAGUS BANGET'),
+(36, 'PROPOSAL 1', 'Tahapan Awal', 'mengakhiri_kemiskinan', 'Bisnis Konstruksi dan Real Estate', '', 'Progres Kerja tanggal 23 December 2024 (1402022055).pdf', 25, 'menunggu', 'BISNIS IDE', 'tes'),
+(40, 'PROPOSAL 2', 'Tahapan Awal', 'mengakhiri_kemiskinan', 'Bisnis Konstruksi dan Real Estate', '', 'Progres Kerja tanggal 23 December 2024 (1402022055) (1).pdf', 25, 'menunggu', 'CAUSE THIS IS ALL WE KNOW', NULL),
+(41, 'PROPOSAL 1', 'Tahapan Awal', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'Bisnis Konstruksi dan Real Estate', '', 'Buku-Modul-Kuliah-Kewirausahaan.pdf', 26, 'disetujui', 'TES', 'Proposal Anda memiliki tujuan yang bagus');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `proposal_bisnis_backup`
+--
+
+CREATE TABLE `proposal_bisnis_backup` (
+  `id` int(11) NOT NULL DEFAULT 0,
+  `judul_proposal` varchar(255) NOT NULL,
+  `tahapan_bisnis` varchar(25) NOT NULL,
+  `sdg` text NOT NULL,
+  `kategori` varchar(255) DEFAULT NULL,
+  `other_category` varchar(255) DEFAULT NULL,
+  `proposal_pdf` varchar(255) NOT NULL,
+  `kelompok_id` int(11) NOT NULL,
+  `status` enum('menunggu','ditolak','disetujui') DEFAULT 'menunggu',
+  `ide_bisnis` varchar(255) DEFAULT NULL,
+  `feedback` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `proposal_bisnis_backup`
+--
+
+INSERT INTO `proposal_bisnis_backup` (`id`, `judul_proposal`, `tahapan_bisnis`, `sdg`, `kategori`, `other_category`, `proposal_pdf`, `kelompok_id`, `status`, `ide_bisnis`, `feedback`) VALUES
 (35, 'TESTER PROPOSAL', 'Tahapan Bertumbuh', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'Bisnis Teknologi atau Digital', '', 'Progres Kerja tanggal 16 December 2024 (1402022055).pdf', 20, 'disetujui', 'TESTER', 'BAGUS BANGET'),
 (36, 'PROPOSAL 1', 'Tahapan Awal', 'mengakhiri_kemiskinan', 'Bisnis Konstruksi dan Real Estate', '', 'Progres Kerja tanggal 23 December 2024 (1402022055).pdf', 25, 'menunggu', 'BISNIS IDE', 'tes'),
 (40, 'PROPOSAL 2', 'Tahapan Awal', 'mengakhiri_kemiskinan', 'Bisnis Konstruksi dan Real Estate', '', 'Progres Kerja tanggal 23 December 2024 (1402022055) (1).pdf', 25, 'menunggu', 'CAUSE THIS IS ALL WE KNOW', NULL),
@@ -775,7 +937,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `anggota_kelompok`
 --
 ALTER TABLE `anggota_kelompok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT untuk tabel `jadwal`
@@ -787,7 +949,7 @@ ALTER TABLE `jadwal`
 -- AUTO_INCREMENT untuk tabel `kelompok_bisnis`
 --
 ALTER TABLE `kelompok_bisnis`
-  MODIFY `id_kelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_kelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT untuk tabel `laporan_bisnis`
@@ -799,7 +961,7 @@ ALTER TABLE `laporan_bisnis`
 -- AUTO_INCREMENT untuk tabel `log_activity`
 --
 ALTER TABLE `log_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=375;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=387;
 
 --
 -- AUTO_INCREMENT untuk tabel `mahasiswa`

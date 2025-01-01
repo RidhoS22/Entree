@@ -9,7 +9,7 @@ $id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
 // Memeriksa apakah ID laporan dan ID kelompok ada
 if ($id_laporan) {
     // Ambil data laporan berdasarkan ID laporan
-    $sql = "SELECT * FROM laporan_bisnis WHERE id = ?";
+    $sql = "SELECT * FROM laporan_bisnis_backup WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id_laporan);  // Mengikat parameter id_laporan dan id_kelompok
     $stmt->execute();

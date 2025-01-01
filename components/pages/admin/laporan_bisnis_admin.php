@@ -7,7 +7,7 @@ $id_kelompok = isset($_GET['id_kelompok']) ? (int)$_GET['id_kelompok'] : null;
 
 if ($id_kelompok) {
     // Mengambil data laporan bisnis yang terkait dengan kelompok yang login
-    $sql = "SELECT * FROM laporan_bisnis WHERE id_kelompok = ?";
+    $sql = "SELECT * FROM laporan_bisnis_backup WHERE id_kelompok = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id_kelompok);  // Mengikat parameter id_kelompok
     $stmt->execute();

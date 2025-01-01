@@ -7,7 +7,7 @@ $id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
 
 if ($id_kelompok) {
     // Query untuk mengambil detail kelompok bisnis berdasarkan id
-    $sql = "SELECT * FROM kelompok_bisnis WHERE id_kelompok = $id_kelompok";
+    $sql = "SELECT * FROM kelompok_bisnis_backup WHERE id_kelompok = $id_kelompok";
     $result = $conn->query($sql);
     $kelompok = $result->fetch_assoc();
 
@@ -18,7 +18,7 @@ if ($id_kelompok) {
 
     // Query untuk mengambil anggota kelompok berdasarkan id_kelompok
     $anggotaSql = "SELECT m.nama, m.npm 
-                   FROM anggota_kelompok ak 
+                   FROM anggota_kelompok_backup ak 
                    JOIN mahasiswa m ON ak.npm_anggota = m.npm 
                    WHERE ak.id_kelompok = $id_kelompok";
     $anggotaResult = $conn->query($anggotaSql);

@@ -7,7 +7,7 @@ $id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
 
 if ($id_kelompok) {
     // Mengambil data proposal bisnis yang terkait dengan kelompok yang login
-    $sql = "SELECT * FROM proposal_bisnis WHERE kelompok_id = $id_kelompok";
+    $sql = "SELECT * FROM proposal_bisnis_backup WHERE kelompok_id = $id_kelompok";
     $result = $conn->query($sql);
 }
 ?>

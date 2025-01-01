@@ -3,7 +3,7 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
 // Query untuk mengambil data kelompok bisnis
-$sql = "SELECT * FROM kelompok_bisnis";
+$sql = "SELECT * FROM kelompok_bisnis_backup";
 $result = $conn->query($sql);
 ?>
 

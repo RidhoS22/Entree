@@ -79,8 +79,8 @@ $mentorAda = !empty($kelompokTerdaftar['id_mentor']);
                                 <div class="title-edit">
                                     <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
                                     <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" style="display: none;" />
-                                    <button class="edit-btn" type="button" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Kelompok Bisnis">
-                                        <i class="fas fa-edit"></i>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">
+                                        <i class="fas fa-edit"></i> Edit
                                     </button>
                                 </div>
                             <?php } else { ?>
@@ -179,9 +179,31 @@ $mentorAda = !empty($kelompokTerdaftar['id_mentor']);
                                         </div>
                                     <?php } ?>
                                 </div>
-                                <div class="action-buttons" style="display: none;">
-                                    <button class="save-btn">Simpan</button>
-                                    <button class="cancel-btn">Batal</button>
+                                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form id="editForm">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModalLabel">Edit Kelompok Bisnis</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label for="namaKelompok" class="form-label">Nama Kelompok</label>
+                                                        <input type="text" class="form-control" id="namaKelompok" name="nama_kelompok" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="namaBisnis" class="form-label">Nama Bisnis</label>
+                                                        <input type="text" class="form-control" id="namaBisnis" name="nama_bisnis" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis'] ?? ''); ?>" required>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -192,65 +214,37 @@ $mentorAda = !empty($kelompokTerdaftar['id_mentor']);
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.querySelector('.edit-btn').addEventListener('click', function () {
+        // Handle form submission
+        document.getElementById('editForm').addEventListener('submit', function (event) {
+            event.preventDefault();
 
-            document.getElementById('nama-kelompok-text').style.display = 'none';
-            document.getElementById('nama-kelompok-input').style.display = 'block';
+            const namaKelompok = document.getElementById('namaKelompok').value;
+            const namaBisnis = document.getElementById('namaBisnis').value;
 
-            document.getElementById('nama-bisnis-text').style.display = 'none';
-            document.getElementById('nama-bisnis-input').style.display = 'block';
-
-            document.querySelector('.action-buttons').style.display = 'flex';
-        });
-
-        document.querySelector('.save-btn').addEventListener('click', function () {
-            const namaKelompok = document.getElementById('nama-kelompok-input').value;
-            const namaBisnis = document.getElementById('nama-bisnis-input').value;
-
-            // Kirim data ke server untuk memperbarui kelompok
             fetch('/Aplikasi-Kewirausahaan/components/pages/mahasiswa/update_kelompok.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
+                    id_kelompok: <?php echo json_encode($kelompokTerdaftar['id_kelompok']); ?>,
                     nama_kelompok: namaKelompok,
-                    nama_bisnis: namaBisnis,
-                    id_kelompok: <?php echo json_encode($kelompokTerdaftar['id_kelompok']); ?>
+                    nama_bisnis: namaBisnis
                 })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
                     alert('Data berhasil diperbarui.');
-
-                    // Update tampilan setelah data disimpan
-                    document.getElementById('nama-kelompok-text').textContent = namaKelompok;
-                    document.getElementById('nama-bisnis-text').textContent = namaBisnis;
-
-                    // Sembunyikan input dan tombol aksi
-                    document.getElementById('nama-kelompok-text').style.display = 'block';
-                    document.getElementById('nama-kelompok-input').style.display = 'none';
-                    document.getElementById('nama-bisnis-text').style.display = 'block';
-                    document.getElementById('nama-bisnis-input').style.display = 'none';
-                    document.querySelector('.action-buttons').style.display = 'none';
+                    location.reload();
                 } else {
-                    alert('Gagal memperbarui data: ' + data.message);
+                    alert('Terjadi kesalahan saat memperbarui data.');
                 }
             })
-            .catch(error => console.error('Error:', error));
-        });
-
-        document.querySelector('.cancel-btn').addEventListener('click', function () {
-            // Kembalikan tampilan ke mode non-edit
-            document.getElementById('nama-kelompok-text').style.display = 'block';
-            document.getElementById('nama-kelompok-input').style.display = 'none';
-
-            document.getElementById('nama-bisnis-text').style.display = 'block';
-            document.getElementById('nama-bisnis-input').style.display = 'none';
-
-            document.querySelector('.action-buttons').style.display = 'none';
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan.');
+            });
         });
     </script>
 </body>
