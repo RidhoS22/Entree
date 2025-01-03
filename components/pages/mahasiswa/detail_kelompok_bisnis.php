@@ -325,10 +325,31 @@ $is_locked = is_null($status_inkubasi);
                                         </div>
                                     <?php } ?>
                                 </div>
-
-                                <div class="action-buttons" style="display: none;">
-                                    <button class="save-btn">Simpan</button>
-                                    <button class="cancel-btn">Batal</button>
+                                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form id="editForm">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModalLabel">Edit Kelompok Bisnis</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label for="namaKelompok" class="form-label">Nama Kelompok</label>
+                                                        <input type="text" class="form-control" id="namaKelompok" name="nama_kelompok" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="namaBisnis" class="form-label">Nama Bisnis</label>
+                                                        <input type="text" class="form-control" id="namaBisnis" name="nama_bisnis" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis'] ?? ''); ?>" required>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
