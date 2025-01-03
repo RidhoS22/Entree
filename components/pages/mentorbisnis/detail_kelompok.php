@@ -51,6 +51,25 @@ $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_kelompok.css">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
 </head>
+<style>
+    /* CSS untuk toast */
+    .toast {
+        position: fixed;
+        top: 20px; /* Posisi di ujung kanan atas */
+        right: 20px; /* Posisi di ujung kanan */
+        padding: 10px 20px;
+        background-color: #28a745; /* Hijau untuk toast sukses */
+        color: white;
+        border-radius: 5px;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+        z-index: 9999; /* Pastikan toast muncul di atas elemen lain */
+    }
+
+    .toast.show {
+        opacity: 1;
+    }
+</style>
 
 <body>
     <div class="wrapper">
@@ -94,30 +113,52 @@ $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                                             <h5 class="modal-title" id="recommendationModalLabel">Rekomendasi Program Inkubasi</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form id="recommendationForm">
-                                            <div class="modal-body">
-                                                <p>Apakah Anda ingin merekomendasikan kelompok ini untuk masuk ke program inkubasi bisnis?</p>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="recommendation" id="recommendYes" value="yes">
-                                                    <label class="form-check-label" for="recommendYes">
-                                                        Iya
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="recommendation" id="recommendNo" value="no">
-                                                    <label class="form-check-label" for="recommendNo">
-                                                        Tidak
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Tutup</button>
-                                                <button type="submit" class="btn btn-secondary btn-submit">Simpan</button>
-                                            </div>
-                                        </form>
+                                        <div class="modal-body">
+                                            <p>Apakah Anda ingin merekomendasikan kelompok ini untuk masuk ke program inkubasi bisnis?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
+                                            <button type="button" class="btn btn-secondary btn-submit" id="submitRecommendation" data-bs-dismiss="modal">Iya</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <script>
+                                document.getElementById('submitRecommendation').addEventListener('click', function() {
+                                    // Ambil ID kelompok dari URL
+                                    const urlParams = new URLSearchParams(window.location.search);
+                                    const kelompokId = <?php echo $id_kelompok; ?>
+
+                                    if (kelompokId) {
+                                        // Kirim data ke server menggunakan AJAX
+                                        fetch('update_kelompok_status.php', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded',
+                                            },
+                                            body: `id_kelompok=${kelompokId}&status_inkubasi=direkomendasikan`
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                // Tampilkan pesan toast
+                                                let toastMessage = document.createElement('div');
+                                                toastMessage.classList.add('toast', 'show');
+                                                toastMessage.classList.add('toast-success');
+                                                toastMessage.textContent = 'Kelompok bisnis berhasil direkomendasikan ke dalam program inkubasi bisnis.';
+                                                document.body.appendChild(toastMessage);
+                                                setTimeout(() => toastMessage.classList.remove('show'), 3000); // Hilangkan toast setelah 3 detik
+                                            } else {
+                                                alert('Gagal mengupdate status');
+                                            }
+                                        })
+                                        .catch(error => console.error('Error:', error));
+                                    } else {
+                                        alert('ID kelompok tidak ditemukan');
+                                    }
+                                });
+                            </script>
                         </div>
                         
                         <div class="Nama_bisnis">

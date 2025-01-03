@@ -42,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $other_category = isset($_POST['other_category']) ? $_POST['other_category'] : null;
     $proposal_file = $_FILES['proposal'];
     $ide_bisnis = $_POST['ide_bisnis'];
+    $anggaran = $_POST['anggaran'];
 
     // Validasi dan proses file PDF
     if ($proposal_file['error'] == 0) {
@@ -52,8 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Pindahkan file ke folder yang ditentukan
         if (move_uploaded_file($fileTmpName, $filePath)) {
             // Masukkan data ke database, simpan hanya nama file (bukan path)
-            $sql = "INSERT INTO proposal_bisnis (judul_proposal, tahapan_bisnis, sdg, kategori, other_category, proposal_pdf, kelompok_id, ide_bisnis)
-                    VALUES ('$judul_proposal', '$tahapan_bisnis', '$sdg', '$kategori', '$other_category', '$fileName', '$id_kelompok', '$ide_bisnis')";
+            $sql = "INSERT INTO proposal_bisnis (judul_proposal, tahapan_bisnis, sdg, kategori, other_category, proposal_pdf, kelompok_id, ide_bisnis, anggaran)
+                    VALUES ('$judul_proposal', '$tahapan_bisnis', '$sdg', '$kategori', '$other_category', '$fileName', '$id_kelompok', '$ide_bisnis', '$anggaran')";
             
             if (mysqli_query($conn, $sql)) {
                 $_SESSION['toast_message'] = [

@@ -2,6 +2,9 @@
 session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
+// Ambil kelompok_id dari URL
+$kelompok_id = $_GET['id'] ?? null;
+
 // Mendapatkan NPM mahasiswa dari session
 $npm_mahasiswa = $_SESSION['npm'] ?? null; // Pastikan variabel tidak null
 
@@ -32,18 +35,30 @@ if (!empty($kelompokTerdaftar['id_mentor'])) {
     WHERE m.id = '" . $kelompokTerdaftar['id_mentor'] . "' 
     LIMIT 1";
     
-$mentorResult = mysqli_query($conn, $mentorQuery);
-$mentorData = mysqli_fetch_assoc($mentorResult); 
+    $mentorResult = mysqli_query($conn, $mentorQuery);
+    $mentorData = mysqli_fetch_assoc($mentorResult); 
 }
 
 $mentorAda = !empty($kelompokTerdaftar['id_mentor']);
-?>
 
+// Cek status_inkubasi dari tabel kelompok_bisnis
+$sql = "SELECT status_inkubasi FROM kelompok_bisnis WHERE id_kelompok = $kelompok_id";
+$result = $conn->query($sql);
+
+$status_inkubasi = null;
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $status_inkubasi = $row['status_inkubasi'];
+}
+
+// Tentukan apakah tombol terkunci
+$is_locked = is_null($status_inkubasi);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Kelompok Bisnis</title>
@@ -72,7 +87,6 @@ $mentorAda = !empty($kelompokTerdaftar['id_mentor']);
                             <!-- Logo Bisnis -->
                             <img alt="Logo Bisnis" src="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/logos/<?php echo $kelompokTerdaftar['logo_bisnis']; ?>" />
                         </div>
-
                         <div class="right">
                             <!-- Tombol Edit hanya tampil jika mentor belum ditugaskan -->
                             <?php if (!$mentorAda) { ?>
@@ -82,53 +96,153 @@ $mentorAda = !empty($kelompokTerdaftar['id_mentor']);
                                     <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
-                                </div>
-                            <?php } else { ?>
-                                <!-- Jika sudah ada mentor, tombol edit tidak ditampilkan -->
-                                <div class="title-edit">
-                                    <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
-                                    <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#recommendationModal">
-                                        Program Inkubasi
+                                    <!-- Tombol Hapus -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                        <i class="fas fa-trash-alt"></i> Hapus Kelompok
                                     </button>
-                                </div>
-                                 <!-- Modal Rekomendasi -->
-                                 <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="recommendationModalLabel">Program Inkubasi</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <form id="recommendationForm">
+                                    <!-- Modal Konfirmasi Hapus -->
+                                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
                                                 <div class="modal-body">
-                                                    <p>Kelompok anda direkomendasikan untuk masuk ke dalam Program Inkubasi Bisnis,</p>
-                                                    <p>Apakah kelompok anda menyetujui untuk masuk ke dalam Program?</p>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="recommendation" id="recommendYes" value="yes">
-                                                        <label class="form-check-label" for="recommendYes">
-                                                            Iya
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="recommendation" id="recommendNo" value="no">
-                                                        <label class="form-check-label" for="recommendNo">
-                                                            Tidak
-                                                        </label>
-                                                    </div>
+                                                    Apakah Anda yakin ingin menghapus kelompok bisnis ini beserta semua data terkait (proposal, laporan, jadwal, anggota)?
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Tutup</button>
-                                                    <button type="submit" class="btn btn-secondary btn-submit">Simpan</button>
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Hapus</button>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <?php } else { ?>
+                                <!-- Jika sudah ada mentor, tombol edit tidak ditampilkan -->
+                                <div class="title-edit">
+                                    <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
+                                    <!-- Tombol Program Inkubasi -->
+                                    <button type="button" 
+                                            class="btn btn-secondary mt-3" 
+                                            id="programInkubasiButton" 
+                                            <?php if ($is_locked): ?>
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-placement="top" 
+                                                title="Tidak tersedia kecuali Kelompok Bisnis anda direkomendasikan oleh tutor anda"
+                                            <?php else: ?>
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#recommendationModal"
+                                            <?php endif; ?>>
+                                        Program Inkubasi
+                                    </button><!-- Modal --> 
 
-                                
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="recommendationModalLabel">Program Inkubasi</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <form id="recommendationForm">
+                                                    <div class="modal-body">
+                                                        <p>Kelompok anda direkomendasikan untuk masuk ke dalam Program Inkubasi Bisnis.</p>
+                                                        <p>Apakah kelompok anda menyetujui untuk masuk ke dalam Program?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Tolak</button>
+                                                        <button type="submit" class="btn btn-secondary btn-submit">Setujui</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <script>
+                                    document.getElementById('recommendationForm').addEventListener('submit', function(event) {
+                                        event.preventDefault(); // Prevent form submission
+
+                                        const isApprove = event.submitter.classList.contains('btn-submit');
+                                        const kelompokId = <?php echo $kelompok_id; ?>; // Assuming you have the id_kelompok available in PHP
+                                        
+                                        fetch('update_status_inkubasi.php', {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/x-www-form-urlencoded',
+                                            },
+                                            body: `id_kelompok=${kelompokId}&status_inkubasi=${isApprove ? 'disetujui' : 'ditolak'}`
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                // Update button status
+                                                const programInkubasiButton = document.getElementById('programInkubasiButton');
+                                                if (isApprove) {
+                                                    programInkubasiButton.classList.remove('btn-secondary');
+                                                    programInkubasiButton.classList.add('btn-success');
+                                                    programInkubasiButton.textContent = 'Disetujui';
+                                                } else {
+                                                    programInkubasiButton.classList.remove('btn-secondary');
+                                                    programInkubasiButton.classList.add('btn-danger');
+                                                    programInkubasiButton.textContent = 'Ditolak';
+                                                }
+                                            } else {
+                                                alert('Gagal memperbarui status inkubasi');
+                                            }
+                                        })
+                                        .catch(error => console.error('Error:', error));
+                                    });
+                                    </script>
+
+                                    <!-- JavaScript untuk Tooltip -->
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function() {
+                                            const isLocked = <?php echo $is_locked ? 'true' : 'false'; ?>;
+                                            const button = document.getElementById("programInkubasiButton");
+
+                                            if (isLocked) {
+                                                // Inisialisasi tooltip
+                                                const tooltip = new bootstrap.Tooltip(button, {
+                                                    title: "Tidak tersedia kecuali? Kelompok Bisnis anda direkomendasikan oleh tutor anda",
+                                                    placement: "top",
+                                                    trigger: "hover"
+                                                });
+
+                                                // Cegah aksi klik pada tombol jika terkunci
+                                                button.addEventListener("click", function(event) {
+                                                    event.preventDefault();
+                                                });
+                                            }
+                                        });
+                                    </script>
+                                    <!-- Tombol Hapus -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                        <i class="fas fa-trash-alt"></i> Hapus Kelompok
+                                    </button>
+                                </div>
+                                <!-- Modal Konfirmasi Hapus -->
+                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah Anda yakin ingin menghapus kelompok bisnis ini beserta semua data terkait (proposal, laporan, jadwal, anggota)?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Hapus</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <?php } ?>
 
-                                <!-- Menambahkan Nama Bisnis -->
+                            <!-- Menambahkan Nama Bisnis -->
                                 <div class="ide_bisnis">
                                     <p><strong>Nama Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis'] ?? '--'); ?></p>
                                 </div>
@@ -197,51 +311,24 @@ $mentorAda = !empty($kelompokTerdaftar['id_mentor']);
                                     <?php if ($mentorAda) { ?>
                                         <div class="collapse" id="collapseExample">
                                             <div class="card-mentor p-3">
-                                                <img 
-                                                    alt="Profile picture of the mentor" 
-                                                    height="50" 
-                                                    src="<?= htmlspecialchars($mentorData['foto_profile'] ?? '\Aplikasi-Kewirausahaan\assets\img\user_9071610.png'); ?>" 
-                                                    width="50" 
-                                                    class="card-img-top mx-auto d-block mt-3"
-                                                />
-                                                <h2 class="card-mentor-title text-center"><?= htmlspecialchars($mentorData['nama_mentor'] ?? 'Nama mentor tidak tersedia'); ?></h2>
+                                                <img alt="Profile picture of the mentor" height="50" src="<?= htmlspecialchars($mentorData['foto_profile']); ?>" width="50" class="card-img-top mx-auto d-block mt-3"/>
+                                                <h2 class="card-mentor-title text-center"><?php echo htmlspecialchars($mentorData['nama_mentor']); ?></h2>
                                                 <div class="card-mentor-body">
-                                                    <p class="card-mentor-text"><strong>Peran:</strong> <?= htmlspecialchars($mentorData['role'] ?? 'Data tidak tersedia'); ?></p>
-                                                    <p class="card-mentor-text"><strong>Keahlian:</strong> <?= htmlspecialchars($mentorData['keahlian'] ?? 'Data tidak tersedia'); ?></p>
-                                                    <p class="card-mentor-text"><strong>Fakultas:</strong> <?= htmlspecialchars($mentorData['fakultas'] ?? 'Data tidak tersedia'); ?></p>
-                                                    <p class="card-mentor-text"><strong>Prodi:</strong> <?= htmlspecialchars($mentorData['prodi'] ?? 'Data tidak tersedia'); ?></p>
-                                                    <p class="card-mentor-text"><strong>Nomor Telepon:</strong> <?= htmlspecialchars($mentorData['contact'] ?? 'Data tidak tersedia'); ?></p>
-                                                    <p class="card-mentor-text"><strong>Alamat Email:</strong> <?= htmlspecialchars($mentorData['email'] ?? 'Data tidak tersedia'); ?></p>
+                                                    <p class="card-mentor-text"><strong>Peran:</strong> <?php echo htmlspecialchars($mentorData['role']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Keahlian:</strong> <?php echo htmlspecialchars($mentorData['keahlian']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Fakultas:</strong> <?php echo htmlspecialchars($mentorData['fakultas']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Prodi:</strong> <?php echo htmlspecialchars($mentorData['prodi']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Nomor Telepon:</strong> <?php echo htmlspecialchars($mentorData['contact']); ?></p>
+                                                    <p class="card-mentor-text"><strong>Alamat Email:</strong> <?php echo htmlspecialchars($mentorData['email']); ?></p>
                                                 </div>
                                             </div>
                                         </div>
                                     <?php } ?>
                                 </div>
-                                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <form id="editForm">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="editModalLabel">Edit Kelompok Bisnis</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="namaKelompok" class="form-label">Nama Kelompok</label>
-                                                        <input type="text" class="form-control" id="namaKelompok" name="nama_kelompok" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" required>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="namaBisnis" class="form-label">Nama Bisnis</label>
-                                                        <input type="text" class="form-control" id="namaBisnis" name="nama_bisnis" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis'] ?? ''); ?>" required>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-primary">Simpan</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
+
+                                <div class="action-buttons" style="display: none;">
+                                    <button class="save-btn">Simpan</button>
+                                    <button class="cancel-btn">Batal</button>
                                 </div>
                             </div>
                         </div>
@@ -252,7 +339,6 @@ $mentorAda = !empty($kelompokTerdaftar['id_mentor']);
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Handle form submission
         document.getElementById('editForm').addEventListener('submit', function (event) {
@@ -284,6 +370,32 @@ $mentorAda = !empty($kelompokTerdaftar['id_mentor']);
                 alert('Terjadi kesalahan.');
             });
         });
+
+        document.getElementById("confirmDeleteButton").addEventListener("click", function() {
+            var kelompokId = <?php echo $kelompokTerdaftar['id_kelompok']; ?>;
+            
+            // Kirim permintaan POST untuk menghapus kelompok dan data terkait
+            fetch('delete_kelompok.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id_kelompok: kelompokId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Kelompok bisnis dan data terkait berhasil dihapus.');
+                    window.location.href = 'kelompok_bisnis_mahasiswa.php'; // Ganti dengan halaman yang sesuai
+                } else {
+                    alert('Terjadi kesalahan saat menghapus kelompok.');
+                }
+            })
+            .catch(error => {
+                alert('Terjadi kesalahan: ' + error);
+            });
+        });
     </script>
 </body>
+
 </html>

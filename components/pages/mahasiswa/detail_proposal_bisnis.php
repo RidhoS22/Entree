@@ -97,6 +97,12 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                         </td>
                     </tr>
                     <tr>
+                        <td><strong>Anggaran:</strong></td>
+                        <td class="file-box">
+                            Rp. <?php echo htmlspecialchars($proposal['anggaran']); ?>
+                        </td>
+                    </tr>
+                    <tr>
                         <td><strong>Tujuan SDGs:</strong></td>
                         <td class="file-box">
                             <ul>

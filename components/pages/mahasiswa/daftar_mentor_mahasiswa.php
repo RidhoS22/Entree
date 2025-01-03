@@ -78,6 +78,10 @@ if (!$result_mentor) {
                                         <div class="nama-mentor">
                                             <h2 class="font-bold mb-0"><?= htmlspecialchars($mentor['nama']); ?></h2>
                                             <p class="mb-0">Peran: <?= htmlspecialchars($mentor['peran']); ?></p>
+                                            <p class="card-mentor-text"><strong>Fakultas:</strong> <?= htmlspecialchars($mentor['fakultas'] ?? 'Data tidak tersedia'); ?></p>
+                                            <p class="card-mentor-text"><strong>Prodi:</strong> <?= htmlspecialchars($mentor['prodi'] ?? 'Data tidak tersedia'); ?></p>
+                                            <p class="card-mentor-text"><strong>Nomor Telepon:</strong> <?= htmlspecialchars($mentor['contact'] ?? 'Data tidak tersedia'); ?></p>
+                                            <p class="card-mentor-text"><strong>Alamat Email:</strong> <?= htmlspecialchars($mentor['email'] ?? 'Data tidak tersedia'); ?></p>
                                         </div>
                                         <div class="klik d-flex flex-column align-items-center">
                                             <span class="toggle-text" id="toggle-text-<?= $mentor['id']; ?>">

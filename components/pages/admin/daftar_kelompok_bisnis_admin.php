@@ -21,9 +21,28 @@ $result = $conn->query($sql);
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/daftar_kelompok.css">
     <style>
-    .card {
-        max-height: 300px !important;
-    }
+        .card {
+            max-height: 300px !important;
+        }
+        /* Styling untuk status aktif */
+        .status-aktif {
+            color: white;
+            background-color: green;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Styling untuk status nonaktif */
+        .status-nonaktif {
+            color: white;
+            background-color: red;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -90,26 +109,36 @@ $result = $conn->query($sql);
                         $mentor = mysqli_fetch_assoc($mentorResult);
                         $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                         echo '
-                        <div class="card" style="width: 45%; margin: 10px;">
-                            <div class="card-icon text-center py-4">
-                                <i class="fa-solid fa-users"></i>
-                            </div>
-                            <div class="card-body m-0">
-                                <h5 class="card-title">Kelompok ' . htmlspecialchars($row['nama_kelompok']) . '</h5>
-                            </div>
-                            <table class="table table-bordered m-0 styled-table">
-                                <tbody>
-                                    <tr>
-                                        <td>Mentor Bisnis</td>
-                                        <td>' . $namaMentor . '</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Status Proposal Bisnis</td>
-                                        <td>STATUS</td>
+                            <div class="card" style="width: 45%; margin: 10px;">
+                                <div class="card-icon text-center py-4">
+                                    <i class="fa-solid fa-users"></i>
+                                </div>
+                                <div class="card-body m-0">
+                                    <h5 class="card-title">Kelompok ' . htmlspecialchars($row['nama_kelompok']) . '</h5>
+                                </div>
+                                <table class="table table-bordered m-0 styled-table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Mentor Bisnis</td>
+                                            <td>' . $namaMentor . '</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status Kelompok Bisnis</td>
+                                            <td>';
+
+                                            // Menampilkan status dengan kelas yang sesuai
+                                            if ($row['status_kelompok_bisnis'] == 'aktif') {
+                                                echo '<span class="status-aktif">' . htmlspecialchars($row['status_kelompok_bisnis']) . '</span>';
+                                            } else {
+                                                echo '<span class="status-nonaktif">' . htmlspecialchars($row['status_kelompok_bisnis']) . '</span>';
+                                            }
+
+                        echo '
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Program Inkubasi Bisnis</td>
-                                        <td>STATUS</td>
+                                        <td>'.htmlspecialchars($row['status_inkubasi'] ?? 'Tidak Ada').'</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -117,7 +146,7 @@ $result = $conn->query($sql);
                                 <a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
                                     <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Kelompok Bisnis"></i>
                                 </a>
-                            </div> 
+                            </div>
                         </div>';
                     }
                 } else {

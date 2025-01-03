@@ -4,35 +4,42 @@ include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connectio
 session_start();
 
 $user_id = $_SESSION['user_id']; // Ambil user ID dari sesi
+$user_role = $_SESSION['role']; // Ambil peran pengguna (Tutor/Dosen Pengampu)
 
-// Ambil peran pengguna (Tutor/Dosen Pengampu)
-$user_role = $_SESSION['role'];
+// Ambil kata kunci pencarian jika ada
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 
-// Modifikasi query berdasarkan peran pengguna
+// Modifikasi query berdasarkan peran pengguna dan pencarian
 if ($user_role === 'Tutor') {
     // Jika pengguna adalah Tutor, hanya ambil kelompok yang di-mentor oleh pengguna
     $sql = "
         SELECT * FROM kelompok_bisnis
         WHERE id_mentor = (SELECT id FROM mentor WHERE user_id = ?)
+        AND nama_kelompok LIKE ?
     ";
 } else {
-    // Jika bukan Tutor, ambil semua kelompok
-    $sql = "SELECT * FROM kelompok_bisnis";
+    // Jika bukan Tutor (misalnya Dosen Pengampu), ambil semua kelompok
+    $sql = "SELECT * FROM kelompok_bisnis WHERE nama_kelompok LIKE ?";
 }
 
+// Siapkan query
 $stmt = $conn->prepare($sql);
 
+// Bind parameter untuk pencarian
+$search_param = "%" . $search . "%";
 if ($user_role === 'Tutor') {
-    // Jika pengguna adalah Tutor, bind user_id untuk filter
-    $stmt->bind_param('i', $user_id);
+    // Jika pengguna adalah Tutor, bind user_id untuk filter dan search term
+    $stmt->bind_param('is', $user_id, $search_param);
+} else {
+    // Jika bukan Tutor, hanya bind search term
+    $stmt->bind_param('s', $search_param);
 }
 
+// Eksekusi query
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Ambil kata kunci pencarian jika ada
-$search = isset($_GET['search']) ? $_GET['search'] : '';
-
+// Menampilkan notifikasi jika ada sukses
 if (isset($_GET['success']) && $_GET['success'] == 1) {
     echo "
     <script>
@@ -45,26 +52,6 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
         });
     </script>
     ";
-}
-
-// Modifikasi query untuk mencari mentor berdasarkan nama jika ada input pencarian
-$query_mentor = "
-    SELECT 
-        mentor.*, 
-        users.role AS peran 
-    FROM mentor 
-    JOIN users ON mentor.user_id = users.id
-    WHERE mentor.nama LIKE ?
-";
-$stmt = $conn->prepare($query_mentor);
-$search_term = "%$search%";
-$stmt->bind_param("s", $search_term);
-$stmt->execute();
-$result_mentor = $stmt->get_result();
-
-
-if (!$result_mentor) {
-    die("Error: " . $conn->error);
 }
 ?>
 
@@ -160,9 +147,11 @@ if (!$result_mentor) {
                                     <li><a class="dropdown-item" href="#" data-status="btn-info">Kelompok Inkubasi</a></li>
                                 </ul>
                             </div>
-                            <form class="d-flex" role="search">
-                                <input class="form-control me-2" type="search" placeholder="Cari Kelompok" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Cari</button>
+                            <form action="" method="get" class="mb-4">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Cari Kelompok Bisnis..." name="search" value="<?= htmlspecialchars($search); ?>">
+                                    <button class="btn btn-success" type="submit">Cari</button>
+                                </div>
                             </form>
                         </div>
                     </nav>
@@ -172,14 +161,52 @@ if (!$result_mentor) {
                     while ($row = $result->fetch_assoc()) {
                         $id_kelompok = $row['id_kelompok'];
                         $id_mentor = $row['id_mentor']; // Get mentor from the group
+                        
+                        // Query untuk mendapatkan nama mentor berdasarkan id_mentor
                         $mentorQuery = "
                             SELECT m.nama AS nama_mentor
                             FROM mentor m
-                            WHERE m.id = '" . $id_mentor . "' LIMIT 1";
-                        $mentorResult = mysqli_query($conn, $mentorQuery);
-                        $mentor = mysqli_fetch_assoc($mentorResult);
+                            WHERE m.id = ? LIMIT 1";
+                        $mentorStmt = $conn->prepare($mentorQuery);
+                        $mentorStmt->bind_param("i", $id_mentor);
+                        $mentorStmt->execute();
+                        $mentorResult = $mentorStmt->get_result();
+                        $mentor = $mentorResult->fetch_assoc();
                         $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
+                        
+                        // Query untuk mendapatkan status proposal berdasarkan kelompok_id
+                        $sql = "SELECT status FROM proposal_bisnis WHERE kelompok_id = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $id_kelompok);
+                        $stmt->execute();
+                        $proposalResult = $stmt->get_result();
                 
+                        // Inisialisasi variabel status proposal
+                        $status_proposal = 'menunggu'; // Default status adalah 'menunggu'
+                        $status_approved = false;
+                        $status_rejected = false;
+                        $status_color = 'orange'; // Default warna untuk status 'menunggu'
+
+                
+                        while ($proposalRow = $proposalResult->fetch_assoc()) {
+                            // Cek setiap status proposal
+                            if ($proposalRow['status'] == 'disetujui') {
+                                $status_approved = true;
+                                $status_color = '#2ea56f'; // Warna hijau untuk disetujui
+                                break; // Jika ada yang disetujui, tidak perlu cek lebih lanjut
+                            } elseif ($proposalRow['status'] == 'ditolak') {
+                                $status_rejected = true;
+                                $status_color = '#dc3545'; // Warna merah untuk ditolak
+                            }
+                        }
+                
+                        // Tentukan status akhir proposal
+                        if ($status_approved) {
+                            $status_proposal = 'disetujui'; // Jika ada yang disetujui
+                        } elseif ($status_rejected) {
+                            $status_proposal = 'ditolak'; // Jika ada yang ditolak tapi tidak ada yang disetujui
+                        }
+
                         echo '
                         <div class="card" style="width: 45%; margin: 10px;">
                             <div class="card-icon text-center py-4">
@@ -196,11 +223,11 @@ if (!$result_mentor) {
                                     </tr>
                                     <tr>
                                         <td>Status Proposal Bisnis</td>
-                                        <td>STATUS</td>
+                                        <td> ' . ($status_proposal) . '</td>
                                     </tr>
                                     <tr>
                                         <td>Program Inkubasi Bisnis</td>
-                                        <td>STATUS</td>
+                                        <td>'.htmlspecialchars($row['status_inkubasi'] ?? 'Tidak Ada').'</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -229,7 +256,13 @@ if (!$result_mentor) {
                         echo '<input type="hidden" name="id_kelompok" value="' . $id_kelompok . '">';
 
                         // Query untuk mendapatkan data mentor
-                        $mentorQuery = "SELECT * FROM mentor";
+                        $mentorQuery = "
+                        SELECT 
+                            mentor.*, 
+                            users.role AS peran 
+                        FROM mentor 
+                        JOIN users ON mentor.user_id = users.id
+                        ";
                         $result_mentor = $conn->query($mentorQuery);
 
                         echo '<form action="" method="get" class="mb-4">

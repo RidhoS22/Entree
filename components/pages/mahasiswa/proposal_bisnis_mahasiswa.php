@@ -173,6 +173,11 @@ $result = $stmt->get_result();
                                             <input type="file" class="form-control" id="proposal" name="proposal" accept=".pdf" required>
                                         </div>
                                     </div>
+
+                                    <div class="form-group">
+                                        <label for="anggaran">Anggaran:<span style="color:red;">*</span></label>
+                                        <input type="text" id="anggaran" name="anggaran" required>
+                                    </div>
                                 
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-success" name="kirim">Unggah Proposal</button>
