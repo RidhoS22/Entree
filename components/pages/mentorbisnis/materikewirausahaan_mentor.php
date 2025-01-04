@@ -85,11 +85,11 @@ function getFileIcon($fileExtension) {
                     
                         echo '
                         <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '">
-                            <div title="Lihat Detail Materi" class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
+                            <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
                                 <div class="icon-container""> 
                                     <img src="' . $iconSrc . '" alt="File Icon" class="icon">
                                 </div>
-                                <div class="card-body">
+                                <div class="card-body" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
                                     <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
                                     <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
                                 </div>

@@ -134,6 +134,7 @@
                 <div class="modal-body">
                     Tekan tombol dibawah ini untuk melihat daftar Mentor Bisnis aplikasi Entree, atau kamu juga bisa mengaksesnya langsung dari sidebar yang ada!. 
                 </div>
+                <a href="daftar_mentor_mahasiswa.php" class="btn btn-success mx-5 mb-3" role="button">Kunjungi Halaman</a>
                 <div class="modal-footer">
                     <button class="btn btn-success" data-bs-target="#exampleModalToggle_mentor" data-bs-toggle="modal">Back to first</button>
                 </div>
@@ -204,6 +205,7 @@
                 <div class="modal-body">
                     Ayo Belajar! Tekan tombol dibawah ini untuk masuk ke halaman Materi Kewirausahaan, atau kamu juga bisa mengaksesnya langsung dari sidebar yang ada!.
                 </div>
+                <a href="materikewirausahaan_mahasiswa.php" class="btn btn-success mx-5 mb-3" role="button">Kunjungi Halaman</a>
                 <div class="modal-footer">
                     <button class="btn btn-success" data-bs-target="#exampleModalToggle_materi" data-bs-toggle="modal">Back to first</button>
                 </div>

@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </button>
 
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Materi Kewirausahaan</h1>
@@ -100,20 +100,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="modal-body">
                                 <form method="POST" action="" enctype="multipart/form-data">
                                     <div class="form-group">
-                                        <label for="judul">Judul Materi:</label>
+                                        <label for="judul">Judul Materi:<span style="color:red;">*</span></label>
                                         <input type="text" id="judul" name="judul" required>
                                     </div>
                                     
                                     <div class="form-group mb-3">
-                                        <label for="materi" class="form-label">Materi (Video, Dokumen, PPT, dll)</label>
-                                        <div class="input-group">
-                                            <input type="file" class="form-control" id="materi" name="materi" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv" required />
-                                        </div>
+                                    <label for="materi" class="form-label">Unggah Materi:<span style="color:red;">*</span><span style="color:grey;">(PDF, Word, PPT, Video, Exel, Gambar)</</span></label>
+                                    <div class="input-group">
+                                    <input type="file" class="form-control" id="materi" name="materi" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv,.xls,.xlsx,.jpg,.jpeg,.png" required />
+                                    </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="deskripsi">Deskripsi Materi: (Maks. 500 karakter)</label>
-                                        <textarea id="deskripsi" name="deskripsi" maxlength="500" required></textarea>
+                                        <label for="deskripsi">Deskripsi Materi:<span style="color:red;">*</span><span style="color:grey;">(maksimal 3000 kata)</span></label>
+                                        <textarea id="deskripsi" name="deskripsi" required></textarea>
                                     </div>
                             </div>
                             <div class="modal-footer">
@@ -124,6 +124,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
                 </div>
+
+
 
                 <!-- Toast Notification -->
                 <?php if (isset($_SESSION['toast_success'])): ?>
@@ -173,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="icon-container"> 
                                         <img src="' . $iconSrc . '" alt="File Icon" class="icon">
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
                                         <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
                                         <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
                                     </div>

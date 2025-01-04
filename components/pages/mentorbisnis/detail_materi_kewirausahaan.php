@@ -38,8 +38,12 @@ if (!function_exists('generateFilePreview')) {
                 <source src="' . $filePath . '" type="video/' . $fileExtension . '">
                 Browser Anda tidak mendukung pemutar video.
             </video>';
+        } elseif (in_array($fileExtension, ['doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx'])) {
+            $googleDocsUrl = 'https://docs.google.com/viewer?url=' . urlencode($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $filePath) . '&embedded=true';
+            return '<iframe src="' . $googleDocsUrl . '" width="100%" height="' . $height . 'px"></iframe>
+            <div class="alert alert-warning">Jika Pratinjau Tidak Tersedia. Silakan gunakan tombol di bawah untuk melihat atau mengunduh file.</div>';
         } else {
-            return '<div class="alert alert-danger">Jenis file tidak didukung untuk pratinjau.</div>';
+            '<div class="alert alert-danger">Pratinjau untuk jenis file ini tidak tersedia. Silakan gunakan tombol di bawah untuk melihat atau mengunduh file.</div>';
         }
     }
 }
@@ -145,11 +149,11 @@ function getFileIcon($fileExtension) {
                                 
                                     echo '
                                     <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '">
-                                        <div title="Lihat Detail Materi" class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
+                                        <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
                                             <div class="icon-container""> 
                                                 <img src="' . $iconSrc . '" alt="File Icon" class="icon">
                                             </div>
-                                            <div class="card-body">
+                                            <div class="card-body" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
                                                 <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
                                                 <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
                                             </div>
