@@ -52,7 +52,7 @@ if ($id_kelompok) {
             </div>
 
             <div class="main_wrapper">
-
+                <div class="container-of-card-container m-0 p-0" style="min-height: 70vh;">
                 <?php
                     // Mengecek apakah ada hasil laporan yang diambil
                     if ($result->num_rows > 0) {
@@ -79,9 +79,10 @@ if ($id_kelompok) {
                         echo "<p>Belum ada laporan kemajuan bisnis untuk kelompok ini.</p>";
                     }
                     ?> 
-                <div class="mt-3" onclick="window.location.href='detail_kelompok.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Kembali ke Detail Kelompok Bisnis">
-                <!-- Tombol dengan ukuran lebih kecil dan penataan posisi di tengah -->
-                    <button class="btn btn-secondary mt-3">Kembali ke Detail Kelompok Bisnis</button>
+                </div>
+                <div onclick="window.location.href='detail_kelompok.php?id_kelompok=<?php echo $id_kelompok; ?>'">
+                    <!-- Tombol dengan ukuran lebih kecil dan penataan posisi di tengah -->
+                    <button class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Tekan Untuk Kembali">Kembali ke Kelompok Bisnis</button>
                 </div>
             </div>
         </div>

@@ -53,6 +53,33 @@ if ($result && $result->num_rows > 0) {
 
 // Tentukan apakah tombol terkunci
 $is_locked = is_null($status_inkubasi);
+
+// Mapping SDG
+$sdg_mapping = [
+    "mengakhiri_kemiskinan" => "1. Mengakhiri Kemiskinan",
+    "mengakhiri_kelaparan" => "2. Mengakhiri Kelaparan",
+    "kesehatan_kesejahteraan" => "3. Kesehatan dan Kesejahteraan",
+    "pendidikan_berkualitas" => "4. Pendidikan Berkualitas",
+    "kesetaraan_gender" => "5. Kesetaraan Gender",
+    "air_bersih_sanitasi" => "6. Air Bersih dan Sanitasi",
+    "energi_bersih_terjangkau" => "7. Energi Bersih dan Terjangkau",
+    "pekerjaan_pertumbuhan_ekonomi" => "8. Pekerjaan Layak dan Pertumbuhan Ekonomi",
+    "industri_inovasi_infrastruktur" => "9. Industri, Inovasi, dan Infrastruktur",
+    "mengurangi_ketimpangan" => "10. Mengurangi Ketimpangan",
+    "kota_komunitas_berkelanjutan" => "11. Kota dan Komunitas Berkelanjutan",
+    "konsumsi_produksi_bertanggung_jawab" => "12. Konsumsi dan Produksi yang Bertanggung Jawab",
+    "penanganan_perubahan_iklim" => "13. Penanganan Perubahan Iklim",
+    "ekosistem_lautan" => "14. Ekosistem Lautan",
+    "ekosistem_daratan" => "15. Ekosistem Daratan",
+    "perdamaian_keadilan_institusi_kuat" => "16. Perdamaian, Keadilan, dan Kelembagaan yang Kuat",
+    "kemitraan_tujuan" => "17. Kemitraan untuk Mencapai Tujuan"
+];
+
+// Proses SDG menjadi label deskriptif
+$sdg_selected = explode(",", $kelompokTerdaftar['sdg'] ?? '');
+$sdg_labels = array_map(function($key) use ($sdg_mapping) {
+    return $sdg_mapping[$key] ?? $key;
+}, $sdg_selected);
 ?>
 
 <!DOCTYPE html>
@@ -86,6 +113,44 @@ $is_locked = is_null($status_inkubasi);
                         <div class="left">
                             <!-- Logo Bisnis -->
                             <img alt="Logo Bisnis" src="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/logos/<?php echo $kelompokTerdaftar['logo_bisnis']; ?>" />
+
+                            <p>
+                            <button class="btn btn-danger mt-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample_2" aria-expanded="false" aria-controls="collapseWidthExample">
+                                <i class="fas fa-trash-alt"></i> 
+                            </button>
+                            </p>
+                            <div style="min-height: 120px;">
+                            <div class="collapse collapse-horizontal" id="collapseWidthExample_2">
+                                <div class="card card-body" style="width: 300px;">
+                                    <!-- Tombol Hapus -->
+                                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                        Hapus Kelompok
+                                    </button>
+
+                                </div>
+                            </div>
+                            </div>
+
+                        <!-- Modal Konfirmasi Hapus -->
+                        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah Anda yakin ingin menghapus kelompok bisnis ini beserta semua data terkait (proposal, laporan, jadwal, anggota)?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Hapus</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                           
                         </div>
                         <div class="right">
                             <!-- Tombol Edit hanya tampil jika mentor belum ditugaskan -->
@@ -96,28 +161,6 @@ $is_locked = is_null($status_inkubasi);
                                     <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">
                                         <i class="fas fa-edit"></i> Edit
                                     </button>
-                                    <!-- Tombol Hapus -->
-                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                        <i class="fas fa-trash-alt"></i> Hapus Kelompok
-                                    </button>
-                                    <!-- Modal Konfirmasi Hapus -->
-                                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Apakah Anda yakin ingin menghapus kelompok bisnis ini beserta semua data terkait (proposal, laporan, jadwal, anggota)?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Hapus</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <?php } else { ?>
                                 <!-- Jika sudah ada mentor, tombol edit tidak ditampilkan -->
@@ -136,7 +179,7 @@ $is_locked = is_null($status_inkubasi);
                                                 data-bs-target="#recommendationModal"
                                             <?php endif; ?>>
                                         Program Inkubasi
-                                    </button><!-- Modal --> 
+                                    </button>
 
                                     <!-- Modal -->
                                     <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
@@ -217,28 +260,7 @@ $is_locked = is_null($status_inkubasi);
                                             }
                                         });
                                     </script>
-                                    <!-- Tombol Hapus -->
-                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                        <i class="fas fa-trash-alt"></i> Hapus Kelompok
-                                    </button>
-                                </div>
-                                <!-- Modal Konfirmasi Hapus -->
-                                <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Apakah Anda yakin ingin menghapus kelompok bisnis ini beserta semua data terkait (proposal, laporan, jadwal, anggota)?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Hapus</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             <?php } ?>
 
@@ -253,7 +275,12 @@ $is_locked = is_null($status_inkubasi);
                                     <p><strong>Kategori Bisnis:</strong> <?php echo htmlspecialchars($kelompokTerdaftar['kategori_bisnis'] ?? '--'); ?></p>
                                 </div>
                                 <div class="sdg">
-                                    <p><strong>Sustainable Development Goals (SDGs):</strong> <?php echo htmlspecialchars($kelompokTerdaftar['sdg'] ?? '--'); ?></p>
+                                    <strong>Tujuan Sustainable Development Goals (SDGs):</strong>  
+                                    <ul>
+                                        <?php foreach ($sdg_labels as $label): ?>
+                                            <li><?php echo htmlspecialchars($label); ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
                                 </div>
 
                             <div class="bottom">

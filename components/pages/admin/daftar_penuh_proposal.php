@@ -84,6 +84,7 @@ if (!$result) {
                             <thead>
                                 <tr>
                                     <th>Nama Kelompok</th>
+                                    <th>Ketua Kelompok</th> 
                                     <th>Judul Proposal</th>
                                     <!-- <th>Ide Bisnis</th>
                                     <th>Tahapan Bisnis</th>
@@ -97,6 +98,7 @@ if (!$result) {
                                 <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                                     <tr>
                                         <td><?php echo htmlspecialchars($row['nama_kelompok']); ?></td>
+                                        <td>Komang WWW</td>
                                         <td><?php echo htmlspecialchars($row['judul_proposal']); ?></td>
                                         <!-- <td><?php echo htmlspecialchars($row['ide_bisnis']); ?></td>
                                         <td><?php echo htmlspecialchars($row['tahapan_bisnis']); ?></td>

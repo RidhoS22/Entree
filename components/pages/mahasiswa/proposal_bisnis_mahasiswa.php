@@ -53,7 +53,7 @@ $result = $stmt->get_result();
             <div class="main_wrapper">
 
                  <!-- Tombol untuk membuka modal -->
-                 <button type="button" class="btn-hijau" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                 <button type="button" class="btn-hijau mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Tambah Proposal Bisnis
                 </button>
 

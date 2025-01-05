@@ -52,36 +52,42 @@ if ($id_kelompok) {
             </div>
 
             <div class="main_wrapper">
-
-                <?php
-                    // Mengecek apakah ada hasil laporan yang diambil
-                    if ($result->num_rows > 0) {
-                        while ($laporan = $result->fetch_assoc()) {
-                            $id = $laporan['id'];
-                            ?>
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
-                                </div>
-                                <a href="detail_laporan_bisnis_mentor.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">
-                                    <div class="card-body">
-                                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Laporan Kemajuan Bisnis"></i>
+                <div class="container-of-card-container m-0 p-0" style="min-height: 70vh;">
+                    <?php
+                        // Mengecek apakah ada hasil laporan yang diambil
+                        if ($result->num_rows > 0) {
+                            while ($laporan = $result->fetch_assoc()) {
+                                $id = $laporan['id'];
+                                ?>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
                                     </div>
-                                </a>
-                                <div class="card-footer">
-                                    <a href="detail_laporan_bisnis_mentor.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">Lihat Umpan Balik</a>
+                                    <a href="detail_laporan_bisnis_mentor.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">
+                                        <div class="card-body">
+                                            <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Laporan Kemajuan Bisnis"></i>
+                                        </div>
+                                    </a>
+                                    <div class="card-footer">
+                                        <a href="detail_laporan_bisnis_mentor.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">Lihat Umpan Balik</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <?php
+                                <?php
+                            }
+                        } else {
+                            // Jika tidak ada laporan, tampilkan pesan
+                            echo '<div class="d-flex justify-content-center" >
+                                    <div class="alert alert-warning text-center" role="alert" style="width: fit-content;">
+                                        Belum ada laporan kemajuan bisnis untuk kelompok ini.
+                                    </div>
+                                </div>
+                                ';
                         }
-                    } else {
-                        // Jika tidak ada laporan, tampilkan pesan
-                        echo "<p>Belum ada laporan kemajuan bisnis untuk kelompok ini.</p>";
-                    }
-                    ?> 
-                <div class="mt-3" onclick="window.location.href='detail_kelompok.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Kembali ke Detail Kelompok Bisnis">
-                <!-- Tombol dengan ukuran lebih kecil dan penataan posisi di tengah -->
-                    <button class="btn btn-secondary mt-3">Kembali ke Detail Kelompok Bisnis</button>
+                        ?> 
+                </div>
+                <div onclick="window.location.href='detail_kelompok.php?id_kelompok=<?php echo $id_kelompok; ?>'">
+                    <!-- Tombol dengan ukuran lebih kecil dan penataan posisi di tengah -->
+                    <button class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Tekan Untuk Kembali">Kembali ke Kelompok Bisnis</button>
                 </div>
             </div>
         </div>

@@ -227,7 +227,7 @@ textarea:focus {
 }
 
 /* Responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 978px) {
   input[type="text"],
   textarea {
     font-size: 14px;
@@ -277,12 +277,12 @@ textarea:focus {
 
   .title-edit {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 20px;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
   .card {
     height: 120px;
   }

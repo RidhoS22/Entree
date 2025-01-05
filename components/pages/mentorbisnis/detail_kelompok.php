@@ -27,13 +27,80 @@ if ($id_kelompok) {
     exit;
 }
 
-$mentorQuery = "
-    SELECT m.nama AS nama_mentor
+// Ambil detail mentor berdasarkan nama mentor dari kelompok bisnis
+$mentorData = [];
+if (!empty($kelompok['id_mentor'])) {
+    // Query untuk detail mentor
+    $mentorQuery = "
+    SELECT m.nama AS nama_mentor, 
+        m.fakultas, 
+        m.prodi, 
+        m.contact, 
+        m.email,
+        m.keahlian, 
+        m.foto_profile,
+        u.role 
     FROM mentor m
-    WHERE m.id = '" . $kelompok['id_mentor'] . "' LIMIT 1";
-$mentorResult = mysqli_query($conn, $mentorQuery);
-$mentor = mysqli_fetch_assoc($mentorResult);
-$namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
+    JOIN users u ON m.user_id = u.id
+    WHERE m.id = '" . $kelompok['id_mentor'] . "' 
+    LIMIT 1";
+    
+    $mentorResult = mysqli_query($conn, $mentorQuery);
+    $mentorData = mysqli_fetch_assoc($mentorResult); 
+}
+
+$mentorAda = !empty($kelompok['id_mentor']);
+
+// $mentorQuery = "
+//     SELECT m.nama AS nama_mentor
+//     FROM mentor m
+//     WHERE m.id = '" . $kelompok['id_mentor'] . "' LIMIT 1";
+// $mentorResult = mysqli_query($conn, $mentorQuery);
+// $mentor = mysqli_fetch_assoc($mentorResult);
+// $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
+
+$sql = "SELECT * FROM jadwal WHERE id_klmpk = ? ORDER BY tanggal, waktu";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id_kelompok); // Bind parameter id_kelompok
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Variabel untuk menghitung jadwal status 'selesai'
+$totalSelesai = 0;
+
+// Loop data hasil query
+while ($row = $result->fetch_assoc()) {
+    if ($row['status'] === 'selesai') {
+        $totalSelesai++; // Tambahkan 1 jika status 'selesai'
+    }
+}
+
+// Mapping SDG
+$sdg_mapping = [
+    "mengakhiri_kemiskinan" => "1. Mengakhiri Kemiskinan",
+    "mengakhiri_kelaparan" => "2. Mengakhiri Kelaparan",
+    "kesehatan_kesejahteraan" => "3. Kesehatan dan Kesejahteraan",
+    "pendidikan_berkualitas" => "4. Pendidikan Berkualitas",
+    "kesetaraan_gender" => "5. Kesetaraan Gender",
+    "air_bersih_sanitasi" => "6. Air Bersih dan Sanitasi",
+    "energi_bersih_terjangkau" => "7. Energi Bersih dan Terjangkau",
+    "pekerjaan_pertumbuhan_ekonomi" => "8. Pekerjaan Layak dan Pertumbuhan Ekonomi",
+    "industri_inovasi_infrastruktur" => "9. Industri, Inovasi, dan Infrastruktur",
+    "mengurangi_ketimpangan" => "10. Mengurangi Ketimpangan",
+    "kota_komunitas_berkelanjutan" => "11. Kota dan Komunitas Berkelanjutan",
+    "konsumsi_produksi_bertanggung_jawab" => "12. Konsumsi dan Produksi yang Bertanggung Jawab",
+    "penanganan_perubahan_iklim" => "13. Penanganan Perubahan Iklim",
+    "ekosistem_lautan" => "14. Ekosistem Lautan",
+    "ekosistem_daratan" => "15. Ekosistem Daratan",
+    "perdamaian_keadilan_institusi_kuat" => "16. Perdamaian, Keadilan, dan Kelembagaan yang Kuat",
+    "kemitraan_tujuan" => "17. Kemitraan untuk Mencapai Tujuan"
+];
+
+// Proses SDG menjadi label deskriptif
+$sdg_selected = explode(",", $kelompok['sdg'] ?? '');
+$sdg_labels = array_map(function($key) use ($sdg_mapping) {
+    return $sdg_mapping[$key] ?? $key;
+}, $sdg_selected);
 ?>
 
 <!DOCTYPE html>
@@ -171,7 +238,12 @@ $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                             <p><strong>Kategori Bisnis:</strong> <?php echo htmlspecialchars($kelompok['kategori_bisnis'] ?? '--'); ?></p>
                         </div>
                         <div class="sdg">
-                            <p><strong>Sustainable Development Goals (SDGs):</strong> <?php echo htmlspecialchars($kelompok['sdg'] ?? '--'); ?></p>
+                            <strong>Tujuan Sustainable Development Goals (SDGs):</strong>  
+                            <ul>
+                                <?php foreach ($sdg_labels as $label): ?>
+                                    <li><?php echo htmlspecialchars($label); ?></li>
+                                <?php endforeach; ?>
+                            </ul>
                         </div>
 
                         <div class="bottom">
@@ -185,18 +257,57 @@ $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                                     <p><i class="fas fa-user"></i> <?php echo htmlspecialchars($anggota['nama']) . " (" . htmlspecialchars($anggota['npm']) . ")"; ?></p>
                                 <?php } ?>
                             </div>
-                                
+                            <!-- Mentor Bisnis Section -->
                             <div class="tutor">
-                                <p><strong>Mentor Bisnis:</strong> <?php echo htmlspecialchars($namaMentor); ?></p>
+                                <div class="d-flex align-items-center mentor">
+                                    <strong class="me-2">Mentor Bisnis:</strong>
+                                    <?php if ($mentorAda) { ?>
+                                        <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            <div class="card d-inline-block" title="Lihat Detail Mentor Bisnis">
+                                                <div class="card-body p-0">
+                                                    <p class="card-text m-0 text-center">
+                                                        <?php echo htmlspecialchars($mentorData['nama_mentor']); ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    <?php } else { ?>
+                                        <!-- Jika belum ada mentor, tampilkan teks info -->
+                                        <span class="text-muted alert alert-warning text-center" role="alert">Belum ada mentor bisnis</span>
+                                    <?php } ?>
+                                </div>
+                                
+                                <!-- Collapsible mentor details (hanya aktif jika mentor ada) -->
+                                <?php if ($mentorAda) { ?>
+                                    <div class="collapse" id="collapseExample">
+                                        <div class="card-mentor p-3">
+                                            <img alt="Profile picture of the mentor" height="50" src="<?= htmlspecialchars($mentorData['foto_profile']); ?>" width="50" class="card-img-top mx-auto d-block mt-3"/>
+                                            <h2 class="card-mentor-title text-center"><?php echo htmlspecialchars($mentorData['nama_mentor']); ?></h2>
+                                            <div class="card-mentor-body">
+                                                <p class="card-mentor-text"><strong>Peran:</strong> <?php echo htmlspecialchars($mentorData['role']); ?></p>
+                                                <p class="card-mentor-text"><strong>Keahlian:</strong> <?php echo htmlspecialchars($mentorData['keahlian']); ?></p>
+                                                <p class="card-mentor-text"><strong>Fakultas:</strong> <?php echo htmlspecialchars($mentorData['fakultas']); ?></p>
+                                                <p class="card-mentor-text"><strong>Prodi:</strong> <?php echo htmlspecialchars($mentorData['prodi']); ?></p>
+                                                <p class="card-mentor-text"><strong>Nomor Telepon:</strong> <?php echo htmlspecialchars($mentorData['contact']); ?></p>
+                                                <p class="card-mentor-text"><strong>Alamat Email:</strong> <?php echo htmlspecialchars($mentorData['email']); ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                         <div class="cards-container">
                             <!-- Card 1 -->
-                            <div class="card" onclick="window.location.href='proposal_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Lihat Proposal Bisnis Kelompok Disini">
+                            <div class="card" onclick="window.location.href='proposal_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok; ?>'" 
+                            data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Proposal Bisnis Kelompok Disini"
+                            >
                                 <h5>Proposal Bisnis</h5>
                             </div>
                             <!-- Card 2 -->
-                            <div class="card" onclick="window.location.href='laporan_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Laporan Kemajuan Bisnis Kelompok Disini">
+                            <div class="card" onclick="window.location.href='laporan_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok; ?>'"
+                            title="Laporan Kemajuan Bisnis Kelompok Disini"
+                            data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Laporan Kemajuan Bisnis Kelompok Disini"
+                            >
                                 <h5>Laporan Kemajuan Bisnis</h5>
                             </div>
                         </div>
@@ -261,16 +372,22 @@ $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                                                     <?php endwhile; ?>
                                                 <?php else: ?>
                                                     <tr>
-                                                        <td colspan="8">Tidak ada jadwal tersedia.</td>
+                                                        <td colspan="8">
+                                                            <div class="alert alert-warning text-center m-0" role="alert">
+                                                                Tidak ada jadwal tersedia.
+                                                            </div>
+                                                        </td>                                                    
                                                     </tr>
                                                 <?php endif; ?>
                                             </tbody>
                                         </table>
+                                        <?php if ($totalSelesai > 0): ?>
+                                            <div class="alert alert-info mt-3" role="alert">
+                                                <strong>Total Jadwal dengan Status "Selesai":</strong> <?php echo $totalSelesai; ?>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
-
-
-
                                 </div>
                                 </div>
                             </div>
@@ -280,7 +397,7 @@ $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                     </div>
                 </div>
             <?php } else { ?>
-                <p>Data kelompok tidak ditemukan.</p>
+                <div class="alert alert-danger" role="alert">Data kelompok tidak ditemukan.</div>
             <?php } ?>
 
 

@@ -44,59 +44,61 @@ if ($id_kelompok) {
 
             <div class="main_wrapper">
                 <!-- Menampilkan proposal bisnis dalam bentuk card -->
-                <div class="card-container">
-                    <?php
-                    // Memeriksa apakah ada data proposal yang diambil dari database
-                    if ($result && mysqli_num_rows($result) > 0) {
-                        while ($proposal = mysqli_fetch_assoc($result)) {
-                            // Ambil id untuk URL
-                            $id = $proposal['id'];
-                            ?>
-                            <div class="card" style="width: 33%; margin: 10px;">
-                                <div class="card-icon text-center py-4">
-                                    <img src="\Aplikasi-Kewirausahaan\assets\img\document-file_6424455.png" alt="Dokumen" style="width: 50px; height: 50px;">
+                <div class="container-of-card-container" style="min-height: 70vh;">
+                    <div class="card-container">
+                        <?php
+                        // Memeriksa apakah ada data proposal yang diambil dari database
+                        if ($result && mysqli_num_rows($result) > 0) {
+                            while ($proposal = mysqli_fetch_assoc($result)) {
+                                // Ambil id untuk URL
+                                $id = $proposal['id'];
+                                ?>
+                                <div class="card" style="width: 33%; margin: 10px;">
+                                    <div class="card-icon text-center py-4">
+                                        <img src="\Aplikasi-Kewirausahaan\assets\img\document-file_6424455.png" alt="Dokumen" style="width: 50px; height: 50px;">
+                                    </div>
+                                    <div class="card-body m-0">
+                                        <h5 class="card-title"><?php echo htmlspecialchars($proposal['judul_proposal']); ?></h5>
+                                    </div>
+                                    <table class="table table-bordered m-0 styled-table">
+                                        <tbody>
+                                            <tr>
+                                                <td>Status Proposal Bisnis</td>
+                                                <td>
+                                                    <span id="status-label" class="status" 
+                                                        style="background-color: <?php 
+                                                            if ($proposal['status'] == 'disetujui') {
+                                                                echo '#2ea56f';
+                                                            } elseif ($proposal['status'] == 'ditolak') {
+                                                                echo '#dc3545';
+                                                            } else {
+                                                                echo 'orange';
+                                                            }
+                                                        ?>; padding: 5px 10px; border-radius: 3px;">
+                                                        <?php echo htmlspecialchars($proposal['status']); ?>            
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="card-footer">
+                                    <a href="detail_proposal_bisnis_admin.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">
+                                        <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Proposal Bisnis"></i>
+                                    </a>
+                                    </div>
                                 </div>
-                                <div class="card-body m-0">
-                                    <h5 class="card-title"><?php echo htmlspecialchars($proposal['judul_proposal']); ?></h5>
-                                </div>
-                                <table class="table table-bordered m-0 styled-table">
-                                    <tbody>
-                                        <tr>
-                                            <td>Status Proposal Bisnis</td>
-                                            <td>
-                                                <span id="status-label" class="status" 
-                                                    style="background-color: <?php 
-                                                        if ($proposal['status'] == 'disetujui') {
-                                                            echo '#2ea56f';
-                                                        } elseif ($proposal['status'] == 'ditolak') {
-                                                            echo '#dc3545';
-                                                        } else {
-                                                            echo 'orange';
-                                                        }
-                                                    ?>; padding: 5px 10px; border-radius: 3px;">
-                                                    <?php echo htmlspecialchars($proposal['status']); ?>            
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="card-footer">
-                                <a href="detail_proposal_bisnis_admin.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">
-                                    <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Proposal Bisnis"></i>
-                                </a>
-                                </div>
-                            </div>
 
-                            <?php
+                                <?php
+                            }
+                        } else {
+                            echo '<div class="alert alert-warning" role="alert">Belum ada proposal untuk kelompok ini.</div>';
                         }
-                    } else {
-                        echo "<p>No proposals found for this group.</p>";
-                    }
-                    ?>
+                        ?>
+                    </div>
                 </div>
-                <div class="mt-3" onclick="window.location.href='detail_kelompok.php?id_kelompok=<?php echo $id_kelompok; ?>'" title="Kembali ke Detail Kelompok Bisnis">
+                <div class="mt-2" onclick="window.location.href='detail_kelompok.php?id_kelompok=<?php echo $id_kelompok; ?>'">
                 <!-- Tombol dengan ukuran lebih kecil dan penataan posisi di tengah -->
-                    <button class="btn btn-secondary mt-3">Kembali ke Detail Kelompok Bisnis</button>
+                    <button class="btn btn-secondary mt-3" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Tekan Untuk Kembali">Kembali ke Kelompok Bisnis</button>
                 </div>
             </div>  
         </div>

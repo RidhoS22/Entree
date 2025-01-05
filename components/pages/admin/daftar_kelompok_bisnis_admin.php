@@ -5,6 +5,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connectio
 // Query untuk mengambil data kelompok bisnis
 $sql = "SELECT * FROM kelompok_bisnis_backup";
 $result = $conn->query($sql);
+
+// Ambil kata kunci pencarian jika ada
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 ?>
 
 <!DOCTYPE html>
@@ -21,9 +24,7 @@ $result = $conn->query($sql);
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/daftar_kelompok.css">
     <style>
-        .card {
-            max-height: 300px !important;
-        }
+        
         /* Styling untuk status aktif */
         .status-aktif {
             color: white;
@@ -42,6 +43,12 @@ $result = $conn->query($sql);
             border-radius: 5px;
             font-weight: bold;
             text-align: center;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
     </style>
 </head>
@@ -88,7 +95,7 @@ $result = $conn->query($sql);
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li><a class="dropdown-item" href="#" data-status="btn-secondary">Semua Kelompok</a></li>
                                     <li><a class="dropdown-item" href="#" data-status="btn-success">Direkomendasi</a></li>
-                                    <li><a class="dropdown-item" href="#" data-status="btn-info">Kelompok Inkubasi</a></li>
+                                    <li><a class="dropdown-item" href="#" data-status="btn-info">Program Inkubasi</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -133,7 +140,7 @@ $result = $conn->query($sql);
                                                 echo '<span class="status-nonaktif">' . htmlspecialchars($row['status_kelompok_bisnis']) . '</span>';
                                             }
 
-                        echo '
+                                    echo '
                                         </td>
                                     </tr>
                                     <tr>
@@ -143,11 +150,93 @@ $result = $conn->query($sql);
                                 </tbody>
                             </table>
                             <div class="card-footer">
+                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah Mentor</button>
                                 <a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
                                     <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Kelompok Bisnis"></i>
                                 </a>
                             </div>
                         </div>';
+
+                        echo '<div class="modal fade" id="mentorModal' . $id_kelompok . '" tabindex="-1" aria-labelledby="mentorModalLabel' . $id_kelompok . '" aria-hidden="true">';
+                        echo '<div class="modal-dialog modal-dialog-centered modal-xl">';
+                        echo '<div class="modal-content">';
+                        echo '<div class="modal-header">';
+                        echo '<h5 class="modal-title" id="mentorModalLabel' . $id_kelompok . '">Pilih Mentor Bisnis</h5>';
+                        echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+                        echo '</div>';
+                        echo '<div class="modal-body">';
+                        echo '<form method="POST" action="" class="add-mentor-form">';
+                        echo '<input type="hidden" name="id_kelompok" value="' . $id_kelompok . '">';
+
+                        // Query untuk mendapatkan data mentor
+                        $mentorQuery = "
+                        SELECT 
+                            mentor.*, 
+                            users.role AS peran 
+                        FROM mentor 
+                        JOIN users ON mentor.user_id = users.id
+                        ";
+                        $result_mentor = $conn->query($mentorQuery);
+
+                        echo '<form action="" method="get" class="mb-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Cari mentor..." name="search" value="' . htmlspecialchars($search) . '">
+                                <button class="btn btn-success" type="submit">Cari</button>
+                            </div>
+                        </form>';        
+                        if ($result_mentor->num_rows > 0) {
+                            echo '<div class="clearfix">';
+                            while ($mentor = $result_mentor->fetch_assoc()) {
+                                echo '
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card-mentor mb-3">
+                                        <a data-bs-toggle="collapse" href="#collapse' . $mentor['id'] . '" role="button" 
+                                            aria-expanded="false" aria-controls="collapse' . $mentor['id'] . '">
+                                            <div class="card-mentor-header">
+                                                <img alt="Profile picture of the mentor" class="w-12 h-12 rounded-full me-2" height="50" 
+                                                src="' . htmlspecialchars($mentor['foto_profile']) . '" width="50"/>
+                                                <div class="nama-mentor">
+                                                    <h2 class="font-bold mb-0">' . htmlspecialchars($mentor['nama']) . '</h2>
+                                                    <p class="mb-0">Peran: ' . htmlspecialchars($mentor['peran'] ?? 'Belum ada peran') . '</p>
+                                                </div>
+                                                <div class="klik d-flex flex-column align-items-center">
+                                                    <span class="toggle-text" id="toggle-text-' . $mentor['id'] . '">
+                                                        Klik untuk melihat detail data mentor
+                                                    </span>
+                                                    <i class="fa-solid fa-caret-down"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div id="collapse' . $mentor['id'] . '" class="collapse" data-bs-parent="#accordionExample">
+                                            <div class="card-mentor-body">
+                                                <p>NIDN: ' . htmlspecialchars($mentor['nidn']) . '</p>
+                                                <p>Keahlian: ' . htmlspecialchars($mentor['keahlian']) . '</p>
+                                                <p>Fakultas: ' . htmlspecialchars($mentor['fakultas']) . '</p>
+                                                <p>Prodi: ' . htmlspecialchars($mentor['prodi']) . '</p>
+                                                <p>Email: ' . htmlspecialchars($mentor['email']) . '</p>
+                                                <p>Nomor Telepon: ' . htmlspecialchars($mentor['contact']) . '</p>
+                        
+                                                <div class="btn-div d-flex justify-content-center mt-4">
+                                                    <form method="POST" action="update_kelompok_bisnis.php">
+                                                        <input type="hidden" name="id_kelompok" value="' . $id_kelompok . '">
+                                                        <input type="hidden" name="id_mentor" value="' . $mentor['id'] . '">
+                                                        <button type="submit" class="btn btn-success mt-2">Pilih sebagai Mentor</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>';
+                            }
+                            echo '</div>';
+                        } else {
+                            echo '<p>Tidak ada mentor yang ditemukan.</p>';
+                        }
+                        
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '</div>';
                     }
                 } else {
                     echo '<p>Tidak ada kelompok bisnis yang tersedia.</p>';
@@ -156,6 +245,75 @@ $result = $conn->query($sql);
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Pilih semua elemen collapse yang digunakan
+            const collapses = document.querySelectorAll('.collapse');
+
+            collapses.forEach(function (collapse) {
+                collapse.addEventListener('show.bs.collapse', function () {
+                    const mentorId = this.id.replace('collapse', '');
+                    const toggleText = document.getElementById('toggle-text-' + mentorId);
+                    const caretIcon = toggleText.nextElementSibling; // Mengambil ikon setelah span
+                    
+                    if (toggleText) {
+                        toggleText.style.display = 'none'; // Hilangkan teks
+                    }
+                    if (caretIcon) {
+                        caretIcon.style.display = 'none'; // Hilangkan ikon
+                    }
+                });
+
+                collapse.addEventListener('hide.bs.collapse', function () {
+                    const mentorId = this.id.replace('collapse', '');
+                    const toggleText = document.getElementById('toggle-text-' + mentorId);
+                    const caretIcon = toggleText.nextElementSibling; // Mengambil ikon setelah span
+
+                    if (toggleText) {
+                        toggleText.style.display = 'inline'; // Tampilkan teks
+                    }
+                    if (caretIcon) {
+                        caretIcon.style.display = 'inline'; // Tampilkan ikon
+                    }
+                });
+            });
+        });
+
+    </script>
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const namaMentorElements = document.querySelectorAll('.nama-mentor');
+            let maxHeight = 0;
+
+            namaMentorElements.forEach((element) => {
+                const height = element.offsetHeight;
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
+            });
+
+            namaMentorElements.forEach((element) => {
+                element.style.height = maxHeight + 'px';
+            });
+        });
+
+        window.addEventListener('resize', function () {
+            const namaMentorElements = document.querySelectorAll('.nama-mentor');
+            let maxHeight = 0;
+
+            namaMentorElements.forEach((element) => {
+                element.style.height = ''; // Reset height
+                const height = element.offsetHeight;
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
+            });
+
+            namaMentorElements.forEach((element) => {
+                element.style.height = maxHeight + 'px';
+            });
+        });
+    </script>
     <script>
         const dropdownButton = document.getElementById("dropdownMenuButton");
         const dropdownItems = document.querySelectorAll(".dropdown-item");

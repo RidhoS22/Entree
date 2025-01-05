@@ -135,25 +135,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                                 </td>
                             </tr>
                             <tr>
-                                <th title="Masukkan Bukti Kegiatan Anda dalam format Pdf atau Gambar disini">Bukti Kegiatan</th>
-                                <td>
-                                    <div class="input-group">
-                                        <input type="file" class="form-control" id="customFile" name="bukti_kegiatan" accept=".pdf, .jpg, .jpeg, .png, .gif" <?php echo $data['status'] != 'selesai' ? 'disabled' : ''; ?> >
-                                    </div>
+                                <th>Bukti Kegiatan</th>
+                                <td data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Masukkan Bukti Kegiatan Anda dalam format Pdf atau Gambar di sini">
+                                    <input 
+                                        type="file" 
+                                        class="form-control" 
+                                        id="customFile" 
+                                        name="bukti_kegiatan" 
+                                        accept=".pdf, .jpg, .jpeg, .png, .gif" 
+                                        data-status="<?php echo htmlspecialchars($data['status']); ?>">
+                                    <p id="uploadMessage" class="alert alert-warning mb-2 mt-3 d-none">
+                                        <small class="d-flex justify-content-center">
+                                            Unggahan file hanya diperbolehkan jika status jadwal adalah "Selesai".
+                                        </small>
+                                    </p>
                                 </td>
                             </tr>
+
                         </table>
 
-                        <a href="jadwal_bimbingan_mahasiswa.php" class="btn btn-secondary">Kembali</a>
-                        <?php if ($data['status'] == 'selesai'): ?>
-                            <div class="d-flex justify-content-end mt-3">
-                                <button type="submit" class="btn btn-success me-2">Simpan</button>
-                            </div>
-                        <?php else: ?>
-                            <div class="alert alert-warning mt-3">Bukti Kegiatan hanya bisa diunggah jika status jadwal bimbingan adalah "Selesai".</div>
-                            <div class="d-flex justify-content-end mt-3">
-                            </div>
-                        <?php endif; ?>
+                        <div class="action-buttons  justify-content-end mt-3" style="display: none;">
+                            <button type="submit" class="btn btn-success me-2">Simpan</button>
+                        </div>
 
                         <!-- Menampilkan pesan jika ada -->
                         <?php if (!empty($message)): ?>
@@ -165,24 +168,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                                 // Menghilangkan pesan setelah 2 detik (2000 ms)
                                 setTimeout(function() {
                                     document.getElementById("message").style.display = "none";
-                                }, 2000); // 2000 ms = 2 detik
+                                }, 3000); // 3000 ms = 3 detik
                             </script>
                         <?php endif; ?>
                     </form>
+                    <a href="jadwal_bimbingan_mahasiswa.php" class="btn btn-secondary">Kembali</a>
                 </div>       
             </div>
         </div>
     </div>
+    
     <script>
         const fileInput = document.getElementById("customFile");
         const actionButtons = document.querySelector(".action-buttons");
+        const uploadMessage = document.getElementById("uploadMessage");
 
         // Event listener untuk input file
         fileInput.addEventListener("change", function () {
-            if (fileInput.files.length > 0) {
-                actionButtons.style.display = "block"; // Tampilkan tombol jika ada file
+            const status = fileInput.getAttribute("data-status");
+            if (status === "selesai" && fileInput.files.length > 0) {
+                actionButtons.style.display = "flex"; // Tampilkan tombol jika ada file dan status selesai
             } else {
-                actionButtons.style.display = "none"; // Sembunyikan tombol jika tidak ada file
+                actionButtons.style.display = "none"; // Sembunyikan tombol
+            }
+        });
+
+        // Event listener untuk mencegah klik jika status tidak selesai
+        fileInput.addEventListener("click", function (e) {
+            const status = fileInput.getAttribute("data-status");
+            if (status !== "selesai") {
+                e.preventDefault(); // Mencegah dialog file terbuka
+                uploadMessage.classList.remove("d-none"); // Tampilkan pesan
+            } else {
+                uploadMessage.classList.add("d-none"); // Sembunyikan pesan jika status selesai
+            }
+        });
+
+        
+        document.getElementById("customFile").addEventListener("click", function (e) {
+            const status = this.getAttribute("data-status");
+            if (status !== "selesai") {
+                e.preventDefault(); // Mencegah dialog file terbuka
+                document.getElementById("uploadMessage").classList.remove("d-none"); // Tampilkan pesan
             }
         });
     </script>

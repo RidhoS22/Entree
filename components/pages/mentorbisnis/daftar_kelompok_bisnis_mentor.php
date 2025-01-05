@@ -69,9 +69,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/daftar_kelompok.css">
     <style>
-        .card {
-        height: 320px !important;
-        }
+        
 
         .card-footer {
             display: flex;
@@ -144,13 +142,15 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li><a class="dropdown-item" href="#" data-status="btn-secondary">Semua Kelompok</a></li>
                                     <li><a class="dropdown-item" href="#" data-status="btn-success">Direkomendasi</a></li>
-                                    <li><a class="dropdown-item" href="#" data-status="btn-info">Kelompok Inkubasi</a></li>
+                                    <li><a class="dropdown-item" href="#" data-status="btn-info">Program Inkubasi</a></li>
                                 </ul>
                             </div>
-                            <form action="" method="get" class="mb-4">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Cari Kelompok Bisnis..." name="search" value="<?= htmlspecialchars($search); ?>">
-                                    <button class="btn btn-success" type="submit">Cari</button>
+                            <form action="" method="get">
+                                    <div class="input-group">
+                                        <div class="d-flex" role="search">
+                                        <input type="text" class="form-control me-2" placeholder="Cari Kelompok Bisnis" name="search" aria-label="Search" value="<?= htmlspecialchars($search); ?>">
+                                        <button class="btn btn-outline-success" type="submit">Cari</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -376,6 +376,40 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             });
         });
 
+    </script>
+     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const namaMentorElements = document.querySelectorAll('.nama-mentor');
+            let maxHeight = 0;
+
+            namaMentorElements.forEach((element) => {
+                const height = element.offsetHeight;
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
+            });
+
+            namaMentorElements.forEach((element) => {
+                element.style.height = maxHeight + 'px';
+            });
+        });
+
+        window.addEventListener('resize', function () {
+            const namaMentorElements = document.querySelectorAll('.nama-mentor');
+            let maxHeight = 0;
+
+            namaMentorElements.forEach((element) => {
+                element.style.height = ''; // Reset height
+                const height = element.offsetHeight;
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
+            });
+
+            namaMentorElements.forEach((element) => {
+                element.style.height = maxHeight + 'px';
+            });
+        });
     </script>
     <script>
 
