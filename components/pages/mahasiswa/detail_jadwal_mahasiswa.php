@@ -71,6 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_jadwal_bimbingan.css">
+    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_proposal.css">
 </head>
 
 <body>
@@ -135,20 +136,61 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                                 </td>
                             </tr>
                             <tr>
-                                <th>Bukti Kegiatan</th>
-                                <td data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Masukkan Bukti Kegiatan Anda dalam format Pdf atau Gambar di sini">
-                                    <input 
-                                        type="file" 
-                                        class="form-control" 
-                                        id="customFile" 
-                                        name="bukti_kegiatan" 
-                                        accept=".pdf, .jpg, .jpeg, .png, .gif" 
-                                        data-status="<?php echo htmlspecialchars($data['status']); ?>">
-                                    <p id="uploadMessage" class="alert alert-warning mb-2 mt-3 d-none">
-                                        <small class="d-flex justify-content-center">
-                                            Unggahan file hanya diperbolehkan jika status jadwal adalah "Selesai".
-                                        </small>
-                                    </p>
+                            <th>Bukti Kegiatan</th>
+                                <td>
+                                    <?php if (!empty($data['bukti_kegiatan'])): ?>
+                                        <!-- Tampilkan daftar file jika sudah ada data -->
+                                        <ul id="fileList">
+                                            <li class="file-box">
+                                                <div class="file-info">
+                                                    <?php echo htmlspecialchars(basename($data['bukti_kegiatan'])); ?>
+                                                </div>
+                                                <div class="icon-group">
+                                                    <!-- Ikon Lihat File -->
+                                                    <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                    target="_blank" 
+                                                    class="detail-icon" 
+                                                    data-bs-toggle="tooltip" 
+                                                    data-bs-custom-class="custom-tooltip" 
+                                                    data-bs-title="Lihat File">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+                                                    <!-- Ikon Unduh File -->
+                                                    <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                    download 
+                                                    class="btn-icon" 
+                                                    data-bs-toggle="tooltip" 
+                                                    data-bs-custom-class="custom-tooltip" 
+                                                    data-bs-title="Unduh File">
+                                                        <i class="fa-solid fa-download"></i>
+                                                    </a>
+                                                    <!-- Ikon Hapus File -->
+                                                    <a href="#" 
+                                                    class="btn-icon btn-danger" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#deleteFileModal" 
+                                                    data-bs-id="<?php echo $id; ?>" 
+                                                    role="button">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    <?php else: ?>
+                                        <!-- Tampilkan input file jika belum ada data -->
+                                        <input data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Masukkan Bukti Kegiatan Anda dalam format Pdf atau Gambar di sini"
+                                            type="file" 
+                                            class="form-control" 
+                                            id="customFile" 
+                                            name="bukti_kegiatan" 
+                                            accept=".pdf, .jpg, .jpeg, .png, .gif" 
+                                            data-status="<?php echo htmlspecialchars($data['status']); ?>">
+                                        <p id="uploadMessage" class="alert alert-warning mb-2 mt-3 d-none">
+                                            <small class="d-flex justify-content-center">
+                                                Unggahan file hanya diperbolehkan jika status jadwal adalah "Selesai".
+                                            </small>
+                                        </p>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
 
@@ -176,7 +218,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                 </div>       
             </div>
         </div>
+
+        <!-- Modal Konfirmasi Hapus -->
+        <div class="modal fade" id="deleteFileModal" tabindex="-1" aria-labelledby="deleteFileModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="/Aplikasi-Kewirausahaan/delete_file.php" method="POST">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteFileModalLabel">Konfirmasi Hapus File</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Apakah Anda yakin ingin menghapus file ini? Tindakan ini tidak dapat dibatalkan.</p>
+                            <input type="hidden" name="id" id="deleteFileId" value="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-danger">Hapus</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
     </div>
+    <!-- <script>
+        const deleteFileModal = document.getElementById('deleteFileModal');
+        deleteFileModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // Tombol yang memicu modal
+            const id = button.getAttribute('data-bs-id'); // Ambil ID dari tombol
+
+            // Isi input hidden di form modal
+            const deleteFileIdInput = deleteFileModal.querySelector('#deleteFileId');
+            deleteFileIdInput.value = id;
+        });
+    </script> -->
+
     
     <script>
         const fileInput = document.getElementById("customFile");

@@ -138,22 +138,25 @@ if ($id) {
                                             ?>;">
                                             <?php echo htmlspecialchars($data['status']); ?>
                                         </span>
+                                        <!-- Kondisi menampilkan tombol jika status tidak sama dengan selesai -->
+                                        <?php if ($data['status'] != 'selesai'): ?>
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                             Pilih Aksi
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="actionDropdown">
-                                            <li><button class="dropdown-item accept-btn">Setujui Jadwal</button></li>
-                                            <li><button class="dropdown-item reject-btn">Tolak Jadwal</button></li>
-                                            <li><button class="dropdown-item alt-schedule-btn">Berikan Jadwal Alternatif</button></li>
-                                            <li><button class="dropdown-item done-btn">Selesai</button></li>
-                                        </ul>
+                                            <ul class="dropdown-menu" aria-labelledby="actionDropdown">
+                                                <li><button class="dropdown-item accept-btn">Setujui Jadwal</button></li>
+                                                <li><button class="dropdown-item reject-btn">Tolak Jadwal</button></li>
+                                                <li><button class="dropdown-item alt-schedule-btn">Berikan Jadwal Alternatif</button></li>
+                                                <li><button class="dropdown-item done-btn">Selesai</button></li>
+                                            </ul>
+                                        <?php endif; ?>
                                         <tr>
                                             <th><strong>Bukti Kegiatan:</strong></td>
                                             <td class="file-box">
                                                 <ul id="fileList">
                                                     <li class="file-box">
                                                         <div class="file-info">
-                                                            <?php echo htmlspecialchars(basename($data['bukti_kegiatan'] ?? 'Bukti kegiatan belum di upload')); ?>
+                                                            <?php echo htmlspecialchars(basename($data['bukti_kegiatan'] ?? 'Mahasiswa Belum Mengunggah bukti kegiatan')); ?>
                                                         </div>
                                                         <?php if (!empty($data['bukti_kegiatan'])): ?>
                                                             <div class="icon-group">
@@ -228,14 +231,14 @@ if ($id) {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-secondary btn-submit">Kirim</button>
+                                        <button type="submit" class="btn btn-success btn-submit">Kirim</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
 
-                    <?php if ($canTakeAction): ?>
+                   <?php if ($data['status'] == 'selesai' && $canTakeAction): ?>
                         <form action="submit_feedback_jadwal.php" method="POST">
                             <div class="mb-3">
                                 <label for="feedbackInput" class="form-label">Masukkan Umpan Balik Anda:</label>
@@ -246,7 +249,7 @@ if ($id) {
                                 <button type="submit">Kirim Feedback</button>
                             </div>
                         </form>
-                    <?php else: ?>
+                    <?php elseif ($data['status'] == 'selesai'): ?>
                         <table class="table table-borderer">
                             <tr>
                                 <th>Umpan Balik</th>
@@ -254,6 +257,7 @@ if ($id) {
                             </tr>
                         </table>
                     <?php endif; ?>
+
 
                     <?php if ($toastMessage): ?>
                          <!-- Toast Container -->

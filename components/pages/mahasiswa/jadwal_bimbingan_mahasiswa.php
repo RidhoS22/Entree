@@ -198,15 +198,15 @@ if (isset($_GET['edit_id'])) {
                                                             <a href="?edit_id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">
                                                                 <i class="fas fa-edit" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Jadwal Bimbingan"></i> 
                                                             </a>
-                                                        <?php endif; ?>
 
-                                                        <!-- Tombol Hapus -->
+                                                            <!-- Tombol Hapus -->
                                                         <a href="#" class="btn btn-danger btn-sm" 
                                                             data-bs-toggle="modal" 
                                                             data-bs-target="#deleteConfirmModal"
                                                             onclick="setDeleteUrl(<?php echo $row['id']; ?>)">
                                                             <i class="fa-solid fa-trash-can" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Hapus Jadwal Bimbingan"></i>
                                                         </a>
+                                                        <?php endif; ?>
 
                                                         <!-- Tombol Detail -->
                                                         <a href="detail_jadwal_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
