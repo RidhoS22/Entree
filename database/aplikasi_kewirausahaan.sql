@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Jan 2025 pada 10.51
+-- Waktu pembuatan: 06 Jan 2025 pada 13.37
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -40,10 +40,11 @@ CREATE TABLE `anggota_kelompok` (
 INSERT INTO `anggota_kelompok` (`id`, `id_kelompok`, `npm_anggota`) VALUES
 (25, 20, '1402023001'),
 (26, 20, '1402022033'),
-(32, 25, '1402022040'),
 (33, 26, '1402022044'),
 (34, 26, '1402022060'),
-(36, 28, '1402016053');
+(36, 28, '1402016053'),
+(38, 30, '1402022040'),
+(39, 30, '1502022028');
 
 --
 -- Trigger `anggota_kelompok`
@@ -92,7 +93,10 @@ INSERT INTO `anggota_kelompok_backup` (`id`, `id_kelompok`, `npm_anggota`) VALUE
 (33, 26, '1402022044'),
 (34, 26, '1402022060'),
 (35, 27, '1502022028'),
-(36, 28, '1402016053');
+(36, 28, '1402016053'),
+(37, 29, '1402022040'),
+(38, 30, '1402022040'),
+(39, 30, '1502022028');
 
 -- --------------------------------------------------------
 
@@ -121,9 +125,6 @@ INSERT INTO `jadwal` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `agenda`, `loka
 (26, 'TESTER 2', '2024-12-13', '20:30', 'BIMBINGAN 1', 'Yarsi', '', 'menunggu', NULL, 20),
 (31, 'Bimbingan 2', '2024-12-12', '20:36', 'jabs', 'Yarsi', '', 'ditolak', NULL, 20),
 (34, 'Bimbingan 2', '2024-12-11', '21:02', 'jadkaknd', 'Yarsi', '', 'menunggu', NULL, 20),
-(35, 'Bimbingan 1', '2024-12-19', '04:41', 'jandand', 'Kantin', '', 'menunggu', NULL, 25),
-(36, 'kokoko', '2024-12-18', '23:13', 'ijmbjkh', 'ujj', '', 'menunggu', NULL, 25),
-(37, 'sadksn', '2024-12-13', '21:23', 'as,', 'Takana', 'ts', 'disetujui', NULL, 25),
 (38, 'jsd', '2024-12-04', '14:22', 'sdds', 'dka', '', 'selesai', 'uploads/bukti_kegiatan/CV English Task.pdf', 20),
 (39, 'dknd', '2024-12-11', '17:42', 'asada', 'Tenmer', '', 'disetujui', NULL, 20),
 (40, 'BIMBINGAN', '2024-12-15', '05:32', 'Bimbingan ke 10', 'YARSI', '', 'disetujui', NULL, 20),
@@ -214,58 +215,48 @@ CREATE TABLE `kelompok_bisnis` (
   `sdg` varchar(255) DEFAULT NULL,
   `ide_bisnis` varchar(255) DEFAULT NULL,
   `id_mentor` int(11) DEFAULT NULL,
-  `status_inkubasi` enum('direkomendasikan','disetujui','ditolak') DEFAULT NULL
+  `status_inkubasi` enum('direkomendasikan','disetujui','ditolak','masuk','tidak masuk') DEFAULT NULL,
+  `status_kelompok_bisnis` enum('aktif','tidak aktif') DEFAULT 'aktif'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `kelompok_bisnis`
 --
 
-INSERT INTO `kelompok_bisnis` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `logo_bisnis`, `tahun_akademik_id`, `kategori_bisnis`, `sdg`, `ide_bisnis`, `id_mentor`, `status_inkubasi`) VALUES
-(20, '1402022071', 'MACAN', 'a', 'hq720.jpg', 18, 'Bisnis Teknologi atau Digital', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'TESTER', 1, 'direkomendasikan'),
-(25, '1402022055', 'TESTER', 'BISNIS AYAM', 'wlpper.jpg', 18, NULL, NULL, NULL, 2, NULL),
-(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 2, NULL),
-(28, '1402022013', 'Tester', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `kelompok_bisnis` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `logo_bisnis`, `tahun_akademik_id`, `kategori_bisnis`, `sdg`, `ide_bisnis`, `id_mentor`, `status_inkubasi`, `status_kelompok_bisnis`) VALUES
+(20, '1402022071', 'MACAN', 'a', 'hq720.jpg', 18, 'Bisnis Teknologi atau Digital', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'TESTER', 1, 'masuk', 'aktif'),
+(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 2, NULL, 'aktif'),
+(28, '1402022013', 'Cappo', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, NULL, 'direkomendasikan', 'aktif'),
+(30, '1402022055', 'IYADEH', 'Bisnis Kerapu', 'wlpper.jpg', 18, NULL, NULL, NULL, NULL, NULL, 'aktif');
 
 --
 -- Trigger `kelompok_bisnis`
 --
 DELIMITER $$
-CREATE TRIGGER `after_insert_kelompok_bisnis` AFTER INSERT ON `kelompok_bisnis` FOR EACH ROW BEGIN
-    INSERT INTO kelompok_bisnis_backup (
-        id_kelompok, npm_ketua, nama_kelompok, nama_bisnis, logo_bisnis, 
-        tahun_akademik_id, kategori_bisnis, sdg, ide_bisnis, id_mentor, 
-        status_inkubasi, status_kelompok_bisnis
-    )
-    VALUES (
-        NEW.id_kelompok, NEW.npm_ketua, NEW.nama_kelompok, NEW.nama_bisnis, NEW.logo_bisnis, 
-        NEW.tahun_akademik_id, NEW.kategori_bisnis, NEW.sdg, NEW.ide_bisnis, NEW.id_mentor,
-        NEW.status_inkubasi, 'aktif'
-    );
+CREATE TRIGGER `after_kelompok_bisnis_insert` AFTER INSERT ON `kelompok_bisnis` FOR EACH ROW BEGIN
+  INSERT INTO kelompok_bisnis_backup 
+  (id_kelompok, npm_ketua, nama_kelompok, nama_bisnis, logo_bisnis, tahun_akademik_id, kategori_bisnis, sdg, ide_bisnis, id_mentor, status_inkubasi, status_kelompok_bisnis)
+  VALUES 
+  (NEW.id_kelompok, NEW.npm_ketua, NEW.nama_kelompok, NEW.nama_bisnis, NEW.logo_bisnis, NEW.tahun_akademik_id, NEW.kategori_bisnis, NEW.sdg, NEW.ide_bisnis, NEW.id_mentor, NEW.status_inkubasi, NEW.status_kelompok_bisnis);
 END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `after_update_kelompok_bisnis` AFTER UPDATE ON `kelompok_bisnis` FOR EACH ROW BEGIN
-    UPDATE kelompok_bisnis_backup
-    SET 
-        npm_ketua = NEW.npm_ketua,
-        nama_kelompok = NEW.nama_kelompok,
-        nama_bisnis = NEW.nama_bisnis,
-        logo_bisnis = NEW.logo_bisnis,
-        tahun_akademik_id = NEW.tahun_akademik_id,
-        kategori_bisnis = NEW.kategori_bisnis,
-        sdg = NEW.sdg,
-        ide_bisnis = NEW.ide_bisnis,
-        id_mentor = NEW.id_mentor,
-        status_inkubasi = NEW.status_inkubasi,
-        status_kelompok_bisnis = 
-            CASE 
-                WHEN NEW.status_inkubasi IS NULL THEN 'aktif'
-                WHEN NEW.status_inkubasi IN ('direkomendasikan', 'disetujui') THEN 'aktif'
-                ELSE 'nonaktif'
-            END
-    WHERE id_kelompok = NEW.id_kelompok;
+CREATE TRIGGER `after_kelompok_bisnis_update` AFTER UPDATE ON `kelompok_bisnis` FOR EACH ROW BEGIN
+  UPDATE kelompok_bisnis_backup
+  SET 
+    npm_ketua = NEW.npm_ketua,
+    nama_kelompok = NEW.nama_kelompok,
+    nama_bisnis = NEW.nama_bisnis,
+    logo_bisnis = NEW.logo_bisnis,
+    tahun_akademik_id = NEW.tahun_akademik_id,
+    kategori_bisnis = NEW.kategori_bisnis,
+    sdg = NEW.sdg,
+    ide_bisnis = NEW.ide_bisnis,
+    id_mentor = NEW.id_mentor,
+    status_inkubasi = NEW.status_inkubasi,
+    status_kelompok_bisnis = NEW.status_kelompok_bisnis
+  WHERE id_kelompok = NEW.id_kelompok;
 END
 $$
 DELIMITER ;
@@ -277,7 +268,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `kelompok_bisnis_backup` (
-  `id_kelompok` int(11) NOT NULL DEFAULT 0,
+  `id_kelompok` int(11) NOT NULL,
   `npm_ketua` varchar(20) DEFAULT NULL,
   `nama_kelompok` varchar(50) DEFAULT NULL,
   `nama_bisnis` varchar(50) DEFAULT NULL,
@@ -287,20 +278,20 @@ CREATE TABLE `kelompok_bisnis_backup` (
   `sdg` varchar(255) DEFAULT NULL,
   `ide_bisnis` varchar(255) DEFAULT NULL,
   `id_mentor` int(11) DEFAULT NULL,
-  `status_kelompok_bisnis` enum('aktif','tidak aktif') DEFAULT 'aktif',
-  `status_inkubasi` enum('direkomendasikan','disetujui','ditolak') DEFAULT NULL
+  `status_inkubasi` enum('direkomendasikan','disetujui','ditolak','masuk','tidak masuk') DEFAULT NULL,
+  `status_kelompok_bisnis` enum('aktif','tidak aktif') DEFAULT 'aktif'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `kelompok_bisnis_backup`
 --
 
-INSERT INTO `kelompok_bisnis_backup` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `logo_bisnis`, `tahun_akademik_id`, `kategori_bisnis`, `sdg`, `ide_bisnis`, `id_mentor`, `status_kelompok_bisnis`, `status_inkubasi`) VALUES
-(20, '1402022071', 'MACAN', 'a', 'hq720.jpg', 18, 'Bisnis Teknologi atau Digital', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'TESTER', 1, 'aktif', 'direkomendasikan'),
-(25, '1402022055', 'TESTER', 'BISNIS AYAM', 'wlpper.jpg', 18, NULL, NULL, NULL, 2, 'aktif', NULL),
-(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 2, 'aktif', NULL),
-(27, '1402022013', 'Nothing To Loser', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, NULL, 'tidak aktif', NULL),
-(28, '1402022013', 'Tester', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, NULL, 'aktif', NULL);
+INSERT INTO `kelompok_bisnis_backup` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `logo_bisnis`, `tahun_akademik_id`, `kategori_bisnis`, `sdg`, `ide_bisnis`, `id_mentor`, `status_inkubasi`, `status_kelompok_bisnis`) VALUES
+(20, '1402022071', 'MACAN', 'a', 'hq720.jpg', 18, 'Bisnis Teknologi atau Digital', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'TESTER', 1, 'masuk', 'aktif'),
+(25, '1402022055', 'TESTER', 'BISNIS AYAM', 'wlpper.jpg', 17, NULL, NULL, NULL, 2, '', 'tidak aktif'),
+(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 2, NULL, 'aktif'),
+(28, '1402022013', 'Cappo', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, NULL, 'direkomendasikan', 'aktif'),
+(30, '1402022055', 'IYADEH', 'Bisnis Kerapu', 'wlpper.jpg', 18, NULL, NULL, NULL, NULL, NULL, 'aktif');
 
 -- --------------------------------------------------------
 
@@ -328,8 +319,10 @@ CREATE TABLE `laporan_bisnis` (
 --
 
 INSERT INTO `laporan_bisnis` (`id`, `judul_laporan`, `jenis_laporan`, `laporan_penjualan`, `laporan_pemasaran`, `laporan_produksi`, `laporan_sdm`, `laporan_keuangan`, `laporan_pdf`, `tanggal_upload`, `id_kelompok`, `feedback`) VALUES
+(20, 'Laporan 1', 'laporan_kemajuan', '', '', '', '', '', NULL, '2025-01-06 07:11:45', NULL, NULL),
 (52, 'Laporan 1', 'laporan_kemajuan', '', '', '', '', '', '[\"Progres Kerja tanggal 23 December 2024 (1402022055).pdf\",\"Progres Kerja tanggal 18 December 2024 (1402022055) (1).pdf\",\"Progres Kerja tanggal 16 December 2024 (1402022055) (1) (1).pdf\"]', '2024-12-25 14:39:27', 20, 'bagus laporanya'),
-(53, 'LAPORAN 1', 'laporan_kemajuan', 'TES', 'TES', 'TES', 'TES', 'TES', '[\"0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf\",\"Buku-Modul-Kuliah-Kewirausahaan.pdf\"]', '2024-12-29 12:00:03', 26, 'LAPORAN YANG BAGUS');
+(53, 'LAPORAN 1', 'laporan_kemajuan', 'TES', 'TES', 'TES', 'TES', 'TES', '[\"0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf\",\"Buku-Modul-Kuliah-Kewirausahaan.pdf\"]', '2024-12-29 12:00:03', 26, 'LAPORAN YANG BAGUS'),
+(54, 'Laporan 2', 'laporan_kemajuan', '', '', '', '', '', '[\"Kartu Ujian Basing.pdf\"]', '2025-01-06 07:03:27', 20, NULL);
 
 --
 -- Trigger `laporan_bisnis`
@@ -394,7 +387,10 @@ CREATE TABLE `laporan_bisnis_backup` (
 
 INSERT INTO `laporan_bisnis_backup` (`id`, `judul_laporan`, `jenis_laporan`, `laporan_penjualan`, `laporan_pemasaran`, `laporan_produksi`, `laporan_sdm`, `laporan_keuangan`, `laporan_pdf`, `tanggal_upload`, `id_kelompok`, `feedback`) VALUES
 (52, 'Laporan 1', 'laporan_kemajuan', '', '', '', '', '', '[\"Progres Kerja tanggal 23 December 2024 (1402022055).pdf\",\"Progres Kerja tanggal 18 December 2024 (1402022055) (1).pdf\",\"Progres Kerja tanggal 16 December 2024 (1402022055) (1) (1).pdf\"]', '2024-12-25 14:39:27', 20, 'bagus laporanya'),
-(53, 'LAPORAN 1', 'laporan_kemajuan', 'TES', 'TES', 'TES', 'TES', 'TES', '[\"0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf\",\"Buku-Modul-Kuliah-Kewirausahaan.pdf\"]', '2024-12-29 12:00:03', 26, 'LAPORAN YANG BAGUS');
+(53, 'LAPORAN 1', 'laporan_kemajuan', 'TES', 'TES', 'TES', 'TES', 'TES', '[\"0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf\",\"Buku-Modul-Kuliah-Kewirausahaan.pdf\"]', '2024-12-29 12:00:03', 26, 'LAPORAN YANG BAGUS'),
+(54, 'Laporan 2', 'laporan_kemajuan', '', '', '', '', '', '[\"Kartu Ujian Basing.pdf\"]', '2025-01-06 07:03:27', 20, NULL),
+(20, 'Laporan 1', 'laporan_kemajuan', '', '', '', '', '', NULL, '2025-01-06 07:11:45', NULL, NULL),
+(55, 'Laporan 10', 'laporan_kemajuan', '', '', '', '', '', '[\"Kartu Ujian Basing_2.pdf\"]', '2025-01-06 07:18:53', 20, NULL);
 
 -- --------------------------------------------------------
 
@@ -852,7 +848,26 @@ INSERT INTO `log_activity` (`id`, `timestamp`, `username`, `ip_address`, `user_a
 (458, '2025-01-04 17:37:55', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-04 17:38:16', ''),
 (459, '2025-01-04 17:38:24', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
 (460, '2025-01-04 17:40:32', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
-(461, '2025-01-04 17:40:52', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, '');
+(461, '2025-01-04 17:40:52', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(462, '2025-01-06 05:07:59', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-06 05:09:26', ''),
+(463, '2025-01-06 05:09:31', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-06 06:55:17', ''),
+(464, '2025-01-06 06:55:36', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(465, '2025-01-06 06:56:19', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
+(466, '2025-01-06 06:56:59', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(467, '2025-01-06 06:58:25', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-06 07:49:10', '');
+INSERT INTO `log_activity` (`id`, `timestamp`, `username`, `ip_address`, `user_agent`, `status`, `role`, `aksi`, `error_message`, `logout_time`, `session_token`) VALUES
+(468, '2025-01-06 07:49:19', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(469, '2025-01-06 07:49:34', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-06 08:05:30', ''),
+(470, '2025-01-06 08:05:38', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(471, '2025-01-06 10:09:28', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-06 10:32:20', ''),
+(472, '2025-01-06 10:32:28', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
+(473, '2025-01-06 10:32:59', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
+(474, '2025-01-06 10:33:34', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(475, '2025-01-06 10:50:00', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(476, '2025-01-06 11:25:29', 'admin3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Tutor', 'Login', '', NULL, ''),
+(477, '2025-01-06 11:25:57', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(478, '2025-01-06 12:00:45', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(479, '2025-01-06 12:35:21', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -884,11 +899,11 @@ INSERT INTO `mahasiswa` (`id`, `user_id`, `nama`, `npm`, `program_studi`, `tahun
 (6, 10, 'John Doe', '1402023001', 'Teknik Informatika', '2023/2024 Teknik Informatika', 'Johndoe@gmail.com', '087654327778', NULL, 20, NULL),
 (9, 19, 'ridho odir', '1402022071', 'Teknik Informatika', '2022 / 2023 Ganjil (Semester 5)', 'bcakun71@gmail.com', '0897653617', 'Fakultas Teknologi Informasi', 20, NULL),
 (10, 20, 'fitra rama', '1402022033', 'Teknik Informatika', '2022 / 2023 Ganjil (Semester 5)', 'riskyarur@gmail.com', '08963546662', 'Fakultas Teknologi Informasi', 20, NULL),
-(17, 26, 'Ridho Syahfero', '1402022055', '', '', 'ridhosyahfero35@gmail.com', '089637167774', NULL, 25, 'Jl.Remaja 3 Gg gabus RT.9/RW.8 No.27'),
-(18, 27, 'Muhammad Fadly Abdillah', '1402022040', '', '', 'ridhosyahfero35@gmail.com', '087828628734', NULL, 25, 'JL Sungai Kapuas IV, Semper Barat, Cilincing, Jakarta Utara'),
+(17, 26, 'Ridho Syahfero', '1402022055', '', '', 'ridhosyahfero35@gmail.com', '089637167774', NULL, 30, 'Jl.Remaja 3 Gg gabus RT.9/RW.8 No.27'),
+(18, 27, 'Muhammad Fadly Abdillah', '1402022040', '', '', 'ridhosyahfero35@gmail.com', '087828628734', NULL, 30, 'JL Sungai Kapuas IV, Semper Barat, Cilincing, Jakarta Utara'),
 (21, 32, 'Muhammad Asril Afandhi', '1402022068', 'Teknik Informatika', '2022 / 2023 Ganjil (Semester 5)', 'Johndoe@gmail.com', '082113185983', 'Teknologi Informasi', 26, 'KAMP RAWA PASUNG'),
 (22, 33, 'Bilal Hakkul Mubin', '1402022013', 'Teknik Informatika', '2022 / 2023 Ganjil (Semester 5)', 'Johndoe@gmail.com', '081317254563', 'Teknologi Informasi', 28, 'Jalan Lagoa Gg1 C1 Terusan No 14'),
-(23, 34, 'Salsha Billa Yunita Sari', '1502022028', 'Ilmu Perpustakaan', '2022 / 2023 Ganjil (Semester 5)', 'salsabilla@gmailc.com', '083834155938', 'Teknologi Informasi', NULL, 'Jl. Kalibaru Barat IV No.05'),
+(23, 34, 'Salsha Billa Yunita Sari', '1502022028', 'Ilmu Perpustakaan', '2022 / 2023 Ganjil (Semester 5)', 'salsabilla@gmailc.com', '083834155938', 'Teknologi Informasi', 30, 'Jl. Kalibaru Barat IV No.05'),
 (24, 35, 'I KOMANG ABIMANYU', '1402016053', 'Teknik Informatika', '2016 / 2017 Genap (Semester 20)', 'komangabi@gmail.com', '089637203833', 'Teknologi Informasi', 28, 'JL.TARNA BARU NO.23 RT/RW:003/010');
 
 -- --------------------------------------------------------
@@ -969,10 +984,7 @@ CREATE TABLE `proposal_bisnis` (
 
 INSERT INTO `proposal_bisnis` (`id`, `judul_proposal`, `tahapan_bisnis`, `sdg`, `kategori`, `other_category`, `proposal_pdf`, `kelompok_id`, `status`, `ide_bisnis`, `feedback`, `anggaran`) VALUES
 (35, 'TESTER PROPOSAL', 'Tahapan Bertumbuh', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'Bisnis Teknologi atau Digital', '', 'Progres Kerja tanggal 16 December 2024 (1402022055).pdf', 20, 'disetujui', 'TESTER', 'BAGUS BANGET', NULL),
-(36, 'PROPOSAL 1', 'Tahapan Awal', 'mengakhiri_kemiskinan', 'Bisnis Konstruksi dan Real Estate', '', 'Progres Kerja tanggal 23 December 2024 (1402022055).pdf', 25, 'menunggu', 'BISNIS IDE', 'tes', NULL),
-(40, 'PROPOSAL 2', 'Tahapan Awal', 'mengakhiri_kemiskinan', 'Bisnis Konstruksi dan Real Estate', '', 'Progres Kerja tanggal 23 December 2024 (1402022055) (1).pdf', 25, 'menunggu', 'CAUSE THIS IS ALL WE KNOW', NULL, NULL),
-(41, 'PROPOSAL 1', 'Tahapan Awal', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'Bisnis Konstruksi dan Real Estate', '', 'Buku-Modul-Kuliah-Kewirausahaan.pdf', 26, 'disetujui', 'TES', 'Proposal Anda memiliki tujuan yang bagus', NULL),
-(42, 'proposal 3', 'Tahapan Awal', 'mengakhiri_kemiskinan', 'Bisnis Pariwisata dan Perhotelan', '', 'Progres Kerja tanggal 31December 2024 (1402022055).pdf', 25, 'menunggu', 'Bisnis Kambing', NULL, 20000);
+(41, 'PROPOSAL 1', 'Tahapan Awal', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'Bisnis Konstruksi dan Real Estate', '', 'Buku-Modul-Kuliah-Kewirausahaan.pdf', 26, 'disetujui', 'TES', 'Proposal Anda memiliki tujuan yang bagus', NULL);
 
 --
 -- Trigger `proposal_bisnis`
@@ -1194,7 +1206,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `anggota_kelompok`
 --
 ALTER TABLE `anggota_kelompok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT untuk tabel `jadwal`
@@ -1206,19 +1218,19 @@ ALTER TABLE `jadwal`
 -- AUTO_INCREMENT untuk tabel `kelompok_bisnis`
 --
 ALTER TABLE `kelompok_bisnis`
-  MODIFY `id_kelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_kelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT untuk tabel `laporan_bisnis`
 --
 ALTER TABLE `laporan_bisnis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT untuk tabel `log_activity`
 --
 ALTER TABLE `log_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=462;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=480;
 
 --
 -- AUTO_INCREMENT untuk tabel `mahasiswa`

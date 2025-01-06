@@ -1,7 +1,6 @@
 <?php
 session_start();
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
-
 // Ambil kelompok_id dari URL
 $kelompok_id = $_GET['id'] ?? null;
 
@@ -195,8 +194,9 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                         <p>Apakah kelompok anda menyetujui untuk masuk ke dalam Program?</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Tolak</button>
-                                                        <button type="submit" class="btn btn-secondary btn-submit">Setujui</button>
+                                                        <button type="button" class="btn btn-secondary btn-batal" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-danger btn-cancel">Tolak</button>
+                                                        <button type="submit" class="btn btn-success btn-submit">Setujui</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -204,39 +204,81 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                     </div>
 
                                     <script>
-                                    document.getElementById('recommendationForm').addEventListener('submit', function(event) {
-                                        event.preventDefault(); // Prevent form submission
+                                        document.getElementById('recommendationForm').addEventListener('submit', function(event) {
+                                            event.preventDefault(); // Prevent form submission
 
-                                        const isApprove = event.submitter.classList.contains('btn-submit');
-                                        const kelompokId = <?php echo $kelompok_id; ?>; // Assuming you have the id_kelompok available in PHP
-                                        
-                                        fetch('update_status_inkubasi.php', {
-                                            method: 'POST',
-                                            headers: {
-                                                'Content-Type': 'application/x-www-form-urlencoded',
-                                            },
-                                            body: `id_kelompok=${kelompokId}&status_inkubasi=${isApprove ? 'disetujui' : 'ditolak'}`
-                                        })
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            if (data.success) {
-                                                // Update button status
-                                                const programInkubasiButton = document.getElementById('programInkubasiButton');
+                                            const isApprove = event.submitter.classList.contains('btn-submit');
+                                            const kelompokId = <?php echo $kelompok_id; ?>; // Assuming you have the id_kelompok available in PHP
+                                            
+                                            fetch('update_status_inkubasi.php', {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/x-www-form-urlencoded',
+                                                },
+                                                body: `id_kelompok=${kelompokId}&status_inkubasi=${isApprove ? 'disetujui' : 'ditolak'}`
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    // Update button status
+                                                    updateButtonStatus(isApprove);
+                                                    
+                                                    // Close the modal
+                                                    const modal = bootstrap.Modal.getInstance(document.getElementById('recommendationModal'));
+                                                    modal.hide();
+
+                                                    // Display the Toast message
+                                                    const toastElement = new bootstrap.Toast(document.getElementById('toastMessage'));
+                                                    toastElement.show();
+        
+                                                } else {
+                                                    alert('Gagal memperbarui status inkubasi');
+                                                }
+                                            })
+                                            .catch(error => console.error('Error:', error));
+                                        });
+
+                                        // Fungsi untuk mengubah tombol sesuai status
+                                        function updateButtonStatus(isApprove) {
+                                            const programInkubasiButton = document.getElementById('programInkubasiButton');
+                                            
+                                            if (isApprove === null) {
+                                                programInkubasiButton.classList.remove('btn-success', 'btn-danger');
+                                                programInkubasiButton.classList.add('btn-secondary');
+                                                programInkubasiButton.textContent = 'Program Inkubasi';
+                                                programInkubasiButton.disabled = false;
+                                            } else {
+                                                programInkubasiButton.classList.remove('btn-secondary');
+                                                programInkubasiButton.disabled = true;
                                                 if (isApprove) {
-                                                    programInkubasiButton.classList.remove('btn-secondary');
                                                     programInkubasiButton.classList.add('btn-success');
                                                     programInkubasiButton.textContent = 'Disetujui';
                                                 } else {
-                                                    programInkubasiButton.classList.remove('btn-secondary');
                                                     programInkubasiButton.classList.add('btn-danger');
                                                     programInkubasiButton.textContent = 'Ditolak';
                                                 }
-                                            } else {
-                                                alert('Gagal memperbarui status inkubasi');
                                             }
-                                        })
-                                        .catch(error => console.error('Error:', error));
-                                    });
+                                        }
+
+                                        // Memeriksa status inkubasi saat halaman dimuat
+                                        window.onload = function() {
+                                            // Ambil status inkubasi dari server
+                                            fetch('get_status_inkubasi.php') // Sesuaikan dengan endpoint yang mengambil status inkubasi dari database
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.status === 'disetujui') {
+                                                        updateButtonStatus(true);
+                                                        localStorage.setItem('inkubasiStatus', 'disetujui');
+                                                    } else if (data.status === 'ditolak') {
+                                                        updateButtonStatus(false);
+                                                        localStorage.setItem('inkubasiStatus', 'ditolak');
+                                                    } else {
+                                                        // Jika status belum disetujui atau ditolak, status tetap program inkubasi
+                                                        updateButtonStatus(null);
+                                                    }
+                                                })
+                                                .catch(error => console.error('Error fetching status:', error));
+                                        };
                                     </script>
 
                                     <!-- JavaScript untuk Tooltip -->
@@ -387,6 +429,20 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
             </div>
         </div>
     </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="toastMessage" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Status Program Inkubasi</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Status Program Inkubasi berhasil diperbarui.
+            </div>
+        </div>
+    </div>
+
     <script>
         // Handle form submission
         document.getElementById('editForm').addEventListener('submit', function (event) {

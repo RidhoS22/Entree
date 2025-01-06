@@ -7,7 +7,7 @@ $id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
 
 if ($id_kelompok) {
     // Query untuk mengambil detail kelompok bisnis berdasarkan id
-    $sql = "SELECT * FROM kelompok_bisnis WHERE id_kelompok = $id_kelompok";
+    $sql = "SELECT * FROM kelompok_bisnis_backup WHERE id_kelompok = $id_kelompok";
     $result = $conn->query($sql);
     $kelompok = $result->fetch_assoc();
 
@@ -51,14 +51,6 @@ if (!empty($kelompok['id_mentor'])) {
 
 $mentorAda = !empty($kelompok['id_mentor']);
 
-// $mentorQuery = "
-//     SELECT m.nama AS nama_mentor
-//     FROM mentor m
-//     WHERE m.id = '" . $kelompok['id_mentor'] . "' LIMIT 1";
-// $mentorResult = mysqli_query($conn, $mentorQuery);
-// $mentor = mysqli_fetch_assoc($mentorResult);
-// $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
-
 $sql = "SELECT * FROM jadwal WHERE id_klmpk = ? ORDER BY tanggal, waktu";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_kelompok); // Bind parameter id_kelompok
@@ -74,6 +66,19 @@ while ($row = $result->fetch_assoc()) {
         $totalSelesai++; // Tambahkan 1 jika status 'selesai'
     }
 }
+
+// Cek status_inkubasi dari tabel kelompok_bisnis
+$sql = "SELECT status_inkubasi FROM kelompok_bisnis WHERE id_kelompok = $id_kelompok";
+$result = $conn->query($sql);
+
+$status_inkubasi = null;
+if ($result && $result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $status_inkubasi = $row['status_inkubasi'];
+}
+
+// Tentukan apakah tombol terkunci jika statusnya null atau ditolak
+$is_locked = is_null($status_inkubasi) || $status_inkubasi === 'ditolak';
 
 // Mapping SDG
 $sdg_mapping = [
@@ -169,53 +174,74 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                         <div class="title-edit">
                             <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
                             <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompok['nama_kelompok']); ?>" style="display: none;" />
-                            <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#recommendationModal">
+                            <button type="button" 
+                                    class="btn btn-secondary mt-3" 
+                                    id="programInkubasiButton" 
+                                    <?php if ($is_locked): ?>
+                                        data-bs-toggle="tooltip" 
+                                        data-bs-placement="top" 
+                                    <?php else: ?>
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#recommendationModal"
+                                    <?php endif; ?>>
                                 Program Inkubasi
                             </button>
-                            <!-- Modal Rekomendasi -->
+
                             <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="recommendationModalLabel">Rekomendasi Program Inkubasi</h5>
+                                            <h5 class="modal-title" id="recommendationModalLabel">Program Inkubasi</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">
-                                            <p>Apakah Anda menyetujui rekomendasi dari mentor bisnis untuk memasukkan kelompok ini ke dalam Program Inkubasi Bisnis?</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
-                                            <button type="button" class="btn btn-secondary btn-submit" id="submitRecommendation" data-bs-dismiss="modal">Iya</button>
-                                        </div>
+                                        <form id="recommendationForm">
+                                            <div class="modal-body">
+                                                <p>Apakah Anda menyetujui rekomendasi dari mentor bisnis untuk memasukkan kelompok ini ke dalam Program Inkubasi Bisnis?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary btn-batal" data-bs-dismiss="modal">Batal</button>
+                                                <button type="button" class="btn btn-danger btn-cancel">Tolak</button>
+                                                <button type="button" class="btn btn-success btn-submit">Setujui</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
 
                             <script>
-                                document.getElementById('submitRecommendation').addEventListener('click', function() {
-                                    // Ambil ID kelompok dari URL
-                                    const urlParams = new URLSearchParams(window.location.search);
-                                    const kelompokId = <?php echo $id_kelompok; ?>
+                                // Handle clicking on either 'Setujui' or 'Tolak'
+                                document.querySelector('.btn-submit').addEventListener('click', function() {
+                                    updateInkubasiStatus('masuk'); // Approve the incubation program
+                                });
 
+                                document.querySelector('.btn-cancel').addEventListener('click', function() {
+                                    updateInkubasiStatus('tidak masuk'); // Reject the incubation program
+                                });
+
+                                // Function to update the incubation status
+                                function updateInkubasiStatus(status) {
+                                    // Get the ID of the business group (kelompok) from PHP
+                                    const kelompokId = <?php echo $id_kelompok; ?>;
+
+                                    // Check if the group ID is valid
                                     if (kelompokId) {
-                                        // Kirim data ke server menggunakan AJAX
-                                        fetch('update_kelompok_status.php', {
+                                        // Send data to the server using AJAX
+                                        fetch('update_status_inkubasi.php', {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/x-www-form-urlencoded',
                                             },
-                                            body: `id_kelompok=${kelompokId}&status_inkubasi=direkomendasikan`
+                                            body: `id_kelompok=${kelompokId}&status_inkubasi=${status}`
                                         })
                                         .then(response => response.json())
                                         .then(data => {
                                             if (data.success) {
-                                                // Tampilkan pesan toast
-                                                let toastMessage = document.createElement('div');
-                                                toastMessage.classList.add('toast', 'show');
-                                                toastMessage.classList.add('toast-success');
-                                                toastMessage.textContent = 'Kelompok bisnis berhasil direkomendasikan ke dalam program inkubasi bisnis.';
-                                                document.body.appendChild(toastMessage);
-                                                setTimeout(() => toastMessage.classList.remove('show'), 3000); // Hilangkan toast setelah 3 detik
+
+                                                // Update the status button based on approval/rejection
+                                                updateButtonStatus(status === 'masuk');
+
+                                                // Display success toast message
+                                                showToastMessage(status === 'masuk');
                                             } else {
                                                 alert('Gagal mengupdate status');
                                             }
@@ -223,6 +249,80 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                         .catch(error => console.error('Error:', error));
                                     } else {
                                         alert('ID kelompok tidak ditemukan');
+                                    }
+                                }
+
+                                // Function to show a success toast message
+                                function showToastMessage(isApproved) {
+                                    const toastMessage = document.createElement('div');
+                                    toastMessage.classList.add('toast', 'show');
+                                    toastMessage.classList.add(isApproved ? 'toast-success' : 'toast-danger');
+                                    toastMessage.textContent = isApproved ? 'Kelompok bisnis berhasil masuk ke dalam program inkubasi bisnis.' : 'Kelompok bisnis ditolak dari program inkubasi.';
+                                    document.body.appendChild(toastMessage);
+                                    setTimeout(() => toastMessage.classList.remove('show'), 3000); // Hide toast after 3 seconds
+                                }
+
+                                // Function to update the program incubation button based on approval/rejection
+                                function updateButtonStatus(isApproved) {
+                                    const programInkubasiButton = document.getElementById('programInkubasiButton');
+                                    
+                                    if (isApproved === null) {
+                                        programInkubasiButton.classList.remove('btn-success', 'btn-danger');
+                                        programInkubasiButton.classList.add('btn-secondary');
+                                        programInkubasiButton.textContent = 'Program Inkubasi';
+                                        programInkubasiButton.disabled = false;
+                                    } else {
+                                        programInkubasiButton.classList.remove('btn-secondary');
+                                        programInkubasiButton.disabled = true;
+                                        if (isApproved) {
+                                            programInkubasiButton.classList.add('btn-success');
+                                            programInkubasiButton.textContent = 'masuk';
+                                        } else {
+                                            programInkubasiButton.classList.add('btn-danger');
+                                            programInkubasiButton.textContent = 'tidak masuk';
+                                        }
+                                    }
+                                }
+
+                                // Memeriksa status inkubasi saat halaman dimuat
+                                window.onload = function() {
+                                    // Ambil status inkubasi dari server
+                                    fetch('get_status_inkubasi.php') // Sesuaikan dengan endpoint yang mengambil status inkubasi dari database
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.status === 'masuk') {
+                                                updateButtonStatus(true);
+                                                localStorage.setItem('inkubasiStatus', 'masuk');
+                                            } else if (data.status === 'tidak masuk') {
+                                                updateButtonStatus(false);
+                                                localStorage.setItem('inkubasiStatus', 'tidak masuk');
+                                            } else {
+                                                // Jika status belum disetujui atau ditolak, status tetap program inkubasi
+                                                updateButtonStatus(null);
+                                            }
+                                        })
+                                        .catch(error => console.error('Error fetching status:', error));
+                                };
+                            </script>
+
+                            <!-- JavaScript untuk Tooltip -->
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    const isLocked = <?php echo $is_locked ? 'true' : 'false'; ?>;
+                                    const button = document.getElementById("programInkubasiButton");
+
+                                    if (isLocked) {
+                                        // Inisialisasi tooltip
+                                        const tooltip = new bootstrap.Tooltip(button, {
+                                            title: "Tidak tersedia kecuali Program Inkubasi Bisnis disetujui oleh kelompok bisnis yang direkomendasikan",
+                                            placement: "top",
+                                            trigger: "hover"
+                                        });
+
+                                        // Cegah aksi klik pada tombol jika terkunci
+                                        button.addEventListener("click", function(event) {
+                                            event.preventDefault();
+                                        });
                                     }
                                 });
                             </script>

@@ -2,12 +2,71 @@
 // Mengimpor koneksi database
 include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
 
-// Query untuk mengambil data kelompok bisnis
-$sql = "SELECT * FROM kelompok_bisnis_backup";
-$result = $conn->query($sql);
-
 // Ambil kata kunci pencarian jika ada
 $search = isset($_GET['search']) ? $_GET['search'] : '';
+
+// Ambil status inkubasi dari dropdown
+$status_inkubasi = isset($_GET['status_inkubasi']) ? $_GET['status_inkubasi'] : 'semua'; // Ambil status inkubasi yang dipilih
+
+// Ambil tahun akademik yang dipilih dari dropdown
+$tahun_akademik = isset($_GET['tahun_akademik']) ? $_GET['tahun_akademik'] : ''; // Format: 2024/2025 Ganjil
+
+$tahun_akademik_id = null; // Inisialisasi variabel tahun_akademik_id
+
+// Jika tahun akademik dipilih, pisahkan tahun dan jenis tahun
+if ($tahun_akademik) {
+    list($tahun_awal, $tahun_akhir_jenis) = explode('/', $tahun_akademik);
+    list($tahun_akhir, $jenis_tahun) = explode(' ', $tahun_akhir_jenis);
+    
+    // Query untuk mendapatkan tahun_akademik_id berdasarkan tahun dan jenis_tahun
+    $tahunAkademikSql = "SELECT id FROM tahun_akademik WHERE tahun = ? AND jenis_tahun = ?";
+    $stmtTahunAkademik = $conn->prepare($tahunAkademikSql);
+    $stmtTahunAkademik->bind_param('ss', $tahun_awal, $jenis_tahun);
+    $stmtTahunAkademik->execute();
+    $resultTahunAkademik = $stmtTahunAkademik->get_result();
+    
+    if ($resultTahunAkademik->num_rows > 0) {
+        $tahun_akademik_id = $resultTahunAkademik->fetch_assoc()['id'];
+    }
+}
+
+// Membuat query dasar berdasarkan pencarian
+$sql = "SELECT * FROM kelompok_bisnis_backup WHERE nama_kelompok LIKE ?";
+
+// Jika status inkubasi dipilih selain 'semua', tambahkan filter untuk status inkubasi
+if ($status_inkubasi != 'semua') {
+    $sql .= " AND status_inkubasi = ?";
+}
+
+// Jika tahun akademik dipilih dan ditemukan id, tambahkan filter berdasarkan tahun_akademik_id
+if ($tahun_akademik_id) {
+    $sql .= " AND tahun_akademik_id = ?";
+}
+
+// Siapkan query
+$stmt = $conn->prepare($sql);
+
+// Bind parameter untuk pencarian
+$search_param = "%" . $search . "%";
+
+// Jika status inkubasi ada, bind parameter status inkubasi dan tahun_akademik_id
+if ($status_inkubasi != 'semua' && $tahun_akademik_id) {
+    $stmt->bind_param('sss', $search_param, $status_inkubasi, $tahun_akademik_id);
+} elseif ($status_inkubasi != 'semua') {
+    $stmt->bind_param('ss', $search_param, $status_inkubasi);
+} elseif ($tahun_akademik_id) {
+    $stmt->bind_param('ss', $search_param, $tahun_akademik_id);
+} else {
+    $stmt->bind_param('s', $search_param);
+}
+
+// Eksekusi query
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Query untuk mengambil data tahun akademik
+$tahunAkademik = "SELECT tahun, jenis_tahun FROM tahun_akademik ORDER BY tahun DESC";
+$resulTahun = $conn->query($tahunAkademik);
 ?>
 
 <!DOCTYPE html>
@@ -72,32 +131,59 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
                 <div class="nav_main_wrapper">
                     <nav class="navbar navbar-expand-lg">
                         <div class="container-fluid">
-                            <select name="year" class="form-select filter-tahun" required>
+                        <form method="get" action="daftar_kelompok_bisnis_admin.php">
+                            <select name="tahun_akademik" class="form-select filter-tahun" required>
                                 <option value="" disabled selected>Pilih Tahun Akademik</option>
                                 <?php
-                                // Membuat dropdown tahun dari 2000 hingga tahun sekarang
-                                $currentYear = date('Y');
-                                for ($i = 2010; $i <= $currentYear; $i++) {
-                                    echo "<option value='$i'>$i</option>";
+                                // Query untuk mendapatkan tahun akademik dari database
+                                $tahunAkademikSql = "SELECT tahun, jenis_tahun FROM tahun_akademik ORDER BY tahun DESC";
+                                $resultTahun = $conn->query($tahunAkademikSql);
+
+                                while ($row = $resultTahun->fetch_assoc()) {
+                                    $tahunAkademikOption = $row['tahun'] . '/' . ($row['tahun'] + 1) . ' ' . $row['jenis_tahun'];
+                                    echo "<option value='$tahunAkademikOption'>$tahunAkademikOption</option>";
                                 }
                                 ?>
                             </select>
-                            <form class="d-flex" role="search">
-                                <input class="form-control me-2" type="search" placeholder="Cari Kelompok" aria-label="Search">
-                                <button class="btn btn-outline-success" type="submit">Cari</button>
+                            <button type="submit">Filter</button>
+                        </form>
+                            <form action="" method="get">
+                                    <div class="input-group">
+                                        <div class="d-flex" role="search">
+                                        <input type="text" class="form-control me-2" placeholder="Cari Kelompok Bisnis" name="search" aria-label="Search" value="<?= htmlspecialchars($search); ?>">
+                                        <button class="btn btn-outline-success" type="submit">Cari</button>
+                                    </div>
+                                </div>
                             </form>
 
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
-                                        id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Semua Kelompok
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" href="#" data-status="btn-secondary">Semua Kelompok</a></li>
-                                    <li><a class="dropdown-item" href="#" data-status="btn-success">Direkomendasi</a></li>
-                                    <li><a class="dropdown-item" href="#" data-status="btn-info">Program Inkubasi</a></li>
-                                </ul>
-                            </div>
+                            <form method="GET" action="daftar_kelompok_bisnis_admin.php">
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
+                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span id="selectedStatus">Semua Kelompok</span> <!-- Menampilkan status yang dipilih -->
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" href="#" data-status="semua">Semua Kelompok</a></li>
+                                        <li><a class="dropdown-item" href="#" data-status="direkomendasikan">Direkomendasi</a></li>
+                                        <li><a class="dropdown-item" href="#" data-status="masuk">Program Inkubasi</a></li>
+                                    </ul>
+                                    <input type="hidden" name="status_inkubasi" id="status_inkubasi" value="semua"> <!-- Input tersembunyi untuk mengirim status -->
+                                    <button class="btn btn-outline-success" type="submit">Filter</button>
+                                </div>
+                            </form>
+
+                            <script>
+                                // Menangani klik dropdown item dan update teks serta input tersembunyi
+                                document.querySelectorAll('.dropdown-item').forEach(function(item) {
+                                    item.addEventListener('click', function(e) {
+                                        e.preventDefault(); // Mencegah link membuka halaman baru
+                                        
+                                        var status = this.getAttribute('data-status'); // Ambil status yang dipilih
+                                        document.getElementById('selectedStatus').innerText = this.innerText; // Update teks pada tombol dropdown
+                                        document.getElementById('status_inkubasi').value = status; // Update nilai input tersembunyi dengan status yang dipilih
+                                    });
+                                });
+                            </script>
                         </div>
                     </nav>
                 </div>
@@ -108,13 +194,25 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
                     while ($row = $result->fetch_assoc()) {
                         $id_kelompok = $row['id_kelompok'];
                         $id_mentor = $row['id_mentor'];
+                
+                        // Query untuk mengambil nama mentor
                         $mentorQuery = "
                             SELECT m.nama AS nama_mentor
                             FROM mentor m
-                            WHERE m.id = '" . $id_mentor . "' LIMIT 1";
+                            WHERE m.id = '$id_mentor' LIMIT 1";
                         $mentorResult = mysqli_query($conn, $mentorQuery);
                         $mentor = mysqli_fetch_assoc($mentorResult);
                         $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
+                
+                        // Query untuk mengambil status inkubasi dan status kelompok bisnis
+                        $query = "SELECT status_inkubasi, status_kelompok_bisnis FROM kelompok_bisnis WHERE id_kelompok = '$id_kelompok' LIMIT 1";
+                        $resultStatus = mysqli_query($conn, $query);
+                        $statusRow = mysqli_fetch_assoc($resultStatus);
+                        
+                        // Pastikan status inkubasi tidak null, jika null set ke string kosong
+                        $status_inkubasi = $statusRow['status_inkubasi'] ?? 'Tidak Ada';
+                        $status_kelompok_bisnis = $statusRow['status_kelompok_bisnis'] ?? 'Tidak Ada';
+                
                         echo '
                             <div class="card" style="width: 45%; margin: 10px;">
                                 <div class="card-icon text-center py-4">
@@ -132,31 +230,38 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
                                         <tr>
                                             <td>Status Kelompok Bisnis</td>
                                             <td>';
-
+                
                                             // Menampilkan status dengan kelas yang sesuai
-                                            if ($row['status_kelompok_bisnis'] == 'aktif') {
-                                                echo '<span class="status-aktif">' . htmlspecialchars($row['status_kelompok_bisnis']) . '</span>';
+                                            if ($status_kelompok_bisnis == 'aktif') {
+                                                echo '<span class="status-aktif">' . htmlspecialchars($status_kelompok_bisnis) . '</span>';
                                             } else {
-                                                echo '<span class="status-nonaktif">' . htmlspecialchars($row['status_kelompok_bisnis']) . '</span>';
+                                                echo '<span class="status-nonaktif">' . htmlspecialchars($status_kelompok_bisnis) . '</span>';
                                             }
-
-                                    echo '
+                
+                                            echo '
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>Program Inkubasi Bisnis</td>
-                                        <td>'.htmlspecialchars($row['status_inkubasi'] ?? 'Tidak Ada').'</td>
+                                        <td>' . htmlspecialchars($status_inkubasi) . '</td>
                                     </tr>
-                                </tbody>
-                            </table>
-                            <div class="card-footer">
-                                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah Mentor</button>
-                                <a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
-                                    <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Kelompok Bisnis"></i>
-                                </a>
-                            </div>
-                        </div>';
-
+                                    </tbody>
+                                </table>
+                                <div class="card-footer">';
+                                
+                                // Menambahkan kondisi PHP untuk tombol "Tambah Mentor"
+                                if ($status_inkubasi == 'masuk') {
+                                    echo '
+                                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah/ubah Mentor Inkubasi</button>';
+                                }
+                                
+                                echo '
+                                    <a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
+                                        <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Kelompok Bisnis"></i>
+                                    </a>
+                                </div>
+                            </div>';
+                
                         echo '<div class="modal fade" id="mentorModal' . $id_kelompok . '" tabindex="-1" aria-labelledby="mentorModalLabel' . $id_kelompok . '" aria-hidden="true">';
                         echo '<div class="modal-dialog modal-dialog-centered modal-xl">';
                         echo '<div class="modal-content">';

@@ -17,7 +17,7 @@ $row = $result->fetch_assoc();
 $_SESSION['id_kelompok'] = $row['id_kelompok'];  // Menyimpan ID Kelompok di session
 
 // Ambil laporan berdasarkan ID kelompok
-$query = "SELECT id, judul_laporan FROM laporan_bisnis WHERE id_kelompok = ?";
+$query = "SELECT * FROM laporan_bisnis WHERE id_kelompok = ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $_SESSION['id_kelompok']);
 $stmt->execute();
@@ -36,6 +36,7 @@ $laporan_result = $stmt->get_result();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/laporan_bisnis.css">
 </head>
+    
 <body>
 <div class="wrapper">
         <?php 
@@ -160,8 +161,10 @@ $laporan_result = $stmt->get_result();
                                 </div>
                                 <div class="modal-body">
                                     <!-- Form -->
-                                    <form method="POST" action="proses_laporan.php" enctype="multipart/form-data" autocomplete="off">
+                                    <form method="POST" action="edit_laporan.php" enctype="multipart/form-data" autocomplete="off">
                                         <!-- Laporan Kemajuan Pengembangan Usaha -->
+                                        <input type="hidden" id="id_laporan" name="id_laporan">
+
                                         <div class="form-group">
                                             <label for="judul_laporan">Judul Laporan:<span style="color:red;">*</span></label>
                                             <input type="text" id="judul_laporan" name="judul_laporan" required>
@@ -250,9 +253,19 @@ $laporan_result = $stmt->get_result();
                         <div class="card">
                             <div class="card-header">
                                 <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
-                                <i class="fas fa-edit edit-icon" title="Edit Laporan Kemajuan Bisnis" 
-                                    data-bs-target="#exampleModal_Edit" 
-                                    data-bs-toggle="modal"></i>
+                                <i class="fas fa-edit edit-icon" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#exampleModal_Edit"
+                                    data-id="<?php echo $laporan['id']; ?>"
+                                    data-judul="<?php echo htmlspecialchars($laporan['judul_laporan']); ?>"
+                                    data-jenis="<?php echo htmlspecialchars($laporan['jenis_laporan']); ?>"
+                                    data-penjualan="<?php echo htmlspecialchars($laporan['laporan_penjualan']); ?>"
+                                    data-pemasaran="<?php echo htmlspecialchars($laporan['laporan_pemasaran']); ?>"
+                                    data-produksi="<?php echo htmlspecialchars($laporan['laporan_produksi']); ?>"
+                                    data-sdm="<?php echo htmlspecialchars($laporan['laporan_sdm']); ?>"
+                                    data-keuangan="<?php echo htmlspecialchars($laporan['laporan_keuangan']); ?>"
+                                    data-pdf="<?php echo htmlspecialchars($laporan['laporan_pdf']); ?>">
+                                </i>
                             </div>
                             <a href="detail_laporan_bisnis.php?id=<?php echo $id; ?>">
                             <div class="card-body">
@@ -273,6 +286,37 @@ $laporan_result = $stmt->get_result();
     </div>  
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const editIcons = document.querySelectorAll('.edit-icon');
+            const modal = document.querySelector('#exampleModal_Edit');
+
+            editIcons.forEach(icon => {
+                icon.addEventListener('click', () => {
+                    // Ambil data dari atribut
+                    const id = icon.getAttribute('data-id');
+                    const judul = icon.getAttribute('data-judul');
+                    const jenis = icon.getAttribute('data-jenis');
+                    const penjualan = icon.getAttribute('data-penjualan');
+                    const pemasaran = icon.getAttribute('data-pemasaran');
+                    const produksi = icon.getAttribute('data-produksi');
+                    const sdm = icon.getAttribute('data-sdm');
+                    const keuangan = icon.getAttribute('data-keuangan');
+                    const pdf = icon.getAttribute('data-pdf');
+
+                    // Isi modal dengan data
+                    modal.querySelector('#id_laporan').value = id;
+                    modal.querySelector('#judul_laporan').value = judul;
+                    modal.querySelector('#jenis_laporan').value = jenis;
+                    modal.querySelector('#laporan_penjualan').value = penjualan;
+                    modal.querySelector('#laporan_pemasaran').value = pemasaran;
+                    modal.querySelector('#laporan_produksi').value = produksi;
+                    modal.querySelector('#laporan_sdm').value = sdm;
+                    modal.querySelector('#laporan_keuangan').value = keuangan;
+                    modal.querySelector('#lampiran_laporan').value = pdf;
+                });
+            });
+        });
+
         function confirmDelete(laporanID) {
             // Menampilkan dialog konfirmasi sebelum menghapus
             const confirmation = confirm("Apakah Anda yakin ingin menghapus laporan ini?");

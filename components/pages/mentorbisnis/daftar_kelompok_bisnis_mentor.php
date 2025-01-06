@@ -9,6 +9,9 @@ $user_role = $_SESSION['role']; // Ambil peran pengguna (Tutor/Dosen Pengampu)
 // Ambil kata kunci pencarian jika ada
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
+// Ambil status inkubasi dari dropdown
+$status_inkubasi = isset($_GET['status_inkubasi']) ? $_GET['status_inkubasi'] : 'semua'; // Ambil status inkubasi yang dipilih
+
 // Modifikasi query berdasarkan peran pengguna dan pencarian
 if ($user_role === 'Tutor') {
     // Jika pengguna adalah Tutor, hanya ambil kelompok yang di-mentor oleh pengguna
@@ -17,22 +20,40 @@ if ($user_role === 'Tutor') {
         WHERE id_mentor = (SELECT id FROM mentor WHERE user_id = ?)
         AND nama_kelompok LIKE ?
     ";
+    
+    // Jika ada status inkubasi yang dipilih, tambahkan filter berdasarkan status inkubasi
+    if ($status_inkubasi !== 'semua') {
+        $sql .= " AND status_inkubasi = ?";
+    }
 } else {
     // Jika bukan Tutor (misalnya Dosen Pengampu), ambil semua kelompok
     $sql = "SELECT * FROM kelompok_bisnis WHERE nama_kelompok LIKE ?";
+    
+    // Jika ada status inkubasi yang dipilih, tambahkan filter berdasarkan status inkubasi
+    if ($status_inkubasi !== 'semua') {
+        $sql .= " AND status_inkubasi = ?";
+    }
 }
 
 // Siapkan query
 $stmt = $conn->prepare($sql);
 
-// Bind parameter untuk pencarian
+// Bind parameter untuk pencarian dan status inkubasi
 $search_param = "%" . $search . "%";
-if ($user_role === 'Tutor') {
-    // Jika pengguna adalah Tutor, bind user_id untuk filter dan search term
-    $stmt->bind_param('is', $user_id, $search_param);
+
+// Bind parameter berdasarkan kondisi
+if ($status_inkubasi !== 'semua') {
+    if ($user_role === 'Tutor') {
+        $stmt->bind_param('sss', $user_id, $search_param, $status_inkubasi);
+    } else {
+        $stmt->bind_param('ss', $search_param, $status_inkubasi);
+    }
 } else {
-    // Jika bukan Tutor, hanya bind search term
-    $stmt->bind_param('s', $search_param);
+    if ($user_role === 'Tutor') {
+        $stmt->bind_param('ss', $user_id, $search_param);
+    } else {
+        $stmt->bind_param('s', $search_param);
+    }
 }
 
 // Eksekusi query
@@ -134,20 +155,39 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                 <div class="nav_main_wrapper">
                     <nav class="navbar navbar-expand-lg">
                         <div class="container-fluid">
+                        <form method="GET" action="daftar_kelompok_bisnis_mentor.php">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
                                         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Semua Kelompok
+                                    <span id="selectedStatus">Semua Kelompok</span> <!-- Menampilkan status yang dipilih -->
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" href="#" data-status="btn-secondary">Semua Kelompok</a></li>
-                                    <li><a class="dropdown-item" href="#" data-status="btn-success">Direkomendasi</a></li>
-                                    <li><a class="dropdown-item" href="#" data-status="btn-info">Program Inkubasi</a></li>
+                                    <li><a class="dropdown-item" href="#" data-status="semua">Semua Kelompok</a></li>
+                                    <li><a class="dropdown-item" href="#" data-status="direkomendasikan">Direkomendasi</a></li>
+                                    <li><a class="dropdown-item" href="#" data-status="masuk">Program Inkubasi</a></li>
                                 </ul>
+                                <input type="hidden" name="status_inkubasi" id="status_inkubasi" value="semua"> <!-- Input tersembunyi untuk mengirim status -->
+                                <button class="btn btn-outline-success" type="submit">Filter</button>
                             </div>
+                        </form>
+
+                        <script>
+                            // Menangani klik dropdown item dan update teks serta input tersembunyi
+                            document.querySelectorAll('.dropdown-item').forEach(function(item) {
+                                item.addEventListener('click', function(e) {
+                                    e.preventDefault(); // Mencegah link membuka halaman baru
+                                    
+                                    var status = this.getAttribute('data-status'); // Ambil status yang dipilih
+                                    document.getElementById('selectedStatus').innerText = this.innerText; // Update teks pada tombol dropdown
+                                    document.getElementById('status_inkubasi').value = status; // Update nilai input tersembunyi dengan status yang dipilih
+                                });
+                            });
+                        </script>
+
+                            <!-- Form pencarian -->
                             <form action="" method="get">
-                                    <div class="input-group">
-                                        <div class="d-flex" role="search">
+                                <div class="input-group">
+                                    <div class="d-flex" role="search">
                                         <input type="text" class="form-control me-2" placeholder="Cari Kelompok Bisnis" name="search" aria-label="Search" value="<?= htmlspecialchars($search); ?>">
                                         <button class="btn btn-outline-success" type="submit">Cari</button>
                                     </div>
