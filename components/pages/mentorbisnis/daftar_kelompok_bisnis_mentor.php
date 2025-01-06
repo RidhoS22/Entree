@@ -155,19 +155,18 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                 <div class="nav_main_wrapper">
                     <nav class="navbar navbar-expand-lg">
                         <div class="container-fluid">
-                        <form method="GET" action="daftar_kelompok_bisnis_mentor.php">
+                        <form method="GET" action="daftar_kelompok_bisnis_mentor.php" id="formStatus">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
                                         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span id="selectedStatus">Semua Kelompok</span> <!-- Menampilkan status yang dipilih -->
+                                    <span id="selectedStatus">Filter Kelompok</span> <!-- Menampilkan status yang dipilih -->
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" href="#" data-status="semua">Semua Kelompok</a></li>
-                                    <li><a class="dropdown-item" href="#" data-status="direkomendasikan">Direkomendasi</a></li>
-                                    <li><a class="dropdown-item" href="#" data-status="masuk">Program Inkubasi</a></li>
+                                    <li><a class="dropdown-item" role="button" data-status="semua">Semua Kelompok</a></li>
+                                    <li><a class="dropdown-item" role="button" data-status="direkomendasikan">Direkomendasi</a></li>
+                                    <li><a class="dropdown-item" role="button" data-status="masuk">Program Inkubasi</a></li>
                                 </ul>
                                 <input type="hidden" name="status_inkubasi" id="status_inkubasi" value="semua"> <!-- Input tersembunyi untuk mengirim status -->
-                                <button class="btn btn-outline-success" type="submit">Filter</button>
                             </div>
                         </form>
 
@@ -263,11 +262,25 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                     </tr>
                                     <tr>
                                         <td>Status Proposal Bisnis</td>
-                                        <td> ' . ($status_proposal) . '</td>
+                                        <td>';
+                                            if ($status_proposal == 'disetujui') {
+                                                echo '<p class="alert alert-success fw-bold text-center mx-5 p-2" role="alert">Disetujui</p>';
+                                            } else {
+                                                echo '<p class="alert alert-warning fw-bold text-center mx-5 p-2" role="alert">Menunggu</p>';
+                                            }
+                                        echo '</td>
                                     </tr>
-                                    <tr>
+                                     <tr>
                                         <td>Program Inkubasi Bisnis</td>
-                                        <td>'.htmlspecialchars($row['status_inkubasi'] ?? 'Tidak Ada').'</td>
+                                        <td>';
+                                            if ($row['status_inkubasi'] == 'direkomendasikan') {
+                                                echo '<p class="alert alert-success fw-bold text-center mx-5 p-2" role="alert">Direkomendasikan</p>';
+                                            } elseif ($row['status_inkubasi'] == 'masuk') {
+                                                echo '<p class="alert alert-info fw-bold text-center mx-5 p-2" role="alert">Program Inkubasi</p>';
+                                            } else {
+                                                echo '<p class="alert alert-secondary fw-bold text-center mx-5 p-2" role="alert">Tidak Ada</p>';
+                                            }
+                                        echo '</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -382,6 +395,25 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             </div>
         </div>
     </div>
+    <script>
+        document.querySelectorAll('.dropdown-item').forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                e.preventDefault(); // Mencegah default link behavior
+
+                // Ambil nilai status yang dipilih
+                var status = this.getAttribute('data-status');
+
+                // Update teks pada tombol dropdown
+                document.getElementById('selectedStatus').innerText = this.innerText;
+
+                // Update nilai input tersembunyi
+                document.getElementById('status_inkubasi').value = status;
+
+                // Submit form secara otomatis
+                document.getElementById('formStatus').submit();
+            });
+        });
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Pilih semua elemen collapse yang digunakan

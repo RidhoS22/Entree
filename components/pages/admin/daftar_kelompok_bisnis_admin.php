@@ -83,27 +83,6 @@ $resulTahun = $conn->query($tahunAkademik);
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/daftar_kelompok.css">
     <style>
-        
-        /* Styling untuk status aktif */
-        .status-aktif {
-            color: white;
-            background-color: green;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        /* Styling untuk status nonaktif */
-        .status-nonaktif {
-            color: white;
-            background-color: red;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-align: center;
-        }
-
         .card-footer {
             display: flex;
             align-items: center;
@@ -131,8 +110,8 @@ $resulTahun = $conn->query($tahunAkademik);
                 <div class="nav_main_wrapper">
                     <nav class="navbar navbar-expand-lg">
                         <div class="container-fluid">
-                        <form method="get" action="daftar_kelompok_bisnis_admin.php">
-                            <select name="tahun_akademik" class="form-select filter-tahun" required>
+                        <form method="get" action="daftar_kelompok_bisnis_admin.php" id="formTahunAkademik">
+                            <select name="tahun_akademik" class="form-select filter-tahun" required id="tahunAkademikDropdown">
                                 <option value="" disabled selected>Pilih Tahun Akademik</option>
                                 <?php
                                 // Query untuk mendapatkan tahun akademik dari database
@@ -145,8 +124,8 @@ $resulTahun = $conn->query($tahunAkademik);
                                 }
                                 ?>
                             </select>
-                            <button type="submit">Filter</button>
                         </form>
+
                             <form action="" method="get">
                                     <div class="input-group">
                                         <div class="d-flex" role="search">
@@ -156,21 +135,21 @@ $resulTahun = $conn->query($tahunAkademik);
                                 </div>
                             </form>
 
-                            <form method="GET" action="daftar_kelompok_bisnis_admin.php">
+                            <form method="GET" action="daftar_kelompok_bisnis_admin.php" id="formStatus">
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <span id="selectedStatus">Semua Kelompok</span> <!-- Menampilkan status yang dipilih -->
+                                        <span id="selectedStatus">Filter Kelompok</span> <!-- Menampilkan status yang dipilih -->
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item" href="#" data-status="semua">Semua Kelompok</a></li>
-                                        <li><a class="dropdown-item" href="#" data-status="direkomendasikan">Direkomendasi</a></li>
-                                        <li><a class="dropdown-item" href="#" data-status="masuk">Program Inkubasi</a></li>
+                                        <li><a class="dropdown-item" role="button" data-status="semua">Semua Kelompok</a></li>
+                                        <li><a class="dropdown-item" role="button" data-status="direkomendasikan">Direkomendasi</a></li>
+                                        <li><a class="dropdown-item" role="button" data-status="masuk">Program Inkubasi</a></li>
                                     </ul>
                                     <input type="hidden" name="status_inkubasi" id="status_inkubasi" value="semua"> <!-- Input tersembunyi untuk mengirim status -->
-                                    <button class="btn btn-outline-success" type="submit">Filter</button>
                                 </div>
                             </form>
+
 
                             <script>
                                 // Menangani klik dropdown item dan update teks serta input tersembunyi
@@ -219,7 +198,7 @@ $resulTahun = $conn->query($tahunAkademik);
                                     <i class="fa-solid fa-users"></i>
                                 </div>
                                 <div class="card-body m-0">
-                                    <h5 class="card-title">Kelompok ' . htmlspecialchars($row['nama_kelompok']) . '</h5>
+                                    <h5 class="card-title">' . htmlspecialchars($row['nama_kelompok']) . '</h5>
                                 </div>
                                 <table class="table table-bordered m-0 styled-table">
                                     <tbody>
@@ -233,9 +212,9 @@ $resulTahun = $conn->query($tahunAkademik);
                 
                                             // Menampilkan status dengan kelas yang sesuai
                                             if ($status_kelompok_bisnis == 'aktif') {
-                                                echo '<span class="status-aktif">' . htmlspecialchars($status_kelompok_bisnis) . '</span>';
+                                                echo '<p class="alert alert-success fw-bold text-center mx-5 p-2" role="alert">Aktif</p>';
                                             } else {
-                                                echo '<span class="status-nonaktif">' . htmlspecialchars($status_kelompok_bisnis) . '</span>';
+                                                echo '<p class="alert alert-secondary fw-bold text-center mx-5 p-2" role="alert">Tidak Aktif</p>';
                                             }
                 
                                             echo '
@@ -243,7 +222,15 @@ $resulTahun = $conn->query($tahunAkademik);
                                     </tr>
                                     <tr>
                                         <td>Program Inkubasi Bisnis</td>
-                                        <td>' . htmlspecialchars($status_inkubasi) . '</td>
+                                        <td>';
+                                            if ($status_inkubasi == 'direkomendasikan') {
+                                                echo '<p class="alert alert-success fw-bold text-center mx-5 p-2" role="alert">Direkomendasikan</p>';
+                                            } elseif ($status_inkubasi == 'masuk') {
+                                                echo '<p class="alert alert-info fw-bold text-center mx-5 p-2" role="alert">Program Inkubasi</p>';
+                                            } else {
+                                                echo '<p class="alert alert-secondary fw-bold text-center mx-5 p-2" role="alert">Tidak Ada</p>';
+                                            }
+                                        echo '</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -344,12 +331,44 @@ $resulTahun = $conn->query($tahunAkademik);
                         echo '</div>';
                     }
                 } else {
-                    echo '<p>Tidak ada kelompok bisnis yang tersedia.</p>';
+                    echo '
+                    <div class="d-flex justify-content-center align-items-center" style="height: 60vh; width: 100%;">
+                        <div class="alert alert-warning text-center" role="alert">
+                            <p>Tidak ada kelompok bisnis yang tersedia.</p>
+                        </div>
+                    </div>
+                    ';
                 }
                 ?>
             </div>
         </div>
     </div>
+    <script>
+        document.querySelectorAll('.dropdown-item').forEach(function (item) {
+            item.addEventListener('click', function (e) {
+                e.preventDefault(); // Mencegah default link behavior
+
+                // Ambil nilai status yang dipilih
+                var status = this.getAttribute('data-status');
+
+                // Update teks pada tombol dropdown
+                document.getElementById('selectedStatus').innerText = this.innerText;
+
+                // Update nilai input tersembunyi
+                document.getElementById('status_inkubasi').value = status;
+
+                // Submit form secara otomatis
+                document.getElementById('formStatus').submit();
+            });
+        });
+
+        // Menangani perubahan pada dropdown Tahun Akademik
+        document.getElementById('tahunAkademikDropdown').addEventListener('change', function () {
+            // Submit form otomatis
+            document.getElementById('formTahunAkademik').submit();
+        });
+
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Pilih semua elemen collapse yang digunakan

@@ -163,6 +163,46 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                         <?php } else { ?>
                             <p><em>Logo bisnis belum diunggah</em></p>
                         <?php } ?>
+
+                        <!-- Catatan dari FE RAPIH DEV, Rido tolong tambahin kondisi Disini
+                        dimana tombol ini muncul hanya jika mentor bisnis adalah tutor 
+                        kelompok bisnis ini dan kelompok bisnis berada di dalam program inkubasi -->
+                        <p>
+                            <button class="btn btn-danger mt-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample_2" aria-expanded="false" aria-controls="collapseWidthExample">
+                                <i class="fas fa-trash-alt"></i> 
+                            </button>
+                            </p>
+                            <div style="min-height: 120px;">
+                            <div class="collapse collapse-horizontal" id="collapseWidthExample_2">
+                                <div class="card card-body" style="width: 300px;">
+                                    <!-- Tombol Hapus -->
+                                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                        Hapus Kelompok Dari Program Inkubasi
+                                    </button>
+
+                                </div>
+                            </div>
+                            </div>
+
+                        <!-- Modal Konfirmasi Hapus -->
+                        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah Anda yakin ingin mengeluarkan kelompok bisnis ini dari Program Inkubasi Bisnis?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Hapus</button>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
                     </div>
 
                     <div class="right">
@@ -351,22 +391,19 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                             <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
                                                             <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
                                                             <td>
-                                                                <span id="status-label" class="status" 
-                                                                    style="background-color: <?php 
-                                                                        if ($row['status'] == 'disetujui') {
-                                                                            echo '#2ea56f';
-                                                                        } elseif ($row['status'] == 'ditolak') {
-                                                                            echo '#dc3545';
-                                                                        } elseif  ($row['status'] == 'selesai') {
-                                                                            echo '#007bff';
-                                                                        } elseif  ($row['status'] == 'alternatif'){
-                                                                            echo '#ffc107';
-                                                                        } else {
-                                                                            echo 'orange';
-                                                                        }
-                                                                    ?>;">
-                                                                    <?php echo htmlspecialchars($row['status']); ?>
-                                                                </span>
+                                                                 <?php
+                                                                    if ($row['status'] == 'disetujui') {
+                                                                        echo '<p class="alert alert-success bg-success text-white fw-bold text-center mx-5 p-2" role="alert">Disetujui</p>';
+                                                                    } elseif ($row['status'] == 'ditolak') {
+                                                                        echo '<p class="alert alert-danger bg-danger text-white fw-bold text-center mx-5 p-2" role="alert">Ditolak</p>';
+                                                                    } elseif ($row['status'] == 'selesai') {
+                                                                        echo '<p class="alert alert-info bg-info text-white fw-bold text-center mx-5 p-2" role="alert">Selesai</p>';
+                                                                    } elseif ($row['status'] == 'alternatif') {
+                                                                        echo '<p class="alert alert-warning bg-warning text-white fw-bold text-center mx-5 p-2" role="alert">Alternatif</p>';
+                                                                    } else {
+                                                                        echo '<p class="alert alert-warning bg-warning text-white fw-bold text-center mx-5 p-2" role="alert">Menunggu</p>';
+                                                                    }
+                                                                ?>
                                                             </td>
                                                         </tr>
                                                     <?php endwhile; ?>

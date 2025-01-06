@@ -115,7 +115,7 @@ if (!$result) {
                                         <td>
                                             <ul id="fileList">
                                                 <li class="file-box">
-                                                    <div class="file-info">
+                                                   <div class="file-info text-truncate" style="max-width: 200px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
                                                         <?php echo htmlspecialchars(basename($row['proposal_pdf'])); ?>
                                                     </div>
                                                     <div class="icon-group">

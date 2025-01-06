@@ -199,7 +199,6 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                 <p>Apakah Anda menyetujui rekomendasi dari mentor bisnis untuk memasukkan kelompok ini ke dalam Program Inkubasi Bisnis?</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary btn-batal" data-bs-dismiss="modal">Batal</button>
                                                 <button type="button" class="btn btn-danger btn-cancel">Tolak</button>
                                                 <button type="button" class="btn btn-success btn-submit">Setujui</button>
                                             </div>
