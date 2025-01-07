@@ -408,7 +408,7 @@ form textarea:focus {
   flex-direction: column;
   justify-content: space-between; /* Rapatkan konten dalam body */
   flex-grow: 1; /* Pastikan tinggi body fleksibel */
-  height: 200px;
+  height: 130px;
   overflow: hidden;
   margin-bottom: 10px;
 }

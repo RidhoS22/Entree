@@ -77,7 +77,7 @@ $result = $conn->query($sql);
     <div class="wrapper">
    
         <?php 
-        $activePage = 'jadwal_bimbingan_mentor'; // Halaman ini adalah Profil
+        $activePage = 'jadwal_bimbingan'; // Halaman ini adalah Profil
         include 'sidebar_mentor.php'; 
         ?>
 
@@ -230,27 +230,24 @@ $result = $conn->query($sql);
                                             <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
                                             <td><?php echo htmlspecialchars($row['waktu']); ?></td>
                                             <td><?php echo htmlspecialchars($row['lokasi']); ?></td>
-                                            <td>
-                                                <span id="status-label" class="status" 
-                                                    style="background-color: <?php 
-                                                        if ($row['status'] == 'disetujui') {
-                                                            echo '#2ea56f';
-                                                        } elseif ($row['status'] == 'ditolak') {
-                                                            echo '#dc3545';
-                                                        } elseif  ($row['status'] == 'selesai') {
-                                                            echo '#007bff';
-                                                        } elseif  ($row['status'] == 'alternatif'){
-                                                            echo '#ffc107';
-                                                        } else {
-                                                            echo 'orange';
-                                                        }
-                                                    ?>;">
-                                                    <?php echo htmlspecialchars($row['status']); ?>
-                                                </span>
+                                            <td style="width: 150px;">
+                                                    <?php
+                                                    if ($row['status'] == 'disetujui') {
+                                                        echo '<p class="alert alert-success text-white fw-bold text-center mx-1 p-2" style="background-color:#2ea56f" role="alert">Disetujui</p>';
+                                                    } elseif ($row['status'] == 'ditolak') {
+                                                        echo '<p class="alert alert-danger text-white fw-bold text-center mx-1 p-2" style="background-color:#dc3545" role="alert">Ditolak</p>';
+                                                    } elseif ($row['status'] == 'selesai') {
+                                                        echo '<p class="alert alert-info text-white fw-bold text-center mx-1 p-2" style="background-color:#007bff" role="alert">Selesai</p>';
+                                                    } elseif ($row['status'] == 'alternatif') {
+                                                        echo '<p class="alert alert-warning text-white fw-bold text-center mx-1 p-2" style="background-color:#ffc107" role="alert">Alternatif</p>';
+                                                    } else {
+                                                        echo '<p class="alert alert-warning text-white fw-bold text-center mx-1 p-2" style="background-color:orange" role="alert">Menunggu</p>';
+                                                    }
+                                                ?>
                                             </td>
-                                            <td>
+                                            <td class="text-center align-middle">
                                                 <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
-                                                    <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Jadwal Bimbingan"></i>
+                                                    <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Jadwal"></i>
                                                 </a>
                                             </td>
                                         </tr>

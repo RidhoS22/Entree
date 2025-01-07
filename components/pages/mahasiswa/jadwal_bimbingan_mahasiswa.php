@@ -173,25 +173,22 @@ if (isset($_GET['edit_id'])) {
                                                 <td><?php echo $no++; ?></td>
                                                 <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
                                                 <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
-                                                <td>
-                                                <span id="status-label" class="status" 
-                                                    style="background-color: <?php 
-                                                        if ($row['status'] == 'disetujui') {
-                                                            echo '#2ea56f'; // Hijau
-                                                        } elseif ($row['status'] == 'ditolak') {
-                                                            echo '#dc3545'; // Merah
-                                                        } elseif ($row['status'] == 'alternatif') {
-                                                            echo '#ffc107'; // Kuning
-                                                        } elseif ($row['status'] == 'selesai') {
-                                                            echo '#007bff'; // Biru
-                                                        } else {
-                                                            echo '#fd7e14'; // Oranye
-                                                        }
-                                                    ?>;">
-                                                    <?php echo htmlspecialchars($row['status']); ?>
-                                                </span>
+                                                <td style="width: 150px;">
+                                                    <?php
+                                                    if ($row['status'] == 'disetujui') {
+                                                        echo '<p class="alert alert-success text-white fw-bold text-center mx-1 p-2" style="background-color:#2ea56f" role="alert">Disetujui</p>';
+                                                    } elseif ($row['status'] == 'ditolak') {
+                                                        echo '<p class="alert alert-danger text-white fw-bold text-center mx-1 p-2" style="background-color:#dc3545" role="alert">Ditolak</p>';
+                                                    } elseif ($row['status'] == 'selesai') {
+                                                        echo '<p class="alert alert-info text-white fw-bold text-center mx-1 p-2" style="background-color:#007bff" role="alert">Selesai</p>';
+                                                    } elseif ($row['status'] == 'alternatif') {
+                                                        echo '<p class="alert alert-warning text-white fw-bold text-center mx-1 p-2" style="background-color:#ffc107" role="alert">Alternatif</p>';
+                                                    } else {
+                                                        echo '<p class="alert alert-warning text-white fw-bold text-center mx-1 p-2" style="background-color:orange" role="alert">Menunggu</p>';
+                                                    }
+                                                ?>
                                                 </td>
-                                                <td>
+                                                <td class="" style="width: 180px;">
                                                     <div class="btn-aksi-mahasiswa">
                                                         <!-- Tampilkan tombol Edit hanya jika status = "Menunggu" -->
                                                         <?php if ($row['status'] === 'menunggu'): ?>
@@ -212,19 +209,25 @@ if (isset($_GET['edit_id'])) {
                                                         <a href="detail_jadwal_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
                                                             <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Jadwal Bimbingan"></i>
                                                         </a>
-
                                                         <!-- Dropdown untuk Pilih Aksi jika status = "Alternatif" -->
                                                         <?php if ($row['status'] === 'alternatif'): ?>
-                                                            <div class="dropdown">
-                                                                <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                    Aksi
-                                                                </button>
-                                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                    <!-- Tombol Setujui dan Tolak -->
-                                                                    <button class="btn btn-success setujui-btn" data-id="<?php echo $row['id']; ?>">Setujui</button>
-                                                                    <button class="btn btn-danger tolak-btn" data-id="<?php echo $row['id']; ?>">Tolak</button>
-                                                                </ul>
-                                                            </div>
+                                                            <div class="accordion accordion-flush" id="accordionFlushExample">
+                                                                <div class="accordion-item">
+                                                                    <h2 class="accordion-header">
+                                                                    <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" style="background-color: #007bff; color: white; border-radius: 8px;">
+                                                                        Aksi  
+                                                                    </button>
+
+                                                                    </h2>
+                                                                    <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                                                    <div class="accordion-body">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <button class="btn btn-success setujui-btn mx-2" data-id="<?php echo $row['id']; ?>">Setujui</button>
+                                                                            <button class="btn btn-danger tolak-btn mx-2" data-id="<?php echo $row['id']; ?>">Tolak</button>
+                                                                        </div>
+                                                                    </div>
+                                                                    </div>
+                                                                </div>
                                                         <?php endif; ?>
                                                    </div>
                                                 </td>

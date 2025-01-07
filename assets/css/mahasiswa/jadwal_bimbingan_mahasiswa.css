@@ -3,7 +3,7 @@
 body {
   height: 100vh !important;
   overflow: hidden !important;
-  font-family: 'Poppins', sans-serif; 
+  font-family: "Poppins", sans-serif;
 }
 
 .status {
@@ -96,6 +96,11 @@ body {
 
 .btn-aksi-mahasiswa {
   display: flex;
-  gap: 3px;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
 }
 
+.btn-aksi-mahasiswa .btn {
+  font-size: 16px;
+}

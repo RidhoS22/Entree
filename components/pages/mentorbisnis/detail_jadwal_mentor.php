@@ -81,7 +81,7 @@ if ($id) {
 <body>
     <div class="wrapper">
         <?php 
-        $activePage = 'pagemahasiswa'; 
+        $activePage = 'jadwal_bimbingan'; 
         include 'sidebar_mentor.php'; 
         ?>
 
@@ -280,7 +280,11 @@ if ($id) {
                         </script>
                     <?php endif; ?>
 
-                    <a href="jadwal_bimbingan_mentor.php" class="btn btn-secondary">Kembali</a>
+                    <?php
+                        $referer = $_SERVER['HTTP_REFERER'] ?? 'jadwal_bimbingan_mentor.php'; // Default ke jadwal_bimbingan_mentor.php jika tidak ada referer
+                    ?>
+
+                    <a href="<?= htmlspecialchars($referer) ?>" class="btn btn-secondary">Kembali</a>
                 </div>       
             </div>
     </div>

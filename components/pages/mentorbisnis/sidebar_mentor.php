@@ -70,7 +70,7 @@
                                 Daftar Kelompok Bisnis
                             </a>
                         </li>
-                        <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">
+                        <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan') ? 'active' : ''; ?>">
                             <a href="jadwal_bimbingan_mentor.php" class="sidebar-link">
                                 <i class="fa-solid fa-calendar"></i>
                                 Jadwal Bimbingan

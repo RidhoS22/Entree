@@ -379,6 +379,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                     <th>Nama Kegiatan</th>
                                                     <th>Tanggal</th>
                                                     <th>Status</th>
+                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -390,20 +391,25 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                             <td><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></td>
                                                             <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
                                                             <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
-                                                            <td>
-                                                                 <?php
+                                                            <td style="width: 150px;">
+                                                                    <?php
                                                                     if ($row['status'] == 'disetujui') {
-                                                                        echo '<p class="alert alert-success bg-success text-white fw-bold text-center mx-5 p-2" role="alert">Disetujui</p>';
+                                                                        echo '<p class="alert alert-success text-white fw-bold text-center mx-1 p-2" style="background-color:#2ea56f" role="alert">Disetujui</p>';
                                                                     } elseif ($row['status'] == 'ditolak') {
-                                                                        echo '<p class="alert alert-danger bg-danger text-white fw-bold text-center mx-5 p-2" role="alert">Ditolak</p>';
+                                                                        echo '<p class="alert alert-danger text-white fw-bold text-center mx-1 p-2" style="background-color:#dc3545" role="alert">Ditolak</p>';
                                                                     } elseif ($row['status'] == 'selesai') {
-                                                                        echo '<p class="alert alert-info bg-info text-white fw-bold text-center mx-5 p-2" role="alert">Selesai</p>';
+                                                                        echo '<p class="alert alert-info text-white fw-bold text-center mx-1 p-2" style="background-color:#007bff" role="alert">Selesai</p>';
                                                                     } elseif ($row['status'] == 'alternatif') {
-                                                                        echo '<p class="alert alert-warning bg-warning text-white fw-bold text-center mx-5 p-2" role="alert">Alternatif</p>';
+                                                                        echo '<p class="alert alert-warning text-white fw-bold text-center mx-1 p-2" style="background-color:#ffc107" role="alert">Alternatif</p>';
                                                                     } else {
-                                                                        echo '<p class="alert alert-warning bg-warning text-white fw-bold text-center mx-5 p-2" role="alert">Menunggu</p>';
+                                                                        echo '<p class="alert alert-warning text-white fw-bold text-center mx-1 p-2" style="background-color:orange" role="alert">Menunggu</p>';
                                                                     }
                                                                 ?>
+                                                            </td>
+                                                            <td class="text-center align-middle">
+                                                                <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+                                                                    <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Jadwal"></i>
+                                                                </a>
                                                             </td>
                                                         </tr>
                                                     <?php endwhile; ?>
