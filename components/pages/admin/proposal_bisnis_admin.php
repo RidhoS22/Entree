@@ -63,20 +63,17 @@ if ($id_kelompok) {
                                     <table class="table table-bordered m-0 styled-table">
                                         <tbody>
                                             <tr>
-                                                <td>Status Proposal Bisnis</td>
+                                            <td style="width: 60%;">Status Proposal Bisnis:</td>
                                                 <td>
-                                                    <span id="status-label" class="status" 
-                                                        style="background-color: <?php 
-                                                            if ($proposal['status'] == 'disetujui') {
-                                                                echo '#2ea56f';
-                                                            } elseif ($proposal['status'] == 'ditolak') {
-                                                                echo '#dc3545';
-                                                            } else {
-                                                                echo 'orange';
-                                                            }
-                                                        ?>; padding: 5px 10px; border-radius: 3px;">
-                                                        <?php echo htmlspecialchars($proposal['status']); ?>            
-                                                    </span>
+                                                    <?php
+                                                        if ($proposal['status'] == 'disetujui') {
+                                                            echo '<p class="alert alert-success text-white fw-bold text-center p-2 m-0" style="background-color:#2ea56f; border-radius: 5px;" role="alert">Disetujui</p>';
+                                                        } elseif ($proposal['status'] == 'ditolak') {
+                                                            echo '<p class="alert alert-danger text-white fw-bold text-center p-2 m-0" style="background-color:#dc3545; border-radius: 5px;" role="alert">Ditolak</p>';
+                                                        } else {
+                                                            echo '<p class="alert alert-warning text-white fw-bold text-center p-2 m-0" style="background-color: #ffc107; border-radius: 5px;" role="alert">Menunggu</p>';
+                                                        }
+                                                    ?>
                                                 </td>
                                             </tr>
                                         </tbody>

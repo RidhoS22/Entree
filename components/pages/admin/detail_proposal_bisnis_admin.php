@@ -141,18 +141,15 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                     <tr>
                         <td><strong>Status:</strong></td>
                         <td class="file-box">
-                            <span id="status-label" class="status"
-                                style="background-color: <?php
-                                    if ($proposal['status'] == 'disetujui') {
-                                        echo '#2ea56f';
-                                    } elseif ($proposal['status'] == 'ditolak') {
-                                        echo '#dc3545';
-                                    } else {
-                                        echo 'orange';
-                                    }
-                                ?>;">
-                                <?php echo htmlspecialchars($proposal['status']); ?>
-                            </span>
+                            <?php
+                                if ($proposal['status'] == 'disetujui') {
+                                    echo '<p class="alert alert-success text-white fw-bold text-center p-2 m-0 px-3" style="background-color:#2ea56f; width:fit-content;" role="alert">Disetujui</p>';
+                                } elseif ($proposal['status'] == 'ditolak') {
+                                    echo '<p class="alert alert-danger text-white fw-bold text-center p-2 m-0 px-3" style="background-color:#dc3545; width:fit-content;" role="alert">Ditolak</p>';
+                                } else {
+                                    echo '<p class="alert alert-warning text-white fw-bold text-center p-2 m-0 px-3" style="background-color: #ffc107; width:fit-content;" role="alert">Menunggu</p>';
+                                }
+                            ?>
                         </td>
                     </tr>
                 </table>

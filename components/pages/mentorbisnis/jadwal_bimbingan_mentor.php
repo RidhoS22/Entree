@@ -233,15 +233,15 @@ $result = $conn->query($sql);
                                             <td style="width: 150px;">
                                                     <?php
                                                     if ($row['status'] == 'disetujui') {
-                                                        echo '<p class="alert alert-success text-white fw-bold text-center mx-1 p-2" style="background-color:#2ea56f" role="alert">Disetujui</p>';
+                                                        echo '<p class="alert alert-success text-white fw-bold text-center m-0 p-2" style="background-color:#2ea56f" role="alert">Disetujui</p>';
                                                     } elseif ($row['status'] == 'ditolak') {
-                                                        echo '<p class="alert alert-danger text-white fw-bold text-center mx-1 p-2" style="background-color:#dc3545" role="alert">Ditolak</p>';
+                                                        echo '<p class="alert alert-danger text-white fw-bold text-center m-0 p-2" style="background-color:#dc3545" role="alert">Ditolak</p>';
                                                     } elseif ($row['status'] == 'selesai') {
-                                                        echo '<p class="alert alert-info text-white fw-bold text-center mx-1 p-2" style="background-color:#007bff" role="alert">Selesai</p>';
+                                                        echo '<p class="alert alert-info text-white fw-bold text-center m-0 p-2" style="background-color:#007bff" role="alert">Selesai</p>';
                                                     } elseif ($row['status'] == 'alternatif') {
-                                                        echo '<p class="alert alert-warning text-white fw-bold text-center mx-1 p-2" style="background-color:#ffc107" role="alert">Alternatif</p>';
+                                                        echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2" style="background-color:#ffc107" role="alert">Alternatif</p>';
                                                     } else {
-                                                        echo '<p class="alert alert-warning text-white fw-bold text-center mx-1 p-2" style="background-color:orange" role="alert">Menunggu</p>';
+                                                        echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2" style="background-color:orange" role="alert">Menunggu</p>';
                                                     }
                                                 ?>
                                             </td>

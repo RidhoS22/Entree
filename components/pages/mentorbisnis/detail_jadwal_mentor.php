@@ -121,23 +121,20 @@ if ($id) {
                             <th>Status:</th>
                             <td class="file-box">
                                 <?php if ($canTakeAction): ?>
-                                    <div class="dropdown d-flex align-items-center">
-                                        <span id="status-label" class="status me-3" 
-                                            style="background-color: <?php 
-                                                if ($data['status'] == 'disetujui') {
-                                                    echo '#2ea56f';
-                                                } elseif ($data['status'] == 'ditolak') {
-                                                    echo '#dc3545';
-                                                } elseif  ($data['status'] == 'selesai') {
-                                                    echo '#007bff';
-                                                } elseif  ($data['status'] == 'alternatif'){
-                                                    echo '#ffc107';
-                                                } else {
-                                                    echo 'orange';
-                                                }
-                                            ?>;">
-                                            <?php echo htmlspecialchars($data['status']); ?>
-                                        </span>
+                                    <div class="dropdown d-flex align-items-center gap-2">
+                                        <?php
+                                            if ($data['status'] == 'disetujui') {
+                                                echo '<p class="alert alert-success text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#2ea56f; width:fit-content;" role="alert">Disetujui</p>';
+                                            } elseif ($data['status'] == 'ditolak') {
+                                                echo '<p class="alert alert-danger text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#dc3545; width:fit-content;" role="alert">Ditolak</p>';
+                                            } elseif ($data['status'] == 'selesai') {
+                                                echo '<p class="alert alert-info text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#007bff; width:fit-content;" role="alert">Selesai</p>';
+                                            } elseif ($data['status'] == 'alternatif') {
+                                                echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2" style="background-color:#ffc107; width:fit-content;" role="alert">Alternatif</p>';
+                                            } else {
+                                                echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2 px-3" style="background-color:orange; width:fit-content;" role="alert">Menunggu</p>';
+                                            }
+                                        ?>
                                         <!-- Kondisi menampilkan tombol jika status tidak sama dengan selesai -->
                                         <?php if ($data['status'] != 'selesai'): ?>
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="actionDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -184,23 +181,30 @@ if ($id) {
                                                 </ul>
                                             </td>
                                         </tr>
-                                    </div>
-                                <?php else: ?>
-                                        <span id="status-label" class="status" 
-                                            style="background-color: <?php 
-                                                if ($data['status'] == 'disetujui') {
-                                                    echo '#2ea56f';
-                                                } elseif ($data['status'] == 'ditolak') {
-                                                    echo '#dc3545';
-                                                } else {
-                                                    echo 'orange';
-                                                }
-                                            ?>;">
-                                            <?php echo htmlspecialchars($data['status']); ?>
-                                        </span>
+                                    </div>  
+                                    <?php else: ?>
+                                        <?php
+                                            if ($data['status'] == 'disetujui') {
+                                                echo '<p class="alert alert-success text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#2ea56f; width:fit-content;" role="alert">Disetujui</p>';
+                                            } elseif ($data['status'] == 'ditolak') {
+                                                echo '<p class="alert alert-danger text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#dc3545; width:fit-content;" role="alert">Ditolak</p>';
+                                            } elseif ($data['status'] == 'selesai') {
+                                                echo '<p class="alert alert-info text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#007bff; width:fit-content;" role="alert">Selesai</p>';
+                                            } elseif ($data['status'] == 'alternatif') {
+                                                echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2" style="background-color:#ffc107; width:fit-content;" role="alert">Alternatif</p>';
+                                            } else {
+                                                echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2 px-3" style="background-color:orange; width:fit-content;" role="alert">Menunggu</p>';
+                                            }
+                                        ?>
                                 <?php endif; ?>
                             </td>
                         </tr>
+                        <?php if (!empty($data['feedback_mentor'])): ?>
+                            <tr>
+                                <th>Umpan Balik</th>
+                                <td><?php echo htmlspecialchars($data['feedback_mentor']); ?></td>
+                            </tr>
+                        <?php endif; ?>
                     </table>
 
                     <!-- Modal Jadwal Alternatif -->
@@ -249,13 +253,7 @@ if ($id) {
                                 <button type="submit">Kirim Feedback</button>
                             </div>
                         </form>
-                    <?php elseif ($data['status'] == 'selesai'): ?>
-                        <table class="table table-borderer">
-                            <tr>
-                                <th>Umpan Balik</th>
-                                <td><?php echo htmlspecialchars($data['feecback_menor'] ?? 'Belum ada umpan balik'); ?></td>
-                            </tr>
-                        </table>
+
                     <?php endif; ?>
 
 

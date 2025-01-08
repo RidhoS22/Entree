@@ -22,11 +22,11 @@ $stmt->bind_param("si", $feedback, $jadwalId);
 // Eksekusi query
 if ($stmt->execute()) {
     // Jika berhasil, tampilkan toast sukses
-    header("Location: detail_jadwal_mentor.php?id=$jadwalId&toast=Feedback berhasil dikirim");
+    header("Location: detail_jadwal_mentor.php?id=$jadwalId&toast=Umpan Balik berhasil dikirim");
     exit;
 } else {
     // Jika gagal, tampilkan pesan error
-    echo "Terjadi kesalahan saat menyimpan feedback: " . $stmt->error;
+    echo "Terjadi kesalahan saat menyimpan Umpan Balik: " . $stmt->error;
     exit;
 }
 ?>

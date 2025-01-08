@@ -75,6 +75,74 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
     ";
 }
 ?>
+<?php
+// Koneksi ke database
+include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+
+// Periksa apakah ada request POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ambil data JSON dari fetch
+    $input = json_decode(file_get_contents('php://input'), true);
+    $search = $conn->real_escape_string($input['search']);
+
+    // Query untuk mencari mentor
+    $query = "SELECT * FROM mentor WHERE nama LIKE '%$search%'";
+    $result = $conn->query($query);
+
+    // Hasil pencarian
+    if ($result->num_rows > 0) {
+        while ($mentor = $result->fetch_assoc()) {
+            $id_kelompok = $mentor['id_kelompok'] ?? null; // Pastikan nilai $id_kelompok diambil
+            echo '
+                <div class="accordion" id="accordionExample">
+                    <div class="card-mentor mb-3">
+                        <a data-bs-toggle="collapse" href="#collapse' . $mentor['id'] . '" role="button" 
+                            aria-expanded="false" aria-controls="collapse' . $mentor['id'] . '">
+                            <div class="card-mentor-header">
+                                <img alt="Profile picture of the mentor" class="w-12 h-12 rounded-full me-2" height="50" 
+                                src="' . htmlspecialchars($mentor['foto_profile']) . '" width="50"/>
+                                <div class="nama-mentor">
+                                    <h2 class="font-bold mb-0">' . htmlspecialchars($mentor['nama']) . '</h2>
+                                    <p class="mb-0">Peran: ' . htmlspecialchars($mentor['peran'] ?? 'Belum ada peran') . '</p>
+                                </div>
+                                <div class="klik d-flex flex-column align-items-center">
+                                    <span class="toggle-text" id="toggle-text-' . $mentor['id'] . '">
+                                        Klik untuk melihat detail data mentor
+                                    </span>
+                                    <i class="fa-solid fa-caret-down"></i>
+                                </div>
+                            </div>
+                        </a>
+                        <div id="collapse' . $mentor['id'] . '" class="collapse" data-bs-parent="#accordionExample">
+                            <div class="card-mentor-body">
+                                <p>NIDN: ' . htmlspecialchars($mentor['nidn']) . '</p>
+                                <p>Keahlian: ' . htmlspecialchars($mentor['keahlian']) . '</p>
+                                <p>Fakultas: ' . htmlspecialchars($mentor['fakultas']) . '</p>
+                                <p>Prodi: ' . htmlspecialchars($mentor['prodi']) . '</p>
+                                <p>Email: ' . htmlspecialchars($mentor['email']) . '</p>
+                                <p>Nomor Telepon: ' . htmlspecialchars($mentor['contact']) . '</p>
+
+                                <div class="btn-div d-flex justify-content-center mt-4">
+                                    <form method="POST" action="update_kelompok_bisnis.php">
+                                        <input type="hidden" name="id_kelompok" value="' . htmlspecialchars($id_kelompok) . '">
+                                        <input type="hidden" name="id_mentor" value="' . htmlspecialchars($mentor['id']) . '">
+                                        <button type="submit" class="btn btn-success mt-2">Pilih sebagai Mentor</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+        }
+    } else {
+        // Tidak ada data mentor ditemukan
+        echo '<p>Tidak ada mentor yang ditemukan.</p>';
+    }
+    exit; // Hentikan eksekusi PHP di sini karena ini respons AJAX
+}
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -297,7 +365,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                         echo '</div>';
                         echo '</div>';
 
-                        echo '<div class="modal fade" id="mentorModal' . $id_kelompok . '" tabindex="-1" aria-labelledby="mentorModalLabel' . $id_kelompok . '" aria-hidden="true">';
+                        echo '<div class="modal fade" id="mentorModal' . $id_kelompok . '" tabindex="-1" aria-labelledby="mentorModalLabel' . $id_kelompok . '" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">';
                         echo '<div class="modal-dialog modal-dialog-centered modal-xl">';
                         echo '<div class="modal-content">';
                         echo '<div class="modal-header">';
@@ -305,6 +373,8 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                         echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
                         echo '</div>';
                         echo '<div class="modal-body">';
+                        echo '<input type="text" id="searchInput" class="form-control" placeholder="Cari mentor...">';
+                        echo '<div id="mentorResults"></div>';  // Tempat hasil pencarian akan ditampilkan
                         echo '<form method="POST" action="" class="add-mentor-form">';
                         echo '<input type="hidden" name="id_kelompok" value="' . $id_kelompok . '">';
 
@@ -395,6 +465,36 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             </div>
         </div>
     </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const searchInput = document.getElementById('searchInput');
+        const resultsContainer = document.getElementById('mentorResults');
+
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value;
+
+            if (query.length > 0) {
+                fetch('', { // URL kosong, karena ini file yang sama
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ search: query }) // Kirim data pencarian dalam bentuk JSON
+                })
+                .then(response => response.text())
+                .then(data => {
+                    resultsContainer.innerHTML = data; // Tampilkan hasil pencarian
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                resultsContainer.innerHTML = ''; // Kosongkan hasil jika input kosong
+            }
+        });
+    });
+</script>
+
     <script>
         document.querySelectorAll('.dropdown-item').forEach(function (item) {
             item.addEventListener('click', function (e) {

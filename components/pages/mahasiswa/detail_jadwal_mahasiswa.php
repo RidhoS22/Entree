@@ -117,22 +117,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                             <tr>
                                 <th>Status</th>
                                 <td>
-                                    <span id="status-label" class="status" 
-                                        style="background-color: <?php 
-                                             if ($data['status'] == 'disetujui') {
-                                                echo '#2ea56f'; // Hijau
-                                            } elseif ($data['status'] == 'ditolak') {
-                                                echo '#dc3545'; // Merah
-                                            } elseif ($data['status'] == 'jadwal alternatif') {
-                                                echo '#ffc107'; // Kuning
-                                            } elseif ($data['status'] == 'selesai') {
-                                                echo '#007bff'; // Biru
-                                            } else {
-                                                echo '#fd7e14'; // Oranye
-                                            }
-                                        ?>;">
-                                        <?php echo htmlspecialchars($data['status']); ?>
-                                    </span>
+                                    <?php
+                                    if ($data['status'] == 'disetujui') {
+                                        echo '<p class="alert alert-success text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#2ea56f; width:fit-content;" role="alert">Disetujui</p>';
+                                    } elseif ($data['status'] == 'ditolak') {
+                                        echo '<p class="alert alert-danger text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#dc3545; width:fit-content;" role="alert">Ditolak</p>';
+                                    } elseif ($data['status'] == 'selesai') {
+                                        echo '<p class="alert alert-info text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#007bff; width:fit-content;" role="alert">Selesai</p>';
+                                    } elseif ($data['status'] == 'alternatif') {
+                                        echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2" style="background-color:#ffc107; width:fit-content;" role="alert">Alternatif</p>';
+                                    } else {
+                                        echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2 px-3" style="background-color:orange; width:fit-content;" role="alert">Menunggu</p>';
+                                    }
+                                ?>
                                 </td>
                             </tr>
                             <tr>

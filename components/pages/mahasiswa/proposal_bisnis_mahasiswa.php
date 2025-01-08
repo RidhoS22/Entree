@@ -206,16 +206,16 @@ $result = $stmt->get_result();
                                 </div>
                                 <table class="table table-bordered m-0 styled-table">
                                     <tbody>
-                                    <tr class="text-center">
-                                        <td class="fw-semibold" style="width: 60%;">Status Proposal Bisnis:</td>
+                                    <tr>
+                                        <td style="width: 60%;">Status Proposal Bisnis:</td>
                                         <td>
                                             <?php
                                                 if ($proposal['status'] == 'disetujui') {
-                                                    echo '<p class="alert alert-success text-white fw-bold text-center p-2" style="background-color:#28a745; border-radius: 5px;" role="alert">Disetujui</p>';
+                                                    echo '<p class="alert alert-success text-white fw-bold text-center p-2 m-0" style="background-color:#2ea56f; border-radius: 5px;" role="alert">Disetujui</p>';
                                                 } elseif ($proposal['status'] == 'ditolak') {
-                                                    echo '<p class="alert alert-danger text-white fw-bold text-center p-2" style="background-color:#dc3545; border-radius: 5px;" role="alert">Ditolak</p>';
+                                                    echo '<p class="alert alert-danger text-white fw-bold text-center p-2 m-0" style="background-color:#dc3545; border-radius: 5px;" role="alert">Ditolak</p>';
                                                 } else {
-                                                    echo '<p class="alert alert-warning text-white fw-bold text-center p-2" style="background-color: #ffc107; border-radius: 5px;" role="alert">Menunggu</p>';
+                                                    echo '<p class="alert alert-warning text-white fw-bold text-center p-2 m-0" style="background-color: #ffc107; border-radius: 5px;" role="alert">Menunggu</p>';
                                                 }
                                             ?>
                                         </td>

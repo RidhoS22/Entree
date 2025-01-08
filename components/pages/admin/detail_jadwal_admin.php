@@ -119,75 +119,56 @@ if ($id) {
                         </tr>
                         <tr>
                             <th>Status:</th>
-                            <td class="file-box">
-                                <?php if ($canTakeAction): ?>
-                                    <div class="dropdown d-flex align-items-center">
-                                        <span id="status-label" class="status me-3" 
-                                            style="background-color: <?php 
-                                                if ($data['status'] == 'disetujui') {
-                                                    echo '#2ea56f';
-                                                } elseif ($data['status'] == 'ditolak') {
-                                                    echo '#dc3545';
-                                                } elseif  ($data['status'] == 'selesai') {
-                                                    echo '#007bff';
-                                                } elseif  ($data['status'] == 'alternatif'){
-                                                    echo '#ffc107';
-                                                } else {
-                                                    echo 'orange';
-                                                }
-                                            ?>;">
-                                            <?php echo htmlspecialchars($data['status']); ?>
-                                        </span>
-                                        <tr>
-                                            <th><strong>Bukti Kegiatan:</strong></td>
-                                            <td class="file-box">
-                                                <ul id="fileList">
-                                                    <li class="file-box">
-                                                        <div class="file-info">
-                                                            <?php echo htmlspecialchars(basename($data['bukti_kegiatan'] ?? 'Mahasiswa Belum Mengunggah bukti kegiatan')); ?>
-                                                        </div>
-                                                        <?php if (!empty($data['bukti_kegiatan'])): ?>
-                                                            <div class="icon-group">
-                                                                <!-- Ikon Lihat File -->
-                                                                <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
-                                                                target="_blank" 
-                                                                class="detail-icon" 
-                                                                data-bs-toggle="tooltip" 
-                                                                data-bs-custom-class="custom-tooltip" 
-                                                                data-bs-title="Lihat File">
-                                                                    <i class="fa-solid fa-eye"></i>
-                                                                </a>
-                                                                <!-- Ikon Unduh File -->
-                                                                <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
-                                                                download 
-                                                                class="btn-icon" 
-                                                                data-bs-toggle="tooltip" 
-                                                                data-bs-custom-class="custom-tooltip" 
-                                                                data-bs-title="Unduh File">
-                                                                    <i class="fa-solid fa-download"></i>
-                                                                </a>
-                                                            </div>
-                                                        <?php endif; ?>
-                                                    </li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                    </div>
-                                <?php else: ?>
-                                        <span id="status-label" class="status" 
-                                            style="background-color: <?php 
-                                                if ($data['status'] == 'disetujui') {
-                                                    echo '#2ea56f';
-                                                } elseif ($data['status'] == 'ditolak') {
-                                                    echo '#dc3545';
-                                                } else {
-                                                    echo 'orange';
-                                                }
-                                            ?>;">
-                                            <?php echo htmlspecialchars($data['status']); ?>
-                                        </span>
-                                <?php endif; ?>
-                            </td>
+                            <td>
+                                <?php
+                                    if ($data['status'] == 'disetujui') {
+                                        echo '<p class="alert alert-success text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#2ea56f; width:fit-content;" role="alert">Disetujui</p>';
+                                    } elseif ($data['status'] == 'ditolak') {
+                                        echo '<p class="alert alert-danger text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#dc3545; width:fit-content;" role="alert">Ditolak</p>';
+                                    } elseif ($data['status'] == 'selesai') {
+                                        echo '<p class="alert alert-info text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#007bff; width:fit-content;" role="alert">Selesai</p>';
+                                    } elseif ($data['status'] == 'alternatif') {
+                                        echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2" style="background-color:#ffc107; width:fit-content;" role="alert">Alternatif</p>';
+                                    } else {
+                                        echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2 px-3" style="background-color:orange; width:fit-content;" role="alert">Menunggu</p>';
+                                    }
+                                ?> 
+                            </td> 
+                                <tr>
+                                    <th><strong>Bukti Kegiatan:</strong></td>
+                                    <td class="file-box">
+                                        <ul id="fileList">
+                                            <li class="file-box">
+                                                <div class="file-info">
+                                                    <?php echo htmlspecialchars(basename($data['bukti_kegiatan'] ?? 'Mahasiswa Belum Mengunggah bukti kegiatan')); ?>
+                                                </div>
+                                                <?php if (!empty($data['bukti_kegiatan'])): ?>
+                                                    <div class="icon-group">
+                                                        <!-- Ikon Lihat File -->
+                                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                        target="_blank" 
+                                                        class="detail-icon" 
+                                                        data-bs-toggle="tooltip" 
+                                                        data-bs-custom-class="custom-tooltip" 
+                                                        data-bs-title="Lihat File">
+                                                            <i class="fa-solid fa-eye"></i>
+                                                        </a>
+                                                        <!-- Ikon Unduh File -->
+                                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                        download 
+                                                        class="btn-icon" 
+                                                        data-bs-toggle="tooltip" 
+                                                        data-bs-custom-class="custom-tooltip" 
+                                                        data-bs-title="Unduh File">
+                                                            <i class="fa-solid fa-download"></i>
+                                                        </a>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </div>                 
                         </tr>
                     </table>
 
