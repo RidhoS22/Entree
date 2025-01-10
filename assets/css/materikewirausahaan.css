@@ -9,8 +9,6 @@
   border: none;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 10px;
-  margin-bottom: 10px;
   border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -418,8 +416,38 @@ form textarea:focus {
   object-fit: cover; /* Potong gambar agar sesuai dengan area */
 }
 
-.card .btn-hijau {
-  margin: 10px;
+/* CSS FITUR CARI MATERI */
+
+.input-group {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.d-flex {
+  width: 90%;
+}
+
+.admin {
+  width: 95%;
+}
+
+.right-admin {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.right-admin .input-admin {
+  width: 30%;
+}
+
+.input-group input {
+  width: 80%;
+}
+
+.input-group button {
+  width: 20%;
 }
 
 /* Responsivitas */
@@ -427,11 +455,18 @@ form textarea:focus {
   .card {
     flex: 1 1 calc(33.33% - 16px); /* Tiga kartu per baris */
   }
+  .right-admin .input-admin {
+    width: 70%;
+  }
 }
 
 @media (max-width: 768px) {
   .card {
     flex: 1 1 calc(50% - 16px); /* Dua kartu per baris */
+  }
+
+  .right-admin .input-admin {
+    width: 90%;
   }
 }
 
@@ -447,6 +482,20 @@ form textarea:focus {
 
   .card-text {
     font-size: 0.9rem; /* Ukuran font lebih kecil */
+  }
+
+  .d-flex,
+  .right-admin {
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+    width: 100%;
+  }
+
+  .input-group input,
+  .input-group button,
+  .right-admin .input-admin {
+    width: 100%;
   }
 }
 

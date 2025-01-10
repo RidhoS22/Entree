@@ -108,8 +108,8 @@ $laporan_result = $stmt->get_result();
                                             <option value="" style="color:darkgrey;" disabled selected>
                                                 ~ Pilih Jenis Laporan ~
                                             </option>
-                                            <option value="laporan_kemajuan">Laporan Kemajuan</option>
-                                            <option value="laporan_akhir">Laporan Akhir</option>
+                                            <option value="Laporan Kemajuan">Laporan Kemajuan</option>
+                                            <option value="Laporan Akhir">Laporan Akhir</option>
                                         </select>
                                     </div>
 

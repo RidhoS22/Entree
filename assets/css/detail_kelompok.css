@@ -54,7 +54,6 @@ body {
   border: 0;
   background-color: transparent;
   transition: transform 0.3s ease;
-  margin-left: 20px;
 }
 
 .edit-btn:hover {

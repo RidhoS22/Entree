@@ -65,7 +65,7 @@ if (!$result) {
     <div class="wrapper">
         <!-- Sidebar -->
         <?php 
-            $activePage = 'laporan_bisnis_admin'; // Halaman ini aktif
+            $activePage = 'daftar_penuh_proposal'; // Halaman ini aktif
             include 'sidebar_admin.php'; 
         ?>
 

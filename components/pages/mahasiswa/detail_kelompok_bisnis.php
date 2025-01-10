@@ -143,7 +143,10 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
 </head>
 <body>
     <div class="wrapper">
-        <?php include 'sidebar_mahasiswa.php'; ?>
+        <?php 
+        $activePage = 'kelompok_bisnis'; 
+        include 'sidebar_mahasiswa.php'; 
+        ?>
 
         <div class="main p-3">
             <div class="main_header">
@@ -204,8 +207,8 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                 <div class="title-edit">
                                     <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
                                     <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" style="display: none;" />
-                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">
-                                        <i class="fas fa-edit"></i> Edit
+                                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editModal">
+                                        <i class="fas fa-edit edit-btn"></i> 
                                     </button>
                                 </div>
                                 <?php } else { ?>
@@ -461,7 +464,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                                    <button type="submit" class="btn btn-success">Simpan</button>
                                                 </div>
                                             </form>
                                         </div>

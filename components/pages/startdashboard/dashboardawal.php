@@ -43,7 +43,7 @@
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <div class="sidebar-logo">
-                    <a href="#">Yarsi Entree</a>
+                    <a href="#">Entree</a>
                 </div>
             </div>
             <ul class="sidebar-nav">
@@ -57,11 +57,11 @@
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
                         data-bs-target="#auth" aria-expanded="false" aria-controls="auth">
                         <i class="lni lni-protection"></i>
-                        <span>Auth</span>
+                        <span>Autentikasi</span>
                     </a>
                     <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="/Entree/login" class="sidebar-link">Login</a>
+                            <a href="/Entree/login" class="sidebar-link">Masuk</a>
                         </li>
                     </ul>
                 </li>

@@ -95,7 +95,10 @@ if ($currentMonth >= 7) { // Semester Ganjil
 </head>
 <body>
     <div class="wrapper">
-        <?php include 'sidebar_mahasiswa.php'; ?>
+        <?php 
+        $activePage = 'kelompok_bisnis'; 
+        include 'sidebar_mahasiswa.php'; 
+        ?>
 
         <div class="main p-3">
             <div class="main_header">

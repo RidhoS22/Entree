@@ -135,34 +135,44 @@ if (!empty($laporan_pdf)) {
                     <p><?php echo htmlspecialchars($laporan['jenis_laporan']); ?></p>
                 </div>
 
-                <p>Laporan Penjualan:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['laporan_penjualan']); ?></p>
-                </div>
+                <?php if (!empty($laporan['laporan_penjualan'])): ?>
+                    <p>Laporan Penjualan:</p>
+                    <div class="file-box">
+                        <p><?php echo htmlspecialchars($laporan['laporan_penjualan']); ?></p>
+                    </div>
+                <?php endif; ?>
 
-                <p>Laporan Pemasaran:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['laporan_pemasaran']); ?></p>
-                </div>
+                <?php if (!empty($laporan['laporan_pemasaran'])): ?>
+                    <p>Laporan Pemasaran:</p>
+                    <div class="file-box">
+                        <p><?php echo htmlspecialchars($laporan['laporan_pemasaran']); ?></p>
+                    </div>
+                <?php endif; ?>
 
-                <p>Laporan Produksi:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['laporan_produksi']); ?></p>
-                </div>
+                <?php if (!empty($laporan['laporan_produksi'])): ?>
+                    <p>Laporan Produksi:</p>
+                    <div class="file-box">
+                        <p><?php echo htmlspecialchars($laporan['laporan_produksi']); ?></p>
+                    </div>
+                <?php endif; ?>
 
-                <p>Laporan SDM:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['laporan_sdm']); ?></p>
-                </div>
+                <?php if (!empty($laporan['laporan_sdm'])): ?>
+                    <p>Laporan SDM:</p>
+                    <div class="file-box">
+                        <p><?php echo htmlspecialchars($laporan['laporan_sdm']); ?></p>
+                    </div>
+                <?php endif; ?>
 
-                <p>Laporan Keuangan:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['laporan_keuangan']); ?></p>
-                </div>
+                <?php if (!empty($laporan['laporan_keuangan'])): ?>
+                    <p>Laporan Keuangan:</p>
+                    <div class="file-box">
+                        <p><?php echo htmlspecialchars($laporan['laporan_keuangan']); ?></p>
+                    </div>
+                <?php endif; ?>
 
                 <!-- Menampilkan Lampiran PDF -->
                 <div>
-                    <h3 id="fileHeading">Daftar Lampiran</h3>
+                    <h3 id="fileHeading">Lampiran</h3>
                     <ul id="fileList">
                     <?php
                     // Periksa jika ada file PDF

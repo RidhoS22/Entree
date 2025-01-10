@@ -127,7 +127,7 @@ if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
                 <li class="sidebar-header">
                     <h1>Mahasiswa</h1>
                 </li>
-                <li class="sidebar-item <?php echo ($activePage == 'kelompok_bisnis_mahasiswa') ? 'active' : ''; ?>">
+                <li class="sidebar-item <?php echo ($activePage == 'kelompok_bisnis') ? 'active' : ''; ?>">
                     <a href="kelompok_bisnis" class="sidebar-link">
                         <i class="fa-solid fa-users"></i>
                         <span>Kelompok Bisnis</span>

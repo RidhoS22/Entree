@@ -108,8 +108,8 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                     </tr>
                     <tr>
                         <td><strong>Tujuan SDGs:</strong></td>
-                        <td class="file-box">
-                            <ul>
+                        <td class="file-box m-0 p-0">
+                            <ul class="m-0 p-0 mx-3">
                                 <?php foreach ($sdg_labels as $label): ?>
                                     <li><?php echo htmlspecialchars($label); ?></li>
                                 <?php endforeach; ?>
@@ -128,6 +128,13 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                             ?>
                         </td>
                     </tr>
+                    <tr>
+                        <td><strong>Anggaran:</strong></td>
+                        <td class="file-box">
+                            Rp. <?php echo number_format($proposal['anggaran'], 0, ',', '.'); ?>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td><strong>File Proposal Bisnis:</strong></td>
                         <td class="file-box">

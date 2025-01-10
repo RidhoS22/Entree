@@ -41,7 +41,11 @@ function getFileIcon($fileExtension) {
             return '/Entree/assets/img/icon_default.png'; // Icon default
     }
 }
+
+
 ?>
+
+
 
 
 
@@ -76,46 +80,71 @@ function getFileIcon($fileExtension) {
 
             <div class="main_wrapper">
 
+               <!-- Form pencarian -->
+                <form action="" method="get">
+                    <div class="input-group mb-3">
+                        <div class="d-flex justify-content-end" role="search">
+                            <input type="text" class="form-control me-2" placeholder="Cari Materi Kewirausahaan" name="search" aria-label="Search" value="<?= htmlspecialchars($_GET['search'] ?? ''); ?>">
+                            <button class="btn btn-outline-success px-5" type="submit">Cari</button>
+                        </div>
+                    </div>
+                </form>
+
                 <!-- PHP untuk menampilkan materi -->
                 <div class="card-container">
-                <?php
-                include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
-                
-                $sql = "SELECT * FROM materi_kewirausahaan";
-                $result = $conn->query($sql);
-                
-                if ($result === false) {
-                    echo "<p>Error pada query: " . $conn->error . "</p>";
-                } elseif ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        $filePath = htmlspecialchars($row["file_path"]);
-                        $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
-                    
-                        // Gunakan fungsi getFileIcon untuk mendapatkan jalur icon
-                        $iconSrc = getFileIcon($fileExtension);
-                    
-                        echo '
-                        <a href="detail_materi_kewirausahaan?id=' . $row["id"] . '">
-                            <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
-                                <div class="icon-container""> 
-                                    <img src="' . $iconSrc . '" alt="File Icon" class="icon">
-                                </div>
-                                <div class="card-body" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
-                                    <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
-                                    <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
+                    <?php
+                        include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+                        // Ambil parameter pencarian
+                        $search = $_GET['search'] ?? '';
+
+                        // Filter input untuk mencegah SQL Injection
+                        $search = $conn->real_escape_string($search);
+
+                        // Tambahkan kondisi pencarian jika ada input
+                        if ($search) {
+                            $sql = "SELECT * FROM materi_kewirausahaan WHERE judul LIKE '%$search%' OR deskripsi LIKE '%$search%'";
+                        } else {
+                            $sql = "SELECT * FROM materi_kewirausahaan";
+                        }
+
+                        $result = $conn->query($sql);
+
+                        if ($result === false) {
+                            echo "<p>Error pada query: " . $conn->error . "</p>";
+                        } elseif ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $filePath = htmlspecialchars($row["file_path"]);
+                                $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+
+                                // Gunakan fungsi getFileIcon untuk mendapatkan jalur icon
+                                $iconSrc = getFileIcon($fileExtension);
+
+                                echo '
+                                <a href="detail_materi_kewirausahaan?id=' . $row["id"] . '">
+                                    <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
+                                        <div class="icon-container">
+                                            <img src="' . $iconSrc . '" alt="File Icon" class="icon">
+                                        </div>
+                                        <div class="card-body" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
+                                            <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
+                                            <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
+                                        </div>
+                                    </div>
+                                </a>';
+                            }
+                        } else {
+                            echo '
+                            <div class="d-flex justify-content-center align-items-center" style="height: 60vh; width: 100%;">
+                                <div class="alert alert-warning text-center" role="alert">
+                                    <p>Belum Ada Materi Kewirausahaan yang sesuai dengan pencarian Anda.</p>
                                 </div>
                             </div>
-                        </a>';
-                    }
+                            ';
+                        }
 
-                    echo '</div>';
-                } else {
-                    echo "<p>Belum ada materi ditambahkan</p>";
-                }
-
-                $conn->close();
-
-                ?>
+                        $conn->close();
+                    ?>
             </div>
         </div>
     </div>

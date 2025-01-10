@@ -265,16 +265,28 @@ if ($id) {
                     </div>
 
                    <?php if ($data['status'] == 'selesai' && $canTakeAction): ?>
-                        <form action="submit_feedback_jadwal" method="POST">
-                            <div class="mb-3">
-                                <label for="feedbackInput" class="form-label">Masukkan Umpan Balik Anda:</label>
-                                <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                <button class="accordion-button collapsed text-white" style="background-color:#2ea56f; border-radius:5px;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                    Masukkan Umpan Balik Anda:
+                                </button>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <form action="submit_feedback_jadwal" method="POST">
+                                        <div class="mb-3">
+                                            <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
+                                        </div>
+                                        <input type="hidden" name="jadwal_id" value="<?php echo htmlspecialchars($id); ?>">
+                                        <div class="btn_container mentor-buttons">
+                                            <button type="submit">Kirim Umpan Balik</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                </div>
                             </div>
-                            <input type="hidden" name="jadwal_id" value="<?php echo htmlspecialchars($id); ?>">
-                            <div class="btn_container mentor-buttons">
-                                <button type="submit">Kirim Feedback</button>
-                            </div>
-                        </form>
+                        </div>
 
                     <?php endif; ?>
 

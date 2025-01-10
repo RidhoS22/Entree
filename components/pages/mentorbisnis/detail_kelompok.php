@@ -205,7 +205,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                 <div class="card card-body" style="width: 300px;">
                                     <!-- Tombol Hapus -->
                                     <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                        Hapus Kelompok Dari Program Inkubasi
+                                        Keluarkan Kelompok Dari Program Inkubasi
                                     </button>
 
                                 </div>
@@ -217,7 +217,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
+                                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Pengeluaran</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -225,7 +225,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Hapus</button>
+                                        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Keluarkan</button>
                                     </div>
                                 </div>
                             </div>

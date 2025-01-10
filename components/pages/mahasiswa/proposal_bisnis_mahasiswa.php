@@ -178,7 +178,7 @@ $result = $stmt->get_result();
                                     <div class="form-group mb-3">
                                         <label for="proposal" class="form-label">Proposal Bisnis Kewirausahaan 
                                             <span style="color:red;">*</span>
-                                            <small class="text-muted">(PDF only)</small>
+                                            <small class="text-muted">(unggah dalam format PDF.)</small>
                                         </label>
                                         <div class="input-group">
                                             <input type="file" class="form-control" id="proposal" name="proposal" accept=".pdf" required>
@@ -187,7 +187,7 @@ $result = $stmt->get_result();
 
                                     <div class="form-group">
                                         <label for="anggaran">Anggaran:<span style="color:red;">*</span></label>
-                                        <input type="text" id="anggaran" name="anggaran" required>
+                                        <input type="text" id="anggaran" name="anggaran" required placeholder="masukkan hanya angka (contoh: 100000).">
                                     </div>
                                 
                                     <div class="modal-footer">

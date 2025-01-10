@@ -146,9 +146,13 @@ function getFileIcon($fileExtension) {
                             </div>
                     </div>
                     <div class="layout-right">
-                        <div class="card-container">
-                            <?php
-                            $sql = "SELECT * FROM materi_kewirausahaan";
+                    <div class="card-container">
+                            <?php   
+                            // Pastikan ada ID materi yang sedang ditampilkan
+                            $currentId = isset($_GET['id']) ? (int)$_GET['id'] : null;
+
+                            // Ambil 10 file acak, kecuali file yang sedang ditampilkan
+                            $sql = "SELECT * FROM materi_kewirausahaan WHERE id != $currentId ORDER BY RAND() LIMIT 10";
                             $result = $conn->query($sql);
 
                             if ($result === false) {
@@ -157,14 +161,12 @@ function getFileIcon($fileExtension) {
                                 while ($row = $result->fetch_assoc()) {
                                     $filePath = htmlspecialchars($row["file_path"]);
                                     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
-                                
-                                    // Gunakan fungsi getFileIcon untuk mendapatkan jalur icon
                                     $iconSrc = getFileIcon($fileExtension);
-                                
+
                                     echo '
                                     <a href="detail_materi?id=' . $row["id"] . '">
                                         <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
-                                            <div class="icon-container""> 
+                                            <div class="icon-container"> 
                                                 <img src="' . $iconSrc . '" alt="File Icon" class="icon">
                                             </div>
                                             <div class="card-body" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
@@ -175,8 +177,13 @@ function getFileIcon($fileExtension) {
                                     </a>';
                                 }
                             } else {
-                                echo "<p>Belum ada materi ditambahkan.</p>";
-                            }
+                                echo '
+                                <div class="d-flex justify-content-center align-items-center" style="height: 60vh; width: 100%;">
+                                    <div class="alert alert-warning text-center" role="alert">
+                                        <p>Belum Ada Materi Kewirausahaan.</p>
+                                    </div>
+                                </div>
+                                ';    }
 
                             $conn->close();
                             ?>

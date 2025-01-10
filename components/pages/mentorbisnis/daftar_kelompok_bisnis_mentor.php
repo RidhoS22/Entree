@@ -231,8 +231,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="main_wrapper">
                 <div class="nav_main_wrapper">
-                    <nav class="navbar navbar-expand-lg">
-                        <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg m-0 p-0">
+                        <div class="container-fluid m-0 p-0">
                         <form method="GET" action="daftar_kelompok_bisnis" id="formStatus">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle text-white" type="button" 

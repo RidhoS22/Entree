@@ -96,9 +96,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="main_wrapper">
-                <button type="button" class="btn-hijau" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Tambah Materi
-                </button>
+               
+            
+
+                 <!-- Form pencarian -->
+                 <form action="" method="get">
+                    <div class="input-group mb-3">
+                        <div class="d-flex admin" role="search">  
+                            <button type="button" class="btn-hijau m-0 me-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Tambah Materi
+                            </button>
+                            <div class="right-admin">
+                                <input  type="text" class="form-control me-2 input-admin" placeholder="Cari Materi Kewirausahaan" name="search" aria-label="Search" value="<?= htmlspecialchars($_GET['search'] ?? ''); ?>">
+                                <button class="btn btn-outline-success" type="submit">Cari</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -115,14 +129,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </div>
                                     
                                     <div class="form-group mb-3">
-                                    <label for="materi" class="form-label">Unggah Materi:<span style="color:red;">*</span><span style="color:grey;">(PDF, Word, PPT, Video, Exel, Gambar)</</span></label>
+                                    <label for="materi" class="form-label">Unggah Materi:<span style="color:red;">*</span><span style="color:grey;"><small>(PDF, Word, PPT, Video, Exel, Gambar)</small></span></label>
                                     <div class="input-group">
                                     <input type="file" class="form-control" id="materi" name="materi" accept=".pdf,.doc,.docx,.ppt,.pptx,.mp4,.avi,.mov,.mkv,.xls,.xlsx,.jpg,.jpeg,.png" required />
                                     </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="deskripsi">Deskripsi Materi:<span style="color:red;">*</span><span style="color:grey;">(maksimal 3000 kata)</span></label>
+                                        <label for="deskripsi">Deskripsi Materi:<span style="color:red;">*</span><span style="color:grey;"><small>(maksimal 3000 karakter)</small></span></label>
                                         <textarea id="deskripsi" name="deskripsi" required></textarea>
                                     </div>
                             </div>
@@ -164,38 +178,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php unset($_SESSION['toast_success']); ?>
                 <?php endif; ?>
 
-
-                <!-- Display Materials -->
+                <!-- PHP untuk menampilkan materi -->
                 <div class="card-container">
                     <?php
-                    include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
-                    $sql = "SELECT * FROM materi_kewirausahaan";
-                    $result = $conn->query($sql);
+                        include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
-                    if ($result && $result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            $fileName = htmlspecialchars($row["file_path"]);
-                            $filePath = '/Entree/components/pages/admin/uploads/' . $fileName;
-                            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
-                            $iconSrc = getFileIcon($fileExtension);
+                        // Ambil parameter pencarian
+                        $search = $_GET['search'] ?? '';
 
-                            echo '
-                            <a href="detail_materi?id=' . $row["id"] . '">
-                                <div class="card">
-                                    <div class="icon-container"> 
-                                        <img src="' . $iconSrc . '" alt="File Icon" class="icon">
-                                    </div>
-                                    <div class="card-body" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
-                                        <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
-                                        <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
-                                    </div>
-                                </div>
-                            </a>';
+                        // Filter input untuk mencegah SQL Injection
+                        $search = $conn->real_escape_string($search);
+
+                        // Tambahkan kondisi pencarian jika ada input
+                        if ($search) {
+                            $sql = "SELECT * FROM materi_kewirausahaan WHERE judul LIKE '%$search%' OR deskripsi LIKE '%$search%'";
+                        } else {
+                            $sql = "SELECT * FROM materi_kewirausahaan";
                         }
-                    } else {
-                        echo "<p>Belum ada materi ditambahkan.</p>";
-                    }
-                    $conn->close();
+
+                        $result = $conn->query($sql);
+
+                        if ($result === false) {
+                            echo "<p>Error pada query: " . $conn->error . "</p>";
+                        } elseif ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                $filePath = htmlspecialchars($row["file_path"]);
+                                $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+
+                                // Gunakan fungsi getFileIcon untuk mendapatkan jalur icon
+                                $iconSrc = getFileIcon($fileExtension);
+
+                                echo '
+                                <a href="detail_materi_kewirausahaan?id=' . $row["id"] . '">
+                                    <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
+                                        <div class="icon-container">
+                                            <img src="' . $iconSrc . '" alt="File Icon" class="icon">
+                                        </div>
+                                        <div class="card-body" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
+                                            <h5 class="card-title">' . htmlspecialchars($row["judul"]) . '</h5>
+                                            <p class="card-text">' . htmlspecialchars($row["deskripsi"]) . '</p>
+                                        </div>
+                                    </div>
+                                </a>';
+                            }
+                        } else {
+                            echo '
+                            <div class="d-flex justify-content-center align-items-center" style="height: 60vh; width: 100%;">
+                                <div class="alert alert-warning text-center" role="alert">
+                                    <p>Belum Ada Materi Kewirausahaan yang sesuai dengan pencarian Anda.</p>
+                                </div>
+                            </div>
+                            ';
+                        }
+
+                        $conn->close();
                     ?>
                 </div>
             </div>

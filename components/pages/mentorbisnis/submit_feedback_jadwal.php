@@ -18,7 +18,7 @@ $jadwalId = isset($_POST['jadwal_id']) ? $_POST['jadwal_id'] : null;
 
 // Cek apakah feedback dan jadwal ID valid
 if (!$feedback || !$jadwalId) {
-    echo "Feedback atau Jadwal ID tidak valid!";
+    echo "Umpan Balik atau Jadwal ID tidak valid!";
     exit;
 }
 

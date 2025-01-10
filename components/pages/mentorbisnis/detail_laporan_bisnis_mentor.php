@@ -155,36 +155,64 @@ if (!empty($laporan_pdf)) {
 
             <!-- Content Wrapper -->
             <div class="main_wrapper">
+                
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
                 <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
+                <div>
+                    <?php
+                        if ($laporan['jenis_laporan'] == 'laporan_kemajuan') {
+                            echo '<p class="alert alert-success text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#2ea56f; width:fit-content;" role="alert">Laporan Kemajuan</p>';
+                        } elseif ($laporan['jenis_laporan'] == 'laporan_akhir') {
+                            echo '<p class="alert alert-info text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#007bff; width:fit-content;" role="alert">Laporan Akhir</p>';
+                        } else {
+                            echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2 px-3" style="background-color:orange; width:fit-content;" role="alert">Tidak ada Jenis Laporan</p>';
+                        }
+                    ?>
+                </div> 
+            </div>
 
-                <p>Laporan Penjualan:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['laporan_penjualan']); ?></p>
-                </div>
+                
 
-                <p>Laporan Pemasaran:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['laporan_pemasaran']); ?></p>
-                </div>
 
-                <p>Laporan Produksi:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['laporan_produksi']); ?></p>
-                </div>
+                <?php if (!empty($laporan['laporan_penjualan'])): ?>
+                    <p>Laporan Penjualan:</p>
+                    <div class="file-box">
+                        <p><?php echo htmlspecialchars($laporan['laporan_penjualan']); ?></p>
+                    </div>
+                <?php endif; ?>
 
-                <p>Laporan SDM:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['laporan_sdm']); ?></p>
-                </div>
+                <?php if (!empty($laporan['laporan_pemasaran'])): ?>
+                    <p>Laporan Pemasaran:</p>
+                    <div class="file-box">
+                        <p><?php echo htmlspecialchars($laporan['laporan_pemasaran']); ?></p>
+                    </div>
+                <?php endif; ?>
 
-                <p>Laporan Keuangan:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['laporan_keuangan']); ?></p>
-                </div>
+                <?php if (!empty($laporan['laporan_produksi'])): ?>
+                    <p>Laporan Produksi:</p>
+                    <div class="file-box">
+                        <p><?php echo htmlspecialchars($laporan['laporan_produksi']); ?></p>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($laporan['laporan_sdm'])): ?>
+                    <p>Laporan SDM:</p>
+                    <div class="file-box">
+                        <p><?php echo htmlspecialchars($laporan['laporan_sdm']); ?></p>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (!empty($laporan['laporan_keuangan'])): ?>
+                    <p>Laporan Keuangan:</p>
+                    <div class="file-box">
+                        <p><?php echo htmlspecialchars($laporan['laporan_keuangan']); ?></p>
+                    </div>
+                <?php endif; ?>
+
 
                 <!-- Menampilkan Lampiran PDF -->
                 <div>
-                    <h3 id="fileHeading">Daftar Lampiran</h3>
+                    <h3 id="fileHeading">Lampiran</h3>
                     <ul id="fileList">
                     <?php
                     // Periksa jika ada file PDF
@@ -229,17 +257,36 @@ if (!empty($laporan_pdf)) {
                 </div>
                 
                 <?php if ($is_mentor_matched): ?>
-                    <form id="feedbackForm">
-                        <div class="mb-3">
-                            <label for="feedbackInput" class="form-label">Masukkan Umpan Balik Anda:</label>
-                            <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
+                    <?php if (!empty($laporan['feedback'])): ?>
+                        <strong>Umpan Balik:</strong>
+                        <div class="feedback-box">
+                            <p><?php echo htmlspecialchars($laporan['feedback']); ?></p>
                         </div>
-                        <input type="hidden" id="laporanId" value="<?php echo htmlspecialchars($laporan['id']); ?>">
-                        <div class="btn_container d-flex justify-content-end">
-                            <button type="submit" class="btn">Kirim Umpan Balik</button>
+                    <?php endif; ?>
+
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                            <button class="accordion-button collapsed text-white" style="background-color:#2ea56f; border-radius:5px;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                                Masukkan Umpan Balik Anda:
+                            </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                            <form id="feedbackForm">
+                                <div class="mb-3">
+                                    <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
+                                </div>
+                                <input type="hidden" id="laporanId" value="<?php echo htmlspecialchars($laporan['id']); ?>">
+                                <div id="feedbackMessage" class="mt-3"></div>
+                                <div class="btn_container d-flex justify-content-end">
+                                    <button type="submit" class="btn">Kirim Umpan Balik</button>
+                                </div>
+                            </form>                                
+                            </div>
+                            </div>
                         </div>
-                    </form>
-                    <div id="feedbackMessage" class="mt-3"></div>
+                    </div>
                     
                     <script>
                         document.getElementById('feedbackForm').addEventListener('submit', async function (event) {
@@ -282,11 +329,11 @@ if (!empty($laporan_pdf)) {
                     </script>
                 <?php else: ?>
                     <p>Umpan Balik Dari Mentor:</p>
-                <div class="feedback-box">
-                    <p><?php echo htmlspecialchars($laporan['feedback'] ?? 'Tidak ada Feedback.'); ?></p>
-                </div>
+                    <div class="feedback-box">
+                        <p><?php echo htmlspecialchars($laporan['feedback'] ?? 'Belum ada Umpan Balik.'); ?></p>
+                    </div>
                 <?php endif; ?>
-                <a href="laporan_bisnis?id_kelompok=<?php echo $id_kelompok; ?>" class="btn btn-secondary">Kembali</a>
+                <a href="laporan_bisnis?id_kelompok=<?php echo $id_kelompok; ?>" class="btn btn-secondary mt-4">Kembali</a>
             </div>
         </div>
     </div>

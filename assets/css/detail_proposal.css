@@ -85,7 +85,6 @@ h2 {
   transition: background-color 0.3s ease, transform 0.2s ease;
   background-color: #2ea56f;
   color: white;
-  margin-bottom: 20px !important;
 }
 
 .btn_container button:hover {

@@ -182,10 +182,10 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                     </tr>
                     <tr>
                         <td><strong>Tujuan SDGs:</strong></td>
-                        <td class="file-box">
-                            <ul>
+                        <td class="file-box m-0 p-0">
+                            <ul class="m-0 p-0 mx-2">
                                 <?php foreach ($sdg_labels as $label): ?>
-                                    <li><?php echo htmlspecialchars($label); ?></li>
+                                    <li class="m-2"><?php echo htmlspecialchars($label); ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </td>
@@ -200,6 +200,12 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                                 echo htmlspecialchars($proposal['kategori']);
                             }
                             ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Anggaran:</strong></td>
+                        <td class="file-box">
+                            Rp. <?php echo htmlspecialchars($proposal['anggaran']); ?>
                         </td>
                     </tr>
                     <tr>
@@ -225,38 +231,62 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                     <tr>
                         <td><strong>Status:</strong></td>
                         <td class="file-box">
-                            <?php if ($is_mentor_matched): ?>
-                                <div class="action-buttons">
+                            <?php
+                                if ($proposal['status'] == 'disetujui') {
+                                    echo '<p class="alert alert-success text-white fw-bold text-center p-2 m-0 px-3" style="background-color:#2ea56f; font-size: 17px; width:fit-content;" role="alert">Disetujui</p>';
+                                } elseif ($proposal['status'] == 'ditolak') {
+                                    echo '<p class="alert alert-danger text-white fw-bold text-center p-2 m-0 px-3" style="background-color:#dc3545; font-size: 17px; width:fit-content;" role="alert">Ditolak</p>';
+                                } else {
+                                    echo '<p class="alert alert-warning text-white fw-bold text-center p-2 m-0 px-3" style="background-color: #ffc107; font-size: 17px; width:fit-content;" role="alert">Menunggu</p>';
+                                }
+                            ?>
+                        </td>
+                    </tr>
+                    <?php if ($is_mentor_matched): ?>
+                        <tr>
+                            <td><strong>Setujui atau Tolak Proposal:</strong></td>
+                            <td class="file-box">
+                                <div class="action-buttons m-0">
                                     <button type="button" class="accept-btn">Setujui Proposal</button>
                                     <button type="button" class="reject-btn">Tolak Proposal</button>
                                 </div>
-                            <?php else: ?>
-                                <?php
-                                    if ($proposal['status'] == 'disetujui') {
-                                        echo '<p class="alert alert-success text-white fw-bold text-center p-2 m-0 px-3" style="background-color:#2ea56f; width:fit-content;" role="alert">Disetujui</p>';
-                                    } elseif ($proposal['status'] == 'ditolak') {
-                                        echo '<p class="alert alert-danger text-white fw-bold text-center p-2 m-0 px-3" style="background-color:#dc3545; width:fit-content;" role="alert">Ditolak</p>';
-                                    } else {
-                                        echo '<p class="alert alert-warning text-white fw-bold text-center p-2 m-0 px-3" style="background-color: #ffc107; width:fit-content;" role="alert">Menunggu</p>';
-                                    }
-                                ?>
-                            <?php endif; ?>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
                 </table>
                 <!-- Feedback Section -->
             <?php if ($is_mentor_matched): ?>
-                <form id="feedbackForm">
-                    <div class="mb-3">
-                        <label for="feedbackInput" class="form-label">Masukkan Umpan Balik Anda:</label>
-                        <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
+                <?php if (!empty($proposal['feedback'])): ?>
+                    <strong>Umpan Balik:</strong>
+                    <div class="feedback-box">
+                        <p><?php echo htmlspecialchars($proposal['feedback']); ?></p>
                     </div>
-                    <input type="hidden" id="proposalId" value="<?php echo htmlspecialchars($proposal['id']); ?>">
-                    <div class="btn_container d-flex justify-content-end">
-                        <button type="submit" class="btn">Kirim Umpan Balik</button>
+                <?php endif; ?>
+
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                        <button class="accordion-button collapsed text-white" style="background-color:#2ea56f; border-radius:5px;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            Masukkan Umpan Balik Anda:
+                        </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <form id="feedbackForm"> 
+                                <div class="mb-3">
+                                    <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
+                                </div>
+                                <input type="hidden" id="proposalId" value="<?php echo htmlspecialchars($proposal['id']); ?>">
+                                <div id="feedbackMessage" class="mt-3"></div>
+                                <div class="btn_container d-flex justify-content-end">
+                                    <button type="submit" class="btn">Kirim Umpan Balik</button>
+                                </div>
+                            </form>
+                            
+                        </div>
+                        </div>
                     </div>
-                </form>
-                <div id="feedbackMessage" class="mt-3"></div>
+                </div>
                 
                 <script>
                     document.getElementById('feedbackForm').addEventListener('submit', async function (event) {
@@ -297,7 +327,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
             <?php else: ?>
                 <strong>Umpan Balik:</strong>
                 <div class="feedback-box">
-                    <p><?php echo htmlspecialchars($proposal['feedback'] ?? 'Tidak ada Feedback.'); ?></p>
+                    <p><?php echo htmlspecialchars($proposal['feedback'] ?? 'Belum ada Umpan Balik.'); ?></p>
                 </div>
             <?php endif; ?>
                 <!-- Tambahkan tombol "Kembali" di luar form -->
