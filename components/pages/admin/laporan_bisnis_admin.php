@@ -1,6 +1,17 @@
 <?php
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
 // Mengimpor koneksi database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Mendapatkan ID kelompok dari parameter URL dan validasi
 $id_kelompok = isset($_GET['id_kelompok']) ? (int)$_GET['id_kelompok'] : null;
@@ -33,7 +44,7 @@ if ($id_kelompok) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/laporan_bisnis.css">
+    <link rel="stylesheet" href="/Entree/assets/css/laporan_bisnis.css">
 </head>
 
 <body>
@@ -63,13 +74,13 @@ if ($id_kelompok) {
                                 <div class="card-header">
                                     <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
                                 </div>
-                                <a href="detail_laporan_bisnis_admin.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">
+                                <a href="detail_laporan_bisnis?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">
                                     <div class="card-body">
                                         <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Laporan Kemajuan Bisnis"></i>
                                     </div>
                                 </a>
                                 <div class="card-footer">
-                                    <a href="detail_laporan_bisnis_admin.php?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">Lihat Umpan Balik</a>
+                                    <a href="detail_laporan_bisnis?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">Lihat Umpan Balik</a>
                                 </div>
                             </div>
                             <?php
@@ -80,7 +91,7 @@ if ($id_kelompok) {
                     }
                     ?> 
                 </div>
-                <div onclick="window.location.href='detail_kelompok.php?id_kelompok=<?php echo $id_kelompok; ?>'">
+                <div onclick="window.location.href='detail_kelompok?id_kelompok=<?php echo $id_kelompok; ?>'">
                     <!-- Tombol dengan ukuran lebih kecil dan penataan posisi di tengah -->
                     <button class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Tekan Untuk Kembali">Kembali ke Kelompok Bisnis</button>
                 </div>

@@ -1,5 +1,17 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+session_start();
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
 
 if (!isset($_GET['id'])) {
     echo "ID materi tidak ditemukan.";
@@ -8,7 +20,7 @@ if (!isset($_GET['id'])) {
 
 $id = $conn->real_escape_string($_GET['id']);
 
-$baseDir = '/Aplikasi-Kewirausahaan/components/pages/admin/uploads/';
+$baseDir = '/Entree/components/pages/admin/uploads/';
 
 $sql = "SELECT * FROM materi_kewirausahaan WHERE id = '$id'";
 $result = $conn->query($sql);
@@ -60,25 +72,25 @@ function getFileIcon($fileExtension) {
         case 'webm':
         case 'mov':
         case 'avi':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_video.png'; // Icon video
+            return '/Entree/assets/img/icon_video.png'; // Icon video
         case 'ppt':
         case 'pptx':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_ppt.png'; // Icon PPT
+            return '/Entree/assets/img/icon_ppt.png'; // Icon PPT
         case 'pdf':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_pdf.png'; // Icon PDF
+            return '/Entree/assets/img/icon_pdf.png'; // Icon PDF
         case 'doc':
         case 'docx':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_word.png'; // Icon Word
+            return '/Entree/assets/img/icon_word.png'; // Icon Word
         case 'xls':
         case 'xlsx':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_excel.png'; // Icon Excel
+            return '/Entree/assets/img/icon_excel.png'; // Icon Excel
         case 'jpg':
         case 'jpeg':
         case 'png':
         case 'gif':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_image.png'; // Icon gambar
+            return '/Entree/assets/img/icon_image.png'; // Icon gambar
         default:
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_default.png'; // Icon default
+            return '/Entree/assets/img/icon_default.png'; // Icon default
     }
 }
 ?>
@@ -94,9 +106,9 @@ function getFileIcon($fileExtension) {
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/sidebar_mahasiswa.css">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan.css">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_materikewirausahaan.css">
+    <link rel="stylesheet" href="/Entree/assets/css/mahasiswa/sidebar_mahasiswa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/materikewirausahaan.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_materikewirausahaan.css">
 </head>
 
 <body>
@@ -150,7 +162,7 @@ function getFileIcon($fileExtension) {
                                     $iconSrc = getFileIcon($fileExtension);
                                 
                                     echo '
-                                    <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '">
+                                    <a href="detail_materi?id=' . $row["id"] . '">
                                         <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
                                             <div class="icon-container""> 
                                                 <img src="' . $iconSrc . '" alt="File Icon" class="icon">

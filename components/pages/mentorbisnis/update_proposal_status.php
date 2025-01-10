@@ -1,7 +1,17 @@
 <?php
 // update_proposal_status.php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Cek apakah data POST valid
 $data = json_decode(file_get_contents('php://input'), true);

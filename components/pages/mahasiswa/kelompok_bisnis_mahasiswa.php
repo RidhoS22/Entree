@@ -1,6 +1,16 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 $npm_ketua = $_SESSION['npm']; // NPM ketua yang sedang login
 
@@ -9,7 +19,7 @@ $cekKelompokResult = mysqli_query($conn, $cekKelompokQuery);
 $kelompokTerdaftar = mysqli_fetch_assoc($cekKelompokResult);
 
 if ($kelompokTerdaftar) {
-    header("Location: detail_kelompok_bisnis.php?id=" . $kelompokTerdaftar['id_kelompok']);
+    header("Location: detail_kelompok_bisnis?id=" . $kelompokTerdaftar['id_kelompok']);
     exit();
 }
 
@@ -19,7 +29,7 @@ $anggotaTerdaftar = mysqli_fetch_assoc($cekAnggotaResult);
 
 if ($anggotaTerdaftar) {
     $kelompokID = $anggotaTerdaftar['id_kelompok'];
-    header("Location: detail_kelompok_bisnis.php?id=" . $kelompokID);
+    header("Location: detail_kelompok_bisnis?id=" . $kelompokID);
     exit();
 }
 
@@ -81,7 +91,7 @@ if ($currentMonth >= 7) { // Semester Ganjil
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/kelompok_bisnis_mahasiswa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/mahasiswa/kelompok_bisnis_mahasiswa.css">
 </head>
 <body>
     <div class="wrapper">
@@ -112,7 +122,7 @@ if ($currentMonth >= 7) { // Semester Ganjil
                             </div>
                             <div class="modal-body">
                                 <!-- Form dengan autocomplete="off" -->
-                                    <form method="POST" action="proses_kelompok_bisnis.php" enctype="multipart/form-data" autocomplete="off">
+                                    <form method="POST" action="proses_kelompok_bisnis" enctype="multipart/form-data" autocomplete="off">
                                         <div class="form-group">
                                             <label for="nama_kelompok">Nama Kelompok:</label>
                                             <input type="text" id="nama_kelompok" name="nama_kelompok" required>

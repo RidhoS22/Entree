@@ -1,10 +1,20 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Redirect jika belum login
 if (!isset($_SESSION['username'])) {
-    header("Location: /Aplikasi-Kewirausahaan/loginform.php");
+    header("Location: /Entree/loginform.php");
     exit;
 }
 
@@ -59,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $valid_ext = ['jpg', 'jpeg', 'png', 'gif'];
         if (in_array($file_ext, $valid_ext)) {
             // Tentukan folder penyimpanan
-            $upload_dir = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/mentorbisnis/uploads/';
+            $upload_dir = $_SERVER['DOCUMENT_ROOT'] . '/Entree/components/pages/mentorbisnis/uploads/';
             if (!file_exists($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }
@@ -70,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Pindahkan file ke folder tujuan
             if (move_uploaded_file($file_tmp, $target_file)) {
-                $foto_profile = '/Aplikasi-Kewirausahaan/components/pages/mentorbisnis/uploads/' . $new_file_name;
+                $foto_profile = '/Entree/components/pages/mentorbisnis/uploads/' . $new_file_name;
             } else {
                 die("Gagal mengunggah foto profil.");
             }
@@ -107,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->query($update_user_query);
 
     // Redirect ke halaman profile mentor setelah update
-    header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/pagementor.php");
+    header("Location: /Entree/components/pages/mentorbisnis/pagementor.php");
     exit;
 }
 
@@ -124,12 +134,12 @@ $conn->close();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/lengkapi_data.css">
+    <link rel="stylesheet" href="/Entree/assets/css/lengkapi_data.css">
 </head>
 <body>
     <div class="container">
         <div class="image-container">
-            <img alt="Illustration of a person holding a key in front of a computer screen with a user login interface" src="/Aplikasi-Kewirausahaan/assets/img/user_login.png"/>
+            <img alt="Illustration of a person holding a key in front of a computer screen with a user login interface" src="/Entree/assets/img/user_login.png"/>
         </div>
         <div class="form-container">
             <h2>Lengkapi Data Anda Sebagai Mentor Bisnis</h2>

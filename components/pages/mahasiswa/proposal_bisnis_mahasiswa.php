@@ -1,7 +1,18 @@
 <?php
 session_start();
 // Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
 
 $user_id = $_SESSION['user_id'];  // ID pengguna dari session
 $query = "SELECT id_kelompok FROM mahasiswa WHERE user_id = '$user_id'";
@@ -30,7 +41,7 @@ $result = $stmt->get_result();
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/proposal_bisnis.css">
+    <link rel="stylesheet" href="/Entree/assets/css/proposal_bisnis.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/css/multi-select-tag.css">
 </head>
 
@@ -67,7 +78,7 @@ $result = $stmt->get_result();
                             </div>
                             <div class="modal-body">
                                 <!-- Form -->
-                                <form method="POST" action="proses_proposal.php" enctype="multipart/form-data" autocomplete="off">
+                                <form method="POST" action="proses_proposal" enctype="multipart/form-data" autocomplete="off">
                                     <!-- Judul Proposal Bisnis -->
                                     <div class="form-group">
                                         <label for="judul_proposal">Judul Proposal Bisnis:<span style="color:red;">*</span></label>
@@ -199,7 +210,7 @@ $result = $stmt->get_result();
                             ?>
                             <div class="card" style="width: 33%; margin: 10px;">
                                 <div class="card-icon text-center py-4">
-                                    <img src="\Aplikasi-Kewirausahaan\assets\img\document-file_6424455.png" alt="Dokumen" style="width: 50px; height: 50px;">
+                                    <img src="\Entree\assets\img\document-file_6424455.png" alt="Dokumen" style="width: 50px; height: 50px;">
                                 </div>
                                 <div class="card-body m-0">
                                     <h5 class="card-title"><?php echo htmlspecialchars($proposal['judul_proposal']); ?></h5>
@@ -223,7 +234,7 @@ $result = $stmt->get_result();
                                     </tbody>
                                 </table>
                                 <div class="card-footer">
-                                    <a href="detail_proposal_bisnis.php?id=<?php echo $id; ?>">
+                                    <a href="detail_proposal?id=<?php echo $id; ?>">
                                         <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Proposal Bisnis"></i>
                                     </a>
                                     <i class="fa-solid fa-trash-can delete-icon" data-bs-toggle="modal" data-bs-target="#deleteModal" 
@@ -263,7 +274,7 @@ $result = $stmt->get_result();
                                     const modalTitle = deleteModal.querySelector('#proposalTitle');
                                     const confirmDeleteButton = deleteModal.querySelector('#confirmDeleteButton');
                                     modalTitle.textContent = proposalTitle;
-                                    confirmDeleteButton.setAttribute('href', `hapus_proposal.php?id=${proposalId}`);
+                                    confirmDeleteButton.setAttribute('href', `hapus_proposal?id=${proposalId}`);
                                 });
                             </script>
                         <?php
@@ -280,7 +291,7 @@ $result = $stmt->get_result();
             <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1055;">
                 <div class="toast text-bg-success border-0" id="liveToast" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header">
-                        <img src="\Aplikasi-Kewirausahaan\assets\img\Frame 64 1.png" style="width:20%; height:20%;" class="rounded me-2" alt="Logo">
+                        <img src="\Entree\assets\img\Frame 64 1.png" style="width:20%; height:20%;" class="rounded me-2" alt="Logo">
                         <strong class="me-auto">Berhasil</strong>
                         <small>Baru Saja</small>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>

@@ -1,6 +1,16 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Ambil data dari request
 $action = isset($_POST['action']) ? $_POST['action'] : null;
@@ -20,7 +30,7 @@ try {
         $stmt->execute();
 
         // Redirect dengan pesan toast
-        header("Location: detail_jadwal_mentor.php?id=$jadwalId&toast=Jadwal berhasil disetujui");
+        header("Location: detail_jadwal?id=$jadwalId&toast=Jadwal berhasil disetujui");
     } elseif ($action === "tolak") {
         // Update status jadwal menjadi 'ditolak'
         $sql = "UPDATE jadwal SET status = 'ditolak' WHERE id = ?";
@@ -29,7 +39,7 @@ try {
         $stmt->execute();
 
         // Redirect dengan pesan toast
-        header("Location: detail_jadwal_mentor.php?id=$jadwalId&toast=Jadwal berhasil ditolak");
+        header("Location: detail_jadwal?id=$jadwalId&toast=Jadwal berhasil ditolak");
     } elseif ($action === "selesai") {
         // Update status jadwal menjadi 'selesai'
         $sql = "UPDATE jadwal SET status = 'selesai' WHERE id = ?";
@@ -38,7 +48,7 @@ try {
         $stmt->execute();
 
         // Redirect dengan pesan toast
-        header("Location: detail_jadwal_mentor.php?id=$jadwalId&toast=Jadwal berhasil diselesaikan");
+        header("Location: detail_jadwal?id=$jadwalId&toast=Jadwal berhasil diselesaikan");
     } elseif ($action === "jadwal_alternatif") {
         // Tambah jadwal alternatif ke tabel jadwal
         $altDate = isset($_POST['alt_date']) ? $_POST['alt_date'] : null;
@@ -60,9 +70,9 @@ try {
 
 
         // Redirect dengan pesan toast
-        header("Location: detail_jadwal_mentor.php?id=$jadwalId&toast=Jadwal alternatif berhasil ditambahkan");
+        header("Location: detail_jadwal?id=$jadwalId&toast=Jadwal alternatif berhasil ditambahkan");
     } else {
-        header("Location: detail_jadwal_mentor.php?id=$jadwalId&toast=Aksi tidak valid");
+        header("Location: detail_jadwal?id=$jadwalId&toast=Aksi tidak valid");
     }
     exit;
 } catch (Exception $e) {

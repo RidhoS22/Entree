@@ -1,25 +1,41 @@
 <?php
-// Sambungkan ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Query untuk mengambil data
 $query = "
     SELECT 
-        k.nama_kelompok, 
-        p.judul_proposal, 
-        p.ide_bisnis, 
-        p.tahapan_bisnis, 
-        p.sdg, 
-        p.kategori, 
-        p.other_category,
-        p.proposal_pdf, 
-        p.status
-    FROM 
-        proposal_bisnis p
-    JOIN 
-        kelompok_bisnis k 
-    ON 
-        p.kelompok_id = k.id_kelompok
+    k.nama_kelompok, 
+    m.nama AS ketua_kelompok, -- Ambil nama ketua kelompok dari tabel mahasiswa
+    p.judul_proposal, 
+    p.ide_bisnis, 
+    p.tahapan_bisnis, 
+    p.sdg, 
+    p.kategori, 
+    p.other_category,
+    p.proposal_pdf, 
+    p.status
+FROM 
+    proposal_bisnis p
+JOIN 
+    kelompok_bisnis k 
+ON 
+    p.kelompok_id = k.id_kelompok
+LEFT JOIN 
+    mahasiswa m 
+ON 
+    k.npm_ketua = m.npm -- Hubungkan berdasarkan NPM
+
 ";
 
 // Eksekusi query
@@ -42,7 +58,7 @@ if (!$result) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_proposal.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_proposal.css">
 </head>
 
 <body>
@@ -98,7 +114,8 @@ if (!$result) {
                                 <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                                     <tr>
                                         <td><?php echo htmlspecialchars($row['nama_kelompok']); ?></td>
-                                        <td>Komang WWW</td>
+                                        <td><?php echo htmlspecialchars($row['ketua_kelompok']); ?></td>
+                                        </td>
                                         <td><?php echo htmlspecialchars($row['judul_proposal']); ?></td>
                                         <!-- <td><?php echo htmlspecialchars($row['ide_bisnis']); ?></td>
                                         <td><?php echo htmlspecialchars($row['tahapan_bisnis']); ?></td>
@@ -119,10 +136,10 @@ if (!$result) {
                                                         <?php echo htmlspecialchars(basename($row['proposal_pdf'])); ?>
                                                     </div>
                                                     <div class="icon-group">
-                                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($row['proposal_pdf']); ?>" target="_blank" class="detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File">
+                                                        <a href="/Entree/components/pages/mahasiswa/uploads/proposal/<?php echo basename($row['proposal_pdf']); ?>" target="_blank" class="detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File">
                                                             <i class="fa-solid fa-eye"></i>
                                                         </a>
-                                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($row['proposal_pdf']); ?>" download class="btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File">
+                                                        <a href="/Entree/components/pages/mahasiswa/uploads/proposal/<?php echo basename($row['proposal_pdf']); ?>" download class="btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File">
                                                             <i class="fa-solid fa-download"></i>
                                                         </a>
                                                     </div>

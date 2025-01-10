@@ -1,5 +1,16 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/auth/login/loginform.php');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' || $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/auth/login/loginform.php');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_kelompok = $_POST['id_kelompok'];

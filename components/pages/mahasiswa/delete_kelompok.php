@@ -1,5 +1,17 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+session_start();
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
 
 // Ambil data JSON yang dikirim
 $data = json_decode(file_get_contents('php://input'), true);

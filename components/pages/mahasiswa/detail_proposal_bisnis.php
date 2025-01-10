@@ -1,9 +1,51 @@
 <?php
+session_start();
 // Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
 
 // Mengambil id dari URL
 $id_proposal = isset($_GET['id']) ? $_GET['id'] : '';
+
+// Ambil ID kelompok dari session pengguna
+$user_id = $_SESSION['user_id'];
+$query = "SELECT id_kelompok FROM mahasiswa WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$user_kelompok_id = $row['id_kelompok']; // ID kelompok pengguna dari database
+
+// Ambil ID proposal dari parameter URL
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    header('Location: /Entree/mahasiswa/dashboard.php'); // Redirect jika ID tidak ada di URL
+    exit;
+}
+$requested_proposal_id = intval($_GET['id']);
+
+// Periksa apakah proposal bisnis dengan ID ini milik kelompok pengguna
+$query = "SELECT id FROM proposal_bisnis WHERE id = ? AND kelompok_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ii", $requested_proposal_id, $user_kelompok_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Jika proposal tidak ditemukan atau tidak sesuai, redirect ke dashboard
+if ($result->num_rows === 0) {
+    header('Location: /Entree/mahasiswa/dashboard');
+    exit;
+}
 
 // Fetch data proposal berdasarkan id
 $query = "SELECT * FROM proposal_bisnis WHERE id = ?";
@@ -61,7 +103,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_proposal.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_proposal.css">
 </head>
 
 <body>
@@ -133,10 +175,10 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                         <?php echo htmlspecialchars(basename($proposal['proposal_pdf'])); ?>
                                     </div>
                                     <div class="icon-group">
-                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File">
+                                        <a href="/Entree/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
-                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" download class="btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File">
+                                        <a href="/Entree/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" download class="btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File">
                                             <i class="fa-solid fa-download"></i>
                                         </a>
                                     </div>
@@ -165,7 +207,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                 <div class="feedback-box">
                     <p><?php echo htmlspecialchars($proposal['feedback'] ?? 'Belum ada umpan balik.'); ?></p>
                 </div>
-                <a href="proposal_bisnis_mahasiswa.php" class="btn btn-secondary">Kembali</a>
+                <a href="proposal" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
     </div>

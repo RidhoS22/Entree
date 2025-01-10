@@ -1,10 +1,20 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Check if the user is logged in
 if (!isset($_SESSION['username'])) {
-    header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+    header("Location: /Entree/auth/login/loginform.php");
     exit;
 }
 
@@ -21,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($newPassword !== $confirmPassword) {
         // Passwords don't match, redirect back with error
         $_SESSION['error'] = 'Kata sandi dan konfirmasi kata sandi harus sama!';
-        header("Location: /Aplikasi-Kewirausahaan/user/profile.php");
+        header("Location: /Entree/user/profile.php");
         exit;
     }
 
@@ -49,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Redirect back to the profile page
-    header("Location: profil_admin.php");
+    header("Location: profil");
     exit;
 }
 ?>

@@ -1,9 +1,71 @@
 <?php
+session_start();
 // Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
 
 // Ambil ID dari parameter URL
 $id = isset($_GET['id']) ? $_GET['id'] : null;
+
+// Ambil ID kelompok pengguna dari database
+$user_id = $_SESSION['user_id'];
+$query = "SELECT id_kelompok FROM mahasiswa WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$user_kelompok_id = $row['id_kelompok']; // ID kelompok pengguna dari database
+
+// Ambil ID jadwal dari parameter URL
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    header('Location: /Entree/mahasiswa/dashboard.php'); // Redirect jika ID tidak ada di URL
+    exit;
+}
+$requested_jadwal_id = intval($_GET['id']);
+
+// Periksa apakah jadwal milik kelompok pengguna
+$query = "SELECT id_klmpk FROM jadwal WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $requested_jadwal_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika jadwal tidak ditemukan
+    exit;
+}
+
+$row = $result->fetch_assoc();
+$jadwal_kelompok_id = $row['id_klmpk'];
+
+// Periksa apakah ID kelompok dari jadwal cocok dengan ID kelompok pengguna
+if ($jadwal_kelompok_id !== $user_kelompok_id) {
+    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika tidak sesuai
+    exit;
+}
+
+// Jika ID cocok, lanjutkan untuk memproses detail jadwal
+$query = "SELECT * FROM jadwal WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $requested_jadwal_id);
+$stmt->execute();
+$jadwal_result = $stmt->get_result();
+
+if ($jadwal_result->num_rows === 0) {
+    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika data jadwal tidak ditemukan
+    exit;
+}
 
 if ($id) {
     // Query untuk mengambil detail jadwal
@@ -69,9 +131,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_jadwal_bimbingan.css">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_proposal.css">
+    <link rel="stylesheet" href="/Entree/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_jadwal_bimbingan.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_proposal.css">
 </head>
 
 <body>
@@ -144,7 +206,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                                                 </div>
                                                 <div class="icon-group">
                                                     <!-- Ikon Lihat File -->
-                                                    <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                    <a href="/Entree/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
                                                     target="_blank" 
                                                     class="detail-icon" 
                                                     data-bs-toggle="tooltip" 
@@ -153,22 +215,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                                                         <i class="fa-solid fa-eye"></i>
                                                     </a>
                                                     <!-- Ikon Unduh File -->
-                                                    <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                    <a href="/Entree/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
                                                     download 
                                                     class="btn-icon" 
                                                     data-bs-toggle="tooltip" 
                                                     data-bs-custom-class="custom-tooltip" 
                                                     data-bs-title="Unduh File">
                                                         <i class="fa-solid fa-download"></i>
-                                                    </a>
-                                                    <!-- Ikon Hapus File -->
-                                                    <a href="#" 
-                                                    class="btn-icon btn-danger" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#deleteFileModal" 
-                                                    data-bs-id="<?php echo $id; ?>" 
-                                                    role="button">
-                                                        <i class="fa-solid fa-trash"></i>
                                                     </a>
                                                 </div>
                                             </li>
@@ -211,47 +264,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                             </script>
                         <?php endif; ?>
                     </form>
-                    <a href="jadwal_bimbingan_mahasiswa.php" class="btn btn-secondary">Kembali</a>
+                    <a href="jadwal_bimbingan" class="btn btn-secondary">Kembali</a>
                 </div>       
             </div>
         </div>
-
-        <!-- Modal Konfirmasi Hapus -->
-        <div class="modal fade" id="deleteFileModal" tabindex="-1" aria-labelledby="deleteFileModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form action="/Aplikasi-Kewirausahaan/delete_file.php" method="POST">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteFileModalLabel">Konfirmasi Hapus File</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Apakah Anda yakin ingin menghapus file ini? Tindakan ini tidak dapat dibatalkan.</p>
-                            <input type="hidden" name="id" id="deleteFileId" value="">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-danger">Hapus</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-    <!-- <script>
-        const deleteFileModal = document.getElementById('deleteFileModal');
-        deleteFileModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget; // Tombol yang memicu modal
-            const id = button.getAttribute('data-bs-id'); // Ambil ID dari tombol
-
-            // Isi input hidden di form modal
-            const deleteFileIdInput = deleteFileModal.querySelector('#deleteFileId');
-            deleteFileIdInput.value = id;
-        });
-    </script> -->
-
     
     <script>
         const fileInput = document.getElementById("customFile");

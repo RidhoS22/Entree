@@ -1,6 +1,16 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Mendapatkan ID laporan dan ID kelompok dari parameter URL dan validasi
 $id_laporan = isset($_GET['id']) ? $_GET['id'] : null;
@@ -55,7 +65,7 @@ if (!empty($laporan_pdf)) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_laporan_bisnis.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_laporan_bisnis.css">
 </head>
 <style>
     .Feedback {
@@ -123,8 +133,8 @@ if (!empty($laporan_pdf)) {
                     if (!empty($pdf_files_clean)) {
                         foreach ($pdf_files_clean as $file) {
                             // Path aktual tempat file PDF disimpan
-                            $file_path = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; 
-                            $download_path = '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; // Path untuk akses di URL
+                            $file_path = $_SERVER['DOCUMENT_ROOT'] . '/Entree/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; 
+                            $download_path = '/Entree/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; // Path untuk akses di URL
 
                             if (file_exists($file_path)) {
                                 // Mendapatkan ukuran file
@@ -163,7 +173,7 @@ if (!empty($laporan_pdf)) {
                 <div class="feedback-box">
                     <p><?php echo htmlspecialchars($laporan['feedback']); ?></p>
                 </div>
-                <a href="laporan_bisnis_admin.php?id_kelompok=<?php echo $id_kelompok; ?>" class="btn btn-secondary">Kembali</a>
+                <a href="laporan_bisnis?id_kelompok=<?php echo $id_kelompok; ?>" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
     </div>

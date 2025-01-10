@@ -128,6 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (password_verify($password, $user['password'])) {
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
+            $_SESSION['logged_in'] = true;
 
             // Log aktivitas login berhasil
             $status = 'Login Berhasil';
@@ -149,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['tahun_angkatan'] = $mahasiswa_data['tahun_angkatan'];
                     $_SESSION['fakultas'] = $mahasiswa_data['fakultas'];
                     $_SESSION['id_kelompok'] = $mahasiswa_data['id_kelompok'];
+                    $_SESSION['logged_in'] = true;
 
                 }
             } elseif (($user['role'] == 'Tutor') || ($user['role'] == 'Dosen Pengampu')) {
@@ -163,18 +165,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Redirect berdasarkan role dan status login
             if ($user['role'] == 'Admin') {
-                header("Location: /Aplikasi-Kewirausahaan/components/pages/admin/pageadmin.php");
+                header("Location: /Entree/admin/dashboard");
             } elseif ($user['first_login'] == 1) {
                 if ($user['role'] == 'Mahasiswa') {
-                    header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/lengkapi_data_mahasiswa.php");
+                    header("Location: /Entree/lengkapi_data_mahasiswa");
                 } elseif ($user['role'] == 'Tutor') {
-                    header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/lengkapi_data_mentor.php");
+                    header("Location: /Entree/lengkapi_data_mentor");
                 }
             } else {
                 if ($user['role'] == 'Mahasiswa') {
-                    header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/pagemahasiswa.php");
+                    header("Location: /Entree/mahasiswa/dashboard");
                 } elseif ($user['role'] == 'Tutor' || $user['role'] == 'Dosen Pengampu') {
-                    header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/pagementor.php");
+                    header("Location: /Entree/mentor/dashboard");
                 }
             }
             exit;
@@ -188,7 +190,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $error_message = "Password salah";  // Pesan kesalahan
             log_activity($username, $status, $role, $aksi, $error_message);
 
-            header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+            header("Location: /Entree/login");
         }
     } else {
         $_SESSION['error'] = "Username tidak ditemukan!";
@@ -200,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error_message = "Username tidak ditemukan";  // Pesan kesalahan
         log_activity($username, $status, $role, $aksi, $error_message);
 
-        header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+        header("Location: /Entree/login");
     }
 } else {
     echo "Metode pengiriman tidak valid.";
@@ -226,7 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $aksi = 'Login';
                     $error_message = "Password salah";  // Pesan kesalahan
                     log_activity($username, $status, $role, $aksi, $error_message);
-                    header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+                    header("Location: /Entree/login");
                 }
             } else {
                 $_SESSION['error'] = "Username tidak ditemukan!";
@@ -236,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $aksi = 'Login';
                 $error_message = "Username tidak ditemukan";  // Pesan kesalahan
                 log_activity($username, $status, $role, $aksi, $error_message);
-                header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+                header("Location: /Entree/login");
             }
         } else {
             $_SESSION['error'] = 'Gagal melakukan autentikasi ke server LDAP.';
@@ -251,9 +253,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 
 if ($ldap_success) {
-    echo '<pre>';
-    print_r($_SESSION);
-    echo '</pre>';
     // Regenerasi ID session untuk mencegah tab berbagi sesi yang sama
     session_regenerate_id();
 
@@ -301,21 +300,22 @@ if ($ldap_success) {
     $user = $user_result->fetch_assoc();
 
     $_SESSION['user_id'] = $user['id'];
+    $_SESSION['logged_in'] = true;
 
     // Redirect berdasarkan role dan first_login
     if ($user['role'] == 'Admin') {
-        header("Location: /Aplikasi-Kewirausahaan/components/pages/admin/pageadmin.php");
+        header("Location: /Entree/admin/dashboard");
     } elseif ($user['first_login'] == 1) {
         if ($user['role'] == 'Mahasiswa') {
-            header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/lengkapi_data_mahasiswa.php");
+            header("Location: /Entree/lengkapi_data_mahasiswa");
         } elseif ($user['role'] == 'Tutor') {
-            header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/lengkapi_data_mentor.php");
+            header("Location: /Entree/lengkapi_data_mentor");
         }
     } else {
         if ($user['role'] == 'Mahasiswa') {
-            header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/pagemahasiswa.php");
+            header("Location: /Entree/mahasiswa/dashboard");
         } elseif ($user['role'] == 'Tutor' || $user['role'] == 'Dosen Pengampu') {
-            header("Location: /Aplikasi-Kewirausahaan/components/pages/mentorbisnis/pagementor.php");
+            header("Location: /Entree/mentor/dashboard");
         }
     }
     exit;

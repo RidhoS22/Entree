@@ -1,5 +1,15 @@
 <?php
 session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
 
 function getFileIcon($fileExtension) {
     $fileExtension = strtolower($fileExtension);
@@ -8,30 +18,30 @@ function getFileIcon($fileExtension) {
         case 'webm':
         case 'mov':
         case 'avi':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_video.png';
+            return '/Entree/assets/img/icon_video.png';
         case 'ppt':
         case 'pptx':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_ppt.png';
+            return '/Entree/assets/img/icon_ppt.png';
         case 'pdf':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_pdf.png';
+            return '/Entree/assets/img/icon_pdf.png';
         case 'doc':
         case 'docx':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_word.png';
+            return '/Entree/assets/img/icon_word.png';
         case 'xls':
         case 'xlsx':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_excel.png';
+            return '/Entree/assets/img/icon_excel.png';
         case 'jpg':
         case 'jpeg':
         case 'png':
         case 'gif':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_image.png';
+            return '/Entree/assets/img/icon_image.png';
         default:
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_default.png';
+            return '/Entree/assets/img/icon_default.png';
     }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
     $judul = $_POST['judul'];
     $deskripsi = $_POST['deskripsi'];
@@ -39,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['materi']) && $_FILES['materi']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['materi']['tmp_name'];
         $fileName = basename($_FILES['materi']['name']);
-        $uploadFolder = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/admin/uploads/';
+        $uploadFolder = $_SERVER['DOCUMENT_ROOT'] . '/Entree/components/pages/admin/uploads/';
         $destPath = $uploadFolder . $fileName;
 
         if (move_uploaded_file($fileTmpPath, $destPath)) {
@@ -50,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($stmt->execute()) {
                 $_SESSION['toast_success'] = true;
-                header("Location: materikewirausahaan_admin.php");
+                header("Location: materi_kewirausahaan");
                 exit();
             }
             $stmt->close();
@@ -67,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi Kewirausahaan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan.css">
+    <link rel="stylesheet" href="/Entree/assets/css/materikewirausahaan.css">
 </head>
 
 <body>
@@ -132,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1055;">
                         <div class="toast text-bg-success border-0" id="toastSuccess" role="alert" aria-live="assertive" aria-atomic="true">
                             <div class="toast-header">
-                                <img src="\Aplikasi-Kewirausahaan\assets\img\Frame 64 1.png" style="width:20%; height:20%;" class="rounded me-2" alt="Logo">
+                                <img src="\Entree\assets\img\Frame 64 1.png" style="width:20%; height:20%;" class="rounded me-2" alt="Logo">
                                 <strong class="me-auto">Success</strong>
                                 <small>Just now</small>
                                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
@@ -158,19 +168,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Display Materials -->
                 <div class="card-container">
                     <?php
-                    include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+                    include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
                     $sql = "SELECT * FROM materi_kewirausahaan";
                     $result = $conn->query($sql);
 
                     if ($result && $result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
                             $fileName = htmlspecialchars($row["file_path"]);
-                            $filePath = '/Aplikasi-Kewirausahaan/components/pages/admin/uploads/' . $fileName;
+                            $filePath = '/Entree/components/pages/admin/uploads/' . $fileName;
                             $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);
                             $iconSrc = getFileIcon($fileExtension);
 
                             echo '
-                            <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '">
+                            <a href="detail_materi?id=' . $row["id"] . '">
                                 <div class="card">
                                     <div class="icon-container"> 
                                         <img src="' . $iconSrc . '" alt="File Icon" class="icon">

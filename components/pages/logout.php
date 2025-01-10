@@ -9,7 +9,7 @@ date_default_timezone_set('Asia/Jakarta');
 
 // Cek jika ada permintaan logout
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout'])) {
-    include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+    include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
     
     // Ambil username pengguna yang sedang login
     $username = $_SESSION['username'];
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['logout'])) {
         session_destroy();
 
         // Arahkan pengguna kembali ke halaman login atau halaman utama setelah logout
-        header("Location: /Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php");
+        header("Location: /Entree/components/pages/startdashboard/dashboardawal.php");
         exit();
     } else {
         // Jika query gagal, beri pesan error

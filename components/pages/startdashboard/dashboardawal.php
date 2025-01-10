@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Kewirausahaan</title>
+    <title>Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/sidebar.css">
-    <link href="\Aplikasi-Kewirausahaan\assets\css\page.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/Entree/assets/css/sidebar.css">
+    <link href="\Entree\assets\css\page.css" rel="stylesheet" />
     <style>
         .main_wrapper {
             width: 100%;
@@ -61,7 +61,7 @@
                     </a>
                     <ul id="auth" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item">
-                            <a href="/APLIKASI-KEWIRAUSAHAAN/auth/login/loginform.php" class="sidebar-link">Login</a>
+                            <a href="/Entree/login" class="sidebar-link">Login</a>
                         </li>
                     </ul>
                 </li>
@@ -222,7 +222,7 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <script src="script.js"></script>
-    <script type="text/javascript" src="/Aplikasi-Kewirausahaan/assets/js/hamburger.js"></script>
+    <script type="text/javascript" src="/Entree/assets/js/hamburger.js"></script>
     <script>
             document.addEventListener('DOMContentLoaded', function () {
             const toggleBtn2 = document.querySelector('.toggle-btn2'); // Tombol toggle

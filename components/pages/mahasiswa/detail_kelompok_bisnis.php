@@ -1,11 +1,58 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
+
 // Ambil kelompok_id dari URL
 $kelompok_id = $_GET['id'] ?? null;
 
 // Mendapatkan NPM mahasiswa dari session
 $npm_mahasiswa = $_SESSION['npm'] ?? null; // Pastikan variabel tidak null
+
+// Ambil ID kelompok dari session pengguna
+$user_id = $_SESSION['user_id'];
+$query = "SELECT id_kelompok FROM mahasiswa WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$user_kelompok_id = $row['id_kelompok']; // ID kelompok pengguna dari database
+
+// Ambil ID kelompok dari parameter URL
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika ID tidak ada di URL
+    exit;
+}
+$requested_kelompok_id = intval($_GET['id']);
+
+// Periksa apakah ID kelompok dari URL cocok dengan ID kelompok pengguna
+if ($requested_kelompok_id !== $user_kelompok_id) {
+    header('Location: /Entree/mahasiswa/dashboard'); // Redirect ke dashboard jika ID tidak cocok
+    exit;
+}
+
+// Jika ID cocok, lanjutkan untuk memproses data kelompok
+$query = "SELECT * FROM kelompok_bisnis WHERE id_kelompok = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $requested_kelompok_id);
+$stmt->execute();
+$kelompok_result = $stmt->get_result();
+
+if ($kelompok_result->num_rows === 0) {
+    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika data kelompok tidak ditemukan
+    exit;
+}
 
 // Cek apakah mahasiswa adalah ketua atau anggota kelompok
 $cekKelompokQuery = "
@@ -92,7 +139,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_kelompok.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_kelompok.css">
 </head>
 <body>
     <div class="wrapper">
@@ -111,7 +158,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                     <div class="container">
                         <div class="left">
                             <!-- Logo Bisnis -->
-                            <img alt="Logo Bisnis" src="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/logos/<?php echo $kelompokTerdaftar['logo_bisnis']; ?>" />
+                            <img alt="Logo Bisnis" src="/Entree/components/pages/mahasiswa/logos/<?php echo $kelompokTerdaftar['logo_bisnis']; ?>" />
 
                             <p>
                             <button class="btn btn-danger mt-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample_2" aria-expanded="false" aria-controls="collapseWidthExample">
@@ -210,7 +257,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                             const isApprove = event.submitter.classList.contains('btn-submit');
                                             const kelompokId = <?php echo $kelompok_id; ?>; // Assuming you have the id_kelompok available in PHP
                                             
-                                            fetch('update_status_inkubasi.php', {
+                                            fetch('/Entree/components/pages/mahasiswa/update_status_inkubasi.php', {
                                                 method: 'POST',
                                                 headers: {
                                                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -263,7 +310,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                         // Memeriksa status inkubasi saat halaman dimuat
                                         window.onload = function() {
                                             // Ambil status inkubasi dari server
-                                            fetch('get_status_inkubasi.php') // Sesuaikan dengan endpoint yang mengambil status inkubasi dari database
+                                            fetch('/Entree/components/pages/mahasiswa/get_status_inkubasi.php') // Sesuaikan dengan endpoint yang mengambil status inkubasi dari database
                                                 .then(response => response.json())
                                                 .then(data => {
                                                     if (data.status === 'disetujui') {
@@ -451,7 +498,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
             const namaKelompok = document.getElementById('namaKelompok').value;
             const namaBisnis = document.getElementById('namaBisnis').value;
 
-            fetch('/Aplikasi-Kewirausahaan/components/pages/mahasiswa/update_kelompok.php', {
+            fetch('/Entree/components/pages/mahasiswa/update_kelompok.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -479,7 +526,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
             var kelompokId = <?php echo $kelompokTerdaftar['id_kelompok']; ?>;
             
             // Kirim permintaan POST untuk menghapus kelompok dan data terkait
-            fetch('delete_kelompok.php', {
+            fetch('delete_kelompok', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

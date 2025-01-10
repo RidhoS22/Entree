@@ -1,6 +1,16 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Ambil data dari session dan form
 $feedback = isset($_POST['feedback']) ? $_POST['feedback'] : null;
@@ -22,7 +32,7 @@ $stmt->bind_param("si", $feedback, $jadwalId);
 // Eksekusi query
 if ($stmt->execute()) {
     // Jika berhasil, tampilkan toast sukses
-    header("Location: detail_jadwal_mentor.php?id=$jadwalId&toast=Umpan Balik berhasil dikirim");
+    header("Location: detail_jadwal?id=$jadwalId&toast=Umpan Balik berhasil dikirim");
     exit;
 } else {
     // Jika gagal, tampilkan pesan error

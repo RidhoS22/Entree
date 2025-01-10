@@ -1,11 +1,52 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Mendapatkan ID laporan dan ID kelompok dari parameter URL dan validasi
 $id_laporan = isset($_GET['id']) ? $_GET['id'] : null;
 $id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
 $mentor_name = isset($_SESSION['nama']) ? $_SESSION['nama'] : null;
+
+// Periksa apakah proposal bisnis dengan ID ini milik kelompok pengguna
+$query = "SELECT id FROM laporan_bisnis WHERE id = ? AND id_kelompok = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ii", $id_laporan, $id_kelompok);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Jika proposal tidak ditemukan atau tidak sesuai, redirect ke dashboard
+if ($result->num_rows === 0) {
+    header('Location: /Entree/mentor/dashboard');
+    exit;
+}
+
+if ($id_kelompok) {
+    // Query untuk memeriksa apakah kelompok dengan id_kelompok ada untuk mentor yang sedang login
+    $sql_check = "SELECT k.* 
+                  FROM kelompok_bisnis k 
+                  WHERE k.id_kelompok = ?";
+    $stmt = $conn->prepare($sql_check);
+    $stmt->bind_param("i", $id_kelompok);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $kelompok = $result->fetch_assoc();
+
+    if (!$kelompok) {
+        // Redirect jika kelompok tidak ditemukan atau mentor tidak memiliki akses
+        header('Location: /Entree/mentor/dashboard');
+        exit;
+    }
+}
 
 // Memeriksa apakah ID laporan dan ID kelompok ada
 if ($id_laporan) {
@@ -82,7 +123,7 @@ if (!empty($laporan_pdf)) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_laporan_bisnis.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_laporan_bisnis.css">
 </head>
 <style>
     .Feedback {
@@ -150,8 +191,8 @@ if (!empty($laporan_pdf)) {
                     if (!empty($pdf_files_clean)) {
                         foreach ($pdf_files_clean as $file) {
                             // Path aktual tempat file PDF disimpan
-                            $file_path = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; 
-                            $download_path = '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; // Path untuk akses di URL
+                            $file_path = $_SERVER['DOCUMENT_ROOT'] . '/Entree/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; 
+                            $download_path = '/Entree/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; // Path untuk akses di URL
 
                             if (file_exists($file_path)) {
                                 // Mendapatkan ukuran file
@@ -214,7 +255,7 @@ if (!empty($laporan_pdf)) {
                             }
 
                             try {
-                                const response = await fetch('submit_feedback_laporan.php', {
+                                const response = await fetch('submit_feedback_laporan', {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
@@ -245,7 +286,7 @@ if (!empty($laporan_pdf)) {
                     <p><?php echo htmlspecialchars($laporan['feedback'] ?? 'Tidak ada Feedback.'); ?></p>
                 </div>
                 <?php endif; ?>
-                <a href="laporan_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok; ?>" class="btn btn-secondary">Kembali</a>
+                <a href="laporan_bisnis?id_kelompok=<?php echo $id_kelompok; ?>" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
     </div>

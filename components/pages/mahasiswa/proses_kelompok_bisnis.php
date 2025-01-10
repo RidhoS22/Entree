@@ -1,6 +1,17 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
 
 $nama_kelompok = mysqli_real_escape_string($conn, $_POST['nama_kelompok']);
 $jumlah_anggota = $_POST['jumlah_anggota'];
@@ -119,7 +130,7 @@ if (mysqli_query($conn, $sql)) {
     }
 
     // Redirect ke detail kelompok bisnis
-    header('Location: detail_kelompok_bisnis.php?id=' . $kelompok_id);
+    header('Location: detail_kelompok_bisnis?id=' . $kelompok_id);
     exit();
 } else {
     echo "<script>

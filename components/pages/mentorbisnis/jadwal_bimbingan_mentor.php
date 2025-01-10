@@ -1,6 +1,16 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Mendapatkan role pengguna dari session
 $userRole = $_SESSION['role'];
@@ -27,9 +37,6 @@ $namaKelompok = []; // Inisialisasi array di luar loop
 while ($row = $result_kelompok->fetch_assoc()) {
     $namaKelompok[$row['id_kelompok']] = $row['nama_kelompok'];
 }
-
-// Jika role adalah 'tutor', kita hanya ambil jadwal untuk kelompok yang dia mentor
-if ($userRole == 'Tutor') {
     // Ambil kelompok yang menjadi mentor pengguna
     $sql_kelompok = "SELECT id_kelompok FROM kelompok_bisnis WHERE id_mentor = '$id_mentor'";
     $result_kelompoktutor = $conn->query($sql_kelompok);
@@ -48,10 +55,6 @@ if ($userRole == 'Tutor') {
         // Jika tidak ada kelompok yang di-mentor, tampilkan pesan
         $sql = "SELECT * FROM jadwal WHERE 1 = 0";  // Tidak ada data yang ditampilkan
     }
-} else {
-    // Jika role adalah dosen pengampu, tampilkan semua jadwal
-    $sql = "SELECT * FROM jadwal ORDER BY tanggal, waktu";
-}
 
 $result = $conn->query($sql);
 ?>
@@ -68,7 +71,7 @@ $result = $conn->query($sql);
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
 </head>
 
 <body>
@@ -134,7 +137,7 @@ $result = $conn->query($sql);
                                             <h5 class="modal-title" id="altScheduleModalLabel">Tambah Jadwal Bimbingan</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form action="submit_alternative_schedule.php" method="POST">
+                                        <form action="submit_alternative_schedule" method="POST">
                                             <div class="modal-body">
                                             <div class="mb-3">
                                                 <label for="altGroupInput" class="form-label">Pilih Kelompok:</label>
@@ -246,7 +249,7 @@ $result = $conn->query($sql);
                                                 ?>
                                             </td>
                                             <td class="text-center align-middle">
-                                                <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+                                                <a href="detail_jadwal?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
                                                     <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Jadwal"></i>
                                                 </a>
                                             </td>

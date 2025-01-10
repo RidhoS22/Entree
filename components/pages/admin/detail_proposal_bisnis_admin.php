@@ -1,6 +1,16 @@
 <?php
-// Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Mengambil id dan id_kelompok dari URL
 $id_proposal = isset($_GET['id']) ? $_GET['id'] : null;
@@ -61,7 +71,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_proposal.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_proposal.css">
 </head>
 
 <body>
@@ -127,10 +137,10 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                                         <?php echo htmlspecialchars(basename($proposal['proposal_pdf'])); ?>
                                     </div>
                                     <div class="icon-group">
-                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File">
+                                        <a href="/Entree/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
-                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" download class="btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File">
+                                        <a href="/Entree/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" download class="btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File">
                                             <i class="fa-solid fa-download"></i>
                                         </a>
                                     </div>
@@ -159,7 +169,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                 <div class="feedback-box">
                     <p><?php echo htmlspecialchars($proposal['feedback'] ?? 'Belum ada umpan balik.'); ?></p>
                 </div>
-                <div class="mt-3" onclick="window.location.href='proposal_bisnis_admin.php?id_kelompok=<?php echo htmlspecialchars($id_kelompok); ?>'" title="Kembali">
+                <div class="mt-3" onclick="window.location.href='proposal_bisnis?id_kelompok=<?php echo htmlspecialchars($id_kelompok); ?>'" title="Kembali">
                     <button class="btn btn-secondary mt-3">Kembali</button>
                 </div>
             </div>

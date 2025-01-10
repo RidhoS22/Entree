@@ -1,11 +1,21 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
-if (!isset($_SESSION['username'])) {
-    header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
     exit;
 }
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
+
+echo '<pre>';
+print_r($_SESSION);
+echo '</pre>';
 
 $user_id = $_SESSION['user_id'];
 
@@ -102,11 +112,10 @@ if (isset($_SESSION['npm'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama = $_POST['nama'];
     $npm = $_POST['npm'];
-    $tahun_ajaran = $_POST['tahun_ajaran'];
     $alamat = $_POST['alamat'];
     $email = $_POST['email'];
     $contact = $_POST['contact'];
-    $insert_query = "INSERT INTO mahasiswa (user_id, nama, npm, program_studi, tahun_ajaran, email, contact, fakultas, alamat) VALUES ('$user_id', '$nama', '$npm', '$prodi', '$tahunAjaran',  '$email', '$contact', '$fakultas', '$alamat')";
+    $insert_query = "INSERT INTO mahasiswa (user_id, nama, npm, program_studi, email, contact, fakultas, alamat) VALUES ('$user_id', '$nama', '$npm', '$prodi', '$email', '$contact', '$fakultas', '$alamat')";
     $conn->query($insert_query);
         
     // Update first_login pada tabel users
@@ -114,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->query($update_user_query);
 
     // Redirect ke halaman mahasiswa
-    header("Location: /Aplikasi-Kewirausahaan/components/pages/mahasiswa/pagemahasiswa.php");
+    header("Location: /Entree/components/pages/mahasiswa/pagemahasiswa.php");
     exit;
 }
 ?>
@@ -128,12 +137,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Lengkapi Data <?= ucfirst($role) ?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/lengkapi_dataa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/lengkapi_dataa.css">
 </head>
 <body>
     <div class="container">
         <div class="image-container">
-            <img alt="Illustration of user registration" src="/Aplikasi-Kewirausahaan/assets/img/background.png" />
+            <img alt="Illustration of user registration" src="/Entree/assets/img/background.png" />
         </div>
         
         <div class="form-container">
@@ -154,10 +163,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="form-group">
                     <label for="program_studi">Program Studi</label>
                     <input id="program_studi" name="program_studi" type="text" value="<?= htmlspecialchars($prodi) ?>" readonly />
-                </div>
-                <div class="form-group">
-                    <label for="tahun_ajaran">Tahun Ajaran</label>
-                    <input id="tahun_ajaran" name="tahun_ajaran" type="text" value="<?= htmlspecialchars($tahunAjaran) ?>" readonly />
                 </div>
                 <div class="form-group">
                     <label for="contact">Nomor Telepon</label>

@@ -1,3 +1,15 @@
+<?php
+    if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+        header('Location: /Entree/login');
+        exit;
+    }
+    
+    // Cek apakah role pengguna sesuai
+    if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+        header('Location: /Entree/login');
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +22,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-        <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/sidebar.css">
+        <link rel="stylesheet" href="/Entree/assets/css/sidebar.css">
 </head>
 
 <body>
@@ -30,25 +42,25 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item <?php echo ($activePage == 'profil_mentor') ? 'active' : ''; ?>">
-                    <a href="profil_mentor.php" class="sidebar-link">
+                    <a href="profil" class="sidebar-link">
                         <i class="fa-solid fa-user"></i>
                         <span>Profil</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'pagementor') ? 'active' : ''; ?>">
-                    <a href="pagementor.php" class="sidebar-link">
+                    <a href="dashboard" class="sidebar-link">
                         <i class="fa-solid fa-house"></i>
                         <span>Beranda</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'materikewirausahaan_mentor') ? 'active' : ''; ?>">
-                    <a href="materikewirausahaan_mentor.php" class="sidebar-link">
+                    <a href="materi_kewirausahaan" class="sidebar-link">
                         <i class="fa-solid fa-book"></i>
                         <span>Materi Kewirausahaan</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'daftar_mentor_mentor') ? 'active' : ''; ?>">
-                    <a href="daftar_mentor_mentor.php" class="sidebar-link">
+                    <a href="daftar_mentor" class="sidebar-link">
                         <i class="fa-solid fa-address-card"></i>  
                         <span>Daftar Mentor Bisnis</span>
                     </a>
@@ -65,13 +77,13 @@
                     </a>
                     <ul id="kelola_bisnis_kelompok" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                         <li class="sidebar-item <?php echo ($activePage == 'daftar_kelompok_bisnis_mentor') ? 'active' : ''; ?>">
-                            <a href="daftar_kelompok_bisnis_mentor.php" class="sidebar-link">
+                            <a href="daftar_kelompok_bisnis" class="sidebar-link">
                                 <i class="fa-solid fa-users"></i>
                                 Daftar Kelompok Bisnis
                             </a>
                         </li>
                         <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan') ? 'active' : ''; ?>">
-                            <a href="jadwal_bimbingan_mentor.php" class="sidebar-link">
+                            <a href="jadwal_bimbingan" class="sidebar-link">
                                 <i class="fa-solid fa-calendar"></i>
                                 Jadwal Bimbingan
                             </a>
@@ -80,7 +92,7 @@
                 </li>
 
                 <li class="sidebar-item sign-out">
-                    <a href="/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php" class="sidebar-link">
+                    <a href="/Entree/dashboard" class="sidebar-link">
                         <i class="fa-solid fa-sign-out"></i>
                         <span>Keluar</span>
                     </a>

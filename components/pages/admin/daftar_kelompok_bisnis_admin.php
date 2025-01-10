@@ -1,6 +1,16 @@
 <?php
-// Mengimpor koneksi database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Ambil kata kunci pencarian jika ada
 $search = isset($_GET['search']) ? $_GET['search'] : '';
@@ -81,7 +91,7 @@ $resulTahun = $conn->query($tahunAkademik);
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/daftar_kelompok.css">
+    <link rel="stylesheet" href="/Entree/assets/css/daftar_kelompok.css">
     <style>
         .card-footer {
             display: flex;
@@ -110,7 +120,7 @@ $resulTahun = $conn->query($tahunAkademik);
                 <div class="nav_main_wrapper">
                     <nav class="navbar navbar-expand-lg">
                         <div class="container-fluid">
-                        <form method="get" action="daftar_kelompok_bisnis_admin.php" id="formTahunAkademik">
+                        <form method="get" action="daftar_kelompok_bisnis" id="formTahunAkademik">
                             <select name="tahun_akademik" class="form-select filter-tahun" required id="tahunAkademikDropdown">
                                 <option value="" disabled selected>Pilih Tahun Akademik</option>
                                 <?php
@@ -135,7 +145,7 @@ $resulTahun = $conn->query($tahunAkademik);
                                 </div>
                             </form>
 
-                            <form method="GET" action="daftar_kelompok_bisnis_admin.php" id="formStatus">
+                            <form method="GET" action="daftar_kelompok_bisnis" id="formStatus">
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
                                             id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -239,11 +249,11 @@ $resulTahun = $conn->query($tahunAkademik);
                                 // Menambahkan kondisi PHP untuk tombol "Tambah Mentor"
                                 if ($status_inkubasi == 'masuk') {
                                     echo '
-                                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah/ubah Mentor Inkubasi</button>';
+                                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Ubah Mentor Inkubasi</button>';
                                 }
                                 
                                 echo '
-                                    <a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
+                                    <a href="detail_kelompok?id_kelompok=' . $id_kelompok . '">
                                         <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Kelompok Bisnis"></i>
                                     </a>
                                 </div>

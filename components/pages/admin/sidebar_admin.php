@@ -1,3 +1,15 @@
+<?php
+    if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+        header('Location: /Entree/login');
+        exit;
+    }
+    
+    // Cek apakah role pengguna sesuai
+    if ($_SESSION['role'] !== 'Admin') {
+        header('Location: /Entree/login');
+        exit;
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +21,7 @@
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/sidebar.css">
+    <link rel="stylesheet" href="/Entree/assets/css/sidebar.css">
 </head>
 <body>
     <div class="wrapper">
@@ -27,13 +39,13 @@
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item <?php echo ($activePage == 'profil') ? 'active' : ''; ?>">
-                    <a href="profil_admin.php" class="sidebar-link">
+                    <a href="profil" class="sidebar-link">
                         <i class="fa-solid fa-user"></i>
                         <span>Profil</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'pageadmin') ? 'active' : ''; ?>">
-                    <a href="pageadmin.php" class="sidebar-link">
+                    <a href="dashboard" class="sidebar-link">
                         <i class="fa-solid fa-house"></i>
                         <span>Beranda</span>
                     </a>
@@ -43,37 +55,37 @@
                     <h1>Admin PIKK</h1>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'materikewirausahaan_admin') ? 'active' : ''; ?>">
-                    <a href="materikewirausahaan_admin.php" class="sidebar-link">
+                    <a href="materi_kewirausahaan" class="sidebar-link">
                         <i class="fa-solid fa-book"></i>
                         <span>Materi Kewirausahaan</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'daftar_mentor_admin') ? 'active' : ''; ?>">
-                    <a href="daftar_mentor_admin.php" class="sidebar-link">
+                    <a href="daftar_mentor" class="sidebar-link">
                     <i class="fa-solid fa-address-card"></i>  
                     <span>Daftar Mentor Bisnis</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'daftar_kelompok_bisnis_admin') ? 'active' : ''; ?>">
-                    <a href="daftar_kelompok_bisnis_admin.php" class="sidebar-link">
+                    <a href="daftar_kelompok_bisnis" class="sidebar-link">
                         <i class="fa-solid fa-users"></i>
                         <span>Daftar Kelompok Bisnis</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'daftar_penuh_proposal') ? 'active' : ''; ?>">
-                    <a href="daftar_penuh_proposal.php" class="sidebar-link">
+                    <a href="daftar_penuh_proposal" class="sidebar-link">
                         <i class="fa-solid fa-file"></i>
                         <span>Daftar Proposal Bisnis</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'tahun_akademik') ? 'active' : ''; ?>">
-                    <a href="tahun_akademik.php" class="sidebar-link">
+                    <a href="tahun_akademik" class="sidebar-link">
                         <i class="fa-solid fa-calendar"></i>
                         <span>Tahun Akademik</span>
                     </a>
                 </li>
                 <li class="sidebar-item sign-out">
-                    <a href="/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php" class="sidebar-link">
+                    <a href="/Entree/dashboard" class="sidebar-link">
                         <i class="fa-solid fa-sign-out"></i>
                         <span>Keluar</span>
                     </a>
@@ -100,7 +112,7 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
     <script src="script.js"></script>
-    <script type="text/javascript" src="/Aplikasi-Kewirausahaan/assets/js/hamburger.js"></script>
+    <script type="text/javascript" src="/Entree/assets/js/hamburger.js"></script>
     
         <!-- Tooltip -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoA6bO1PINKzG6M3Y1Zq3Gpt5juVQm9s4vo7+FAI7xgIpPb" crossorigin="anonymous"></script>

@@ -1,7 +1,17 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
 
 $user_id = $_SESSION['user_id']; // Ambil user ID dari sesi
 $user_role = $_SESSION['role']; // Ambil peran pengguna (Tutor/Dosen Pengampu)
@@ -77,7 +87,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
 ?>
 <?php
 // Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Periksa apakah ada request POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -156,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/daftar_kelompok.css">
+    <link rel="stylesheet" href="/Entree/assets/css/daftar_kelompok.css">
     <style>
         
 
@@ -223,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="nav_main_wrapper">
                     <nav class="navbar navbar-expand-lg">
                         <div class="container-fluid">
-                        <form method="GET" action="daftar_kelompok_bisnis_mentor.php" id="formStatus">
+                        <form method="GET" action="daftar_kelompok_bisnis" id="formStatus">
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
                                         id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -358,7 +368,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             echo '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah Mentor</button>';
                         }
 
-                        echo '<a href="detail_kelompok.php?id_kelompok=' . $id_kelompok . '">
+                        echo '<a href="detail_kelompok?id_kelompok=' . $id_kelompok . '">
                                 <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Kelompok Bisnis"></i>
                             </a>';
 

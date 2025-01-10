@@ -1,10 +1,16 @@
 <?php
 session_start();
 
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
-if (!isset($_SESSION['username'])) {
-    header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
     exit;
 }
 
@@ -33,7 +39,7 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/profil.css">
+    <link rel="stylesheet" href="/Entree/assets/css/profil.css">
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
@@ -138,7 +144,7 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
                 return;
             }
 
-            fetch('/Aplikasi-Kewirausahaan/components/pages/mahasiswa/update_phone.php', {
+            fetch('/Entree/components/pages/mahasiswa/update_phone.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

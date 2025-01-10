@@ -1,6 +1,16 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Cek apakah file foto diunggah
 if (isset($_FILES['profile_picture'])) {
@@ -25,7 +35,7 @@ if (isset($_FILES['profile_picture'])) {
     }
 
     // Tentukan lokasi folder untuk menyimpan foto
-    $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/mentorbisnis/uploads/';
+    $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/Entree/components/pages/mentorbisnis/uploads/';
     if (!file_exists($uploadDir)) {
         mkdir($uploadDir, 0777, true); // Buat folder jika belum ada
     }
@@ -38,7 +48,7 @@ if (isset($_FILES['profile_picture'])) {
     // Pindahkan file yang diunggah ke folder
     if (move_uploaded_file($fileTmpName, $fileDestination)) {
         // Update URL foto di database
-        $photoUrl = '/Aplikasi-Kewirausahaan/components/pages/mentorbisnis/uploads/' . $fileNewName;
+        $photoUrl = '/Entree/components/pages/mentorbisnis/uploads/' . $fileNewName;
 
         // Update di database (tabel mentor)
         $stmt = $conn->prepare("UPDATE mentor SET foto_profile = ? WHERE user_id = (SELECT id FROM users WHERE username = ?)");

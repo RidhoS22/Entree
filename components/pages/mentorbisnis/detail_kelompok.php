@@ -1,9 +1,37 @@
 <?php
-// Mengimpor koneksi database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Mendapatkan ID kelompok dari parameter URL
 $id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
+
+if ($id_kelompok) {
+    // Query untuk memeriksa apakah kelompok dengan id_kelompok ada untuk mentor yang sedang login
+    $sql_check = "SELECT k.* 
+                  FROM kelompok_bisnis k 
+                  WHERE k.id_kelompok = ?";
+    $stmt = $conn->prepare($sql_check);
+    $stmt->bind_param("i", $id_kelompok);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $kelompok = $result->fetch_assoc();
+
+    if (!$kelompok) {
+        // Redirect jika kelompok tidak ditemukan atau mentor tidak memiliki akses
+        header('Location: /Entree/mentor/dashboard');
+        exit;
+    }
+}
 
 if ($id_kelompok) {
     // Query untuk mengambil detail kelompok bisnis berdasarkan id
@@ -115,8 +143,8 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_kelompok.css">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_kelompok.css">
+    <link rel="stylesheet" href="/Entree/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
 </head>
 <style>
     /* CSS untuk toast */
@@ -159,7 +187,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                     <div class="left">
                         <!-- Logo Bisnis -->
                         <?php if (!empty($kelompok['logo_bisnis'])) { ?>
-                            <img alt="Logo Bisnis" src="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/logos/<?php echo htmlspecialchars($kelompok['logo_bisnis']); ?>" />
+                            <img alt="Logo Bisnis" src="/Entree/components/pages/mahasiswa/logos/<?php echo htmlspecialchars($kelompok['logo_bisnis']); ?>" />
                         <?php } else { ?>
                             <p><em>Logo bisnis belum diunggah</em></p>
                         <?php } ?>
@@ -239,7 +267,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
 
                                     if (kelompokId) {
                                         // Kirim data ke server menggunakan AJAX
-                                        fetch('update_kelompok_status.php', {
+                                        fetch('update_kelompok_status', {
                                             method: 'POST',
                                             headers: {
                                                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -338,13 +366,13 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                         </div>
                         <div class="cards-container">
                             <!-- Card 1 -->
-                            <div class="card" onclick="window.location.href='proposal_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok; ?>'" 
+                            <div class="card" onclick="window.location.href='proposal_bisnis?id_kelompok=<?php echo $id_kelompok; ?>'" 
                             data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Proposal Bisnis Kelompok Disini"
                             >
                                 <h5>Proposal Bisnis</h5>
                             </div>
                             <!-- Card 2 -->
-                            <div class="card" onclick="window.location.href='laporan_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok; ?>'"
+                            <div class="card" onclick="window.location.href='laporan_bisnis?id_kelompok=<?php echo $id_kelompok; ?>'"
                             title="Laporan Kemajuan Bisnis Kelompok Disini"
                             data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Laporan Kemajuan Bisnis Kelompok Disini"
                             >
@@ -407,7 +435,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                                 ?>
                                                             </td>
                                                             <td class="text-center align-middle">
-                                                                <a href="detail_jadwal_mentor.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+                                                                <a href="detail_jadwal?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
                                                                     <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Jadwal"></i>
                                                                 </a>
                                                             </td>
@@ -446,7 +474,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
 
                 <!-- Tombol Back -->
                 <div class="mt-3">
-                    <a href="daftar_kelompok_bisnis_mentor.php" class="btn btn-secondary mt-3">Kembali ke Daftar Kelompok Bisnis</a>
+                    <a href="daftar_kelompok_bisnis" class="btn btn-secondary mt-3">Kembali ke Daftar Kelompok Bisnis</a>
                 </div>
             </div>
         </div>

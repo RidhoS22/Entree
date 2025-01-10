@@ -1,9 +1,71 @@
 <?php
+session_start();
 // Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
 
 // Mengambil id dari URL
 $id_laporan = isset($_GET['id']) ? $_GET['id'] : '';
+
+// Ambil ID kelompok pengguna dari database
+$user_id = $_SESSION['user_id'];
+$query = "SELECT id_kelompok FROM mahasiswa WHERE user_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$user_kelompok_id = $row['id_kelompok']; // ID kelompok pengguna dari database
+
+// Ambil ID laporan dari parameter URL
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    header('Location: /Entree/mahasiswa/dashboard.php'); // Redirect jika ID tidak ada di URL
+    exit;
+}
+$requested_laporan_id = intval($_GET['id']);
+
+// Periksa apakah laporan milik kelompok pengguna
+$query = "SELECT id_kelompok FROM laporan_bisnis WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $requested_laporan_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika laporan tidak ditemukan
+    exit;
+}
+
+$row = $result->fetch_assoc();
+$laporan_kelompok_id = $row['id_kelompok'];
+
+// Periksa apakah ID kelompok dari laporan cocok dengan ID kelompok pengguna
+if ($laporan_kelompok_id !== $user_kelompok_id) {
+    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika tidak sesuai
+    exit;
+}
+
+// Jika ID cocok, lanjutkan untuk memproses detail laporan
+$query = "SELECT * FROM laporan_bisnis WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $requested_laporan_id);
+$stmt->execute();
+$laporan_result = $stmt->get_result();
+
+if ($laporan_result->num_rows === 0) {
+    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika data laporan tidak ditemukan
+    exit;
+}
 
 // Fetch data laporan berdasarkan id
 $query = "SELECT * FROM laporan_bisnis WHERE id = ?";
@@ -45,7 +107,7 @@ if (!empty($laporan_pdf)) {
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_laporan_bisnis.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_laporan_bisnis.css">
 </head>
 
 <body>
@@ -107,8 +169,8 @@ if (!empty($laporan_pdf)) {
                     if (!empty($pdf_files_clean)) {
                         foreach ($pdf_files_clean as $file) {
                             // Path aktual tempat file PDF disimpan
-                            $file_path = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; 
-                            $download_path = '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; // Path untuk akses di URL
+                            $file_path = $_SERVER['DOCUMENT_ROOT'] . '/Entree/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; 
+                            $download_path = '/Entree/components/pages/mahasiswa/uploads/laporan_kemajuan/' . $file; // Path untuk akses di URL
 
                             if (file_exists($file_path)) {
                                 // Mendapatkan ukuran file
@@ -148,7 +210,7 @@ if (!empty($laporan_pdf)) {
                 <div class="feedback-box">
                     <p><?php echo htmlspecialchars($laporan['feedback']); ?></p>
                 </div>
-                <a href="laporan_bisnis_mahasiswa.php" class="btn btn-secondary">Kembali</a>
+                <a href="laporan_bisnis" class="btn btn-secondary">Kembali</a>
             </div>
         </div>
     </div>

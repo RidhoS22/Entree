@@ -1,6 +1,16 @@
 <?php
-// Pastikan untuk menyertakan file koneksi database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Periksa apakah form telah disubmit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -34,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Eksekusi query
     if ($stmt->execute()) {
         // Jika berhasil, arahkan kembali ke halaman jadwal
-        header("Location: jadwal_bimbingan_mentor.php?status=success");
+        header("Location: jadwal_bimbingan?status=success");
         exit();
     } else {
         // Jika gagal, tampilkan pesan error

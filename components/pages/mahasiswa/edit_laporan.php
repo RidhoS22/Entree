@@ -1,6 +1,17 @@
 <?php
+session_start();
 // Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
 
 if (isset($_POST['kirim'])) {
     // Mengambil data dari form
@@ -68,7 +79,7 @@ if (isset($_POST['kirim'])) {
         // Eksekusi query
         if ($stmt->execute()) {
             echo "Laporan berhasil diperbarui!";
-            header("Location: laporan_bisnis_mahasiswa.php"); // Redirect ke halaman daftar laporan setelah berhasil
+            header("Location: laporan_bisnis"); // Redirect ke halaman daftar laporan setelah berhasil
         } else {
             echo "Terjadi kesalahan: " . $stmt->error;
         }

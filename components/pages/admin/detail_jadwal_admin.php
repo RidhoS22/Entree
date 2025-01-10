@@ -1,6 +1,16 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Ambil ID dari parameter URL
 $toastMessage = isset($_GET['toast']) ? $_GET['toast'] : null;
@@ -74,8 +84,8 @@ if ($id) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_proposal.css">
+    <link rel="stylesheet" href="/Entree/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_proposal.css">
 </head>
 
 <body>
@@ -145,7 +155,7 @@ if ($id) {
                                                 <?php if (!empty($data['bukti_kegiatan'])): ?>
                                                     <div class="icon-group">
                                                         <!-- Ikon Lihat File -->
-                                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                        <a href="/Entree/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
                                                         target="_blank" 
                                                         class="detail-icon" 
                                                         data-bs-toggle="tooltip" 
@@ -154,7 +164,7 @@ if ($id) {
                                                             <i class="fa-solid fa-eye"></i>
                                                         </a>
                                                         <!-- Ikon Unduh File -->
-                                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                        <a href="/Entree/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
                                                         download 
                                                         class="btn-icon" 
                                                         data-bs-toggle="tooltip" 

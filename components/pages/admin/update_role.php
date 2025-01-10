@@ -1,6 +1,16 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mentor_id = $_POST['mentor_id'];
@@ -29,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $new_role = 'Tutor';
             } else {
                 $_SESSION['message'] = "Aksi tidak valid.";
-                header("Location: daftar_mentor_admin.php");
+                header("Location: daftar_mentor");
                 exit;
             }
 
@@ -47,6 +57,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['message'] = "Mentor tidak ditemukan.";
     }
 
-    header("Location: daftar_mentor_admin.php");
+    header("Location: daftar_mentor");
     exit;
 }

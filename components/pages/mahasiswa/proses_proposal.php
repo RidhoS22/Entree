@@ -1,9 +1,20 @@
 <?php
 // Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Pastikan mahasiswa sudah login dan memiliki session
 session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
+
 if (!isset($_SESSION['npm'])) {
     // Redirect jika mahasiswa belum login
     header('Location: login.php');
@@ -48,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($proposal_file['error'] == 0) {
         $fileTmpName = $proposal_file['tmp_name'];
         $fileName = basename($proposal_file['name']); // Ambil hanya nama file (tanpa path)
-        $filePath = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/' . $fileName;
+        $filePath = $_SERVER['DOCUMENT_ROOT'] . '/Entree/components/pages/mahasiswa/uploads/proposal/' . $fileName;
 
         // Pindahkan file ke folder yang ditentukan
         if (move_uploaded_file($fileTmpName, $filePath)) {
@@ -61,14 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     'message' => 'Proposal berhasil diajukan!',
                     'isSuccess' => true
                 ];
-                header('Location: proposal_bisnis_mahasiswa.php');
+                header('Location: proposal');
                 exit;
             } else {
                 $_SESSION['toast_message'] = [
                     'message' => 'Terjadi kesalahan dalam mengajukan proposal!',
                     'isSuccess' => false
                 ];
-                header('Location: proposal_bisnis_mahasiswa.php');
+                header('Location: proposal');
                 exit;
             }
             

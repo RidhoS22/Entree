@@ -1,8 +1,19 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
+
 // Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Ambil ID pengguna dari session
 $user_id = $_SESSION['user_id'];  
@@ -15,6 +26,20 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $_SESSION['id_kelompok'] = $row['id_kelompok'];  // Menyimpan ID Kelompok di session
+
+// Cek apakah ada proposal bisnis yang disetujui untuk ID kelompok
+$query = "SELECT COUNT(*) AS count FROM proposal_bisnis WHERE kelompok_id = ? AND status = 'Disetujui'";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $_SESSION['id_kelompok']);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+// Jika tidak ada proposal yang disetujui, redirect ke halaman error atau notifikasi
+if ($row['count'] == 0) {
+    header('Location: /Entree/mahasiswa/dashboard'); // Ganti dengan halaman notifikasi yang sesuai
+    exit;
+}
 
 // Ambil laporan berdasarkan ID kelompok
 $query = "SELECT * FROM laporan_bisnis WHERE id_kelompok = ?";
@@ -34,7 +59,7 @@ $laporan_result = $stmt->get_result();
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/laporan_bisnis.css">
+    <link rel="stylesheet" href="/Entree/assets/css/laporan_bisnis.css">
 </head>
     
 <body>
@@ -69,7 +94,7 @@ $laporan_result = $stmt->get_result();
                             </div>
                             <div class="modal-body">
                                 <!-- Form -->
-                                <form method="POST" action="proses_laporan.php" enctype="multipart/form-data" autocomplete="off">
+                                <form method="POST" action="proses_laporan" enctype="multipart/form-data" autocomplete="off">
                                     <!-- Laporan Kemajuan Pengembangan Usaha -->
                                     <div class="form-group">
                                         <label for="judul_laporan">Judul Laporan:<span style="color:red;">*</span></label>
@@ -161,7 +186,7 @@ $laporan_result = $stmt->get_result();
                                 </div>
                                 <div class="modal-body">
                                     <!-- Form -->
-                                    <form method="POST" action="edit_laporan.php" enctype="multipart/form-data" autocomplete="off">
+                                    <form method="POST" action="edit_laporan" enctype="multipart/form-data" autocomplete="off">
                                         <!-- Laporan Kemajuan Pengembangan Usaha -->
                                         <input type="hidden" id="id_laporan" name="id_laporan">
 
@@ -267,13 +292,13 @@ $laporan_result = $stmt->get_result();
                                     data-pdf="<?php echo htmlspecialchars($laporan['laporan_pdf']); ?>">
                                 </i>
                             </div>
-                            <a href="detail_laporan_bisnis.php?id=<?php echo $id; ?>">
+                            <a href="detail_laporan?id=<?php echo $id; ?>">
                             <div class="card-body">
                                 <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Laporan Kemajuan Bisnis" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Laporan Kemajuan Bisnis"></i>
                             </div>
                             </a>
                             <div class="card-footer">
-                                <a href="detail_laporan_bisnis.php?id=<?php echo $id; ?>">Lihat Umpan Balik</a>
+                                <a href="detail_laporan?id=<?php echo $id; ?>">Lihat Umpan Balik</a>
                                 <i class="fa-solid fa-trash-can delete-icon" title="Hapus Laporan Kemajuan Bisnis" onclick="confirmDelete(<?php echo $laporan['id']; ?>);" title="Edit Laporan Kemajuan Bisnis"></i>
                             </div>
                         </div>
@@ -322,7 +347,7 @@ $laporan_result = $stmt->get_result();
             const confirmation = confirm("Apakah Anda yakin ingin menghapus laporan ini?");
             if (confirmation) {
                 // Jika pengguna mengkonfirmasi, redirect ke file PHP untuk menghapus
-                window.location.href = 'hapus_laporan.php?id=' + laporanID;
+                window.location.href = 'hapus_laporan?id=' + laporanID;
             }
         }
     </script>

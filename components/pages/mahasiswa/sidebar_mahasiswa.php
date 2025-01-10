@@ -4,7 +4,18 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
+
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Ambil data pengguna yang sedang login
 $npm = $_SESSION['npm'];  // Pastikan npm sudah diset dalam session
@@ -70,7 +81,7 @@ if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/sidebar.css">
+    <link rel="stylesheet" href="/Entree/assets/css/sidebar.css">
 </head>
 
 <body>
@@ -84,30 +95,30 @@ if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <div class="sidebar-logo">
-                    <img src="\Aplikasi-Kewirausahaan\assets\img\Frame 64 1.png" alt="">
+                    <img src="\Entree\assets\img\Frame 64 1.png" alt="">
                 </div>
             </div>
             <ul class="sidebar-nav">
                 <li class="sidebar-item <?php echo ($activePage == 'profil') ? 'active' : ''; ?>">
-                    <a href="profil_mahasiswa.php" class="sidebar-link">
+                    <a href="profil" class="sidebar-link">
                         <i class="fa-solid fa-user"></i>
                         <span>Profil</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'pagemahasiswa') ? 'active' : ''; ?>">
-                    <a href="pagemahasiswa.php" class="sidebar-link">
+                    <a href="dashboard" class="sidebar-link">
                         <i class="fa-solid fa-house"></i>
                         <span>Beranda</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'materikewirausahaan_mahasiswa') ? 'active' : ''; ?>">
-                    <a href="materikewirausahaan_mahasiswa.php" class="sidebar-link">
+                    <a href="materi_kewirausahaan" class="sidebar-link">
                         <i class="fa-solid fa-book"></i>
                         <span>Materi Kewirausahaan</span>
                     </a>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'daftar_mentor_mahasiswa') ? 'active' : ''; ?>">
-                    <a href="daftar_mentor_mahasiswa.php" class="sidebar-link">
+                    <a href="daftar_mentor" class="sidebar-link">
                         <i class="fa-solid fa-address-card"></i>  
                         <span>Daftar Mentor Bisnis</span>
                     </a>
@@ -117,7 +128,7 @@ if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
                     <h1>Mahasiswa</h1>
                 </li>
                 <li class="sidebar-item <?php echo ($activePage == 'kelompok_bisnis_mahasiswa') ? 'active' : ''; ?>">
-                    <a href="kelompok_bisnis_mahasiswa.php" class="sidebar-link">
+                    <a href="kelompok_bisnis" class="sidebar-link">
                         <i class="fa-solid fa-users"></i>
                         <span>Kelompok Bisnis</span>
                     </a>
@@ -133,7 +144,7 @@ if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
                         </a>
                         <ul id="kelola_bisnis_kelompok" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item <?php echo ($activePage == 'proposal_bisnis_mahasiswa') ? 'active' : ''; ?>">
-                                <a href="proposal_bisnis_mahasiswa.php" class="sidebar-link">
+                                <a href="proposal" class="sidebar-link">
                                     <i class="fa-regular fa-file"></i>
                                     Proposal Bisnis
                                 </a>
@@ -141,7 +152,7 @@ if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
                             <!-- Fitur Laporan Kemajuan -->
                             <li class="sidebar-item <?php echo ($activePage == 'laporan_bisnis_mahasiswa') ? 'active' : ''; ?>">
                                 <?php if ($proposalApproved): ?>
-                                    <a href="laporan_bisnis_mahasiswa.php" class="sidebar-link">
+                                    <a href="laporan_bisnis" class="sidebar-link">
                                         <i class="fa-solid fa-file-invoice"></i>    
                                         Laporan Kemajuan
                                     </a>
@@ -156,7 +167,7 @@ if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
                             <!-- Fitur Jadwal Bimbingan -->
                             <li class="sidebar-item <?php echo ($activePage == 'jadwal_bimbingan_mahasiswa') ? 'active' : ''; ?>">
                                 <?php if ($kelompokDenganMentor): ?>
-                                    <a href="jadwal_bimbingan_mahasiswa.php" class="sidebar-link">
+                                    <a href="jadwal_bimbingan" class="sidebar-link">
                                         <i class="fa-solid fa-calendar"></i>
                                         Jadwal Bimbingan
                                     </a>
@@ -198,12 +209,12 @@ if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
                     document.getElementById('logoutLink').addEventListener('click', function() {
                         // Kirim permintaan logout ke backend
                         const xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/Aplikasi-Kewirausahaan/components/pages/logout.php', true);
+                        xhr.open('POST', '/Entree/components/pages/logout.php', true);
                         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                         xhr.onload = function() {
                             if (xhr.status === 200) {
                                 // Jika berhasil, arahkan ke halaman login
-                                window.location.href = '/Aplikasi-Kewirausahaan/components/pages/startdashboard/dashboardawal.php';
+                                window.location.href = '/Entree/dashboard';
                             } else {
                                 alert('Terjadi kesalahan saat logout.');
                             }

@@ -1,14 +1,29 @@
 <?php
 session_start(); // Start the session if not already started
 
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
+
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Check if id_kelompok exists in the session
 if (isset($_SESSION['id_kelompok'])) {
     // Ambil nilai id_kelompok dari session
     $id_kelompok = $_SESSION['id_kelompok'];
+} else {
+    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika id_kelompok tidak ditemukan
+    exit;
 }
 
+// Ambil jadwal berdasarkan id_kelompok
 $sql = "SELECT * FROM jadwal WHERE id_klmpk = ? ORDER BY tanggal, waktu";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_kelompok); // Bind parameter id_kelompok
@@ -42,19 +57,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['toast_message'] = $message; // Set message in session
     $stmt->close();
     // Redirect to prevent form resubmission
-    header("Location: jadwal_bimbingan_mahasiswa.php");
+    header("Location: jadwal_bimbingan");
     exit();
 }
 
 if (isset($_GET['delete_id'])) {
     $delete_id = $_GET['delete_id'];
-    $sql_delete = "DELETE FROM jadwal WHERE id = ?";
-    $stmt = $conn->prepare($sql_delete);
+    // Validasi kepemilikan jadwal sebelum menghapus
+    $sql_check = "SELECT id_klmpk FROM jadwal WHERE id = ?";
+    $stmt = $conn->prepare($sql_check);
     $stmt->bind_param("i", $delete_id);
-    $message = $stmt->execute() ? "Jadwal berhasil dihapus!" : "Gagal menghapus jadwal.";
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    if ($row && $row['id_klmpk'] == $id_kelompok) {
+        $sql_delete = "DELETE FROM jadwal WHERE id = ?";
+        $stmt = $conn->prepare($sql_delete);
+        $stmt->bind_param("i", $delete_id);
+        $message = $stmt->execute() ? "Jadwal berhasil dihapus!" : "Gagal menghapus jadwal.";
+    } else {
+        $message = "Akses tidak diizinkan.";
+    }
+
     $_SESSION['toast_message'] = $message; // Set message in session
-    header("Location: jadwal_bimbingan_mahasiswa.php"); // Redirect to prevent form resubmission
-    exit(); // Make sure to exit after the redirect
+    header("Location: jadwal_bimbingan"); // Redirect to prevent form resubmission
+    exit();
 }
 
 // Ambil data untuk diedit
@@ -67,6 +95,13 @@ if (isset($_GET['edit_id'])) {
     $stmt->execute();
     $result = $stmt->get_result();
     $edit_data = $result->fetch_assoc();
+
+    // Validasi kepemilikan jadwal sebelum mengedit
+    if ($edit_data['id_klmpk'] != $id_kelompok) {
+        header("Location: /Entree/mahasiswa/dashboard"); // Redirect jika tidak memiliki akses
+        exit();
+    }
+
     $stmt->close();
 }
 ?>
@@ -83,7 +118,7 @@ if (isset($_GET['edit_id'])) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
 </head>
 
 <body>
@@ -148,7 +183,7 @@ if (isset($_GET['edit_id'])) {
                         </div>
                         <button type="submit" class="btn btn-success"><?php echo isset($edit_data) ? "Perbarui" : "Simpan"; ?></button>
                         <?php if ($edit_data): ?>
-                            <a href="jadwal_bimbingan_mahasiswa.php" class="btn btn-secondary">Batal</a>
+                            <a href="jadwal_bimbingan" class="btn btn-secondary">Batal</a>
                         <?php endif; ?>
                     </form>
                     <hr>
@@ -206,7 +241,7 @@ if (isset($_GET['edit_id'])) {
                                                         <?php endif; ?>
 
                                                         <!-- Tombol Detail -->
-                                                        <a href="detail_jadwal_mahasiswa.php?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
+                                                        <a href="detail_jadwal?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
                                                             <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Jadwal Bimbingan"></i>
                                                         </a>
                                                         <!-- Dropdown untuk Pilih Aksi jika status = "Alternatif" -->

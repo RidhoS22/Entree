@@ -1,9 +1,19 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 if (!isset($_SESSION['username'])) {
-    header("Location: /Aplikasi-Kewirausahaan/auth/login/loginform.php");
+    header("Location: /Entree/auth/login/loginform.php");
     exit;
 }
 ?>
@@ -21,7 +31,7 @@ if (!isset($_SESSION['username'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/profil.css">
+    <link rel="stylesheet" href="/Entree/assets/css/profil.css">
 </head>
 
 <body>
@@ -82,7 +92,7 @@ if (!isset($_SESSION['username'])) {
                     <h5 class="modal-title" id="changePasswordModalLabel">Ganti Kata Sandi</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="process_change_password.php" method="POST" onsubmit="return validatePassword()">
+                <form action="process_change_password" method="POST" onsubmit="return validatePassword()">
                     <div class="modal-body">
                         <!-- Input Password Baru -->
                         <div class="mb-3">

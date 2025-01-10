@@ -1,12 +1,34 @@
 <?php
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Ambil ID dari parameter URL
 $toastMessage = isset($_GET['toast']) ? $_GET['toast'] : null;
 $id = isset($_GET['id']) ? $_GET['id'] : null;
 $userRole = $_SESSION['role'];
 $userId = $_SESSION['user_id'];
+
+// Periksa apakah jadwal milik kelompok pengguna
+$query = "SELECT id_klmpk FROM jadwal WHERE id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    header('Location: /Entree/mentor/dashboard'); // Redirect jika jadwal tidak ditemukan
+    exit;
+}
 
 // 1. Ambil ID dari tabel mentor_bisnis
 $sql_id = "SELECT id FROM mentor WHERE user_id = '$userId'";
@@ -74,8 +96,8 @@ if ($id) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_proposal.css">
+    <link rel="stylesheet" href="/Entree/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_proposal.css">
 </head>
 
 <body>
@@ -158,7 +180,7 @@ if ($id) {
                                                         <?php if (!empty($data['bukti_kegiatan'])): ?>
                                                             <div class="icon-group">
                                                                 <!-- Ikon Lihat File -->
-                                                                <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                                <a href="/Entree/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
                                                                 target="_blank" 
                                                                 class="detail-icon" 
                                                                 data-bs-toggle="tooltip" 
@@ -167,7 +189,7 @@ if ($id) {
                                                                     <i class="fa-solid fa-eye"></i>
                                                                 </a>
                                                                 <!-- Ikon Unduh File -->
-                                                                <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
+                                                                <a href="/Entree/components/pages/mahasiswa/uploads/bukti_kegiatan/<?php echo basename($data['bukti_kegiatan']); ?>" 
                                                                 download 
                                                                 class="btn-icon" 
                                                                 data-bs-toggle="tooltip" 
@@ -215,7 +237,7 @@ if ($id) {
                                     <h5 class="modal-title" id="altScheduleModalLabel">Berikan Jadwal Alternatif</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
-                                <form action="submit_action.php" method="POST">
+                                <form action="submit_action" method="POST">
                                     <input type="hidden" name="action" value="jadwal_alternatif">
                                     <input type="hidden" name="jadwal_id" value="<?php echo htmlspecialchars($id); ?>">
                                     <div class="modal-body">
@@ -243,7 +265,7 @@ if ($id) {
                     </div>
 
                    <?php if ($data['status'] == 'selesai' && $canTakeAction): ?>
-                        <form action="submit_feedback_jadwal.php" method="POST">
+                        <form action="submit_feedback_jadwal" method="POST">
                             <div class="mb-3">
                                 <label for="feedbackInput" class="form-label">Masukkan Umpan Balik Anda:</label>
                                 <textarea class="form-control" id="feedbackInput" name="feedback" rows="5" placeholder="Tulis umpan balik Anda di sini..." required></textarea>
@@ -278,11 +300,9 @@ if ($id) {
                         </script>
                     <?php endif; ?>
 
-                    <?php
-                        $referer = $_SERVER['HTTP_REFERER'] ?? 'jadwal_bimbingan_mentor.php'; // Default ke jadwal_bimbingan_mentor.php jika tidak ada referer
-                    ?>
-
-                    <a href="<?= htmlspecialchars($referer) ?>" class="btn btn-secondary">Kembali</a>
+                    <div class="mt-4 text-left">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='jadwal_bimbingan'">Kembali</button>
+                    </div>
                 </div>       
             </div>
     </div>
@@ -314,7 +334,7 @@ if ($id) {
         function submitAction(action) {
             const form = document.createElement('form');
             form.method = 'POST';
-            form.action = 'submit_action.php';
+            form.action = 'submit_action';
 
             const actionInput = document.createElement('input');
             actionInput.type = 'hidden';

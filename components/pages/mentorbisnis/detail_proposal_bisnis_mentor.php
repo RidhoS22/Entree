@@ -1,7 +1,17 @@
 <?php
 // Memastikan koneksi ke database dan session sudah aktif
 session_start();
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Mengambil id_proposal dan id_kelompok dari URL
 $id_proposal = isset($_GET['id']) ? intval($_GET['id']) : null;
@@ -9,6 +19,37 @@ $id_kelompok = isset($_GET['id_kelompok']) ? intval($_GET['id_kelompok']) : null
 
 // Validasi mentor yang login
 $mentor_name = isset($_SESSION['nama']) ? $_SESSION['nama'] : null;
+
+// Periksa apakah proposal bisnis dengan ID ini milik kelompok pengguna
+$query = "SELECT id FROM proposal_bisnis WHERE id = ? AND kelompok_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("ii", $id_proposal, $id_kelompok);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Jika proposal tidak ditemukan atau tidak sesuai, redirect ke dashboard
+if ($result->num_rows === 0) {
+    header('Location: /Entree/mentor/dashboard');
+    exit;
+}
+
+if ($id_kelompok) {
+    // Query untuk memeriksa apakah kelompok dengan id_kelompok ada untuk mentor yang sedang login
+    $sql_check = "SELECT k.* 
+                  FROM kelompok_bisnis k 
+                  WHERE k.id_kelompok = ?";
+    $stmt = $conn->prepare($sql_check);
+    $stmt->bind_param("i", $id_kelompok);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $kelompok = $result->fetch_assoc();
+
+    if (!$kelompok) {
+        // Redirect jika kelompok tidak ditemukan atau mentor tidak memiliki akses
+        header('Location: /Entree/mentor/dashboard');
+        exit;
+    }
+}
 
 // Query untuk mengambil data proposal bisnis
 if ($id_proposal) {
@@ -93,7 +134,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_proposal.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_proposal.css">
 </head>
 <style>
     .Feedback {
@@ -170,10 +211,10 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                                         <?php echo htmlspecialchars(basename($proposal['proposal_pdf'])); ?>
                                     </div>
                                     <div class="icon-group">
-                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File">
+                                        <a href="/Entree/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" target="_blank" class="detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat File">
                                             <i class="fa-solid fa-eye"></i>
                                         </a>
-                                        <a href="/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" download class="btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File">
+                                        <a href="/Entree/components/pages/mahasiswa/uploads/proposal/<?php echo basename($proposal['proposal_pdf']); ?>" download class="btn-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Unduh File">
                                             <i class="fa-solid fa-download"></i>
                                         </a>
                                     </div>
@@ -225,7 +266,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                         const proposalId = document.getElementById('proposalId').value;
 
                         try {
-                            const response = await fetch('submit_feedback.php', {
+                            const response = await fetch('submit_feedback', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -261,7 +302,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
             <?php endif; ?>
                 <!-- Tambahkan tombol "Kembali" di luar form -->
             <div class="mt-4 text-left">
-                <button type="button" class="btn btn-secondary" onclick="window.location.href='proposal_bisnis_mentor.php?id_kelompok=<?php echo $id_kelompok ?>'">Kembali</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='proposal_bisnis?id_kelompok=<?php echo $id_kelompok ?>'">Kembali</button>
             </div>
             </div>
         </div>
@@ -275,7 +316,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
         const groupId = <?php echo $id_kelompok; ?>;
 
             // Mengirim data ke server menggunakan fetch
-            fetch('update_proposal_status.php', {
+            fetch('update_proposal_status', {
                 method: 'POST',
                 body: JSON.stringify({
                     action: 'disetujui',  // atau 'ditolak'
@@ -310,7 +351,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
             const groupId = <?php echo $id_kelompok; ?>;
 
             // Make an AJAX request to update the proposal status
-            fetch('update_proposal_status.php', {
+            fetch('update_proposal_status', {
                 method: 'POST',
                 body: JSON.stringify({
                     action: 'ditolak',

@@ -1,5 +1,16 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Admin') {
+    header('Location: /Entree/login');
+    exit;
+}
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 if (!isset($_GET['id'])) {
     echo "ID materi tidak ditemukan.";
@@ -8,7 +19,7 @@ if (!isset($_GET['id'])) {
 
 $id = $conn->real_escape_string($_GET['id']);
 
-$baseDir = '/Aplikasi-Kewirausahaan/components/pages/admin/uploads/';
+$baseDir = '/Entree/components/pages/admin/uploads/';
 
 $sql = "SELECT * FROM materi_kewirausahaan WHERE id = '$id'";
 $result = $conn->query($sql);
@@ -60,25 +71,25 @@ function getFileIcon($fileExtension) {
         case 'webm':
         case 'mov':
         case 'avi':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_video.png'; // Icon video
+            return '/Entree/assets/img/icon_video.png'; // Icon video
         case 'ppt':
         case 'pptx':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_ppt.png'; // Icon PPT
+            return '/Entree/assets/img/icon_ppt.png'; // Icon PPT
         case 'pdf':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_pdf.png'; // Icon PDF
+            return '/Entree/assets/img/icon_pdf.png'; // Icon PDF
         case 'doc':
         case 'docx':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_word.png'; // Icon Word
+            return '/Entree/assets/img/icon_word.png'; // Icon Word
         case 'xls':
         case 'xlsx':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_excel.png'; // Icon Excel
+            return '/Entree/assets/img/icon_excel.png'; // Icon Excel
         case 'jpg':
         case 'jpeg':
         case 'png':
         case 'gif':
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_image.png'; // Icon gambar
+            return '/Entree/assets/img/icon_image.png'; // Icon gambar
         default:
-            return '/Aplikasi-Kewirausahaan/assets/img/icon_default.png'; // Icon default
+            return '/Entree/assets/img/icon_default.png'; // Icon default
     }
 }
 ?>
@@ -94,8 +105,8 @@ function getFileIcon($fileExtension) {
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/materikewirausahaan.css">
-    <link rel="stylesheet" href="/Aplikasi-Kewirausahaan/assets/css/detail_materikewirausahaan.css">
+    <link rel="stylesheet" href="/Entree/assets/css/materikewirausahaan.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_materikewirausahaan.css">
 </head>
 <style>
     .toast {
@@ -179,7 +190,7 @@ function getFileIcon($fileExtension) {
                                                 <h5 class="modal-title" id="editModalLabel">Edit Materi</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
-                                            <form action="edit_materi.php" method="POST">
+                                            <form action="edit_materi" method="POST">
                                                 <div class="modal-body">
                                                     <input type="hidden" name="id" value="<?= htmlspecialchars($row["id"]) ?>">
                                                     <div class="mb-3">
@@ -213,7 +224,7 @@ function getFileIcon($fileExtension) {
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                <a id="deleteLink" href="delete_materi.php" class="btn btn-danger">Hapus</a>
+                                                <a id="deleteLink" href="delete_materi" class="btn btn-danger">Hapus</a>
                                             </div>
                                         </div>
                                     </div>
@@ -224,7 +235,7 @@ function getFileIcon($fileExtension) {
                                     document.querySelectorAll('.delete-btn').forEach(function (element) {
                                         element.addEventListener('click', function (e) {
                                             e.preventDefault(); // Mencegah aksi default
-                                            var deleteUrl = "delete_materi.php?id=" + this.getAttribute('data-id'); // Mengambil ID dari data-id
+                                            var deleteUrl = "delete_materi?id=" + this.getAttribute('data-id'); // Mengambil ID dari data-id
                                             document.getElementById('deleteLink').setAttribute('href', deleteUrl); // Set URL penghapusan pada tombol Hapus
                                             var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
                                             deleteModal.show(); // Tampilkan modal
@@ -250,7 +261,7 @@ function getFileIcon($fileExtension) {
                                     $iconSrc = getFileIcon($fileExtension);
                                   
                                     echo '
-                                    <a href="detail_materi_kewirausahaan.php?id=' . $row["id"] . '">
+                                    <a href="detail_materi?id=' . $row["id"] . '">
                                         <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
                                             <div class="icon-container"> 
                                                 <img src="' . $iconSrc . '" alt="File Icon" class="icon">

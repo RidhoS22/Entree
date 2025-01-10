@@ -1,13 +1,24 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/config/db_connection.php';
-// Pastikan mahasiswa sudah login dan memiliki session
 session_start();
+include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: /Entree/login');
+    exit;
+}
+
+// Cek apakah role pengguna sesuai
+if ($_SESSION['role'] !== 'Mahasiswa') {
+    header('Location: /Entree/login');
+    exit;
+}
+// Pastikan mahasiswa sudah login dan memiliki session
+
 if (!isset($_SESSION['npm'])) {
     // Redirect jika mahasiswa belum login
     header('Location: login.php');
     exit;
 }
-
 // Ambil npm_mahasiswa dari sesi
 $npm_mahasiswa = $_SESSION['npm'];
 
@@ -44,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_kelompok = $_SESSION['id_kelompok'];
 
     // Proses upload file lampiran
-    $lampiran_dir = $_SERVER['DOCUMENT_ROOT'] . '/Aplikasi-Kewirausahaan/components/pages/mahasiswa/uploads/laporan_kemajuan/';
+    $lampiran_dir = $_SERVER['DOCUMENT_ROOT'] . '/Entree/components/pages/mahasiswa/uploads/laporan_kemajuan/';
     if (!is_dir($lampiran_dir)) {
         mkdir($lampiran_dir, 0777, true); // Buat direktori jika belum ada
     }
@@ -112,15 +123,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($stmt->execute()) {
         $_SESSION['message'] = "Laporan berhasil diunggah!";
-        header("Location: laporan_bisnis_mahasiswa.php");
+        header("Location: laporan_bisnis");
         exit;
     } else {
         $_SESSION['error'] = "Gagal menyimpan laporan ke database!";
-        header("Location: laporan_bisnis_mahasiswa.php");
+        header("Location: laporan_bisnis");
         exit;
     }
 } else {
-    header("Location: laporan_bisnis_mahasiswa.php");
+    header("Location: laporan_bisnis");
     exit;
 }
 ?>
