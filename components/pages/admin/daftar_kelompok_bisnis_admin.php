@@ -213,18 +213,22 @@ $resulTahun = $conn->query($tahunAkademik);
                                 <table class="table table-bordered m-0 styled-table">
                                     <tbody>
                                         <tr>
-                                            <td>Mentor Bisnis</td>
-                                            <td>' . $namaMentor . '</td>
-                                        </tr>
+                                            <td>Mentor Bisnis</td>';
+                                            if ($namaMentor == "Nama mentor tidak tersedia") {
+                                                echo '<td style="max-width:300px"><div class="alert alert-danger fw-bold text-center m-0 mx-5 p-2" role="alert">Nama mentor tidak tersedia</div></td>';
+                                            } else {
+                                                echo '<td style="max-width:300px" >' . $namaMentor . '</td>';
+                                            }
+                                    echo '</tr>
                                         <tr>
                                             <td>Status Kelompok Bisnis</td>
                                             <td>';
                 
                                             // Menampilkan status dengan kelas yang sesuai
                                             if ($status_kelompok_bisnis == 'aktif') {
-                                                echo '<p class="alert alert-success fw-bold text-center mx-5 p-2" role="alert">Aktif</p>';
+                                                echo '<p class="alert alert-success fw-bold text-center m-0 mx-5 p-2" role="alert">Aktif</p>';
                                             } else {
-                                                echo '<p class="alert alert-secondary fw-bold text-center mx-5 p-2" role="alert">Tidak Aktif</p>';
+                                                echo '<p class="alert alert-secondary fw-bold text-center m-0 mx-5 p-2" role="alert">Tidak Aktif</p>';
                                             }
                 
                                             echo '
@@ -234,33 +238,34 @@ $resulTahun = $conn->query($tahunAkademik);
                                         <td>Program Inkubasi Bisnis</td>
                                         <td>';
                                             if ($status_inkubasi == 'direkomendasikan') {
-                                                echo '<p class="alert alert-success fw-bold text-center mx-5 p-2" role="alert">Direkomendasikan</p>';
+                                                echo '<p class="alert alert-success fw-bold text-center m-0 mx-5 p-2" role="alert">Direkomendasikan</p>';
                                             } elseif ($status_inkubasi == 'masuk') {
-                                                echo '<p class="alert alert-info fw-bold text-center mx-5 p-2" role="alert">Program Inkubasi</p>';
+                                                echo '<p class="alert alert-info fw-bold text-center m-0 mx-5 p-2" role="alert">Program Inkubasi</p>';
                                             } else {
-                                                echo '<p class="alert alert-secondary fw-bold text-center mx-5 p-2" role="alert">Tidak Ada</p>';
+                                                echo '<p class="alert alert-secondary fw-bold text-center m-0 mx-5 p-2" role="alert">Tidak Ada</p>';
                                             }
                                         echo '</td>
                                     </tr>
                                     </tbody>
                                 </table>
                                 <div class="card-footer">';
+
+                                echo '
+                                <a href="detail_kelompok?id_kelompok=' . $id_kelompok . '">
+                                    <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Kelompok Bisnis"></i>
+                                </a>';
                                 
                                 // Menambahkan kondisi PHP untuk tombol "Tambah Mentor"
                                 if ($status_inkubasi == 'masuk') {
                                     echo '
                                         <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Ubah Mentor Inkubasi</button>';
                                 }
-                                
-                                echo '
-                                    <a href="detail_kelompok?id_kelompok=' . $id_kelompok . '">
-                                        <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Kelompok Bisnis"></i>
-                                    </a>
-                                </div>
+                                    
+                                echo '</div>
                             </div>';
                 
                         echo '<div class="modal fade" id="mentorModal' . $id_kelompok . '" tabindex="-1" aria-labelledby="mentorModalLabel' . $id_kelompok . '" aria-hidden="true">';
-                        echo '<div class="modal-dialog modal-dialog-centered modal-xl">';
+                        echo '<div class="modal-dialog modal-dialog-centered modal-fullscreen">';
                         echo '<div class="modal-content">';
                         echo '<div class="modal-header">';
                         echo '<h5 class="modal-title" id="mentorModalLabel' . $id_kelompok . '">Pilih Mentor Bisnis</h5>';
@@ -280,12 +285,7 @@ $resulTahun = $conn->query($tahunAkademik);
                         ";
                         $result_mentor = $conn->query($mentorQuery);
 
-                        echo '<form action="" method="get" class="mb-4">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Cari mentor..." name="search" value="' . htmlspecialchars($search) . '">
-                                <button class="btn btn-success" type="submit">Cari</button>
-                            </div>
-                        </form>';        
+                           
                         if ($result_mentor->num_rows > 0) {
                             echo '<div class="clearfix">';
                             while ($mentor = $result_mentor->fetch_assoc()) {

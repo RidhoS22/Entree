@@ -86,75 +86,6 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
 }
 ?>
 
-<?php
-// Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
-
-// Periksa apakah ada request POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil data JSON dari fetch
-    $input = json_decode(file_get_contents('php://input'), true);
-    $search = $conn->real_escape_string($input['search']);
-
-    // Query untuk mencari mentor
-    $query = "SELECT * FROM mentor WHERE nama LIKE '%$search%'";
-    $result = $conn->query($query);
-
-    // Hasil pencarian
-    if ($result->num_rows > 0) {
-        while ($mentor = $result->fetch_assoc()) {
-            $id_kelompok = $mentor['id_kelompok'] ?? null; // Pastikan nilai $id_kelompok diambil
-            echo '
-                <div class="accordion" id="accordionExample">
-                    <div class="card-mentor mb-3">
-                        <a data-bs-toggle="collapse" href="#collapse' . $mentor['id'] . '" role="button" 
-                            aria-expanded="false" aria-controls="collapse' . $mentor['id'] . '">
-                            <div class="card-mentor-header">
-                                <img alt="Profile picture of the mentor" class="w-12 h-12 rounded-full me-2" height="50" 
-                                src="' . htmlspecialchars($mentor['foto_profile']) . '" width="50"/>
-                                <div class="nama-mentor">
-                                    <h2 class="font-bold mb-0">' . htmlspecialchars($mentor['nama']) . '</h2>
-                                    <p class="mb-0">Peran: ' . htmlspecialchars($mentor['peran'] ?? 'Belum ada peran') . '</p>
-                                </div>
-                                <div class="klik d-flex flex-column align-items-center">
-                                    <span class="toggle-text" id="toggle-text-' . $mentor['id'] . '">
-                                        Klik untuk melihat detail data mentor
-                                    </span>
-                                    <i class="fa-solid fa-caret-down"></i>
-                                </div>
-                            </div>
-                        </a>
-                        <div id="collapse' . $mentor['id'] . '" class="collapse" data-bs-parent="#accordionExample">
-                            <div class="card-mentor-body">
-                                <p>NIDN: ' . htmlspecialchars($mentor['nidn']) . '</p>
-                                <p>Keahlian: ' . htmlspecialchars($mentor['keahlian']) . '</p>
-                                <p>Fakultas: ' . htmlspecialchars($mentor['fakultas']) . '</p>
-                                <p>Prodi: ' . htmlspecialchars($mentor['prodi']) . '</p>
-                                <p>Email: ' . htmlspecialchars($mentor['email']) . '</p>
-                                <p>Nomor Telepon: ' . htmlspecialchars($mentor['contact']) . '</p>
-
-                                <div class="btn-div d-flex justify-content-center mt-4">
-                                    <form method="POST" action="update_kelompok_bisnis.php">
-                                        <input type="hidden" name="id_kelompok" value="' . htmlspecialchars($id_kelompok) . '">
-                                        <input type="hidden" name="id_mentor" value="' . htmlspecialchars($mentor['id']) . '">
-                                        <button type="submit" class="btn btn-success mt-2">Pilih sebagai Mentor</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>';
-        }
-    } else {
-        // Tidak ada data mentor ditemukan
-        echo '<p>Tidak ada mentor yang ditemukan.</p>';
-    }
-    exit; // Hentikan eksekusi PHP di sini karena ini respons AJAX
-}
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -169,8 +100,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Entree/assets/css/daftar_kelompok.css">
     <style>
-        
-
+        .card-mentor {
+            width: calc(50% - 40px);
+        }
+    </style>
+    <style>
         .card-footer {
             display: flex;
             align-items: center;
@@ -336,16 +270,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <table class="table table-bordered m-0 styled-table">
                                 <tbody>
                                     <tr>
-                                        <td>Mentor Bisnis</td>
-                                        <td>' . ($namaMentor) . '</td>
-                                    </tr>
+                                        <td>Mentor Bisnis</td>';
+                                        if ($namaMentor == "Nama mentor tidak tersedia") {
+                                            echo '<td style="max-width:300px"><div class="alert alert-danger fw-bold text-center m-0 mx-5 p-2" role="alert">Nama mentor tidak tersedia</div></td>';
+                                        } else {
+                                            echo '<td style="max-width:300px" >' . $namaMentor . '</td>';
+                                        }
+                                   echo '</tr>
                                     <tr>
                                         <td>Status Proposal Bisnis</td>
                                         <td>';
                                             if ($status_proposal == 'disetujui') {
-                                                echo '<p class="alert alert-success fw-bold text-center mx-5 p-2" role="alert">Disetujui</p>';
+                                                echo '<p class="alert alert-success fw-bold text-center m-0 mx-5 p-2" role="alert">Disetujui</p>';
                                             } else {
-                                                echo '<p class="alert alert-warning fw-bold text-center mx-5 p-2" role="alert">Menunggu</p>';
+                                                echo '<p class="alert alert-warning fw-bold text-center m-0 mx-5 p-2" role="alert">Menunggu</p>';
                                             }
                                         echo '</td>
                                     </tr>
@@ -353,11 +291,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <td>Program Inkubasi Bisnis</td>
                                         <td>';
                                             if ($row['status_inkubasi'] == 'direkomendasikan') {
-                                                echo '<p class="alert alert-success fw-bold text-center mx-5 p-2" role="alert">Direkomendasikan</p>';
+                                                echo '<p class="alert alert-success fw-bold text-center m-0 mx-5 p-2" role="alert">Direkomendasikan</p>';
                                             } elseif ($row['status_inkubasi'] == 'masuk') {
-                                                echo '<p class="alert alert-info fw-bold text-center mx-5 p-2" role="alert">Program Inkubasi</p>';
+                                                echo '<p class="alert alert-info fw-bold text-center m-0 mx-5 p-2" role="alert">Program Inkubasi</p>';
                                             } else {
-                                                echo '<p class="alert alert-secondary fw-bold text-center mx-5 p-2" role="alert">Tidak Ada</p>';
+                                                echo '<p class="alert alert-secondary fw-bold text-center m-0 mx-5 p-2" role="alert">Tidak Ada</p>';
                                             }
                                         echo '</td>
                                     </tr>
@@ -368,7 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($_SESSION['role'] == 'Dosen Pengampu') {
                             // Cek apakah mentor sudah tersedia di kelompok bisnis
                             if (!empty($row['id_mentor'])) {
-                                echo '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Ubah Mentor</button>';
+                                echo '<button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Ubah Mentor</button>';
                             } else {
                                 echo '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah Mentor</button>';
                             }
@@ -390,8 +328,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
                         echo '</div>';
                         echo '<div class="modal-body">';
-                        echo '<input type="text" id="searchInput" class="form-control" placeholder="Cari mentor...">';
-                        echo '<div id="mentorResults"></div>';  // Tempat hasil pencarian akan ditampilkan
                         echo '<form method="POST" action="" class="add-mentor-form">';
                         echo '<input type="hidden" name="id_kelompok" value="' . $id_kelompok . '">';
 
@@ -405,12 +341,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         ";
                         $result_mentor = $conn->query($mentorQuery);
 
-                        echo '<form action="" method="get" class="mb-4">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Cari mentor..." name="search" value="' . htmlspecialchars($search) . '">
-                                <button class="btn btn-success" type="submit">Cari</button>
-                            </div>
-                        </form>';        
                         if ($result_mentor->num_rows > 0) {
                             echo '<div class="clearfix">';
                             while ($mentor = $result_mentor->fetch_assoc()) {
@@ -482,36 +412,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const searchInput = document.getElementById('searchInput');
-        const resultsContainer = document.getElementById('mentorResults');
-
-        searchInput.addEventListener('input', function() {
-            const query = searchInput.value;
-
-            if (query.length > 0) {
-                fetch('', { // URL kosong, karena ini file yang sama
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ search: query }) // Kirim data pencarian dalam bentuk JSON
-                })
-                .then(response => response.text())
-                .then(data => {
-                    resultsContainer.innerHTML = data; // Tampilkan hasil pencarian
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            } else {
-                resultsContainer.innerHTML = ''; // Kosongkan hasil jika input kosong
-            }
-        });
-    });
-</script>
-
     <script>
         document.querySelectorAll('.dropdown-item').forEach(function (item) {
             item.addEventListener('click', function (e) {

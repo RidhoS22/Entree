@@ -131,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="stylesheet" href="/Entree/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/jadwal_bimbingan.css">
     <link rel="stylesheet" href="/Entree/assets/css/detail_jadwal_bimbingan.css">
     <link rel="stylesheet" href="/Entree/assets/css/detail_proposal.css">
 </head>

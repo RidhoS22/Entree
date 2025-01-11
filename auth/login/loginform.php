@@ -6,7 +6,7 @@ unset($_SESSION['error']);
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Entree | LOGIN</title>
+	<title>Entree | Masuk</title>
 	<link rel="stylesheet" href="/Entree/assets/css/loginstyle.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
@@ -20,14 +20,15 @@ unset($_SESSION['error']);
 		</div>
 		<div class="login-content">
 			<form action="/Entree/config/login.php" method="post">
-				<img src="/Entree/assets/img/avatar.svg">
-				<h2 class="title">L O G I N</h2>
+				<img src="/Entree\assets\img\image1.png">
+				<!-- <img src="/Entree\assets\img\image.png" style="width: 300px; height: 100px"> -->
+				<h2 class="title">E N T R E E</h2>
            		<div class="input-div one">
            		   <div class="i">
            		   		<i class="fas fa-user"></i>
            		   </div>
            		   <div class="div">
-           		   		<h5>Username</h5>
+           		   		<h5>Nama Pengguna</h5>
            		   		<input type="text" class="input username" name="username" oninvalid="this.setCustomValidity('Kolom ini tidak boleh kosong')" oninput="this.setCustomValidity('')">
            		   </div>
            		</div>
@@ -36,11 +37,11 @@ unset($_SESSION['error']);
            		    	<i class="fas fa-lock"></i>
            		   </div>
            		   <div class="div">
-           		    	<h5>Password</h5>
+           		    	<h5>Kata Sandi</h5>
            		    	<input type="password" class="input password" name="password" required oninvalid="this.setCustomValidity('Kolom ini tidak boleh kosong')" oninput="this.setCustomValidity('')">
             	   </div>
             	</div>
-            	<input type="submit" class="btnLogin" name="login" value="Login">
+            	<input type="submit" class="btnLogin" name="login" value="Masuk">
 				<a href="/Entree"></a>
             </form>
         </div>

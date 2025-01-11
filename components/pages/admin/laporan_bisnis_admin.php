@@ -86,8 +86,13 @@ if ($id_kelompok) {
                             <?php
                         }
                     } else {
-                        // Jika tidak ada laporan, tampilkan pesan
-                        echo "<p>Belum ada laporan kemajuan bisnis untuk kelompok ini.</p>";
+                         // Jika tidak ada laporan, tampilkan pesan
+                            echo '<div class="d-flex justify-content-center" >
+                            <div class="alert alert-warning text-center" role="alert" style="width: fit-content;">
+                                Belum ada laporan kemajuan bisnis untuk kelompok ini.
+                            </div>
+                        </div>
+                        ';
                     }
                     ?> 
                 </div>

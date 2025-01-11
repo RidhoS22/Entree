@@ -99,7 +99,7 @@ if ($result_mahasiswa && $result_mahasiswa->num_rows > 0) {
                     <div class="profile-item" id="alamat-item">
                         <h2>Alamat</h2>
                         <p class="alamat-text"><?= htmlspecialchars($mahasiswa['alamat'] ?? 'Belum diisi'); ?></p>
-                        <input type="text" class="alamat-input" style="display: none;" value="<?= htmlspecialchars($mahasiswa['alamat'] ?? ''); ?>">
+                        <input type="text" class="alamat-input" style="display: none; width:100%;" value="<?= htmlspecialchars($mahasiswa['alamat'] ?? ''); ?>">
                     </div>
                 </div>
 

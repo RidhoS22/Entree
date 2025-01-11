@@ -82,12 +82,12 @@ $result = $stmt->get_result();
                                     <!-- Judul Proposal Bisnis -->
                                     <div class="form-group">
                                         <label for="judul_proposal">Judul Proposal Bisnis:<span style="color:red;">*</span></label>
-                                        <input type="text" id="judul_proposal" name="judul_proposal" required>
+                                        <input type="text" id="judul_proposal" name="judul_proposal" placeholder="Masukkan Judul Proposal Bisnis" required>
                                     </div>
 
                                     <div class="form-group">
                                         <label for="ide_bisnis">Ide Bisnis:<span style="color:red;">*</span></label>
-                                        <input type="text" id="ide_bisnis" name="ide_bisnis" required>
+                                        <input type="text" id="ide_bisnis" name="ide_bisnis" placeholder="Masukkan Ide Bisnis" required>
                                     </div>
 
                                     <!-- Dropdown Tahapan Bisnis -->

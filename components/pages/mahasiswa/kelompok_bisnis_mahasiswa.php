@@ -127,12 +127,12 @@ if ($currentMonth >= 7) { // Semester Ganjil
                                 <!-- Form dengan autocomplete="off" -->
                                     <form method="POST" action="proses_kelompok_bisnis" enctype="multipart/form-data" autocomplete="off">
                                         <div class="form-group">
-                                            <label for="nama_kelompok">Nama Kelompok:</label>
-                                            <input type="text" id="nama_kelompok" name="nama_kelompok" required>
+                                            <label for="nama_kelompok">Nama Kelompok:<span style="color:red;">*</span></label>
+                                            <input type="text" id="nama_kelompok" name="nama_kelompok" placeholder="Masukkan Nama Kelompok" required>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="jumlah_anggota">Jumlah Anggota:</label>
+                                            <label for="jumlah_anggota">Jumlah Anggota:<span style="color:red;">*</span></label>
                                             <select id="jumlah_anggota" name="jumlah_anggota" required>
                                                 <option value="0">Pilih Jumlah Anggota kelompok</option>
                                                 <option value="1">1 Anggota</option>
@@ -146,12 +146,12 @@ if ($currentMonth >= 7) { // Semester Ganjil
                                         <div id="anggota_fields"></div>
 
                                         <div class="form-group">
-                                            <label for="nama_bisnis">Nama Bisnis:</label>
-                                            <input type="text" id="nama_bisnis" name="nama_bisnis" required>
+                                            <label for="nama_bisnis">Nama Bisnis:<span style="color:red;">*</span></label>
+                                            <input type="text" id="nama_bisnis" name="nama_bisnis" placeholder="Masukkan Nama Bisnis:" required>
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="logo_bisnis">Logo Bisnis:</label>
+                                            <label for="logo_bisnis">Logo Bisnis:<span style="color:red;">*</span></label>
                                             <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".png, .jpg" required>
                                             <div id="logo_preview" class="mt-2"></div>
                                         </div>
@@ -183,7 +183,7 @@ if ($currentMonth >= 7) { // Semester Ganjil
 
                 var label = document.createElement("label");
                 label.for = "npm_anggota_" + i;
-                label.textContent = "NPM Anggota " + i + ":";
+                label.innerHTML = "NPM Anggota " + i + ":<span style='color:red;'>*</span>";
 
                 var input = document.createElement("input");
                 input.type = "text";

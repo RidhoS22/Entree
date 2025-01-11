@@ -167,7 +167,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Entree/assets/css/detail_kelompok.css">
-    <link rel="stylesheet" href="/Entree/assets/css/mahasiswa/jadwal_bimbingan_mahasiswa.css">
+    <link rel="stylesheet" href="/Entree/assets/css/jadwal_bimbingan.css">
 </head>
 <style>
     /* CSS untuk toast */
@@ -287,11 +287,25 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                         <div class="title-edit">
                             <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
                             <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompok['nama_kelompok']); ?>" style="display: none;" />
-                        <?php if ($isMentor) : ?>
-                            <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#recommendationModal">
-                                Program Inkubasi
-                            </button>
-                        <?php endif; ?>
+                        
+                            <?php if ($statusInkubasi === 'masuk'): ?>
+                                <p class="alert alert-info fw-bold text-center p-2" role="alert">Program Inkubasi</p>
+                            <?php else: ?>
+                                <?php if ($isMentor): ?>
+                                    <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#recommendationModal">
+                                        Program Inkubasi
+                                    </button>
+                                <?php elseif ($statusInkubasi === 'direkomendasikan'): ?>
+                                    <p class="alert alert-success fw-bold text-center p-2" role="alert">
+                                        Direkomendasikan
+                                    </p>
+                                <?php else: ?>
+                                    <p class="alert alert-secondary fw-bold text-center p-2" role="alert">
+                                        Tidak Ada
+                                    </p>
+                                <?php endif; ?>
+                            <?php endif; ?>
+
                             <!-- Modal Rekomendasi -->
                             <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">

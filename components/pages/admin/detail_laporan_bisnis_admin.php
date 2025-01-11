@@ -99,9 +99,19 @@ if (!empty($laporan_pdf)) {
             <div class="main_wrapper">
                 <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
 
-                <p>Jenis Laporan:</p>
-                <div class="file-box">
-                    <p><?php echo htmlspecialchars($laporan['jenis_laporan']); ?></p>
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+                    <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
+                    <div>
+                        <?php
+                            if ($laporan['jenis_laporan'] == 'laporan_kemajuan') {
+                                echo '<p class="alert alert-success text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#2ea56f; width:fit-content;" role="alert">Laporan Kemajuan</p>';
+                            } elseif ($laporan['jenis_laporan'] == 'laporan_akhir') {
+                                echo '<p class="alert alert-info text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#007bff; width:fit-content;" role="alert">Laporan Akhir</p>';
+                            } else {
+                                echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2 px-3" style="background-color:orange; width:fit-content;" role="alert">Tidak ada Jenis Laporan</p>';
+                            }
+                        ?>
+                    </div> 
                 </div>
 
                 <?php if (!empty($laporan['laporan_penjualan'])): ?>

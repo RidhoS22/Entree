@@ -100,27 +100,6 @@ body {
   vertical-align: middle;
 }
 
-/* Status Style */
-.status {
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-weight: bold;
-  color: white;
-  text-transform: capitalize;
-}
-
-.status.approved {
-  background-color: #2ea56f;
-}
-
-.status.rejected {
-  background-color: #dc3545;
-}
-
-.status.pending {
-  background-color: orange;
-}
-
 /* Filter Tahun */
 
 .filter-tahun {
@@ -211,7 +190,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin: 20px;
-  width: calc(50% - 40px);
+  width: calc(33% - 40px);
   box-sizing: border-box;
   float: left;
 }
