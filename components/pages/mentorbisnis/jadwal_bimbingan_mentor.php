@@ -10,18 +10,21 @@ if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
     header('Location: /Entree/login');
     exit;
 }
+
 include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
-// Mendapatkan role pengguna dari session
+// Mendapatkan role dan user ID dari session
 $userRole = $_SESSION['role'];
 $userId = $_SESSION['user_id'];
 
-// 1. Ambil ID dari tabel mentor_bisnis
+$status_jadwal = isset($_GET['status']) ? $_GET['status'] : 'semua'; // Ambil status inkubasi yang dipilih
+
+// Ambil ID dari tabel mentor
 $sql_id = "SELECT id FROM mentor WHERE user_id = '$userId'";
 $result_id = $conn->query($sql_id);
 
 if (!$result_id) {
-    die("Error query sql_id: " . $conn->error); // Handle error query
+    die("Error query sql_id: " . $conn->error);
 }
 
 if ($result_id->num_rows > 0) {
@@ -29,32 +32,48 @@ if ($result_id->num_rows > 0) {
     $id_mentor = $row_id['id']; // Ambil nilai ID mentor
 }
 
-$sql_kelompok = "SELECT id_kelompok, nama_kelompok FROM kelompok_bisnis";
-$result_kelompok = $conn->query($sql_kelompok);
+// Ambil kelompok yang di-mentor oleh pengguna
+$sql_kelompok = "SELECT id_kelompok FROM kelompok_bisnis WHERE id_mentor = '$id_mentor'";
+$result_kelompoktutor = $conn->query($sql_kelompok);
 
-$namaKelompok = []; // Inisialisasi array di luar loop
-
-while ($row = $result_kelompok->fetch_assoc()) {
-    $namaKelompok[$row['id_kelompok']] = $row['nama_kelompok'];
+// Ambil kelompok yang di-mentor oleh pengguna dalam bentuk array
+$kelompokIds = [];
+while ($row = $result_kelompoktutor->fetch_assoc()) {
+    $kelompokIds[] = $row['id_kelompok'];
 }
-    // Ambil kelompok yang menjadi mentor pengguna
-    $sql_kelompok = "SELECT id_kelompok FROM kelompok_bisnis WHERE id_mentor = '$id_mentor'";
-    $result_kelompoktutor = $conn->query($sql_kelompok);
 
-    // Simpan id_kelompok dalam array
-    $kelompokIds = [];
-    while ($row = $result_kelompoktutor->fetch_assoc()) {
-        $kelompokIds[] = $row['id_kelompok'];
-    }
+// Ambil nama kelompok yang di-mentor oleh pengguna
+$sql_nama_kelompok = "SELECT id_kelompok, nama_kelompok FROM kelompok_bisnis WHERE id_mentor = '$id_mentor'";
+$result_nama_kelompok = $conn->query($sql_nama_kelompok);
 
-    // Jika ada kelompok yang di-mentor, tampilkan jadwal yang relevan
-    if (count($kelompokIds) > 0) {
-        $ids = implode(',', $kelompokIds); // Menggabungkan id_kelompok menjadi string
-        $sql = "SELECT * FROM jadwal WHERE id_klmpk IN ($ids) ORDER BY tanggal, waktu";
-    } else {
-        // Jika tidak ada kelompok yang di-mentor, tampilkan pesan
-        $sql = "SELECT * FROM jadwal WHERE 1 = 0";  // Tidak ada data yang ditampilkan
+$namaKelompok = []; // Inisialisasi array
+if ($result_nama_kelompok->num_rows > 0) {
+    while ($row = $result_nama_kelompok->fetch_assoc()) {
+        $namaKelompok[$row['id_kelompok']] = $row['nama_kelompok']; // Simpan ID dan nama kelompok
     }
+} else {
+    $namaKelompok = null; // Jika tidak ada data
+}
+
+// Logika pencarian
+$searchKeyword = isset($_GET['search']) ? $conn->real_escape_string($_GET['search']) : '';
+
+// Logika filter berdasarkan status
+$status_filter = '';
+if ($status_jadwal !== 'semua') {
+    $status_filter = " AND status = '$status_jadwal'"; // Menambahkan filter status jika tidak 'semua'
+}
+
+if (count($kelompokIds) > 0) {
+    $ids = implode(',', $kelompokIds); // Menggabungkan id_kelompok menjadi string
+    $sql = "SELECT * FROM jadwal WHERE id_klmpk IN ($ids) $status_filter";
+    if (!empty($searchKeyword)) {
+        $sql .= " AND nama_kegiatan LIKE '%$searchKeyword%'"; // Tambahkan kondisi pencarian
+    }
+    $sql .= " ORDER BY tanggal, waktu";
+} else {
+    $sql = "SELECT * FROM jadwal WHERE 1 = 0"; // Tidak ada data yang ditampilkan
+}
 
 $result = $conn->query($sql);
 ?>
@@ -96,33 +115,49 @@ $result = $conn->query($sql);
                     <div class="nav_main_wrapper">
                         <nav class="navbar navbar-expand-lg bg-body-tertiary">
                             <div class="container-fluid">
-                                <select name="year" class="form-select filter-tahun" required>
-                                    <option value="" disabled selected>Pilih Tahun Akademik</option>
-                                    <?php
-                                    // Membuat dropdown tahun dari 2000 hingga tahun sekarang
-                                    $currentYear = date('Y');
-                                    for ($i = 2010; $i <= $currentYear; $i++) {
-                                        echo "<option value='$i'>$i</option>";
-                                    }
-                                    ?>
-                                </select>
-                                <form class="d-flex" role="search">
-                                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-success" type="submit">Search</button>
-                                </form>
-
-                            <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
-                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Semua Kelompok
-                                    </button>
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <li><a class="dropdown-item" href="#" data-status="btn-warning">Menunggu</a></li>
-                                        <li><a class="dropdown-item" href="#" data-status="btn-success">Disetujui</a></li>
-                                        <li><a class="dropdown-item" href="#" data-status="btn-info">Selesai</a></li>
-                                    </ul>
+                            <form class="d-flex" role="search" method="get" action="">
+                                <input 
+                                    class="form-control me-2" 
+                                    type="search" 
+                                    name="search" 
+                                    placeholder="Cari nama kegiatan..." 
+                                    aria-label="Search"
+                                    value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
+                                >
+                                <button class="btn btn-outline-success" type="submit">Cari</button>
+                            </form>
+                            
+                            <form method="GET" action="jadwal_bimbingan" id="formStatus">
+                                <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle text-white" type="button" 
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <span id="selectedStatus">Filter Status</span> <!-- Menampilkan status yang dipilih -->
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li><a class="dropdown-item" role="button" data-status="semua">Semua Jadwal</a></li>
+                                            <li><a class="dropdown-item" role="button" data-status="menunggu">Menunggu</a></li>
+                                            <li><a class="dropdown-item" role="button" data-status="disetujui">Disetujui</a></li>
+                                            <li><a class="dropdown-item" role="button" data-status="selesai">Selesai</a></li>
+                                        </ul>
+                                        <input type="hidden" name="status" id="status" value="semua"> <!-- Input tersembunyi untuk mengirim status -->
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
+
+                            <script>
+                                document.querySelectorAll('.dropdown-item').forEach(function(item) {
+                                    item.addEventListener('click', function(e) {
+                                        e.preventDefault(); // Mencegah link membuka halaman baru
+                                        
+                                        var status = this.getAttribute('data-status'); // Ambil status yang dipilih
+                                        document.getElementById('selectedStatus').innerText = this.innerText; // Update teks pada tombol dropdown
+                                        document.getElementById('status').value = status; // Update nilai input tersembunyi dengan status yang dipilih
+                                        
+                                        // Kirim formulir setelah status diperbarui
+                                        document.getElementById('formStatus').submit();
+                                    });
+                                });
+                            </script>
 
                             <!-- Tombol untuk Membuka Modal -->
                             <button type="button" class="btn btn-success btn-tambah" data-bs-toggle="modal" data-bs-target="#altScheduleModal">

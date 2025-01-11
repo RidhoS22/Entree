@@ -55,7 +55,9 @@ RewriteRule ^mentor/submit_alternative_schedule$ components/pages/mentorbisnis/s
 RewriteRule ^mentor/detail_jadwal$ components/pages/mentorbisnis/detail_jadwal_mentor.php [L]
 RewriteRule ^mentor/submit_feedback_jadwal$ components/pages/mentorbisnis/submit_feedback_jadwal.php [L]
 RewriteRule ^mentor/submit_action$ components/pages/mentorbisnis/submit_action.php [L]
-RewriteRule ^lengkapi_data_mentor$ components/pages/mahasiswa/lengkapi_data_mentor.php [L]
+RewriteRule ^lengkapi_data_mentor$ components/pages/mentorbisnis/lengkapi_data_mentor.php [L]
+RewriteRule ^mentor/update_kelompok_bisnis$ components/pages/mentorbisnis/update_kelompok_bisnis.php [L]
+RewriteRule ^mentor/keluarkan_kelompok$ components/pages/mentorbisnis/keluarkan_kelompok.php [L]
 
 #admin
 RewriteRule ^admin/dashboard$ components/pages/admin/pageadmin.php [L]
@@ -80,6 +82,7 @@ RewriteRule ^admin/tahun_akademik$ components/pages/admin/tahun_akademik.php [L]
 RewriteRule ^admin/tambah_tahun_akademik$ components/pages/admin/tambah_tahun_akademik.php [L]
 RewriteRule ^admin/hapus_tahun_akademik$ components/pages/admin/hapus_tahun_akademik.php [L]
 RewriteRule ^admin/process_change_password$ components/pages/admin/process_change_password.php [L]
+RewriteRule ^admin/update_kelompok_bisnis$ components/pages/admin/update_kelompok_bisnis.php [L]
 
 
 

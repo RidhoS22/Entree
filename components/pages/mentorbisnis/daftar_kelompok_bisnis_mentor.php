@@ -85,6 +85,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
     ";
 }
 ?>
+
 <?php
 // Koneksi ke database
 include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
@@ -365,8 +366,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="card-footer">';
                 
                         if ($_SESSION['role'] == 'Dosen Pengampu') {
-                            echo '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah Mentor</button>';
+                            // Cek apakah mentor sudah tersedia di kelompok bisnis
+                            if (!empty($row['id_mentor'])) {
+                                echo '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Ubah Mentor</button>';
+                            } else {
+                                echo '<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mentorModal' . $id_kelompok . '">Tambah Mentor</button>';
+                            }
                         }
+                            
 
                         echo '<a href="detail_kelompok?id_kelompok=' . $id_kelompok . '">
                                 <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Kelompok Bisnis"></i>
@@ -437,7 +444,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <p>Nomor Telepon: ' . htmlspecialchars($mentor['contact']) . '</p>
                         
                                                 <div class="btn-div d-flex justify-content-center mt-4">
-                                                    <form method="POST" action="update_kelompok_bisnis.php">
+                                                    <form method="POST" action="update_kelompok_bisnis">
                                                         <input type="hidden" name="id_kelompok" value="' . $id_kelompok . '">
                                                         <input type="hidden" name="id_mentor" value="' . $mentor['id'] . '">
                                                         <button type="submit" class="btn btn-success mt-2">Pilih sebagai Mentor</button>

@@ -6,7 +6,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 }
 
 // Cek apakah role pengguna sesuai
-if ($_SESSION['role'] !== 'Tutor' && $_SESSION['role'] !== 'Dosen Pengampu') {
+if ($_SESSION['role'] !== 'Admin') {
     header('Location: /Entree/login');
     exit;
 }

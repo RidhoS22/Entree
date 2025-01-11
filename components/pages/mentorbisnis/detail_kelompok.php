@@ -14,6 +14,20 @@ include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
 // Mendapatkan ID kelompok dari parameter URL
 $id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
+$userId = $_SESSION['user_id'];
+
+// 1. Ambil ID dari tabel mentor_bisnis
+$sql_id = "SELECT id FROM mentor WHERE user_id = '$userId'";
+$result_id = $conn->query($sql_id);
+
+if (!$result_id) {
+    die("Error query sql_id: " . $conn->error); // Handle error query
+}
+
+if ($result_id->num_rows > 0) {
+    $row_id = $result_id->fetch_assoc();
+    $id_mentor = $row_id['id']; // Ambil nilai ID mentor
+}
 
 if ($id_kelompok) {
     // Query untuk memeriksa apakah kelompok dengan id_kelompok ada untuk mentor yang sedang login
@@ -33,11 +47,20 @@ if ($id_kelompok) {
     }
 }
 
+// Query untuk memastikan mentor adalah mentor bisnis kelompok
+$isMentorQuery = "SELECT * FROM kelompok_bisnis WHERE id_kelompok = ? AND id_mentor = ?";
+$stmt = $conn->prepare($isMentorQuery);
+$stmt->bind_param("ii", $id_kelompok, $id_mentor);
+$stmt->execute();
+$result = $stmt->get_result();
+$isMentor = $result->num_rows > 0;
+
 if ($id_kelompok) {
     // Query untuk mengambil detail kelompok bisnis berdasarkan id
     $sql = "SELECT * FROM kelompok_bisnis WHERE id_kelompok = $id_kelompok";
     $result = $conn->query($sql);
     $kelompok = $result->fetch_assoc();
+    $statusInkubasi = $kelompok['status_inkubasi'] ?? null;
 
     // Query untuk mengambil nama ketua kelompok berdasarkan npm_ketua
     $ketuaQuery = "SELECT nama FROM mahasiswa WHERE npm = '" . $kelompok['npm_ketua'] . "' LIMIT 1";
@@ -196,20 +219,22 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                         dimana tombol ini muncul hanya jika mentor bisnis adalah tutor 
                         kelompok bisnis ini dan kelompok bisnis berada di dalam program inkubasi -->
                         <p>
+                        <?php if ($isMentor && $statusInkubasi === 'masuk') : ?>
                             <button class="btn btn-danger mt-4" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample_2" aria-expanded="false" aria-controls="collapseWidthExample">
                                 <i class="fas fa-trash-alt"></i> 
                             </button>
+                        <?php endif; ?>
                             </p>
                             <div style="min-height: 120px;">
-                            <div class="collapse collapse-horizontal" id="collapseWidthExample_2">
-                                <div class="card card-body" style="width: 300px;">
-                                    <!-- Tombol Hapus -->
-                                    <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                        Keluarkan Kelompok Dari Program Inkubasi
-                                    </button>
+                                <div class="collapse collapse-horizontal" id="collapseWidthExample_2">
+                                    <div class="card card-body" style="width: 300px;">
+                                        <!-- Tombol Hapus -->
+                                        <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                            Keluarkan Kelompok Dari Program Inkubasi
+                                        </button>
 
+                                    </div>
                                 </div>
-                            </div>
                             </div>
 
                         <!-- Modal Konfirmasi Hapus -->
@@ -225,21 +250,48 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Keluarkan</button>
+                                        <button type="button" class="btn btn-danger" id="confirmDeleteButton" data-id="<?php echo $id_kelompok; ?>">Keluarkan</button>
                                     </div>
                                 </div>
                             </div>
-                            </div>
-
+                        </div>
                     </div>
+
+                    <script>
+                        // Menangani klik tombol "Keluarkan" pada modal
+                        document.getElementById('confirmDeleteButton').addEventListener('click', function() {
+                            // Ambil ID kelompok dari data-id tombol
+                            var kelompokId = this.getAttribute('data-id');
+
+                            // Kirim permintaan ke server untuk mengupdate status inkubasi menjadi NULL
+                            if (kelompokId) {
+                                var xhr = new XMLHttpRequest();
+                                xhr.open('POST', 'keluarkan_kelompok', true);
+                                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                                xhr.onload = function() {
+                                    if (xhr.status === 200) {
+                                        // Tanggapan berhasil, reload halaman atau tampilkan pesan sukses
+                                        alert('Kelompok berhasil dikeluarkan');
+                                        location.reload(); // Reload halaman untuk memperbarui data
+                                    } else {
+                                        // Tangani kesalahan jika gagal mengupdate
+                                        alert('Terjadi kesalahan, coba lagi.');
+                                    }
+                                };
+                                xhr.send('kelompok_id=' + kelompokId); // Kirim ID kelompok ke server
+                            }
+                        });
+                    </script>
 
                     <div class="right">
                         <div class="title-edit">
                             <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
                             <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompok['nama_kelompok']); ?>" style="display: none;" />
+                        <?php if ($isMentor) : ?>
                             <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#recommendationModal">
                                 Program Inkubasi
                             </button>
+                        <?php endif; ?>
                             <!-- Modal Rekomendasi -->
                             <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered">

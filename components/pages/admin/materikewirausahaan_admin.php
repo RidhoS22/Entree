@@ -209,7 +209,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $iconSrc = getFileIcon($fileExtension);
 
                                 echo '
-                                <a href="detail_materi_kewirausahaan?id=' . $row["id"] . '">
+                                <a href="detail_materi?id=' . $row["id"] . '">
                                     <div class="card" onclick="showDetailModal(\'' . $row["id"] . '\', \'' . htmlspecialchars($row["judul"]) . '\', \'' . htmlspecialchars($row["deskripsi"]) . '\', \'' . $filePath . '\')">
                                         <div class="icon-container">
                                             <img src="' . $iconSrc . '" alt="File Icon" class="icon">

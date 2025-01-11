@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->query($update_user_query);
 
     // Redirect ke halaman profile mentor setelah update
-    header("Location: /Entree/components/pages/mentorbisnis/pagementor.php");
+    header("Location: /Entree/mentor/pagementor");
     exit;
 }
 
@@ -125,32 +125,32 @@ $conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lengkapi Data <?= ucfirst($role) ?></title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="/Entree/assets/css/lengkapi_data.css">
+    <link rel="stylesheet" href="/Entree/assets/css/lengkapi_dataa.css">
 </head>
 <body>
     <div class="container">
         <div class="image-container">
-            <img alt="Illustration of a person holding a key in front of a computer screen with a user login interface" src="/Entree/assets/img/user_login.png"/>
+            <img alt="Illustration of user registration" src="/Entree/assets/img/background.png" />
         </div>
+
         <div class="form-container">
             <h2>Lengkapi Data Anda Sebagai Mentor Bisnis</h2>
             <form method="POST" action="" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="nama">Nama Lengkap</label>
-                    <input id="nama" name="nama" type="text" value="<?php echo htmlspecialchars($data['nama']); ?>" readonly />
+                    <input id="nama" name="nama" type="text" value="<?= htmlspecialchars($_SESSION['displayName']) ?>" readonly />
                 </div>
                 <div class="form-group">
-                    <label for="nidn">NIDN</label>
-                    <input id="nidn" name="nidn" type="text" value="<?php echo htmlspecialchars($data['nidn']); ?>" readonly />
+                    <label for="nidn">NIK</label>
+                    <input id="nidn" name="nidn" type="text" value="<?= htmlspecialchars($_SESSION['npm']) ?>" />
                 </div>
                 <div class="form-group">
                     <label for="keahlian">Keahlian</label>
@@ -170,7 +170,7 @@ $conn->close();
                 </div>
                 <div class="form-group">
                     <label for="no_telepon">Nomor Telepon</label>
-                    <input id="no_telepon" name="no_telepon" type="text" value="<?php echo htmlspecialchars($data['no_telepon'] ?? ''); ?>" required />
+                    <input id="no_telepon" name="no_telepon" type="text" value="<?= htmlspecialchars($_SESSION['contact']) ?>" readonly/>
                 </div>
                 <div class="form-group">
                     <label for="foto_profil" class="form-label">Foto Profil 

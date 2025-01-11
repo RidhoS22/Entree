@@ -319,7 +319,7 @@ $resulTahun = $conn->query($tahunAkademik);
                                                 <p>Nomor Telepon: ' . htmlspecialchars($mentor['contact']) . '</p>
                         
                                                 <div class="btn-div d-flex justify-content-center mt-4">
-                                                    <form method="POST" action="update_kelompok_bisnis.php">
+                                                    <form method="POST" action="update_kelompok_bisnis">
                                                         <input type="hidden" name="id_kelompok" value="' . $id_kelompok . '">
                                                         <input type="hidden" name="id_mentor" value="' . $mentor['id'] . '">
                                                         <button type="submit" class="btn btn-success mt-2">Pilih sebagai Mentor</button>
