@@ -425,7 +425,7 @@ form textarea:focus {
 }
 
 .d-flex {
-  width: 90%;
+  width: 30%;
 }
 
 .admin {
@@ -443,11 +443,15 @@ form textarea:focus {
 }
 
 .input-group input {
-  width: 80%;
+  width: 70%;
 }
 
 .input-group button {
-  width: 20%;
+  width: 30%;
+}
+
+.right-admin button {
+  max-width: 20%;
 }
 
 /* Responsivitas */
@@ -458,6 +462,12 @@ form textarea:focus {
   .right-admin .input-admin {
     width: 70%;
   }
+  .right-admin button {
+    max-width: none;
+  }
+  .d-flex {
+    width: 80%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -467,6 +477,9 @@ form textarea:focus {
 
   .right-admin .input-admin {
     width: 90%;
+  }
+  .d-flex {
+    width: 100%;
   }
 }
 

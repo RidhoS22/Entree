@@ -6,7 +6,7 @@ unset($_SESSION['error']);
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Entree | Masuk</title>
+	<title>Masuk | Entree</title>
 	<link rel="stylesheet" href="/Entree/assets/css/loginstyle.css">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>

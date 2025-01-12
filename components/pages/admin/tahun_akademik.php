@@ -18,7 +18,7 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Kewirusahaan</title>
+    <title>Tahun Akademik | Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -51,7 +51,7 @@ session_start();
 
                <!-- Tambahkan Form pada Modal -->
                 <div class="modal fade" id="tahunAkademikModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <!-- Modal Header -->
                             <div class="modal-header">

@@ -134,7 +134,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Kelompok Bisnis</title>
+    <title>Detail Kelompok Bisnis | Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -151,7 +151,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
         <div class="main p-3">
             <div class="main_header">
                 <?php 
-                    $pageTitle = "Kelompok Bisnis"; // Judul halaman
+                    $pageTitle = "Detail Kelompok Bisnis"; // Judul halaman
                     include 'header_mahasiswa.php'; 
                 ?>
             </div>
@@ -244,7 +244,6 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                         <p>Apakah kelompok anda menyetujui untuk masuk ke dalam Program?</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary btn-batal" data-bs-dismiss="modal">Batal</button>
                                                         <button type="submit" class="btn btn-danger btn-cancel">Tolak</button>
                                                         <button type="submit" class="btn btn-success btn-submit">Setujui</button>
                                                     </div>

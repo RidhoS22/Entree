@@ -43,7 +43,7 @@ if ($result_mentor->num_rows > 0) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil Mentor</title>
+    <title>Profil | Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -81,7 +81,7 @@ if ($result_mentor->num_rows > 0) {
                         <input type="file" id="profile-photo-input" style="display: none;" accept="image/png, image/jpeg, image/gif"/>
                     </div>
                     <div class="profile-item">
-                        <h2>Username</h2>
+                        <h2>Nama Pengguna</h2>
                         <p><?= htmlspecialchars($_SESSION['username']); ?></p>
                     </div>
                 </div>
@@ -92,7 +92,7 @@ if ($result_mentor->num_rows > 0) {
                         <p><?= htmlspecialchars($mentor['nama']); ?></p>
                     </div>
                     <div class="profile-item">
-                        <h2>NIDN</h2>
+                        <h2>NIK</h2>
                         <p><?= htmlspecialchars($mentor['nidn']); ?></p>
                     </div>
                     <div class="profile-item">

@@ -69,6 +69,9 @@ if ($id) {
     echo "ID tidak valid!";
     exit;
 }
+
+// Mendapatkan ID kelompok dari parameter URL
+$id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
 ?>
 
 
@@ -79,13 +82,14 @@ if ($id) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Kewirusahaan</title>
+    <title>Detail Jadwal Bimbingan | Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Entree/assets/css/jadwal_bimbingan.css">
     <link rel="stylesheet" href="/Entree/assets/css/detail_proposal.css">
+    <link rel="stylesheet" href="/Entree/assets/css/detail_jadwal_bimbingan.css">
 </head>
 
 <body>
@@ -180,13 +184,26 @@ if ($id) {
                                 </tr>
                             </div>                 
                         </tr>
+                        <?php if (!empty($data['feedback_mentor'])): ?>
+                            <tr>
+                                <th>Umpan Balik dari Mentor</th>
+                                <td><?php echo htmlspecialchars($data['feedback_mentor']); ?></td>
+                            </tr>
+                        <?php endif; ?>
                     </table>
-
-                    <?php
-                        $referer = $_SERVER['HTTP_REFERER'] ?? 'detail_kelompok.php'; // Default .php jika tidak ada referer
-                    ?>
-                    <a href="<?= htmlspecialchars($referer) ?>" class="btn btn-secondary">Kembali</a>
-                </div>       
+                </div> 
+                
+                <div>
+                    <button 
+                        class="btn btn-secondary mt-2" 
+                        data-bs-toggle="tooltip" 
+                        data-bs-custom-class="custom-tooltip" 
+                        data-bs-title="Tekan Untuk Kembali" 
+                        onclick="window.location.href='detail_kelompok?id_kelompok=<?php echo htmlspecialchars($id_kelompok); ?>'">
+                        Kembali ke Kelompok Bisnis
+                    </button>
+                </div>
+                
             </div>
     </div>
 </body>

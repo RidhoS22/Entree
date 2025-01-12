@@ -25,7 +25,7 @@ if (!isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Kewirausahaan</title>
+    <title>Profil | Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
@@ -72,7 +72,7 @@ if (!isset($_SESSION['username'])) {
                 </div>
                 <div class="profile-header">
                     <div class="profile-item">
-                        <h2>Username</h2>
+                        <h2>Nama Pengguna</h2>
                         <p><?= htmlspecialchars($_SESSION['username']); ?></p>
                     </div>
                 </div>

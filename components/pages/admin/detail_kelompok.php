@@ -126,7 +126,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail Kelompok Bisnis</title>
+    <title>Detail Kelompok Bisnis | Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -185,11 +185,29 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                         <div class="title-edit">
                             <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
                             <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompok['nama_kelompok']); ?>" style="display: none;" />
-                            
-                            <?php if ($status_inkubasi == 'masuk'): ?>
-                                <p class="alert alert-info fw-bold text-center p-2" role="alert">Program Inkubasi</p>
-                            <?php else: ?>
-                                <button type="button" 
+
+                            <?php if ($status_inkubasi === 'masuk'): ?>
+                                <p 
+                                    class="alert alert-info fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Program Inkubasi" 
+                                    data-bs-content="Kelompok Bisnis ini Terdaftar dalam Program Inkubasi."
+                                    style="cursor: pointer;">
+                                        Program Inkubasi
+                                </p>                            
+                            <?php elseif ($status_inkubasi === 'direkomendasikan'): ?>
+                                <p 
+                                    class="alert alert-success fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Direkomendasikan" 
+                                    data-bs-content="Kelompok Bisnis ini direkomendasikan oleh Mentor bisnis nya untuk masuk ke dalam Program Inkubasi."
+                                    style="cursor: pointer;">
+                                        Direkomendasikan
+                                </p>
+                                <?php elseif ($status_inkubasi === 'disetujui'): ?>
+                                    <button type="button" 
                                         class="btn btn-secondary mt-3" 
                                         id="programInkubasiButton" 
                                         <?php if ($is_locked): ?>
@@ -200,9 +218,42 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                             data-bs-toggle="modal" 
                                             data-bs-target="#recommendationModal"
                                         <?php endif; ?>>
-                                    Program Inkubasi
-                                </button>
-                            <?php endif; ?>
+                                        Program Inkubasi
+                                    </button>  
+                            <?php elseif ($status_inkubasi === 'ditolak'): ?>
+                                <p 
+                                    class="alert alert-danger fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Ditolak Kelompok Bisnis" 
+                                    data-bs-content="Kelompok Bisnis ini Menolak untuk Masuk ke dalam Program Inkubasi."
+                                    style="cursor: pointer;">
+                                        Ditolak Kelompok Bisnis
+                                </p>
+                            <?php elseif ($status_inkubasi === 'tidak masuk'): ?>
+                                <p 
+                                    class="alert alert-danger fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Ditolak Admin PIKK" 
+                                    data-bs-content="Kelompok Bisnis ini Ditolak oleh Admin PIKK untuk Masuk Kedalam Program Inkubasi."
+                                    style="cursor: pointer;">
+                                        Ditolak Admin PIKK
+                                </p>
+                            <?php else: ?>
+                                <p 
+                                    class="alert alert-secondary fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Tidak Ada" 
+                                    data-bs-content="Status Program Kelompok Bisnis ini belum ditentukan."
+                                    style="cursor: pointer;">
+                                        Tidak Ada
+                                </p> 
+                        <?php endif; ?>
+
+                            
+                           
 
 
                             <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
@@ -467,7 +518,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                         <tr>
                                                             <td><?php echo $no++; ?></td>
                                                             <td><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></td>
-                                                            <td><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
+                                                            <td style="max-width: 200px;"><?php echo htmlspecialchars($row['nama_kegiatan']); ?></td>
                                                             <td><?php echo htmlspecialchars($row['tanggal']); ?></td>
                                                             <td style="width: 150px;">
                                                                     <?php
@@ -485,9 +536,9 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                                 ?>
                                                             </td>
                                                             <td class="text-center align-middle">
-                                                                <a href="detail_jadwal?id=<?php echo $row['id']; ?>" class="btn btn-info btn-sm">
-                                                                    <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Jadwal"></i>
-                                                                </a>
+                                                            <a href="detail_jadwal?id=<?php echo $row['id']; ?>&id_kelompok=<?php echo $id_kelompok; ?>" class="btn btn-info btn-sm">
+                                                                <i class="fa-solid fa-eye" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Jadwal"></i>
+                                                            </a>
                                                             </td>
                                                         </tr>
                                                     <?php endwhile; ?>
@@ -529,6 +580,15 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
 </body>
 
 </html>

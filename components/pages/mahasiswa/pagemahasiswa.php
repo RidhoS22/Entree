@@ -49,7 +49,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Kewirausahaan</title>
+    <title>Beranda | Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -78,7 +78,7 @@
                 <header class="bg-success text-white text-center py-5">
                     <div class="container">
                         <h1 class="display-4">Entree</h1>
-                        <p class="lead">Platform Bimbingan Kewirausahaan Mahasiswa</p>
+                        <p class="lead">Aplikasi Bimbingan Kewirausahaan Mahasiswa</p>
                     </div>
                 </header>
 
@@ -233,7 +233,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                Hallo! Selamat datang <?= htmlspecialchars($mahasiswa['nama'] ?? 'Belum diisi'); ?> di aplikasi bimbingan kewirausahaan! Semoga sukses belajar!
+                Hallo! Selamat datang <?= htmlspecialchars($mahasiswa['nama'] ?? 'Belum diisi'); ?> Di Aplikasi Entree!
             </div>
         </div>
     </div>

@@ -1,122 +1,179 @@
 <?php
-session_start();
-// Koneksi ke database
-include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+    session_start();
+    // Koneksi ke database
+    include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
 
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header('Location: /Entree/login');
-    exit;
-}
+    if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+        header('Location: /Entree/login');
+        exit;
+    }
 
-// Cek apakah role pengguna sesuai
-if ($_SESSION['role'] !== 'Mahasiswa') {
-    header('Location: /Entree/login');
-    exit;
-}
+    // Cek apakah role pengguna sesuai
+    if ($_SESSION['role'] !== 'Mahasiswa') {
+        header('Location: /Entree/login');
+        exit;
+    }
 
-// Ambil ID dari parameter URL
-$id = isset($_GET['id']) ? $_GET['id'] : null;
+    // Ambil ID dari parameter URL
+    $id = isset($_GET['id']) ? $_GET['id'] : null;
 
-// Ambil ID kelompok pengguna dari database
-$user_id = $_SESSION['user_id'];
-$query = "SELECT id_kelompok FROM mahasiswa WHERE user_id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
-$user_kelompok_id = $row['id_kelompok']; // ID kelompok pengguna dari database
+    // Ambil ID kelompok pengguna dari database
+    $user_id = $_SESSION['user_id'];
+    $query = "SELECT id_kelompok FROM mahasiswa WHERE user_id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $user_kelompok_id = $row['id_kelompok']; // ID kelompok pengguna dari database
 
-// Ambil ID jadwal dari parameter URL
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header('Location: /Entree/mahasiswa/dashboard.php'); // Redirect jika ID tidak ada di URL
-    exit;
-}
-$requested_jadwal_id = intval($_GET['id']);
+    // Ambil ID jadwal dari parameter URL
+    if (!isset($_GET['id']) || empty($_GET['id'])) {
+        header('Location: /Entree/mahasiswa/dashboard.php'); // Redirect jika ID tidak ada di URL
+        exit;
+    }
+    $requested_jadwal_id = intval($_GET['id']);
 
-// Periksa apakah jadwal milik kelompok pengguna
-$query = "SELECT id_klmpk FROM jadwal WHERE id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $requested_jadwal_id);
-$stmt->execute();
-$result = $stmt->get_result();
+    // Periksa apakah jadwal milik kelompok pengguna
+    $query = "SELECT id_klmpk FROM jadwal WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $requested_jadwal_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-if ($result->num_rows === 0) {
-    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika jadwal tidak ditemukan
-    exit;
-}
+    if ($result->num_rows === 0) {
+        header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika jadwal tidak ditemukan
+        exit;
+    }
 
-$row = $result->fetch_assoc();
-$jadwal_kelompok_id = $row['id_klmpk'];
+    $row = $result->fetch_assoc();
+    $jadwal_kelompok_id = $row['id_klmpk'];
 
-// Periksa apakah ID kelompok dari jadwal cocok dengan ID kelompok pengguna
-if ($jadwal_kelompok_id !== $user_kelompok_id) {
-    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika tidak sesuai
-    exit;
-}
+    // Periksa apakah ID kelompok dari jadwal cocok dengan ID kelompok pengguna
+    if ($jadwal_kelompok_id !== $user_kelompok_id) {
+        header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika tidak sesuai
+        exit;
+    }
 
-// Jika ID cocok, lanjutkan untuk memproses detail jadwal
-$query = "SELECT * FROM jadwal WHERE id = ?";
-$stmt = $conn->prepare($query);
-$stmt->bind_param("i", $requested_jadwal_id);
-$stmt->execute();
-$jadwal_result = $stmt->get_result();
+    // Jika ID cocok, lanjutkan untuk memproses detail jadwal
+    $query = "SELECT * FROM jadwal WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $requested_jadwal_id);
+    $stmt->execute();
+    $jadwal_result = $stmt->get_result();
 
-if ($jadwal_result->num_rows === 0) {
-    header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika data jadwal tidak ditemukan
-    exit;
-}
+    if ($jadwal_result->num_rows === 0) {
+        header('Location: /Entree/mahasiswa/dashboard'); // Redirect jika data jadwal tidak ditemukan
+        exit;
+    }
 
-if ($id) {
-    // Query untuk mengambil detail jadwal
-    $sql = "SELECT * FROM jadwal WHERE id = ?";
-    $stmt = $conn->prepare($sql);
+    if ($id) {
+        // Query untuk mengambil detail jadwal
+        $sql = "SELECT * FROM jadwal WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        // Cek apakah data ditemukan
+        if ($result->num_rows > 0) {
+            $data = $result->fetch_assoc();
+        } else {
+            echo "Jadwal tidak ditemukan!";
+            exit;
+        }
+    } else {
+        echo "ID tidak valid!";
+        exit;
+    }
+
+    // Cek jika form disubmit dan status jadwal adalah 'selesai'
+    $message = "";
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && $data['status'] == 'selesai') {
+        // Tentukan lokasi penyimpanan file
+        $targetDir = "uploads/bukti_kegiatan/"; // Pastikan folder ini ada di server Anda
+        $targetFile = $targetDir . basename($_FILES["bukti_kegiatan"]["name"]);
+        $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
+
+        // Cek apakah file adalah PDF atau gambar
+        $allowedTypes = array("pdf", "jpg", "jpeg", "png", "gif");
+        if (in_array($fileType, $allowedTypes)) {
+            // Pindahkan file ke folder upload
+            if (move_uploaded_file($_FILES["bukti_kegiatan"]["tmp_name"], $targetFile)) {
+                // Simpan nama file ke database
+                $sqlUpdate = "UPDATE jadwal SET bukti_kegiatan = ? WHERE id = ?";
+                $stmtUpdate = $conn->prepare($sqlUpdate);
+                $stmtUpdate->bind_param("si", $targetFile, $id);
+                if ($stmtUpdate->execute()) {
+                    $message = "Bukti kegiatan telah dikirim!";
+                } else {
+                    $message = "Terjadi kesalahan saat menyimpan bukti kegiatan.";
+                }
+            } else {
+                $message = "File gagal diunggah.";
+            }
+        } else {
+            $message = "Tolong masukan bukti kegiatanya terlebih dahulu.";
+        }
+    }
+?>
+<?php
+    // fitur hapus file 
+    // Koneksi ke database
+    include $_SERVER['DOCUMENT_ROOT'] . '/Entree/config/db_connection.php';
+
+    // Cek apakah pengguna masuk dan memiliki role 'Mahasiswa'
+    if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || $_SESSION['role'] !== 'Mahasiswa') {
+        header('Location: /Entree/login');
+        exit;
+    }
+
+    // Ambil ID dari parameter URL
+    $id = isset($_GET['id']) ? intval($_GET['id']) : null;
+
+    // Validasi ID
+    if ($id === null) {
+        header('Location: /Entree/mahasiswa/dashboard');
+        exit;
+    }
+
+    // Ambil informasi jadwal berdasarkan ID
+    $query = "SELECT * FROM jadwal WHERE id = ?";
+    $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Cek apakah data ditemukan
     if ($result->num_rows > 0) {
         $data = $result->fetch_assoc();
     } else {
-        echo "Jadwal tidak ditemukan!";
+        // Redirect jika data jadwal tidak ditemukan
+        header('Location: /Entree/mahasiswa/dashboard');
         exit;
     }
-} else {
-    echo "ID tidak valid!";
-    exit;
-}
 
-// Cek jika form disubmit dan status jadwal adalah 'selesai'
-$message = "";
+    // Tangani penghapusan file
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_file'])) {
+        // Ambil informasi file dari database
+        $filePath = $_SERVER['DOCUMENT_ROOT'] . '/Entree/components/pages/mahasiswa/uploads/bukti_kegiatan/' . basename($data['bukti_kegiatan']);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && $data['status'] == 'selesai') {
-    // Tentukan lokasi penyimpanan file
-    $targetDir = "uploads/bukti_kegiatan/"; // Pastikan folder ini ada di server Anda
-    $targetFile = $targetDir . basename($_FILES["bukti_kegiatan"]["name"]);
-    $fileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
-    // Cek apakah file adalah PDF atau gambar
-    $allowedTypes = array("pdf", "jpg", "jpeg", "png", "gif");
-    if (in_array($fileType, $allowedTypes)) {
-        // Pindahkan file ke folder upload
-        if (move_uploaded_file($_FILES["bukti_kegiatan"]["tmp_name"], $targetFile)) {
-            // Simpan nama file ke database
-            $sqlUpdate = "UPDATE jadwal SET bukti_kegiatan = ? WHERE id = ?";
-            $stmtUpdate = $conn->prepare($sqlUpdate);
-            $stmtUpdate->bind_param("si", $targetFile, $id);
-            if ($stmtUpdate->execute()) {
-                $message = "Bukti kegiatan telah dikirim!";
-            } else {
-                $message = "Terjadi kesalahan saat menyimpan bukti kegiatan.";
-            }
-        } else {
-            $message = "File gagal diunggah.";
+        // Hapus file dari server jika ada
+        if (file_exists($filePath)) {
+            unlink($filePath);
         }
-    } else {
-        $message = "Tolong masukan bukti kegiatanya terlebih dahulu.";
+
+        // Hapus referensi file dari database
+        $queryDelete = "UPDATE jadwal SET bukti_kegiatan = NULL WHERE id = ?";
+        $stmtDelete = $conn->prepare($queryDelete);
+        $stmtDelete->bind_param("i", $id);
+        $stmtDelete->execute();
+
+        // Redirect dengan pesan sukses
+        $_SESSION['message'] = "Bukti kegiatan berhasil dihapus.";
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        exit;
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -126,7 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Kewirusahaan</title>
+    <title>Detail Jadwal Bimbingan | Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -139,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
 <body>
     <div class="wrapper">
         <?php 
-        $activePage = 'pagemahasiswa'; 
+        $activePage = 'jadwal_bimbingan_mahasiswa'; 
         include 'sidebar_mahasiswa.php'; 
         ?>
 
@@ -223,6 +280,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                                                     data-bs-title="Unduh File">
                                                         <i class="fa-solid fa-download"></i>
                                                     </a>
+                                                     <!-- Ikon Hapus File -->
+                                                     <a href="#" 
+                                                        class="btn-icon btn-danger" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#deleteFileModal" 
+                                                        data-bs-id="<?php echo $id; ?>" 
+                                                        role="button">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                    </a>
                                                 </div>
                                             </li>
                                         </ul>
@@ -243,14 +309,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                                     <?php endif; ?>
                                 </td>
                             </tr>
-
+                            <?php if (!empty($data['feedback_mentor'])): ?>
+                                <tr>
+                                    <th>Umpan Balik dari Mentor</th>
+                                    <td><?php echo htmlspecialchars($data['feedback_mentor']); ?></td>
+                                </tr>
+                            <?php endif; ?>
                         </table>
 
                         <div class="action-buttons  justify-content-end mt-3" style="display: none;">
-                            <button type="submit" class="btn btn-success me-2">Simpan</button>
+                            <button type="submit" class="btn btn-success text-white fw-bold me-2" style="background-color:#2ea56f">Simpan</button>
                         </div>
 
-                        <!-- Menampilkan pesan jika ada -->
+                        <!-- Menampilkan pesan Unggah jika ada -->
                         <?php if (!empty($message)): ?>
                             <div id="message" class="alert alert-success">
                                 <?php echo $message; ?>
@@ -263,11 +334,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['bukti_kegiatan']) && 
                                 }, 3000); // 3000 ms = 3 detik
                             </script>
                         <?php endif; ?>
+
+                        <!-- Tampilkan pesan Hapus jika ada -->
+                        <?php if (!empty($_SESSION['message'])): ?>
+                            <div id="message" class="alert alert-success">
+                                <?php 
+                                echo $_SESSION['message']; 
+                                unset($_SESSION['message']); // Hapus pesan setelah ditampilkan
+                                ?>
+                            </div>
+                        <?php endif; ?>
+                        </div>
                     </form>
-                    <a href="jadwal_bimbingan" class="btn btn-secondary">Kembali</a>
+                    <a href="jadwal_bimbingan" class="btn btn-secondary mx-3">Kembali</a>
                 </div>       
             </div>
-        </div>
+
+               <!-- Modal Konfirmasi Hapus -->
+                <div class="modal fade" id="deleteFileModal" tabindex="-1" aria-labelledby="deleteFileModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="" method="POST">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteFileModalLabel">Konfirmasi Hapus File</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Apakah Anda yakin ingin menghapus file ini? Tindakan ini tidak dapat dibatalkan.</p>
+                                    <input type="hidden" name="delete_file" value="1">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
     
     <script>
         const fileInput = document.getElementById("customFile");

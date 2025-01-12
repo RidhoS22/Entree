@@ -113,7 +113,7 @@ if (isset($_GET['edit_id'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Kewirusahaan</title>
+    <title>Jadwal Bimbingan | Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -154,12 +154,12 @@ if (isset($_GET['edit_id'])) {
                     }
                     ?>
 
-                    <h2><?php echo isset($edit_data) ? "Edit Jadwal" : "Tambah Jadwal"; ?></h2>
+                    <h2><?php echo isset($edit_data) ? "Perbarui Jadwal" : "Tambah Jadwal"; ?></h2>
                     <form action="" method="post">
                         <input type="hidden" name="id" value="<?php echo isset($edit_data['id']) ? $edit_data['id'] : ''; ?>">
                         <div class="mb-3">
                             <label for="nama_kegiatan" class="form-label">Nama Kegiatan</label>
-                            <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control" required
+                            <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control" placeholder="Masukkan Nama Kegiatan" required
                                 value="<?php echo isset($edit_data['nama_kegiatan']) ? $edit_data['nama_kegiatan'] : ''; ?>">
                         </div>
                         <div class="mb-3">
@@ -174,14 +174,14 @@ if (isset($_GET['edit_id'])) {
                         </div>
                         <div class="mb-3">
                             <label for="agenda" class="form-label">Agenda</label>
-                            <textarea name="agenda" id="agenda" class="form-control"><?php echo isset($edit_data['agenda']) ? $edit_data['agenda'] : ''; ?></textarea>
+                            <textarea name="agenda" id="agenda" class="form-control" placeholder="Masukkan Agenda" required><?php echo isset($edit_data['agenda']) ? $edit_data['agenda'] : ''; ?></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="lokasi" class="form-label">Lokasi</label>
-                            <input type="text" name="lokasi" id="lokasi" class="form-control"
+                            <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="Masukkan Lokasi" required
                                 value="<?php echo isset($edit_data['lokasi']) ? $edit_data['lokasi'] : ''; ?>">
                         </div>
-                        <button type="submit" class="btn btn-success"><?php echo isset($edit_data) ? "Perbarui" : "Simpan"; ?></button>
+                        <button type="submit" class="btn btn-success text-white fw-bold" style="background-color:#2ea56f"><?php echo isset($edit_data) ? "Perbarui" : "Simpan"; ?></button>
                         <?php if ($edit_data): ?>
                             <a href="jadwal_bimbingan" class="btn btn-secondary">Batal</a>
                         <?php endif; ?>
@@ -252,13 +252,12 @@ if (isset($_GET['edit_id'])) {
                                                                     <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne" style="background-color: #007bff; color: white; border-radius: 8px;">
                                                                         Aksi  
                                                                     </button>
-
                                                                     </h2>
                                                                     <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                                                                     <div class="accordion-body">
                                                                         <div class="d-flex justify-content-between">
-                                                                            <button class="btn btn-success setujui-btn mx-2" data-id="<?php echo $row['id']; ?>">Setujui</button>
-                                                                            <button class="btn btn-danger tolak-btn mx-2" data-id="<?php echo $row['id']; ?>">Tolak</button>
+                                                                            <button class="btn btn-success setujui-btn text-white fw-bold mx-2" data-id="<?php echo $row['id']; ?>" style="background-color:#2ea56f">Setujui</button>
+                                                                            <button class="btn btn-danger tolak-btn text-white fw-bold mx-2" data-id="<?php echo $row['id']; ?>" style="background-color:#dc3545">Tolak</button>
                                                                         </div>
                                                                     </div>
                                                                     </div>
@@ -319,7 +318,7 @@ if (isset($_GET['edit_id'])) {
 
     <!-- Modal Konfirmasi -->
     <div class="modal" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="confirmModalLabel">Konfirmasi Aksi</h5>
@@ -330,7 +329,7 @@ if (isset($_GET['edit_id'])) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="button" class="btn btn-danger" id="confirmBtn">Setujui / Tolak</button>
+                <button type="button" class="btn btn-success" id="confirmBtn">Iya</button>
             </div>
             </div>
         </div>

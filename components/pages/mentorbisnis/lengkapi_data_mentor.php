@@ -130,7 +130,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lengkapi Data <?= ucfirst($role) ?></title>
+    <title>Lengkapi Data Mentor Bisnis | Entree</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="/Entree/assets/css/lengkapi_dataa.css">
@@ -158,12 +158,52 @@ $conn->close();
                 </div>
                 <div class="form-group">
                     <label for="fakultas">Fakultas</label>
-                    <input id="fakultas" name="fakultas" type="text" value="<?php echo htmlspecialchars($data['fakultas'] ?? ''); ?>" required />
+                    <select id="fakultas" name="fakultas" required>
+                        <option value="">Pilih Fakultas</option>
+                        <option value="ekonomi_bisnis">Fakultas Ekonomi dan Bisnis</option>
+                        <option value="hukum">Fakultas Hukum</option>
+                        <option value="psikologi">Fakultas Psikologi</option>
+                        <option value="teknologi_informasi">Fakultas Teknologi Informasi</option>
+                        <option value="kedokteran">Fakultas Kedokteran</option>
+                        <option value="kedokteran_gigi">Fakultas Kedokteran Gigi</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="prodi">Program Studi</label>
-                    <input id="prodi" name="prodi" type="text" value="<?php echo htmlspecialchars($data['prodi'] ?? ''); ?>" required />
+                    <select id="prodi" name="prodi" required>
+                        <option value="">Pilih Program Studi</option>
+                    </select>
                 </div>
+
+                <script>
+                    const prodiOptions = {
+                        ekonomi_bisnis: ['Akuntansi', 'Manajemen'],
+                        hukum: ['Hukum'],
+                        psikologi: ['Psikologi'],
+                        teknologi_informasi: ['Teknik Informatika', 'Perpustakaan dan Sains Informasi'],
+                        kedokteran: ['Kedokteran Program Sarjana', 'Pendidikan Profesi Dokter'],
+                        kedokteran_gigi: ['Kedokteran Gigi Program Sarjana', 'Kedokteran Gigi Program Profesi']
+                    };
+
+                    document.getElementById('fakultas').addEventListener('change', function() {
+                        const fakultas = this.value;
+                        const prodiSelect = document.getElementById('prodi');
+                        
+                        // Clear existing options
+                        prodiSelect.innerHTML = '<option value="">Pilih Program Studi</option>';
+
+                        // Add new options
+                        if (fakultas && prodiOptions[fakultas]) {
+                            prodiOptions[fakultas].forEach(function(prodi) {
+                                const option = document.createElement('option');
+                                option.value = prodi.toLowerCase().replace(/ /g, '_');
+                                option.textContent = prodi;
+                                prodiSelect.appendChild(option);
+                            });
+                        }
+                    });
+                </script>
+
                 <div class="form-group">
                     <label for="email">Alamat Email</label>
                     <input id="email" name="email" type="text" value="<?php echo htmlspecialchars($data['email'] ?? ''); ?>" required />

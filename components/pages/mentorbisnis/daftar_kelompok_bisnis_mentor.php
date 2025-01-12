@@ -93,7 +93,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Kewirausahaan</title>
+    <title>Daftar Kelompok Bisnis | Entree</title>
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -291,11 +291,71 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                         <td>Program Inkubasi Bisnis</td>
                                         <td>';
                                             if ($row['status_inkubasi'] == 'direkomendasikan') {
-                                                echo '<p class="alert alert-success fw-bold text-center m-0 mx-5 p-2" role="alert">Direkomendasikan</p>';
+                                                echo '
+                                                <p 
+                                                    class="alert alert-success fw-bold text-center m-0 mx-5 p-2" 
+                                                    role="alert" 
+                                                    data-bs-toggle="popover" 
+                                                    title="Status Direkomendasikan" 
+                                                    data-bs-content="Kelompok Bisnis ini direkomendasikan oleh Mentor bisnis nya untuk masuk ke dalam Program Inkubasi."
+                                                    style="cursor: pointer;">
+                                                        Direkomendasikan
+                                                </p>';
+                                            } elseif ($row['status_inkubasi'] == 'disetujui') {
+                                                echo '
+                                                <p 
+                                                    class="alert alert-success fw-bold text-center m-0 mx-5 p-2" 
+                                                    role="alert" 
+                                                    data-bs-toggle="popover" 
+                                                    title="Status Disetujui Kelompok Bisnis" 
+                                                    data-bs-content="Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi."
+                                                    style="cursor: pointer;">
+                                                        Disetujui Kelompok Bisnis
+                                                </p>';
+                                            } elseif ($row['status_inkubasi'] == 'ditolak') {
+                                                echo '
+                                                <p 
+                                                    class="alert alert-danger fw-bold text-center m-0 mx-5 p-2" 
+                                                    role="alert" 
+                                                    data-bs-toggle="popover" 
+                                                    title="Status Ditolak Kelompok Bisnis" 
+                                                    data-bs-content="Kelompok Bisnis ini Menolak untuk Masuk ke dalam Program Inkubasi."
+                                                    style="cursor: pointer;">
+                                                        Ditolak Kelompok Bisnis
+                                                </p>';
+                                            } elseif ($row['status_inkubasi'] == 'tidak masuk') {
+                                                echo '
+                                                <p 
+                                                    class="alert alert-danger fw-bold text-center m-0 mx-5 p-2" 
+                                                    role="alert" 
+                                                    data-bs-toggle="popover" 
+                                                    title="Status Ditolak Admin PIKK" 
+                                                    data-bs-content="Kelompok Bisnis ini Ditolak oleh Admin PIKK untuk Masuk Kedalam Program Inkubasi."
+                                                    style="cursor: pointer;">
+                                                        Ditolak Admin PIKK
+                                                </p>';
                                             } elseif ($row['status_inkubasi'] == 'masuk') {
-                                                echo '<p class="alert alert-info fw-bold text-center m-0 mx-5 p-2" role="alert">Program Inkubasi</p>';
+                                                echo '
+                                                <p 
+                                                    class="alert alert-info fw-bold text-center m-0 mx-5 p-2" 
+                                                    role="alert" 
+                                                    data-bs-toggle="popover" 
+                                                    title="Status Program Inkubasi" 
+                                                    data-bs-content="Kelompok Bisnis ini Terdaftar dalam Program Inkubasi."
+                                                    style="cursor: pointer;">
+                                                        Program Inkubasi
+                                                </p>';
                                             } else {
-                                                echo '<p class="alert alert-secondary fw-bold text-center m-0 mx-5 p-2" role="alert">Tidak Ada</p>';
+                                                echo '
+                                                <p 
+                                                    class="alert alert-secondary fw-bold text-center m-0 mx-5 p-2" 
+                                                    role="alert" 
+                                                    data-bs-toggle="popover" 
+                                                    title="Status Tidak Ada" 
+                                                    data-bs-content="Status Program Kelompok Bisnis ini belum ditentukan."
+                                                    style="cursor: pointer;">
+                                                        Tidak Ada
+                                                </p>';
                                             }
                                         echo '</td>
                                     </tr>
@@ -366,7 +426,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                         </a>
                                         <div id="collapse' . $mentor['id'] . '" class="collapse" data-bs-parent="#accordionExample">
                                             <div class="card-mentor-body">
-                                                <p>NIDN: ' . htmlspecialchars($mentor['nidn']) . '</p>
+                                                <p>NIK: ' . htmlspecialchars($mentor['nidn']) . '</p>
                                                 <p>Keahlian: ' . htmlspecialchars($mentor['keahlian']) . '</p>
                                                 <p>Fakultas: ' . htmlspecialchars($mentor['fakultas']) . '</p>
                                                 <p>Prodi: ' . htmlspecialchars($mentor['prodi']) . '</p>
@@ -517,6 +577,37 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                 dropdownButton.classList.add(selectedClass);
 
                 dropdownButton.textContent = selectedText;
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                var popover = new bootstrap.Popover(popoverTriggerEl);
+                var intervalId;
+
+                popoverTriggerEl.addEventListener('shown.bs.popover', function () {
+                    var popoverElement = document.querySelector('.popover');
+
+                    intervalId = setInterval(function () {
+                        if (popoverElement) {
+                            var rect = popoverElement.getBoundingClientRect();
+                            if (rect.top < 0 || rect.bottom > window.innerHeight) {
+                                popover.hide();
+                                clearInterval(intervalId); // Stop checking once popover is hidden
+                            }
+                        }
+                    }, 100); // Check every 100 milliseconds
+                });
+
+                popoverTriggerEl.addEventListener('hidden.bs.popover', function () {
+                    clearInterval(intervalId); // Clear the interval if the popover is manually closed
+                });
+
+                return popover;
             });
         });
     </script>
