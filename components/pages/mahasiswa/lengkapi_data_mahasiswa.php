@@ -90,25 +90,6 @@ if (isset($_SESSION['npm'])) {
     $prodi = $fakultasProdi['prodi'];
 }
 
-// Menghitung tahun ajaran dan semester
-$tahunAjaran = '';
-if (isset($_SESSION['npm'])) {
-    $npm = $_SESSION['npm'];
-    $angkatan = intval(substr($npm, 5, 2)); // Ambil dua digit tahun angkatan
-    $tahunMasuk = 2000 + $angkatan;
-    $tahunSekarang = date('Y');
-    $bulanSekarang = date('n');
-
-    $tahunSelisih = $tahunSekarang - $tahunMasuk;
-    $semester = ($tahunSelisih * 2) + ($bulanSekarang >= 7 ? 1 : 2);
-
-    $tahunAjaranStart = $tahunMasuk;
-    $tahunAjaranEnd = $tahunAjaranStart + 1;
-    $semesterText = ($bulanSekarang >= 7) ? 'Ganjil' : 'Genap';
-
-    $tahunAjaran = "$tahunAjaranStart / $tahunAjaranEnd $semesterText (Semester $semester)";
-}
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nama = $_POST['nama'];
     $npm = $_POST['npm'];

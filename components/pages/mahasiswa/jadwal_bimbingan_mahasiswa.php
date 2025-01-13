@@ -350,7 +350,7 @@ if (isset($_GET['edit_id'])) {
             // Set aksi dan id jadwal
             document.getElementById('confirmBtn').onclick = function() {
                 // Kirim data ke backend menggunakan fetch API
-                fetch('submit_action.php', {
+                fetch('submit_action', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'

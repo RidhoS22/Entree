@@ -177,6 +177,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li><a class="dropdown-item" role="button" data-status="semua">Semua Kelompok</a></li>
                                     <li><a class="dropdown-item" role="button" data-status="direkomendasikan">Direkomendasi</a></li>
+                                    <li><a class="dropdown-item" role="button" data-status="disetujui">Disetujui Kelompok Bisnis</a></li>
                                     <li><a class="dropdown-item" role="button" data-status="masuk">Program Inkubasi</a></li>
                                 </ul>
                                 <input type="hidden" name="status_inkubasi" id="status_inkubasi" value="semua"> <!-- Input tersembunyi untuk mengirim status -->

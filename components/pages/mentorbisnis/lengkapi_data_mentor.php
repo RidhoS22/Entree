@@ -20,40 +20,16 @@ if (!isset($_SESSION['username'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Query untuk mendapatkan data role dari tabel users
-$query_user = "SELECT role FROM users WHERE id = '$user_id'";
-$result_user = $conn->query($query_user);
-
-if ($result_user && $result_user->num_rows > 0) {
-    $user = $result_user->fetch_assoc();
-    $role = $user['role'];
-} else {
-    die("User tidak ditemukan atau role tidak valid.");
-}
-
-// Cek apakah role adalah 'mentor'
-if ($role == 'Tutor') {
-    // Ambil data mentor berdasarkan user_id
-    $query_mentor = "SELECT * FROM mentor WHERE user_id = '$user_id'";
-    $result_mentor = $conn->query($query_mentor);
-
-    if ($result_mentor && $result_mentor->num_rows > 0) {
-        $data = $result_mentor->fetch_assoc();
-    } else {
-        die("Data mentor tidak ditemukan.");
-    }
-} else {
-    die("Role tidak valid.");
-}
-
 // Proses pengiriman form (POST)
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Ambil data dari form
+    $nama = $_POST['nama'];
+    $npm = $_POST['nik'];
     $keahlian = mysqli_real_escape_string($conn, $_POST['keahlian']);
     $fakultas = mysqli_real_escape_string($conn, $_POST['fakultas']);
     $prodi = mysqli_real_escape_string($conn, $_POST['prodi']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $no_telepon = mysqli_real_escape_string($conn, $_POST['no_telepon']);
+    $no_telepon = $_POST['no_telepon'];
 
     // Inisialisasi variabel foto profil
     $foto_profile = null;
@@ -89,36 +65,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Array untuk menyimpan field yang akan diupdate
-    $update_fields = [
-        "keahlian" => $keahlian,
-        "fakultas" => $fakultas,
-        "prodi" => $prodi,
-        "email" => $email,
-        "contact" => $no_telepon,
-    ];
+    // Insert data baru ke tabel mentor
+    $insert_query = "INSERT INTO mentor (user_id, nama, npm, keahlian, fakultas, prodi, email, contact, foto_profile) 
+                     VALUES ('$user_id', '$nama', '$npm', '$keahlian', '$fakultas', '$prodi', '$email', '$no_telepon', '$foto_profile')";
+    
+    if ($conn->query($insert_query) === TRUE) {
+        // Update status first_login di tabel users
+        $update_user_query = "UPDATE users SET first_login = 0 WHERE id = '$user_id'";
+        $conn->query($update_user_query);
 
-    // Jika foto profil diunggah, tambahkan ke array
-    if ($foto_profile) {
-        $update_fields['foto_profile'] = $foto_profile;
+        // Redirect ke halaman profile mentor setelah insert
+        header("Location: /Entree/mentor/pagementor");
+        exit;
+    } else {
+        die("Gagal menyimpan data: " . $conn->error);
     }
-
-    // Query untuk update data mentor
-    $set_clause = [];
-    foreach ($update_fields as $key => $value) {
-        $set_clause[] = "$key = '$value'";
-    }
-
-    $update_query = "UPDATE mentor SET " . implode(', ', $set_clause) . " WHERE user_id = '$user_id'";
-    $conn->query($update_query);
-
-    // Update status first_login di tabel users
-    $update_user_query = "UPDATE users SET first_login = 0 WHERE id = '$user_id'";
-    $conn->query($update_user_query);
-
-    // Redirect ke halaman profile mentor setelah update
-    header("Location: /Entree/mentor/pagementor");
-    exit;
 }
 
 $conn->close();
@@ -149,8 +110,8 @@ $conn->close();
                     <input id="nama" name="nama" type="text" value="<?= htmlspecialchars($_SESSION['displayName']) ?>" readonly />
                 </div>
                 <div class="form-group">
-                    <label for="nidn">NIK</label>
-                    <input id="nidn" name="nidn" type="text" value="<?= htmlspecialchars($_SESSION['npm']) ?>" />
+                    <label for="nik">NIK</label>
+                    <input id="nik" name="nik" type="text" value="<?= htmlspecialchars($_SESSION['npm']) ?>" readonly />
                 </div>
                 <div class="form-group">
                     <label for="keahlian">Keahlian</label>

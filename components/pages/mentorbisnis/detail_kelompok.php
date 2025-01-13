@@ -285,64 +285,14 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
 
                     <div class="right">
                         <div class="title-edit">
-                            <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
+                        <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompok['nama_kelompok']); ?></h1>
                             <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompok['nama_kelompok']); ?>" style="display: none;" />
                         
-                            <?php if ($statusInkubasi === 'masuk'): ?>
-                                <p 
-                                    class="alert alert-info fw-bold text-center m-0 p-2" 
-                                    role="alert" 
-                                    data-bs-toggle="popover" 
-                                    title="Status Program Inkubasi" 
-                                    data-bs-content="Kelompok Bisnis ini Terdaftar dalam Program Inkubasi."
-                                    style="cursor: pointer;">
-                                        Program Inkubasi
-                                </p>                            
-                            <?php else: ?>
+                            <?php if (is_null($statusInkubasi)): ?>
                                 <?php if ($isMentor): ?>
                                     <button type="button" class="btn btn-secondary mt-3" data-bs-toggle="modal" data-bs-target="#recommendationModal">
                                         Program Inkubasi
                                     </button>
-                                <?php elseif ($statusInkubasi === 'direkomendasikan'): ?>
-                                    <p 
-                                        class="alert alert-success fw-bold text-center m-0 p-2" 
-                                        role="alert" 
-                                        data-bs-toggle="popover" 
-                                        title="Status Direkomendasikan" 
-                                        data-bs-content="Kelompok Bisnis ini direkomendasikan oleh Mentor bisnis nya untuk masuk ke dalam Program Inkubasi."
-                                        style="cursor: pointer;">
-                                            Direkomendasikan
-                                    </p>
-                                <?php elseif ($statusInkubasi === 'disetujui'): ?>
-                                    <p 
-                                        class="alert alert-success fw-bold text-center m-0 p-2" 
-                                        role="alert" 
-                                        data-bs-toggle="popover" 
-                                        title="Status Disetujui Kelompok Bisnis" 
-                                        data-bs-content="Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi."
-                                        style="cursor: pointer;">
-                                            Disetujui Kelompok Bisnis
-                                    </p>
-                                <?php elseif ($statusInkubasi === 'ditolak'): ?>
-                                    <p 
-                                        class="alert alert-danger fw-bold text-center m-0 p-2" 
-                                        role="alert" 
-                                        data-bs-toggle="popover" 
-                                        title="Status Ditolak Kelompok Bisnis" 
-                                        data-bs-content="Kelompok Bisnis ini Menolak untuk Masuk ke dalam Program Inkubasi."
-                                        style="cursor: pointer;">
-                                            Ditolak Kelompok Bisnis
-                                    </p>
-                                <?php elseif ($statusInkubasi === 'tidak masuk'): ?>
-                                    <p 
-                                        class="alert alert-danger fw-bold text-center m-0 p-2" 
-                                        role="alert" 
-                                        data-bs-toggle="popover" 
-                                        title="Status Ditolak Admin PIKK" 
-                                        data-bs-content="Kelompok Bisnis ini Ditolak oleh Admin PIKK untuk Masuk Kedalam Program Inkubasi."
-                                        style="cursor: pointer;">
-                                            Ditolak Admin PIKK
-                                    </p>
                                 <?php else: ?>
                                     <p 
                                         class="alert alert-secondary fw-bold text-center m-0 p-2" 
@@ -354,6 +304,56 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                             Tidak Ada
                                     </p>
                                 <?php endif; ?>
+                            <?php elseif ($statusInkubasi === 'masuk'): ?>
+                                <p 
+                                    class="alert alert-info fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Program Inkubasi" 
+                                    data-bs-content="Kelompok Bisnis ini Terdaftar dalam Program Inkubasi."
+                                    style="cursor: pointer;">
+                                        Program Inkubasi
+                                </p>
+                            <?php elseif ($statusInkubasi === 'direkomendasikan'): ?>
+                                <p 
+                                    class="alert alert-success fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Direkomendasikan" 
+                                    data-bs-content="Kelompok Bisnis ini direkomendasikan oleh Mentor bisnisnya untuk masuk ke dalam Program Inkubasi."
+                                    style="cursor: pointer;">
+                                        Direkomendasikan
+                                </p>
+                            <?php elseif ($statusInkubasi === 'disetujui'): ?>
+                                <p 
+                                    class="alert alert-success fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Disetujui Kelompok Bisnis" 
+                                    data-bs-content="Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi."
+                                    style="cursor: pointer;">
+                                        Disetujui Kelompok Bisnis
+                                </p>
+                            <?php elseif ($statusInkubasi === 'ditolak'): ?>
+                                <p 
+                                    class="alert alert-danger fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Ditolak Kelompok Bisnis" 
+                                    data-bs-content="Kelompok Bisnis ini Menolak untuk Masuk ke dalam Program Inkubasi."
+                                    style="cursor: pointer;">
+                                        Ditolak Kelompok Bisnis
+                                </p>
+                            <?php elseif ($statusInkubasi === 'tidak masuk'): ?>
+                                <p 
+                                    class="alert alert-danger fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Ditolak Admin PIKK" 
+                                    data-bs-content="Kelompok Bisnis ini Ditolak oleh Admin PIKK untuk Masuk Kedalam Program Inkubasi."
+                                    style="cursor: pointer;">
+                                        Ditolak Admin PIKK
+                                </p>
                             <?php endif; ?>
 
                             <!-- Modal Rekomendasi -->

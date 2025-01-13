@@ -79,13 +79,15 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Cek status_inkubasi dari tabel kelompok_bisnis
-$sql = "SELECT status_inkubasi FROM kelompok_bisnis WHERE id_kelompok = $id_kelompok";
+$sql = "SELECT status_inkubasi, status_kelompok_bisnis FROM kelompok_bisnis WHERE id_kelompok = $id_kelompok";
 $result = $conn->query($sql);
 
 $status_inkubasi = null;
+$status_kelompok_bisnis = null;
 if ($result && $result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $status_inkubasi = $row['status_inkubasi'];
+    $status_kelompok_bisnis = $row['status_kelompok_bisnis'];
 }
 
 // Tentukan apakah tombol terkunci jika statusnya null atau ditolak
@@ -206,7 +208,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                     style="cursor: pointer;">
                                         Direkomendasikan
                                 </p>
-                                <?php elseif ($status_inkubasi === 'disetujui'): ?>
+                                <?php elseif ($status_inkubasi === 'disetujui' && $status_kelompok_bisnis === 'aktif'): ?>
                                     <button type="button" 
                                         class="btn btn-secondary mt-3" 
                                         id="programInkubasiButton" 

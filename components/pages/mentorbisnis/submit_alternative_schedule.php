@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Eksekusi query
     if ($stmt->execute()) {
         // Jika berhasil, arahkan kembali ke halaman jadwal
-        header("Location: jadwal_bimbingan?status=success");
+        header("Location: jadwal_bimbingan");
         exit();
     } else {
         // Jika gagal, tampilkan pesan error

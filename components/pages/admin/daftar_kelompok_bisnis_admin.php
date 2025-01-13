@@ -154,6 +154,7 @@ $resulTahun = $conn->query($tahunAkademik);
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <li><a class="dropdown-item" role="button" data-status="semua">Semua Kelompok</a></li>
                                         <li><a class="dropdown-item" role="button" data-status="direkomendasikan">Direkomendasi</a></li>
+                                        <li><a class="dropdown-item" role="button" data-status="disetujui">Disetujui Kelompok Bisnis</a></li>
                                         <li><a class="dropdown-item" role="button" data-status="masuk">Program Inkubasi</a></li>
                                     </ul>
                                     <input type="hidden" name="status_inkubasi" id="status_inkubasi" value="semua"> <!-- Input tersembunyi untuk mengirim status -->
@@ -194,7 +195,7 @@ $resulTahun = $conn->query($tahunAkademik);
                         $namaMentor = $mentor['nama_mentor'] ?? 'Nama mentor tidak tersedia';
                 
                         // Query untuk mengambil status inkubasi dan status kelompok bisnis
-                        $query = "SELECT status_inkubasi, status_kelompok_bisnis FROM kelompok_bisnis WHERE id_kelompok = '$id_kelompok' LIMIT 1";
+                        $query = "SELECT status_inkubasi, status_kelompok_bisnis FROM kelompok_bisnis_backup WHERE id_kelompok = '$id_kelompok' LIMIT 1";
                         $resultStatus = mysqli_query($conn, $query);
                         $statusRow = mysqli_fetch_assoc($resultStatus);
                         

@@ -61,16 +61,19 @@ $searchKeyword = isset($_GET['search']) ? $conn->real_escape_string($_GET['searc
 // Logika filter berdasarkan status
 $status_filter = '';
 if ($status_jadwal !== 'semua') {
-    $status_filter = " AND status = '$status_jadwal'"; // Menambahkan filter status jika tidak 'semua'
+    $status_filter = " AND j.status = '$status_jadwal'"; // Menambahkan filter status jika tidak 'semua'
 }
 
 if (count($kelompokIds) > 0) {
     $ids = implode(',', $kelompokIds); // Menggabungkan id_kelompok menjadi string
-    $sql = "SELECT * FROM jadwal WHERE id_klmpk IN ($ids) $status_filter";
+    $sql = "SELECT j.*, kb.nama_kelompok 
+            FROM jadwal j 
+            JOIN kelompok_bisnis kb ON j.id_klmpk = kb.id_kelompok
+            WHERE j.id_klmpk IN ($ids) $status_filter";
     if (!empty($searchKeyword)) {
-        $sql .= " AND nama_kegiatan LIKE '%$searchKeyword%'"; // Tambahkan kondisi pencarian
+        $sql .= " AND kb.nama_kelompok LIKE '%$searchKeyword%'"; // Tambahkan kondisi pencarian nama kelompok
     }
-    $sql .= " ORDER BY tanggal, waktu";
+    $sql .= " ORDER BY j.tanggal, j.waktu";
 } else {
     $sql = "SELECT * FROM jadwal WHERE 1 = 0"; // Tidak ada data yang ditampilkan
 }
@@ -124,7 +127,7 @@ $result = $conn->query($sql);
                                     class="form-control me-2" 
                                     type="search" 
                                     name="search" 
-                                    placeholder="Cari nama kegiatan..." 
+                                    placeholder="Cari nama kelompok..." 
                                     aria-label="Search"
                                     value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>"
                                 >
@@ -215,7 +218,6 @@ $result = $conn->query($sql);
                                                     <label for="altLocationInput" class="form-label">Lokasi:</label>
                                                     <input type="text" class="form-control" id="altLocationInput" name="alt_location" placeholder="Masukkan lokasi" required>
                                                 </div>
-                                                <input type="hidden" name="jadwal_id" value="<?php echo htmlspecialchars($id); ?>">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>

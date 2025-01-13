@@ -216,19 +216,66 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                 <div class="title-edit">
                                     <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
                                     <!-- Tombol Program Inkubasi -->
-                                    <button type="button" 
-                                            class="btn btn-secondary mt-3" 
-                                            id="programInkubasiButton" 
-                                            <?php if ($is_locked): ?>
-                                                data-bs-toggle="tooltip" 
-                                                data-bs-placement="top" 
-                                                title="Tidak tersedia kecuali Kelompok Bisnis anda direkomendasikan oleh tutor anda"
-                                            <?php else: ?>
+                                    <?php if (is_null($status_inkubasi)): ?>
+                                        <button type="button" 
+                                                class="btn btn-secondary mt-3" 
+                                                id="programInkubasiButton" 
+                                                <?php if ($is_locked): ?>
+                                                    data-bs-toggle="tooltip" 
+                                                    data-bs-placement="top" 
+                                                    title="Tidak tersedia kecuali Kelompok Bisnis anda direkomendasikan oleh tutor anda"
+                                                <?php endif; ?>>
+                                            Program Inkubasi
+                                        </button>
+                                    <?php elseif ($status_inkubasi === 'direkomendasikan'): ?>
+                                        <button type="button" 
+                                                class="btn btn-secondary mt-3" 
+                                                id="programInkubasiButton" 
                                                 data-bs-toggle="modal" 
-                                                data-bs-target="#recommendationModal"
-                                            <?php endif; ?>>
-                                        Program Inkubasi
-                                    </button>
+                                                data-bs-target="#recommendationModal">
+                                            Program Inkubasi
+                                        </button>
+                                    <?php elseif ($status_inkubasi === 'masuk'): ?>
+                                        <p 
+                                            class="alert alert-info fw-bold text-center m-0 p-2" 
+                                            role="alert" 
+                                            data-bs-toggle="popover" 
+                                            title="Status Program Inkubasi" 
+                                            data-bs-content="Kelompok Bisnis ini Terdaftar dalam Program Inkubasi."
+                                            style="cursor: pointer;">
+                                                Program Inkubasi
+                                        </p>
+                                    <?php elseif ($status_inkubasi === 'disetujui'): ?>
+                                        <p 
+                                            class="alert alert-success fw-bold text-center m-0 p-2" 
+                                            role="alert" 
+                                            data-bs-toggle="popover" 
+                                            title="Status Disetujui Kelompok Bisnis" 
+                                            data-bs-content="Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi."
+                                            style="cursor: pointer;">
+                                                Disetujui Kelompok Bisnis
+                                        </p>
+                                    <?php elseif ($status_inkubasi === 'ditolak'): ?>
+                                        <p 
+                                            class="alert alert-danger fw-bold text-center m-0 p-2" 
+                                            role="alert" 
+                                            data-bs-toggle="popover" 
+                                            title="Status Ditolak Kelompok Bisnis" 
+                                            data-bs-content="Kelompok Bisnis ini Menolak untuk Masuk ke dalam Program Inkubasi."
+                                            style="cursor: pointer;">
+                                                Ditolak Kelompok Bisnis
+                                        </p>
+                                    <?php elseif ($status_inkubasi === 'tidak masuk'): ?>
+                                        <p 
+                                            class="alert alert-danger fw-bold text-center m-0 p-2" 
+                                            role="alert" 
+                                            data-bs-toggle="popover" 
+                                            title="Status Ditolak Admin PIKK" 
+                                            data-bs-content="Kelompok Bisnis ini Ditolak oleh Admin PIKK untuk Masuk Kedalam Program Inkubasi."
+                                            style="cursor: pointer;">
+                                                Ditolak Admin PIKK
+                                        </p>
+                                    <?php endif; ?>
 
                                     <!-- Modal -->
                                     <div class="modal fade" id="recommendationModal" tabindex="-1" aria-labelledby="recommendationModalLabel" aria-hidden="true">
@@ -287,7 +334,6 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                             .catch(error => console.error('Error:', error));
                                         });
 
-                                        // Fungsi untuk mengubah tombol sesuai status
                                         function updateButtonStatus(isApprove) {
                                             const programInkubasiButton = document.getElementById('programInkubasiButton');
                                             
@@ -301,10 +347,10 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                 programInkubasiButton.disabled = true;
                                                 if (isApprove) {
                                                     programInkubasiButton.classList.add('btn-success');
-                                                    programInkubasiButton.textContent = 'Disetujui';
+                                                    programInkubasiButton.textContent = 'Disetujui Kelompok Bisnis';
                                                 } else {
                                                     programInkubasiButton.classList.add('btn-danger');
-                                                    programInkubasiButton.textContent = 'Ditolak';
+                                                    programInkubasiButton.textContent = 'Ditolak Kelompok Bisnis';
                                                 }
                                             }
                                         }
@@ -539,7 +585,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
             .then(data => {
                 if (data.success) {
                     alert('Kelompok bisnis dan data terkait berhasil dihapus.');
-                    window.location.href = 'kelompok_bisnis_mahasiswa.php'; // Ganti dengan halaman yang sesuai
+                    window.location.href = 'kelompok_bisnis'; // Ganti dengan halaman yang sesuai
                 } else {
                     alert('Terjadi kesalahan saat menghapus kelompok.');
                 }

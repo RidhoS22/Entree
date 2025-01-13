@@ -31,6 +31,7 @@ RewriteRule ^mahasiswa/proses_laporan$ components/pages/mahasiswa/proses_laporan
 RewriteRule ^mahasiswa/detail_jadwal$ components/pages/mahasiswa/detail_jadwal_mahasiswa.php [L]
 RewriteRule ^lengkapi_data_mahasiswa$ components/pages/mahasiswa/lengkapi_data_mahasiswa.php [L]
 RewriteRule ^mahasiswa/edit_laporan$ components/pages/mahasiswa/edit_laporan.php [L]
+RewriteRule ^mahasiswa/submit_action$ components/pages/mahasiswa/submit_action.php [L]
 
 #mentorbisnis
 RewriteRule ^mentor/dashboard$ components/pages/mentorbisnis/pagementor.php [L]
