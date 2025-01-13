@@ -158,26 +158,26 @@ if (isset($_GET['edit_id'])) {
                     <form action="" method="post">
                         <input type="hidden" name="id" value="<?php echo isset($edit_data['id']) ? $edit_data['id'] : ''; ?>">
                         <div class="mb-3">
-                            <label for="nama_kegiatan" class="form-label">Nama Kegiatan</label>
+                            <label for="nama_kegiatan" class="form-label">Nama Kegiatan:<span style="color:red;">*</span></label>
                             <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control" placeholder="Masukkan Nama Kegiatan" required
                                 value="<?php echo isset($edit_data['nama_kegiatan']) ? $edit_data['nama_kegiatan'] : ''; ?>">
                         </div>
                         <div class="mb-3">
-                            <label for="tanggal" class="form-label">Tanggal</label>
+                            <label for="tanggal" class="form-label">Tanggal:<span style="color:red;">*</span></label>
                             <input type="date" name="tanggal" id="tanggal" class="form-control" required
                                 value="<?php echo isset($edit_data['tanggal']) ? $edit_data['tanggal'] : ''; ?>">
                         </div>
                         <div class="mb-3">
-                            <label for="waktu" class="form-label">Waktu</label>
+                            <label for="waktu" class="form-label">Waktu:<span style="color:red;">*</span></label>
                             <input type="time" name="waktu" id="waktu" class="form-control" required
                                 value="<?php echo isset($edit_data['waktu']) ? $edit_data['waktu'] : ''; ?>">
                         </div>
                         <div class="mb-3">
-                            <label for="agenda" class="form-label">Agenda</label>
+                            <label for="agenda" class="form-label">Agenda:<span style="color:red;">*</span></label>
                             <textarea name="agenda" id="agenda" class="form-control" placeholder="Masukkan Agenda" required><?php echo isset($edit_data['agenda']) ? $edit_data['agenda'] : ''; ?></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="lokasi" class="form-label">Lokasi</label>
+                            <label for="lokasi" class="form-label">Lokasi:<span style="color:red;">*</span></label>
                             <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="Masukkan Lokasi" required
                                 value="<?php echo isset($edit_data['lokasi']) ? $edit_data['lokasi'] : ''; ?>">
                         </div>

@@ -102,12 +102,12 @@ if (!empty($laporan_pdf)) {
                     <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
                     <div>
                         <?php
-                            if ($laporan['jenis_laporan'] == 'laporan_kemajuan') {
-                                echo '<p class="alert alert-success text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#2ea56f; width:fit-content;" role="alert">Laporan Kemajuan</p>';
-                            } elseif ($laporan['jenis_laporan'] == 'laporan_akhir') {
-                                echo '<p class="alert alert-info text-white fw-bold text-center m-0 p-2 px-3" style="background-color:#007bff; width:fit-content;" role="alert">Laporan Akhir</p>';
+                            if ($laporan['jenis_laporan'] == 'Laporan Kemajuan') {
+                                echo '<p class="alert alert-success text-white fw-bold text-center m-0 p-2 px-3 mb-4" style="background-color:#2ea56f; width:fit-content;" role="alert">Laporan Kemajuan</p>';
+                            } elseif ($laporan['jenis_laporan'] == 'Laporan Akhir') {
+                                echo '<p class="alert alert-info text-white fw-bold text-center m-0 p-2 px-3 mb-4" style="background-color:#007bff; width:fit-content;" role="alert">Laporan Akhir</p>';
                             } else {
-                                echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2 px-3" style="background-color:orange; width:fit-content;" role="alert">Tidak ada Jenis Laporan</p>';
+                                echo '<p class="alert alert-warning text-white fw-bold text-center m-0 p-2 px-3 mb-4" style="background-color:orange; width:fit-content;" role="alert">Tidak ada Jenis Laporan</p>';
                             }
                         ?>
                     </div> 
@@ -193,7 +193,7 @@ if (!empty($laporan_pdf)) {
                     ?>
                     </ul>
                 </div>
-                <p>Umpan Balik Dari Mentor:</p>
+                <p>Umpan Balik Dari Mentor Bisnis:</p>
                 <div class="feedback-box">
                     <p><?php echo htmlspecialchars($laporan['feedback']); ?></p>
                 </div>

@@ -152,7 +152,7 @@ if ($currentMonth >= 7) { // Semester Ganjil
 
                                         <div class="form-group">
                                             <label for="logo_bisnis">Logo Bisnis:<span style="color:red;">*</span></label>
-                                            <input type="file" id="logo_bisnis" name="logo_bisnis" accept=".png, .jpg" required>
+                                            <input type="file" class="form-control" id="logo_bisnis" name="logo_bisnis" accept=".png, .jpg" required>
                                             <div id="logo_preview" class="mt-2"></div>
                                         </div>
 

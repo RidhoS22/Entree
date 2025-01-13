@@ -168,23 +168,25 @@ function getFileIcon($fileExtension) {
                             <h1><?= htmlspecialchars($row["judul"]) ?></h1>
                             <p><?= htmlspecialchars($row["deskripsi"]) ?></p>
                             <div class="mt-3">
-                                <div class="btn_container">
+                                <div class="btn_container mb-3">
                                     <a href="<?= htmlspecialchars($filePath) ?>" target="_blank" class="file icon" data-bs-toggle="tooltip" title="Lihat Materi">
                                         <i class="fa-solid fa-eye btn-icon"></i>
                                     </a>
                                     <a href="<?= htmlspecialchars($filePath) ?>" target="_blank" download class="file icon" data-bs-toggle="tooltip" title="Unduh Materi">
                                         <i class="fa-solid fa-download btn-icon"></i>
                                     </a>
-                                    <a href="#" class="file icon edit-btn" data-bs-toggle="modal" data-bs-target="#editModal" title="Edit Materi">
+                                    <span data-bs-toggle="tooltip" title="Edit Materi">
+                                    <a href="#" class="file icon edit-btn" data-bs-toggle="modal" data-bs-target="#editModal">
                                         <i class="fa-solid fa-edit btn-icon"></i>
                                     </a>
+                                    </span>
                                     <a href="#" class="file icon delete-btn" data-bs-toggle="tooltip" title="Hapus Materi" data-id="<?= $id ?>">
                                         <i class="fa-solid fa-trash-can btn-icon"></i>
                                     </a>
                                 </div>
 
                                 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
+                                    <div class="modal-dialog modal-dialog-centered">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="editModalLabel">Edit Materi</h5>

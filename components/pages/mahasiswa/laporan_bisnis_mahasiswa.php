@@ -98,7 +98,7 @@ $laporan_result = $stmt->get_result();
                                     <!-- Laporan Kemajuan Pengembangan Usaha -->
                                     <div class="form-group">
                                         <label for="judul_laporan">Judul Laporan:<span style="color:red;">*</span></label>
-                                        <input type="text" id="judul_laporan" name="judul_laporan" required>
+                                        <input type="text" id="judul_laporan" name="judul_laporan" required placeholder="Masukkan Judul Laporan">
                                     </div>
 
                                     <!-- Jenis Laporan -->
@@ -117,31 +117,31 @@ $laporan_result = $stmt->get_result();
                                         <!-- Laporan Penjualan Usaha -->
                                         <div class="form-group">
                                             <label for="laporan_penjualan">Laporan Penjualan:</label>
-                                            <textarea id="laporan_penjualan" name="laporan_penjualan"></textarea>
+                                            <textarea id="laporan_penjualan" name="laporan_penjualan" placeholder="Masukkan Laporan Penjualan"></textarea>
                                         </div>
 
                                         <!-- Laporan Pemasaran Usaha -->
                                         <div class="form-group">
                                             <label for="laporan_pemasaran">Laporan Pemasaran:</label>
-                                            <textarea id="laporan_pemasaran" name="laporan_pemasaran"></textarea>
+                                            <textarea id="laporan_pemasaran" name="laporan_pemasaran" placeholder="Masukkan Laporan Pemasaran"></textarea>
                                         </div>
 
                                         <!-- Laporan Produksi Usaha -->
                                         <div class="form-group">
                                             <label for="laporan_produksi">Laporan Produksi:</label>
-                                            <textarea id="laporan_produksi" name="laporan_produksi"></textarea>
+                                            <textarea id="laporan_produksi" name="laporan_produksi" placeholder="Masukkan Laporan Produksi"></textarea>
                                         </div>
 
                                         <!-- Laporan SDM Usaha -->
                                         <div class="form-group">
                                             <label for="laporan_sdm">Laporan SDM:</label>
-                                            <textarea id="laporan_sdm" name="laporan_sdm"></textarea>
+                                            <textarea id="laporan_sdm" name="laporan_sdm" placeholder="Masukkan Laporan SDM"></textarea>
                                         </div>
 
                                         <!-- Laporan Keuangan -->
                                         <div class="form-group">
                                             <label for="laporan_keuangan">Laporan Keuangan:</label>
-                                            <textarea id="laporan_keuangan" name="laporan_keuangan"></textarea>
+                                            <textarea id="laporan_keuangan" name="laporan_keuangan" placeholder="Masukkan Laporan Keuangan"></textarea>
                                         </div>
                                     </div>
 

@@ -402,6 +402,12 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                         ";
                         $result_mentor = $conn->query($mentorQuery);
 
+                        echo '<form action="" method="get" class="mb-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control d-none" placeholder="Cari mentor..." name="search" value="' . htmlspecialchars($search) . '">
+                                <button class="btn btn-success d-none" type="submit">Cari</button>
+                            </div>
+                        </form>';        
                         if ($result_mentor->num_rows > 0) {
                             echo '<div class="clearfix">';
                             while ($mentor = $result_mentor->fetch_assoc()) {
@@ -427,7 +433,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                         </a>
                                         <div id="collapse' . $mentor['id'] . '" class="collapse" data-bs-parent="#accordionExample">
                                             <div class="card-mentor-body">
-                                                <p>NIK: ' . htmlspecialchars($mentor['nidn']) . '</p>
+                                                <p>NIDN: ' . htmlspecialchars($mentor['nidn']) . '</p>
                                                 <p>Keahlian: ' . htmlspecialchars($mentor['keahlian']) . '</p>
                                                 <p>Fakultas: ' . htmlspecialchars($mentor['fakultas']) . '</p>
                                                 <p>Prodi: ' . htmlspecialchars($mentor['prodi']) . '</p>

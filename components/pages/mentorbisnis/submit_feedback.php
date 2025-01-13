@@ -28,16 +28,16 @@ if (isset($data['feedback'], $data['proposal_id'])) {
         $stmt->bind_param("si", $feedback, $proposal_id);
 
         if ($stmt->execute()) {
-            echo json_encode(['success' => true, 'message' => 'Feedback berhasil dikirim.']);
+            echo json_encode(['success' => true, 'message' => 'Umpan Balik berhasil dikirim.']);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Gagal mengirim feedback.']);
+            echo json_encode(['success' => false, 'message' => 'Gagal mengirim Umpan Balik.']);
         }
         $stmt->close();
     } else {
         echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan pada sistem.']);
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Data tidak lengkap. Feedback tidak dapat dikirim.']);
+    echo json_encode(['success' => false, 'message' => 'Data tidak lengkap. Umpan Balik tidak dapat dikirim.']);
 }
 
 $conn->close();

@@ -203,7 +203,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                 </table>
 
                 <!-- Feedback Section -->
-                <strong>Umpan Balik Dari Mentor:</strong>
+                <strong>Umpan Balik Dari Mentor Bisnis:</strong>
                 <div class="feedback-box">
                     <p><?php echo htmlspecialchars($proposal['feedback'] ?? 'Belum ada umpan balik.'); ?></p>
                 </div>

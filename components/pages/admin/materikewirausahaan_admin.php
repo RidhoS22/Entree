@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </form>
 
                 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Materi Kewirausahaan</h1>
@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <form method="POST" action="" enctype="multipart/form-data">
                                     <div class="form-group">
                                         <label for="judul">Judul Materi:<span style="color:red;">*</span></label>
-                                        <input type="text" id="judul" name="judul" required>
+                                        <input type="text" id="judul" name="judul" required placeholder="Masukkan Judul Materi">
                                     </div>
                                     
                                     <div class="form-group mb-3">
@@ -137,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                                     <div class="form-group">
                                         <label for="deskripsi">Deskripsi Materi:<span style="color:red;">*</span><span style="color:grey;"><small>(maksimal 3000 karakter)</small></span></label>
-                                        <textarea id="deskripsi" name="deskripsi" required></textarea>
+                                        <textarea id="deskripsi" name="deskripsi" required placeholder="Masukkan Deskripsi Materi"></textarea>
                                     </div>
                             </div>
                             <div class="modal-footer">

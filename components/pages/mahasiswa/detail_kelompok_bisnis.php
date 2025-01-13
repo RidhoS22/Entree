@@ -506,13 +506,17 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                         <label for="namaBisnis" class="form-label">Nama Bisnis</label>
                                                         <input type="text" class="form-control" id="namaBisnis" name="nama_bisnis" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_bisnis'] ?? ''); ?>" required>
                                                     </div>
-                                                </div>
+                                                    <div class="mb-3">
+                                                        <label for="logoBisnis" class="form-label">Logo Bisnis</label>
+                                                        <input type="file" class="form-control" id="logoBisnis" name="logo_bisnis" accept=".png, .jpg">
+                                                        </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                                                     <button type="submit" class="btn btn-success">Simpan</button>
                                                 </div>
                                             </form>
-                                        </div>
+                                        </div>                                              
+
                                     </div>
                                 </div>
                             </div>
@@ -592,6 +596,14 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
             })
             .catch(error => {
                 alert('Terjadi kesalahan: ' + error);
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
             });
         });
     </script>

@@ -257,7 +257,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                 <!-- Feedback Section -->
             <?php if ($is_mentor_matched): ?>
                 <?php if (!empty($proposal['feedback'])): ?>
-                    <strong>Umpan Balik:</strong>
+                    <strong>Umpan Balik dari Mentor Bisnis:</strong>
                     <div class="feedback-box">
                         <p><?php echo htmlspecialchars($proposal['feedback']); ?></p>
                     </div>
@@ -325,7 +325,7 @@ $sdg_labels = array_map(function ($key) use ($sdg_mapping) {
                     });
                 </script>
             <?php else: ?>
-                <strong>Umpan Balik:</strong>
+                <strong>Umpan Balik dari Mentor Bisnis:</strong>
                 <div class="feedback-box">
                     <p><?php echo htmlspecialchars($proposal['feedback'] ?? 'Belum ada Umpan Balik.'); ?></p>
                 </div>

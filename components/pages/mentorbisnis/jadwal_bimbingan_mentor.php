@@ -177,7 +177,7 @@ $result = $conn->query($sql);
                                         <form action="submit_alternative_schedule" method="POST">
                                             <div class="modal-body">
                                             <div class="mb-3">
-                                                <label for="altGroupInput" class="form-label">Pilih Kelompok:</label>
+                                                <label for="altGroupInput" class="form-label">Pilih Kelompok:<span style="color:red;">*</span></label>
                                                 <select class="form-select" id="altGroupInput" name="alt_group" required>
                                                     <option value="" disabled selected>Pilih kelompok</option>
                                                     <?php
@@ -198,24 +198,24 @@ $result = $conn->query($sql);
                                                 </select>
                                             </div>
                                                 <div class="mb-3">
-                                                    <label for="nama_kegiatan" class="form-label">Nama Kegiatan</label>
-                                                    <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control" required
+                                                    <label for="nama_kegiatan" class="form-label">Nama Kegiatan:<span style="color:red;">*</span></label>
+                                                    <input type="text" name="nama_kegiatan" id="nama_kegiatan" class="form-control" required placeholder="Masukkan Nama Kegiatan"
                                                         value="<?php echo isset($edit_data['nama_kegiatan']) ? $edit_data['nama_kegiatan'] : ''; ?>">
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="altDateInput" class="form-label">Tanggal:</label>
+                                                    <label for="altDateInput" class="form-label">Tanggal:<span style="color:red;">*</span></label>
                                                     <input type="date" class="form-control" id="altDateInput" name="alt_date" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="altTimeInput" class="form-label">Waktu:</label>
+                                                    <label for="altTimeInput" class="form-label">Waktu:<span style="color:red;">*</span></label>
                                                     <input type="time" class="form-control" id="altTimeInput" name="alt_time" required>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="agenda" class="form-label">agenda</label>
-                                                    <textarea name="agenda" id="agenda" class="form-control"><?php echo isset($edit_data['agenda']) ? $edit_data['agenda'] : ''; ?></textarea>
+                                                    <label for="agenda" class="form-label">agenda:<span style="color:red;">*</span></label>
+                                                    <textarea name="agenda" id="agenda" class="form-control" placeholder="Masukkan Agenda"><?php echo isset($edit_data['agenda']) ? $edit_data['agenda'] : ''; ?></textarea>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="altLocationInput" class="form-label">Lokasi:</label>
+                                                    <label for="altLocationInput" class="form-label">Lokasi:<span style="color:red;">*</span></label>
                                                     <input type="text" class="form-control" id="altLocationInput" name="alt_location" placeholder="Masukkan lokasi" required>
                                                 </div>
                                             </div>

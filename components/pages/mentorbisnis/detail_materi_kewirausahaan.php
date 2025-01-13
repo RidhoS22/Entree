@@ -132,7 +132,7 @@ function getFileIcon($fileExtension) {
                             <h1><?= htmlspecialchars($row["judul"]) ?></h1>
                             <p><?= htmlspecialchars($row["deskripsi"]) ?></p>
                             <div class="mt-3">
-                                <div class="btn_container">
+                                <div class="btn_container mb-3">
                                     <a id="detailFileLink" href="<?= htmlspecialchars($filePath) ?>" target="_blank" class="file icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Materi">
                                         <i class="fa-solid fa-eye btn-icon"></i>
                                     </a>

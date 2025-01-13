@@ -186,7 +186,7 @@ $id_kelompok = isset($_GET['id_kelompok']) ? $_GET['id_kelompok'] : null;
                         </tr>
                         <?php if (!empty($data['feedback_mentor'])): ?>
                             <tr>
-                                <th>Umpan Balik dari Mentor</th>
+                                <th>Umpan Balik dari Mentor Bisnis:</th>
                                 <td><?php echo htmlspecialchars($data['feedback_mentor']); ?></td>
                             </tr>
                         <?php endif; ?>
