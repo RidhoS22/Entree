@@ -250,10 +250,10 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                             class="alert alert-success fw-bold text-center m-0 p-2" 
                                             role="alert" 
                                             data-bs-toggle="popover" 
-                                            title="Status Disetujui Kelompok Bisnis" 
+                                            title="Status Direkomendasi dan Bersedia"
                                             data-bs-content="Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi."
                                             style="cursor: pointer;">
-                                                Disetujui Kelompok Bisnis
+                                                Direkomendasi dan Bersedia
                                         </p>
                                     <?php elseif ($status_inkubasi === 'ditolak'): ?>
                                         <p 
@@ -492,7 +492,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
-                                            <form id="editForm">
+                                            <form id="editForm" enctype="multipart/form-data">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="editModalLabel">Edit Kelompok Bisnis</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -508,15 +508,15 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                     </div>
                                                     <div class="mb-3">
                                                         <label for="logoBisnis" class="form-label">Logo Bisnis</label>
-                                                        <input type="file" class="form-control" id="logoBisnis" name="logo_bisnis" accept=".png, .jpg">
-                                                        </div>
+                                                        <input type="file" class="form-control" id="logoBisnis" name="logo_bisnis" accept=".png, .jpg, .jpeg">
+                                                    </div>
+                                                </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                                                     <button type="submit" class="btn btn-success">Simpan</button>
                                                 </div>
                                             </form>
                                         </div>                                              
-
                                     </div>
                                 </div>
                             </div>
@@ -547,23 +547,21 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
         document.getElementById('editForm').addEventListener('submit', function (event) {
             event.preventDefault();
 
-            const namaKelompok = document.getElementById('namaKelompok').value;
-            const namaBisnis = document.getElementById('namaBisnis').value;
+            const formData = new FormData(this); // Gunakan FormData untuk menangani file upload
 
+            // Menambahkan id_kelompok ke formData
+            formData.append('id_kelompok', "<?php echo htmlspecialchars($kelompokTerdaftar['id_kelompok']); ?>");
+
+            // Kirim data ke server
             fetch('/Entree/components/pages/mahasiswa/update_kelompok.php', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    id_kelompok: <?php echo json_encode($kelompokTerdaftar['id_kelompok']); ?>,
-                    nama_kelompok: namaKelompok,
-                    nama_bisnis: namaBisnis
-                })
+                body: formData // Mengirimkan formData, yang sudah berisi data form termasuk file
             })
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
                     alert('Data berhasil diperbarui.');
-                    location.reload();
+                    location.reload(); // Muat ulang halaman setelah berhasil
                 } else {
                     alert('Terjadi kesalahan saat memperbarui data.');
                 }

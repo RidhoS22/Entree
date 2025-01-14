@@ -122,11 +122,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     );
 
     if ($stmt->execute()) {
-        $_SESSION['message'] = "Laporan berhasil diunggah!";
         header("Location: laporan_bisnis");
         exit;
     } else {
-        $_SESSION['error'] = "Gagal menyimpan laporan ke database!";
         header("Location: laporan_bisnis");
         exit;
     }

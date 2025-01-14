@@ -329,10 +329,10 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                     class="alert alert-success fw-bold text-center m-0 p-2" 
                                     role="alert" 
                                     data-bs-toggle="popover" 
-                                    title="Status Disetujui Kelompok Bisnis" 
+                                    title="Status Direkomendasi dan Bersedia" 
                                     data-bs-content="Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi."
                                     style="cursor: pointer;">
-                                        Disetujui Kelompok Bisnis
+                                        Direkomendasi dan Bersedia
                                 </p>
                             <?php elseif ($statusInkubasi === 'ditolak'): ?>
                                 <p 

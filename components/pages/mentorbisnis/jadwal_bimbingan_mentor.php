@@ -73,7 +73,7 @@ if (count($kelompokIds) > 0) {
     if (!empty($searchKeyword)) {
         $sql .= " AND kb.nama_kelompok LIKE '%$searchKeyword%'"; // Tambahkan kondisi pencarian nama kelompok
     }
-    $sql .= " ORDER BY j.tanggal, j.waktu";
+    $sql .= " ORDER BY j.tanggal DESC, j.waktu DESC"; // Mengurutkan dari tanggal terbaru dan waktu terbaru
 } else {
     $sql = "SELECT * FROM jadwal WHERE 1 = 0"; // Tidak ada data yang ditampilkan
 }

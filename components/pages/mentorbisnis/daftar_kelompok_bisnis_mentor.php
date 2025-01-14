@@ -22,12 +22,23 @@ $search = isset($_GET['search']) ? $_GET['search'] : '';
 // Ambil status inkubasi dari dropdown
 $status_inkubasi = isset($_GET['status_inkubasi']) ? $_GET['status_inkubasi'] : 'semua'; // Ambil status inkubasi yang dipilih
 
-// Modifikasi query berdasarkan peran pengguna dan pencarian
+// Ambil ID tahun akademik yang statusnya aktif
+$sql_tahun_akademik = "SELECT id FROM tahun_akademik WHERE status = 'aktif'";
+$result_tahun_akademik = $conn->query($sql_tahun_akademik);
+
+if ($result_tahun_akademik->num_rows > 0) {
+    $tahun_akademik_aktif = $result_tahun_akademik->fetch_assoc()['id'];
+} else {
+    die("Tidak ada tahun akademik yang aktif.");
+}
+
+// Modifikasi query berdasarkan peran pengguna, tahun akademik aktif, dan pencarian
 if ($user_role === 'Tutor') {
     // Jika pengguna adalah Tutor, hanya ambil kelompok yang di-mentor oleh pengguna
     $sql = "
         SELECT * FROM kelompok_bisnis
         WHERE id_mentor = (SELECT id FROM mentor WHERE user_id = ?)
+        AND id_tahun_akademik = ?
         AND nama_kelompok LIKE ?
     ";
     
@@ -37,7 +48,11 @@ if ($user_role === 'Tutor') {
     }
 } else {
     // Jika bukan Tutor (misalnya Dosen Pengampu), ambil semua kelompok
-    $sql = "SELECT * FROM kelompok_bisnis WHERE nama_kelompok LIKE ?";
+    $sql = "
+        SELECT * FROM kelompok_bisnis
+        WHERE tahun_akademik_id = ?
+        AND nama_kelompok LIKE ?
+    ";
     
     // Jika ada status inkubasi yang dipilih, tambahkan filter berdasarkan status inkubasi
     if ($status_inkubasi !== 'semua') {
@@ -54,15 +69,15 @@ $search_param = "%" . $search . "%";
 // Bind parameter berdasarkan kondisi
 if ($status_inkubasi !== 'semua') {
     if ($user_role === 'Tutor') {
-        $stmt->bind_param('sss', $user_id, $search_param, $status_inkubasi);
+        $stmt->bind_param('ssss', $user_id, $tahun_akademik_aktif, $search_param, $status_inkubasi);
     } else {
-        $stmt->bind_param('ss', $search_param, $status_inkubasi);
+        $stmt->bind_param('sss', $tahun_akademik_aktif, $search_param, $status_inkubasi);
     }
 } else {
     if ($user_role === 'Tutor') {
-        $stmt->bind_param('ss', $user_id, $search_param);
+        $stmt->bind_param('sss', $user_id, $tahun_akademik_aktif, $search_param);
     } else {
-        $stmt->bind_param('s', $search_param);
+        $stmt->bind_param('ss', $tahun_akademik_aktif, $search_param);
     }
 }
 
@@ -177,7 +192,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li><a class="dropdown-item" role="button" data-status="semua">Semua Kelompok</a></li>
                                     <li><a class="dropdown-item" role="button" data-status="direkomendasikan">Direkomendasi</a></li>
-                                    <li><a class="dropdown-item" role="button" data-status="disetujui">Disetujui Kelompok Bisnis</a></li>
+                                    <li><a class="dropdown-item" role="button" data-status="disetujui">Direkomendasi dan Bersedia</a></li>
                                     <li><a class="dropdown-item" role="button" data-status="masuk">Program Inkubasi</a></li>
                                 </ul>
                                 <input type="hidden" name="status_inkubasi" id="status_inkubasi" value="semua"> <!-- Input tersembunyi untuk mengirim status -->
@@ -308,10 +323,10 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                                     class="alert alert-success fw-bold text-center m-0 mx-5 p-2" 
                                                     role="alert" 
                                                     data-bs-toggle="popover" 
-                                                    title="Status Disetujui Kelompok Bisnis" 
+                                                    title="Status Direkomendasi dan Bersedia" 
                                                     data-bs-content="Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi."
                                                     style="cursor: pointer;">
-                                                        Disetujui Kelompok Bisnis
+                                                        Direkomendasi dan Bersedia
                                                 </p>';
                                             } elseif ($row['status_inkubasi'] == 'ditolak') {
                                                 echo '

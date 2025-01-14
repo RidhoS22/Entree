@@ -79,7 +79,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 // Cek status_inkubasi dari tabel kelompok_bisnis
-$sql = "SELECT status_inkubasi, status_kelompok_bisnis FROM kelompok_bisnis WHERE id_kelompok = $id_kelompok";
+$sql = "SELECT status_inkubasi, status_kelompok_bisnis FROM kelompok_bisnis_backup WHERE id_kelompok = $id_kelompok";
 $result = $conn->query($sql);
 
 $status_inkubasi = null;
@@ -208,20 +208,30 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                     style="cursor: pointer;">
                                         Direkomendasikan
                                 </p>
-                                <?php elseif ($status_inkubasi === 'disetujui' && $status_kelompok_bisnis === 'aktif'): ?>
-                                    <button type="button" 
-                                        class="btn btn-secondary mt-3" 
-                                        id="programInkubasiButton" 
-                                        <?php if ($is_locked): ?>
-                                            data-bs-toggle="tooltip" 
-                                            data-bs-placement="top" 
-                                            title="Fitur terkunci"
-                                        <?php else: ?>
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#recommendationModal"
-                                        <?php endif; ?>>
-                                        Program Inkubasi
-                                    </button>  
+                            <?php elseif ($status_inkubasi === 'disetujui' && $status_kelompok_bisnis === 'aktif'): ?>
+                                <button type="button" 
+                                    class="btn btn-secondary mt-3" 
+                                    id="programInkubasiButton" 
+                                    <?php if ($is_locked): ?>
+                                        data-bs-toggle="tooltip" 
+                                        data-bs-placement="top" 
+                                        title="Fitur terkunci"
+                                    <?php else: ?>
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#recommendationModal"
+                                    <?php endif; ?>>
+                                    Program Inkubasi
+                                </button>
+                            <?php elseif ($status_kelompok_bisnis === 'tidak aktif'): ?>
+                                <p 
+                                    class="alert alert-danger fw-bold text-center m-0 p-2" 
+                                    role="alert" 
+                                    data-bs-toggle="popover" 
+                                    title="Status Tidak Aktif Kelompok Bisnis" 
+                                    data-bs-content="Kelompok Bisnis ini sudah tidak aktif"
+                                    style="cursor: pointer;">
+                                        Tidak Aktif
+                                </p>
                             <?php elseif ($status_inkubasi === 'ditolak'): ?>
                                 <p 
                                     class="alert alert-danger fw-bold text-center m-0 p-2" 

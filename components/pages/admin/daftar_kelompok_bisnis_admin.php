@@ -154,7 +154,7 @@ $resulTahun = $conn->query($tahunAkademik);
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <li><a class="dropdown-item" role="button" data-status="semua">Semua Kelompok</a></li>
                                         <li><a class="dropdown-item" role="button" data-status="direkomendasikan">Direkomendasi</a></li>
-                                        <li><a class="dropdown-item" role="button" data-status="disetujui">Disetujui Kelompok Bisnis</a></li>
+                                        <li><a class="dropdown-item" role="button" data-status="disetujui">Direkomendasi dan Bersedia</a></li>
                                         <li><a class="dropdown-item" role="button" data-status="masuk">Program Inkubasi</a></li>
                                     </ul>
                                     <input type="hidden" name="status_inkubasi" id="status_inkubasi" value="semua"> <!-- Input tersembunyi untuk mengirim status -->
@@ -255,10 +255,10 @@ $resulTahun = $conn->query($tahunAkademik);
                                                     class="alert alert-success fw-bold text-center m-0 mx-5 p-2" 
                                                     role="alert" 
                                                     data-bs-toggle="popover" 
-                                                    title="Status Disetujui Kelompok Bisnis" 
+                                                    title="Status Direkomendasi dan Bersedia" 
                                                     data-bs-content="Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi."
                                                     style="cursor: pointer;">
-                                                        Disetujui Kelompok Bisnis
+                                                        Direkomendasi dan Bersedia
                                                 </p>';
                                             } elseif ($status_inkubasi == 'ditolak') {
                                                 echo '
