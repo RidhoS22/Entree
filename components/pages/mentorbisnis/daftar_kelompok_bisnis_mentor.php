@@ -109,6 +109,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Kelompok Bisnis | Entree</title>
+    <link rel="icon" href="\entree\assets\img\icon_favicon.png" type="image/x-icon">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -324,7 +325,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                                                     role="alert" 
                                                     data-bs-toggle="popover" 
                                                     title="Status Direkomendasi dan Bersedia" 
-                                                    data-bs-content="Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi."
+                                                    data-bs-content="Kelompok Bisnis ini Direkomendasikan untuk masuk ke dalam Program Inkubasi oleh Mentor Bisnisnya dan Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi. Perlu Persetujuan Admin PIKK untuk Kelompok Bisnis ini masuk ke dalam Program Inkubasi."
                                                     style="cursor: pointer;">
                                                         Direkomendasi dan Bersedia
                                                 </p>';

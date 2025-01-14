@@ -29,7 +29,7 @@
     <div class="wrapper">
         <div class="main_header">
             <h1 class="halaman"><?php echo $pageTitle ?? 'Halaman'; ?></h1>
-            <a href="javascript:void(0)" class="notification" id="notificationButton">
+            <a href="javascript:void(0)" class="notification d-none" id="notificationButton">
                 <i class="fa-regular fa-bell"></i>
             </a>
         </div>

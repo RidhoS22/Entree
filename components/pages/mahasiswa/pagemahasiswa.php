@@ -50,6 +50,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Beranda | Entree</title>
+    <link rel="icon" href="\entree\assets\img\icon_favicon.png" type="image/x-icon">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -90,7 +91,7 @@
                             <div class="col-md-4">
                                 <div class="p-4 border rounded">
                                     <i class="fa-solid fa-address-card icon" data-bs-target="#exampleModalToggle_mentor" data-bs-toggle="modal"></i>
-                                    <h5 class="mt-3">Mentor Berkualitas</h5>
+                                    <h5 class="mt-3">Mentor Bisnis</h5>
                                     <p>Dapatkan bimbingan dari para ahli di bidangnya.</p>
                                 </div>
                             </div>
@@ -122,10 +123,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Show a second modal and hide this one with the button below.
+                    Dengan ada nya Mentor Bisnis di aplikasi Entree memungkinkan mahasiswa untuk mendapatkan bimbingan dari mentor berpengalaman yang telah teruji dalam dunia bisnis. Dengan dukungan para ahli ini, mahasiswa dapat menerima saran dan arahan yang praktis untuk mengembangkan ide bisnis mereka menjadi usaha yang sukses.
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_mentor_2" data-bs-toggle="modal">Open second modal</button>
+                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_mentor_2" data-bs-toggle="modal">Selanjutnya</button>
                 </div>
                 </div>
             </div>
@@ -140,9 +141,9 @@
                 <div class="modal-body">
                     Tekan tombol dibawah ini untuk melihat daftar Mentor Bisnis aplikasi Entree, atau kamu juga bisa mengaksesnya langsung dari sidebar yang ada!. 
                 </div>
-                <a href="daftar_mentor_mahasiswa.php" class="btn btn-success mx-5 mb-3" role="button">Kunjungi Halaman</a>
+                <a href="daftar_mentor" class="btn btn-success mx-5 mb-3" role="button">Kunjungi Halaman</a>
                 <div class="modal-footer">
-                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_mentor" data-bs-toggle="modal">Back to first</button>
+                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_mentor" data-bs-toggle="modal">Kembali</button>
                 </div>
                 </div>
             </div>
@@ -158,10 +159,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Program Inkubasi Adalah sebuah program lorem123
+                    Program ini memberikan mahasiswa kesempatan untuk memperdalam pengetahuan dan keterampilan kewirausahaan mereka melalui bimbingan intensif. Dengan dukungan fasilitas dan sumber daya yang tersedia, mahasiswa dapat mengembangkan dan menguji model bisnis mereka dalam lingkungan yang mendukung.
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_inkubasi_2" data-bs-toggle="modal">Open second modal</button>
+                    <!-- <button class="btn btn-success" data-bs-target="#exampleModalToggle_inkubasi_2" data-bs-toggle="modal">Selanjutnya</button> -->
                 </div>
                 </div>
             </div>
@@ -177,7 +178,7 @@
                     Hide this modal and show the first with the button below.
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_inkubasi" data-bs-toggle="modal">Back to first</button>
+                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_inkubasi" data-bs-toggle="modal">Kembali</button>
                 </div>
                 </div>
             </div>
@@ -193,10 +194,10 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Aplikasi Entree menyediakan sumber belajar materi kewirausahaan yang tentunya akan membantu kamu dalam mengembangkan bisnis mu!.
+                    Aplikasi Entree menyediakan akses ke berbagai materi pembelajaran yang dirancang untuk memperluas wawasan mahasiswa dalam bidang kewirausahaan. Materi ini mencakup konten video, dan dokumen pembelajaran yang dirancang untuk mendukung pengembangan keterampilan bisnis dan pemahaman mereka tentang dinamika pasar.
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_materi_2" data-bs-toggle="modal">Open second modal</button>
+                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_materi_2" data-bs-toggle="modal">Selanjutnya</button>
                 </div>
                 </div>
             </div>
@@ -211,14 +212,15 @@
                 <div class="modal-body">
                     Ayo Belajar! Tekan tombol dibawah ini untuk masuk ke halaman Materi Kewirausahaan, atau kamu juga bisa mengaksesnya langsung dari sidebar yang ada!.
                 </div>
-                <a href="materikewirausahaan_mahasiswa.php" class="btn btn-success mx-5 mb-3" role="button">Kunjungi Halaman</a>
+                <a href="materi_kewirausahaan" class="btn btn-success mx-5 mb-3" role="button">Kunjungi Halaman</a>
                 <div class="modal-footer">
-                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_materi" data-bs-toggle="modal">Back to first</button>
+                    <button class="btn btn-success" data-bs-target="#exampleModalToggle_materi" data-bs-toggle="modal">Kembali</button>
                 </div>
                 </div>
             </div>
             </div>
         </div>
+    </div>
 
 
     

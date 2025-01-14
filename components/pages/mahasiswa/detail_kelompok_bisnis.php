@@ -135,6 +135,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Kelompok Bisnis | Entree</title>
+    <link rel="icon" href="\entree\assets\img\icon_favicon.png" type="image/x-icon">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -251,7 +252,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                             role="alert" 
                                             data-bs-toggle="popover" 
                                             title="Status Direkomendasi dan Bersedia"
-                                            data-bs-content="Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi."
+                                            data-bs-content="Kelompok Bisnis ini Direkomendasikan untuk masuk ke dalam Program Inkubasi oleh Mentor Bisnisnya dan Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi. Perlu Persetujuan Admin PIKK untuk Kelompok Bisnis ini masuk ke dalam Program Inkubasi."
                                             style="cursor: pointer;">
                                                 Direkomendasi dan Bersedia
                                         </p>
@@ -467,7 +468,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                             </a>
                                         <?php } else { ?>
                                             <!-- Jika belum ada mentor, tampilkan teks info -->
-                                            <span class="text-muted">Belum ada mentor bisnis</span>
+                                            <span class="text-muted alert alert-warning text-center" role="alert">Belum ada mentor bisnis</span>
                                         <?php } ?>
                                     </div>
                                     
@@ -510,6 +511,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                                         <label for="logoBisnis" class="form-label">Logo Bisnis</label>
                                                         <input type="file" class="form-control" id="logoBisnis" name="logo_bisnis" accept=".png, .jpg, .jpeg">
                                                     </div>
+                                                    <p class="text-muted alert alert-info text-center" role="alert">Fitur Edit Kelompok Bisnis hanya tersedia jika Kelompok Bisnis belum mempunyai Mentor Bisnis</p>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>

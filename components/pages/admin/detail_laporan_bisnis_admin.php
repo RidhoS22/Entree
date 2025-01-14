@@ -61,6 +61,7 @@ if (!empty($laporan_pdf)) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Laporan Bisnis | Entree</title>
+    <link rel="icon" href="\entree\assets\img\icon_favicon.png" type="image/x-icon">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -195,7 +196,7 @@ if (!empty($laporan_pdf)) {
                 </div>
                 <p>Umpan Balik Dari Mentor Bisnis:</p>
                 <div class="feedback-box">
-                    <p><?php echo htmlspecialchars($laporan['feedback']); ?></p>
+                    <p><?php echo htmlspecialchars($laporan['feedback'] ?? 'Belum ada umpan balik'); ?></p>
                 </div>
                 <a href="laporan_bisnis?id_kelompok=<?php echo $id_kelompok; ?>" class="btn btn-secondary">Kembali</a>
             </div>
