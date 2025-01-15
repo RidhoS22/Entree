@@ -32,12 +32,13 @@
             <i class="fa-solid fa-bars"></i>
         </button>
         <aside id="sidebar">
-            <div class="d-flex">
+            <div>
                 <button class="toggle-btn" type="button">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="sidebar-logo">
-                    <a href="#">Yarsi Entree</a>
+                <div class="sidebar-logo d-flex-custom-sidebar justify-content-center align-items-center">
+                    <img src="\Entree\assets\img\kiri_logo_sidebar.png" alt="Logo Entree" class="logo-kiri">
+                    <img src="\Entree\assets\img\kanan_logo_sidebar.png" alt="" class="logo-kanan">
                 </div>
             </div>
             <ul class="sidebar-nav">

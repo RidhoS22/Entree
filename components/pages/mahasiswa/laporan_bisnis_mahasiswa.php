@@ -56,7 +56,7 @@ $laporan_result = $stmt->get_result();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laporan Bisnis | Entree</title>
-    <link rel="icon" href="\entree\assets\img\icon_favicon.png" type="image/x-icon">
+    <link rel="icon" href="\Entree\assets\img\icon_favicon.png" type="image/x-icon">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -279,28 +279,30 @@ $laporan_result = $stmt->get_result();
                         <div class="card">
                             <div class="card-header">
                                 <h2><?php echo htmlspecialchars($laporan['judul_laporan']); ?></h2>
-                                <i class="fas fa-edit edit-icon" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#exampleModal_Edit"
-                                    data-id="<?php echo $laporan['id']; ?>"
-                                    data-judul="<?php echo htmlspecialchars($laporan['judul_laporan']); ?>"
-                                    data-jenis="<?php echo htmlspecialchars($laporan['jenis_laporan']); ?>"
-                                    data-penjualan="<?php echo htmlspecialchars($laporan['laporan_penjualan']); ?>"
-                                    data-pemasaran="<?php echo htmlspecialchars($laporan['laporan_pemasaran']); ?>"
-                                    data-produksi="<?php echo htmlspecialchars($laporan['laporan_produksi']); ?>"
-                                    data-sdm="<?php echo htmlspecialchars($laporan['laporan_sdm']); ?>"
-                                    data-keuangan="<?php echo htmlspecialchars($laporan['laporan_keuangan']); ?>"
-                                    data-pdf="<?php echo htmlspecialchars($laporan['laporan_pdf']); ?>">
-                                </i>
+                                <span data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Edit Laporan Kemajuan Bisnis">
+                                    <i class="fas fa-edit edit-icon" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#exampleModal_Edit"
+                                        data-id="<?php echo $laporan['id']; ?>"
+                                        data-judul="<?php echo htmlspecialchars($laporan['judul_laporan']); ?>"
+                                        data-jenis="<?php echo htmlspecialchars($laporan['jenis_laporan']); ?>"
+                                        data-penjualan="<?php echo htmlspecialchars($laporan['laporan_penjualan']); ?>"
+                                        data-pemasaran="<?php echo htmlspecialchars($laporan['laporan_pemasaran']); ?>"
+                                        data-produksi="<?php echo htmlspecialchars($laporan['laporan_produksi']); ?>"
+                                        data-sdm="<?php echo htmlspecialchars($laporan['laporan_sdm']); ?>"
+                                        data-keuangan="<?php echo htmlspecialchars($laporan['laporan_keuangan']); ?>"
+                                        data-pdf="<?php echo htmlspecialchars($laporan['laporan_pdf']); ?>">
+                                    </i>
+                                </span>
                             </div>
                             <a href="detail_laporan?id=<?php echo $id; ?>">
                             <div class="card-body">
-                                <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Laporan Kemajuan Bisnis" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Laporan Kemajuan Bisnis"></i>
+                                <i class="fa-solid fa-eye detail-icon"  data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Laporan Kemajuan Bisnis"></i>
                             </div>
                             </a>
                             <div class="card-footer">
                                 <a href="detail_laporan?id=<?php echo $id; ?>">Lihat Umpan Balik</a>
-                                <i class="fa-solid fa-trash-can delete-icon" title="Hapus Laporan Kemajuan Bisnis" onclick="confirmDelete(<?php echo $laporan['id']; ?>);" title="Edit Laporan Kemajuan Bisnis"></i>
+                                <i class="fa-solid fa-trash-can delete-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Hapus Laporan Kemajuan Bisnis" onclick="confirmDelete(<?php echo $laporan['id']; ?>);"></i>
                             </div>
                         </div>
                         <?php

@@ -330,7 +330,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                     role="alert" 
                                     data-bs-toggle="popover" 
                                     title="Status Direkomendasi dan Bersedia" 
-                                    data-bs-content="Kelompok Bisnis ini Direkomendasikan untuk masuk ke dalam Program Inkubasi oleh Mentor Bisnisnya dan Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi. Perlu Persetujuan Admin PIKK untuk Kelompok Bisnis ini masuk ke dalam Program Inkubasi."
+                                    data-bs-content="Kelompok bisnis ini Direkomendasi oleh Mentor Bisnisnya dan Bersedia untuk masuk ke Program Inkubasi, Perlu Persetujuan Admin PIKK untuk Kelompok Bisnis ini masuk ke dalam Program Inkubasi. "
                                     style="cursor: pointer;">
                                         Direkomendasi dan Bersedia
                                 </p>

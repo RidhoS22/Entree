@@ -17,7 +17,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplikasi Kewirusahaan</title>
-    <link rel="icon" href="\entree\assets\img\icon_favicon.png" type="image/x-icon">
+    <link rel="icon" href="\Entree\assets\img\icon_favicon.png" type="image/x-icon">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -30,12 +30,13 @@
             <i class="fa-solid fa-bars"></i>
         </button>
         <aside id="sidebar">
-            <div class="d-flex">
+            <div>
                 <button class="toggle-btn" type="button">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="sidebar-logo">
-                    <a href="#">Yarsi Entree</a>
+                <div class="sidebar-logo d-flex-custom-sidebar justify-content-center align-items-center">
+                    <img src="\Entree\assets\img\kiri_logo_sidebar.png" alt="Logo Entree" class="logo-kiri">
+                    <img src="\Entree\assets\img\kanan_logo_sidebar.png" alt="" class="logo-kanan">
                 </div>
             </div>
             <ul class="sidebar-nav">

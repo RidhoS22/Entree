@@ -67,34 +67,36 @@ body {
   color: #fff;
 }
 
-.sidebar-logo {
-  margin: auto 0;
-}
-
-/* versi tulissan */
-
-.sidebar-logo a {
-  color: #fff;
-  font-size: 1.15rem;
-  font-weight: 600;
-}
-
 /* versi image */
 .sidebar-logo img {
-  color: #fff;
-  width: 70%;
-  height: 70%;
+  width: 50%;
+  height: 50%;
 }
 
-#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) .sidebar-logo .logo-kanan,
 #sidebar:not(.expand) a.sidebar-link span,
 #sidebar:not(.expand) .sidebar-header h1 {
   display: none;
 }
 
+#sidebar.expand .logo-kanan {
+  display: block;
+  width: 50%;
+  height: 50%;
+}
+
+#sidebar.expand .logo-kiri {
+  width: 20%;
+  height: 20%;
+}
+
 .sidebar-nav {
   padding: 2rem 0;
   flex: 1 1 auto;
+}
+
+.d-flex-custom-sidebar {
+  display: flex;
 }
 
 a.sidebar-link {
@@ -129,7 +131,7 @@ a.sidebar-link:hover {
   position: absolute;
   top: 0;
   left: 70px;
-  background-color: #0e2238;
+  background-color: #2ea56f;
   padding: 0;
   min-width: 15rem;
   display: none;
@@ -219,8 +221,8 @@ a.sidebar-link:hover {
     border-bottom-right-radius: 20px;
   }
 
-  .sidebar-logo a {
-    position: fixed;
+  #sidebar.expand .sidebar-logo {
+    margin-top: 15px;
   }
 }
 

@@ -135,7 +135,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Kelompok Bisnis | Entree</title>
-    <link rel="icon" href="\entree\assets\img\icon_favicon.png" type="image/x-icon">
+    <link rel="icon" href="\Entree\assets\img\icon_favicon.png" type="image/x-icon">
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/77a99d5f4f.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -209,7 +209,11 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                     <h1 id="nama-kelompok-text"><?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?></h1>
                                     <input type="text" id="nama-kelompok-input" value="<?php echo htmlspecialchars($kelompokTerdaftar['nama_kelompok']); ?>" style="display: none;" />
                                     <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#editModal">
-                                        <i class="fas fa-edit edit-btn"></i> 
+                                        <i class="fas fa-edit edit-btn" 
+                                            data-bs-toggle="tooltip" 
+                                            data-bs-placement="top" 
+                                            title="Edit Kelompok Bisnis">
+                                        </i> 
                                     </button>
                                 </div>
                                 <?php } else { ?>
@@ -252,7 +256,7 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                             role="alert" 
                                             data-bs-toggle="popover" 
                                             title="Status Direkomendasi dan Bersedia"
-                                            data-bs-content="Kelompok Bisnis ini Direkomendasikan untuk masuk ke dalam Program Inkubasi oleh Mentor Bisnisnya dan Kelompok Bisnis ini Menyetujui untuk masuk ke dalam Program Inkubasi. Perlu Persetujuan Admin PIKK untuk Kelompok Bisnis ini masuk ke dalam Program Inkubasi."
+                                            data-bs-content="Kelompok bisnis ini Direkomendasi oleh Mentor Bisnisnya dan Bersedia untuk masuk ke Program Inkubasi, Perlu Persetujuan Admin PIKK untuk Kelompok Bisnis ini masuk ke dalam Program Inkubasi. "
                                             style="cursor: pointer;">
                                                 Direkomendasi dan Bersedia
                                         </p>
@@ -458,7 +462,10 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                         <strong class="me-2">Mentor Bisnis:</strong>
                                         <?php if ($mentorAda) { ?>
                                             <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                <div class="card d-inline-block" title="Lihat Detail Mentor Bisnis">
+                                                <div class="card d-inline-block" 
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-placement="top" 
+                                                title="Lihat Detail Mentor Bisnis">
                                                     <div class="card-body p-0">
                                                         <p class="card-text m-0 text-center">
                                                             <?php echo htmlspecialchars($mentorData['nama_mentor']); ?>

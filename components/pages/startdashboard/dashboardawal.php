@@ -12,7 +12,7 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/Entree/assets/css/sidebar.css">
     <link href="\Entree\assets\css\page.css" rel="stylesheet" />
-    <link rel="icon" href="\entree\assets\img\icon_favicon.png" type="image/x-icon">
+    <link rel="icon" href="\Entree\assets\img\icon_favicon.png" type="image/x-icon">
     <style>
         .main_wrapper {
             width: 100%;
@@ -39,12 +39,13 @@
             <i class="fa-solid fa-bars"></i>
         </button>
         <aside id="sidebar">
-            <div class="d-flex">
+            <div>
                 <button class="toggle-btn" type="button">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="sidebar-logo">
-                    <a href="#">Entree</a>
+                <div class="sidebar-logo d-flex-custom-sidebar justify-content-center align-items-center">
+                    <img src="\Entree\assets\img\kiri_logo_sidebar.png" alt="Logo Entree" class="logo-kiri">
+                    <img src="\Entree\assets\img\kanan_logo_sidebar.png" alt="" class="logo-kanan">
                 </div>
             </div>
             <ul class="sidebar-nav">

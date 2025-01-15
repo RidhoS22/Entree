@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materi Kewirausahaan | Entree</title>
-    <link rel="icon" href="\entree\assets\img\icon_favicon.png" type="image/x-icon">
+    <link rel="icon" href="\Entree\assets\img\icon_favicon.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/Entree/assets/css/materikewirausahaan.css">
 </head>
@@ -157,8 +157,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1055;">
                         <div class="toast text-bg-success border-0" id="toastSuccess" role="alert" aria-live="assertive" aria-atomic="true">
                             <div class="toast-header">
-                                <img src="\Entree\assets\img\Frame 64 1.png" style="width:20%; height:20%;" class="rounded me-2" alt="Logo">
-                                <strong class="me-auto">Success</strong>
+                                <img src="\Entree\assets\img\icon_entree_pemberitahuan.png" style="width:40%; height:40%;" class="rounded me-2" alt="Logo">
+                                <strong class="me-auto"></strong>
                                 <small>Just now</small>
                                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                             </div>
