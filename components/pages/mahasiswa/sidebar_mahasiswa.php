@@ -149,7 +149,7 @@ if ($cekKelompokMentorResult && mysqli_num_rows($cekKelompokMentorResult) > 0) {
                         <ul id="kelola_bisnis_kelompok" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
                             <li class="sidebar-item <?php echo ($activePage == 'proposal_bisnis_mahasiswa') ? 'active' : ''; ?>">
                                 <a href="proposal" class="sidebar-link">
-                                    <i class="fa-regular fa-file"></i>
+                                    <i class="fa-solid fa-file"></i>
                                     Proposal Bisnis
                                 </a>
                             </li>

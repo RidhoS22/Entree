@@ -77,7 +77,7 @@ if ($id_kelompok) {
                                 </div>
                                 <a href="detail_laporan_bisnis?id=<?php echo $id; ?>&id_kelompok=<?php echo $id_kelompok; ?>">
                                     <div class="card-body">
-                                        <i class="fa-solid fa-eye detail-icon" title="Lihat Detail Laporan Kemajuan Bisnis"></i>
+                                        <i class="fa-solid fa-eye detail-icon" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-title="Lihat Detail Laporan Kemajuan Bisnis"></i>
                                     </div>
                                 </a>
                                 <div class="card-footer">

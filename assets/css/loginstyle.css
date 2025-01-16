@@ -277,3 +277,8 @@ a:hover {
   height: 100vh; /* Tinggi penuh viewport */
   width: 100vw; /* Lebar penuh viewport */
 }
+
+.login-content form img {
+  height: 40%;
+  width: 70%;
+}

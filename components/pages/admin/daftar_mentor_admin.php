@@ -114,11 +114,11 @@ if (!$result_mentor) {
                                                 <input type="hidden" name="mentor_id" value="<?= $mentor['id']; ?>">
                                                 <?php if ($mentor['peran'] === 'Tutor') : ?>
                                                     <button name="action" value="naik" class="btn btn-success mt-2">
-                                                        Naikkan Role
+                                                        Naikkan Peran 
                                                     </button>
                                                 <?php elseif ($mentor['peran'] === 'Dosen Pengampu') : ?>
                                                     <button name="action" value="turun" class="btn btn-danger mt-2">
-                                                        Turunkan Role
+                                                        Turunkan Peran
                                                     </button>
                                                 <?php endif; ?>
                                             </form>

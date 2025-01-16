@@ -66,7 +66,7 @@ session_start();
                                 <div class="modal-body">
                                     <!-- Dropdown Tahun -->
                                     <div class="mb-3">
-                                        <label for="tahunDropdown" class="form-label">Pilih Tahun:</label>
+                                        <label for="tahunDropdown" class="form-label">Pilih Tahun:<span style="color:red;">*</span></label>
                                         <select class="form-select" id="tahunDropdown" name="tahun_awal" required>
                                             <option value="" disabled selected>Pilih Tahun</option>
                                             <?php
@@ -80,7 +80,7 @@ session_start();
 
                                     <!-- Radio Button Jenis Tahun -->
                                     <div class="mb-3">
-                                        <label class="form-label">Jenis Tahun:</label>
+                                        <label class="form-label">Jenis Tahun:<span style="color:red;">*</span></label>
                                         <div>
                                             <input type="radio" name="jenis_tahun" id="ganjil" value="Ganjil" required>
                                             <label for="ganjil">Ganjil</label>
@@ -91,7 +91,7 @@ session_start();
 
                                     <!-- Dropdown Status -->
                                     <div class="mb-3">
-                                        <label for="statusDropdown" class="form-label">Status Tahun Akademik:</label>
+                                        <label for="statusDropdown" class="form-label">Status Tahun Akademik:<span style="color:red;">*</span></label>
                                         <select class="form-select" id="statusDropdown" name="status" required>
                                             <option value="" disabled selected>Pilih Status</option>
                                             <option value="Aktif">Aktif</option>

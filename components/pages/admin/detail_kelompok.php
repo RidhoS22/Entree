@@ -445,7 +445,10 @@ $sdg_labels = array_map(function($key) use ($sdg_mapping) {
                                         <strong class="me-2">Mentor Bisnis:</strong>
                                         <?php if ($mentorAda) { ?>
                                             <a class="text-decoration-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                <div class="card d-inline-block" title="Lihat Detail Mentor Bisnis">
+                                                <div class="card d-inline-block" 
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-placement="top" 
+                                                title="Lihat Detail Mentor Bisnis">
                                                     <div class="card-body p-0">
                                                         <p class="card-text m-0 text-center">
                                                             <?php echo htmlspecialchars($mentorData['nama_mentor']); ?>

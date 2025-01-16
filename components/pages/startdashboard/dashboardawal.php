@@ -76,8 +76,9 @@
                 <!-- Hero Section -->
                 <header class="bg-success text-white text-center py-5">
                     <div class="container">
-                        <h1 class="display-4">Entree</h1>
-                        <p class="lead">Aplikasi Bimbingan Kewirausahaan Mahasiswa</p>
+                        <img src="\Entree\assets\img\icon_entree_beranda.png" 
+                            class="rounded me-2" 
+                            alt="Logo">
                     </div>
                 </header>
 
@@ -157,7 +158,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Program ini memberikan mahasiswa kesempatan untuk memperdalam pengetahuan dan keterampilan kewirausahaan mereka melalui bimbingan intensif. Dengan dukungan fasilitas dan sumber daya yang tersedia, mahasiswa dapat mengembangkan dan menguji model bisnis mereka dalam lingkungan yang mendukung.
+                    Program inkubasi adalah program yang dirancang untuk mendukung pertumbuhan dan perkembangan bisnis baru atau startup melalui penyediaan layanan dan sumber daya yang dibutuhkan bagi mahasiswa aktif Universitas YARSI yang memiliki ide bisnis atau bisnis yang sudah berjalan. 
+
                 </div>
                 <div class="modal-footer">
                     <!-- <button class="btn btn-success" data-bs-target="#exampleModalToggle_inkubasi_2" data-bs-toggle="modal">Selanjutnya</button> -->
