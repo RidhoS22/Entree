@@ -137,10 +137,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Mentor Bisnis</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    Tekan tombol dibawah ini untuk melihat daftar Mentor Bisnis aplikasi Entree, atau kamu juga bisa mengaksesnya langsung dari sidebar yang ada!. 
-                </div>
-                <a href="login" class="btn btn-success mx-5 mb-3" role="button">Masuk Untuk Melihat Fitur</a>
+                <a href="login" class="btn btn-success mx-5 my-3" role="button">Masuk Untuk Melihat Fitur</a>
                 <div class="modal-footer">
                     <button class="btn btn-success" data-bs-target="#exampleModalToggle_mentor" data-bs-toggle="modal">Kembali</button>
                 </div>
@@ -209,10 +206,7 @@
                     <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Materi Kewirausahaan</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    Ayo Belajar! Tekan tombol dibawah ini untuk masuk ke halaman Materi Kewirausahaan, atau kamu juga bisa mengaksesnya langsung dari sidebar yang ada!.
-                </div>
-                <a href="login" class="btn btn-success mx-5 mb-3" role="button">Masuk Untuk Melihat Fitur</a>
+                <a href="login" class="btn btn-success mx-5 my-3" role="button">Masuk Untuk Melihat Fitur</a>
                 <div class="modal-footer">
                     <button class="btn btn-success" data-bs-target="#exampleModalToggle_materi" data-bs-toggle="modal">Kembali</button>
                 </div>

@@ -327,7 +327,7 @@ $resulTahun = $conn->query($tahunAkademik);
                             </div>';
                 
                         echo '<div class="modal fade" id="mentorModal' . $id_kelompok . '" tabindex="-1" aria-labelledby="mentorModalLabel' . $id_kelompok . '" aria-hidden="true">';
-                        echo '<div class="modal-dialog modal-dialog-centered modal-fullscreen">';
+                        echo '<div class="modal-dialog modal-dialog-centered modal-xl">';
                         echo '<div class="modal-content">';
                         echo '<div class="modal-header">';
                         echo '<h5 class="modal-title" id="mentorModalLabel' . $id_kelompok . '">Pilih Mentor Bisnis</h5>';
