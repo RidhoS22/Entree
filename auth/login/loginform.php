@@ -20,7 +20,7 @@ unset($_SESSION['error']);
     <div class="login-content p-4 border rounded shadow">
         <form action="/Entree/config/login.php" method="post">
             <!-- <img src="/Entree\assets\img\image1.png"> -->
-			<img class="mb-5"  src="/entree\assets\img\logo_entree_login.png" alt="Logo Entree">
+			<img class="mb-5"  src="/Entree/assets/img/logo_entree_login.png" alt="Logo Entree">
             <div class="input-div one">
                 <div class="i">
                     <i class="fas fa-user"></i>

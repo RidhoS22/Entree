@@ -13,10 +13,6 @@ if ($_SESSION['role'] !== 'Mahasiswa') {
     exit;
 }
 
-echo '<pre>';
-print_r($_SESSION);
-echo '</pre>';
-
 $user_id = $_SESSION['user_id'];
 
 $query_user = "SELECT role FROM users WHERE id = '$user_id'";

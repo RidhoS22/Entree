@@ -285,7 +285,7 @@ if ($ldap_success) {
         $first_login = 1; 
 
         // Menyesuaikan role berdasarkan session
-        $role_in_db = ($role == 'M') ? 'Mahasiswa' : (($role == 'D') ? 'Tutor' : 'Unknown');
+        $role_in_db = ($role == 'M') ? 'Mahasiswa' : (($role == 'D' || $role == 'S') ? 'Tutor' : 'Unknown');
         
         $stmt->bind_param("sssi", $uname, $hashed_password, $role_in_db, $first_login);
         $stmt->execute();

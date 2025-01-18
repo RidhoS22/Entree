@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 10 Jan 2025 pada 14.49
+-- Waktu pembuatan: 18 Jan 2025 pada 07.24
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -38,13 +38,11 @@ CREATE TABLE `anggota_kelompok` (
 --
 
 INSERT INTO `anggota_kelompok` (`id`, `id_kelompok`, `npm_anggota`) VALUES
-(25, 20, '1402023001'),
-(26, 20, '1402022033'),
 (33, 26, '1402022044'),
 (34, 26, '1402022060'),
 (36, 28, '1402016053'),
 (40, 31, '1402022045'),
-(41, 32, '1402022040');
+(46, 36, '1402022070');
 
 --
 -- Trigger `anggota_kelompok`
@@ -98,7 +96,13 @@ INSERT INTO `anggota_kelompok_backup` (`id`, `id_kelompok`, `npm_anggota`) VALUE
 (38, 30, '1402022040'),
 (39, 30, '1502022028'),
 (40, 31, '1402022045'),
-(41, 32, '1402022040');
+(41, 32, '1402022040'),
+(42, 33, '1402022040'),
+(43, 34, '1402022040'),
+(44, 34, '1402022070'),
+(45, 35, '1402022070'),
+(46, 36, '1402022070'),
+(47, 37, '1402022033');
 
 -- --------------------------------------------------------
 
@@ -113,7 +117,7 @@ CREATE TABLE `jadwal` (
   `waktu` varchar(5) NOT NULL,
   `agenda` text NOT NULL,
   `lokasi` varchar(255) NOT NULL,
-  `feedback_mentor` varchar(1000) NOT NULL,
+  `feedback_mentor` varchar(2000) NOT NULL,
   `status` enum('menunggu','ditolak','disetujui','alternatif','selesai') NOT NULL,
   `bukti_kegiatan` varchar(255) DEFAULT NULL,
   `id_klmpk` int(11) DEFAULT NULL
@@ -124,14 +128,14 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `agenda`, `lokasi`, `feedback_mentor`, `status`, `bukti_kegiatan`, `id_klmpk`) VALUES
-(31, 'Bimbingan 2', '2024-12-12', '20:36', 'jabs', 'Yarsi', '', 'ditolak', NULL, 20),
-(34, 'Bimbingan seterusnya', '2024-12-11', '21:02', 'jadkaknd', 'Yarsi', '', 'menunggu', NULL, 20),
-(38, 'jsd', '2024-12-04', '14:22', 'sdds', 'dka', 'tes', 'selesai', 'uploads/bukti_kegiatan/CV English Task.pdf', 20),
-(39, 'dknd', '2024-12-11', '17:42', 'asada', 'Tenmer', '', 'disetujui', NULL, 20),
-(40, 'BIMBINGAN', '2024-12-15', '05:32', 'Bimbingan ke 10', 'YARSI', '', 'disetujui', NULL, 20),
 (42, 'Bimbingan satu', '2024-12-17', '08:02', 'Bimbingan', 'Kantin', 'bagus', 'selesai', NULL, 26),
-(45, 'adad', '2025-01-02', '23:16', 'xma a', 'd ada', '', 'disetujui', NULL, 20),
-(46, 'Tes', '2025-01-21', '13:28', 'kandknd', 'tenmer', '', 'disetujui', NULL, 26);
+(46, 'Tes', '2025-01-21', '13:28', 'kandknd', 'tenmer', '', 'disetujui', NULL, 26),
+(47, 'Bimbingan 1', '2025-01-11', '15:45', 'Membahas masalah yang sedang terjadi', 'Gedung Yarsi', '', 'disetujui', NULL, 28),
+(48, 'Bimbingan 1', '2025-01-13', '16:56', 'Bimbingan', 'Takana', '', 'disetujui', NULL, 31),
+(50, 'Bimbingan 2', '2025-01-13', '15:48', 'Today is the day', 'Tenmer', '', 'disetujui', NULL, 28),
+(51, 'Bimbingan 3', '2025-01-13', '15:50', 'aksn', 'arkansas', '', 'disetujui', NULL, 28),
+(53, 'Bimbingan 3', '2025-01-13', '16:02', 'Membahas masalah', 'Yarsi', '', 'disetujui', NULL, 31),
+(54, 'Membahas Proposal 1', '2025-01-13', '17:04', 'Membahas masalah pada proposal kelompok kamu', 'Yarsi', '', 'disetujui', NULL, 28);
 
 --
 -- Trigger `jadwal`
@@ -179,7 +183,7 @@ CREATE TABLE `jadwal_backup` (
   `waktu` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `agenda` text CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `lokasi` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `feedback_mentor` varchar(1000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `feedback_mentor` varchar(2000) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `status` enum('menunggu','ditolak','disetujui','alternatif','selesai') CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `bukti_kegiatan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `id_klmpk` int(11) DEFAULT NULL
@@ -202,8 +206,18 @@ INSERT INTO `jadwal_backup` (`id`, `nama_kegiatan`, `tanggal`, `waktu`, `agenda`
 (42, 'Bimbingan satu', '2024-12-17', '08:02', 'Bimbingan', 'Kantin', 'bagus', 'selesai', NULL, 26),
 (43, 'nadnkdnak', '2025-01-24', '16:18', 'slkaknd', 'ams m a', '', 'menunggu', NULL, 20),
 (44, 'akndknadas', '2025-01-16', '05:18', 'ajda', 'mak smd', '', 'menunggu', NULL, 20),
-(45, 'adad', '2025-01-02', '23:16', 'xma a', 'd ada', '', 'disetujui', NULL, 20),
-(46, 'Tes', '2025-01-21', '13:28', 'kandknd', 'tenmer', '', 'disetujui', NULL, 26);
+(45, 'adad', '2025-01-21', '12:55', 'xma a', 'Tenmer', '', 'disetujui', NULL, 20),
+(46, 'Tes', '2025-01-21', '13:28', 'kandknd', 'tenmer', '', 'disetujui', NULL, 26),
+(47, 'Bimbingan 1', '2025-01-11', '15:45', 'Membahas masalah yang sedang terjadi', 'Gedung Yarsi', '', 'disetujui', NULL, 28),
+(48, 'Bimbingan 1', '2025-01-13', '16:56', 'Bimbingan', 'Takana', '', 'disetujui', NULL, 31),
+(49, 'asnknas', '2025-01-21', '15:50', 'asnks', 'as', '', 'disetujui', NULL, 20),
+(50, 'Bimbingan 2', '2025-01-13', '15:48', 'Today is the day', 'Tenmer', '', 'disetujui', NULL, 28),
+(51, 'Bimbingan 3', '2025-01-13', '15:50', 'aksn', 'arkansas', '', 'disetujui', NULL, 28),
+(52, 'Bimbingan 10', '2025-01-13', '15:56', 'Kitto', 'Japan', '', 'disetujui', NULL, 20),
+(53, 'Bimbingan 3', '2025-01-13', '16:02', 'Membahas masalah', 'Yarsi', '', 'disetujui', NULL, 31),
+(54, 'Membahas Proposal 1', '2025-01-13', '17:04', 'Membahas masalah pada proposal kelompok kamu', 'Yarsi', '', 'disetujui', NULL, 28),
+(55, 'Bimbingan 1', '2025-01-18', '13:54', 'Bimbingan awal', 'Yarsi', '', 'disetujui', NULL, 35),
+(56, 'Bimbingan 1', '2025-01-18', '14:10', 'Bimbingan awal', 'Lantai 5 Yarsi', '', 'disetujui', NULL, 20);
 
 -- --------------------------------------------------------
 
@@ -231,11 +245,10 @@ CREATE TABLE `kelompok_bisnis` (
 --
 
 INSERT INTO `kelompok_bisnis` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `logo_bisnis`, `tahun_akademik_id`, `kategori_bisnis`, `sdg`, `ide_bisnis`, `id_mentor`, `status_inkubasi`, `status_kelompok_bisnis`) VALUES
-(20, '1402022071', 'MACANS', 'a', 'hq720.jpg', 18, 'Bisnis Teknologi atau Digital', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'TESTER', 1, 'masuk', 'aktif'),
-(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 2, NULL, 'aktif'),
-(28, '1402022013', 'Cappo', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, NULL, 'direkomendasikan', 'aktif'),
-(31, '1402022022', 'Saturn', 'Bisnis Ayam', 'ayam.jpg', 18, 'Bisnis Energi dan Lingkungan', 'pendidikan_berkualitas,kesetaraan_gender', 'tes', 1, 'masuk', 'aktif'),
-(32, '1402022055', 'Kentro', 'Bisnis', 'localhost_Aplikasi-Kewirausahaan_components_pages_mahasiswa_profil_mahasiswa.php(iPhone SE).png', 18, NULL, NULL, NULL, NULL, NULL, 'aktif');
+(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 1, 'disetujui', 'aktif'),
+(28, '1402022013', 'Cappo', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, 2, 'masuk', 'aktif'),
+(31, '1402022022', 'Saturn', 'Bisnis Ayam', 'ayam.jpg', 18, 'Bisnis Energi dan Lingkungan', 'pendidikan_berkualitas,kesetaraan_gender', 'tes', 1, 'direkomendasikan', 'aktif'),
+(36, '1402022071', 'KACANG', 'Herry', '13.png', 18, NULL, NULL, NULL, NULL, NULL, 'aktif');
 
 --
 -- Trigger `kelompok_bisnis`
@@ -295,13 +308,18 @@ CREATE TABLE `kelompok_bisnis_backup` (
 --
 
 INSERT INTO `kelompok_bisnis_backup` (`id_kelompok`, `npm_ketua`, `nama_kelompok`, `nama_bisnis`, `logo_bisnis`, `tahun_akademik_id`, `kategori_bisnis`, `sdg`, `ide_bisnis`, `id_mentor`, `status_inkubasi`, `status_kelompok_bisnis`) VALUES
-(20, '1402022071', 'MACANS', 'a', 'hq720.jpg', 18, 'Bisnis Teknologi atau Digital', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'TESTER', 1, 'masuk', 'aktif'),
+(20, '1402022071', 'MACANS', 'a', 'hq720.jpg', 18, 'Bisnis Teknologi atau Digital', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'TESTER', 1, 'ditolak', 'tidak aktif'),
 (25, '1402022055', 'TESTER', 'BISNIS AYAM', 'wlpper.jpg', 17, NULL, NULL, NULL, 2, '', 'tidak aktif'),
-(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 2, NULL, 'aktif'),
-(28, '1402022013', 'Cappo', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, NULL, 'direkomendasikan', 'aktif'),
+(26, '1402022068', 'ArTech', 'Bisnis Ikan', 'BMW.svg_.png', 18, 'Bisnis Konstruksi dan Real Estate', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'TES', 1, 'disetujui', 'aktif'),
+(28, '1402022013', 'Cappo', 'Bisnis Ayam', 'ayam.jpg', 18, NULL, NULL, NULL, 2, 'masuk', 'aktif'),
 (30, '1402022055', 'IYADEH', 'Bisnis Kerapus', 'wlpper.jpg', 18, NULL, NULL, NULL, NULL, NULL, 'tidak aktif'),
-(31, '1402022022', 'Saturn', 'Bisnis Ayam', 'ayam.jpg', 18, 'Bisnis Energi dan Lingkungan', 'pendidikan_berkualitas,kesetaraan_gender', 'tes', 1, 'masuk', 'aktif'),
-(32, '1402022055', 'Kentro', 'Bisnis', 'localhost_Aplikasi-Kewirausahaan_components_pages_mahasiswa_profil_mahasiswa.php(iPhone SE).png', 18, NULL, NULL, NULL, NULL, NULL, 'aktif');
+(31, '1402022022', 'Saturn', 'Bisnis Ayam', 'ayam.jpg', 18, 'Bisnis Energi dan Lingkungan', 'pendidikan_berkualitas,kesetaraan_gender', 'tes', 1, 'direkomendasikan', 'aktif'),
+(32, '1402022055', 'Kentro', 'Bisnis', 'localhost_Aplikasi-Kewirausahaan_components_pages_mahasiswa_profil_mahasiswa.php(iPhone SE).png', 18, NULL, NULL, NULL, 2, 'disetujui', 'tidak aktif'),
+(33, '1402022055', 'ksans', 'sans', 'wlpper.jpg', 18, NULL, NULL, NULL, NULL, NULL, 'tidak aktif'),
+(34, '1402022055', 'Heroic', 'HEROIC TEST', '1736842703_ayam.jpg', 18, NULL, NULL, NULL, NULL, NULL, 'tidak aktif'),
+(35, '1402022055', 'ArTech', 'Bisnis Ayam', 'ayam.jpg', 18, 'Bisnis Dagang (Perdagangan)', 'mengakhiri_kelaparan,kesehatan_kesejahteraan', 'Bisnis Ayam', 2, 'masuk', 'tidak aktif'),
+(36, '1402022071', 'KACANG', 'Herry', '13.png', 18, NULL, NULL, NULL, NULL, NULL, 'aktif'),
+(37, '1402022055', 'andknd', 'aks', '14.png', 18, NULL, NULL, NULL, NULL, NULL, 'tidak aktif');
 
 -- --------------------------------------------------------
 
@@ -321,7 +339,7 @@ CREATE TABLE `laporan_bisnis` (
   `laporan_pdf` text DEFAULT NULL,
   `tanggal_upload` datetime NOT NULL DEFAULT current_timestamp(),
   `id_kelompok` int(11) DEFAULT NULL,
-  `feedback` varchar(255) DEFAULT NULL
+  `feedback` varchar(2000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -330,9 +348,7 @@ CREATE TABLE `laporan_bisnis` (
 
 INSERT INTO `laporan_bisnis` (`id`, `judul_laporan`, `jenis_laporan`, `laporan_penjualan`, `laporan_pemasaran`, `laporan_produksi`, `laporan_sdm`, `laporan_keuangan`, `laporan_pdf`, `tanggal_upload`, `id_kelompok`, `feedback`) VALUES
 (20, 'Laporan 1', 'laporan_kemajuan', '', '', '', '', '', NULL, '2025-01-06 07:11:45', NULL, NULL),
-(52, 'Laporan 1', 'laporan_kemajuan', '', '', '', '', '', '[\"Progres Kerja tanggal 23 December 2024 (1402022055).pdf\",\"Progres Kerja tanggal 18 December 2024 (1402022055) (1).pdf\",\"Progres Kerja tanggal 16 December 2024 (1402022055) (1) (1).pdf\"]', '2024-12-25 14:39:27', 20, 'bagus laporanya'),
-(53, 'LAPORAN 1', 'laporan_kemajuan', 'TES', 'TES', 'TES', 'TES', 'TES', '[\"0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf\",\"Buku-Modul-Kuliah-Kewirausahaan.pdf\"]', '2024-12-29 12:00:03', 26, 'LAPORAN YANG BAGUS'),
-(54, 'Laporan 2', 'laporan_kemajuan', '', '', '', '', '', '[\"Kartu Ujian Basing.pdf\"]', '2025-01-06 07:03:27', 20, 'tester');
+(53, 'LAPORAN 1', 'laporan_kemajuan', 'TES', 'TES', 'TES', 'TES', 'TES', '[\"0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf\",\"Buku-Modul-Kuliah-Kewirausahaan.pdf\"]', '2024-12-29 12:00:03', 26, 'LAPORAN YANG BAGUS');
 
 --
 -- Trigger `laporan_bisnis`
@@ -388,7 +404,7 @@ CREATE TABLE `laporan_bisnis_backup` (
   `laporan_pdf` text DEFAULT NULL,
   `tanggal_upload` datetime NOT NULL DEFAULT current_timestamp(),
   `id_kelompok` int(11) DEFAULT NULL,
-  `feedback` varchar(255) DEFAULT NULL
+  `feedback` varchar(2000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -401,7 +417,11 @@ INSERT INTO `laporan_bisnis_backup` (`id`, `judul_laporan`, `jenis_laporan`, `la
 (54, 'Laporan 2', 'laporan_kemajuan', '', '', '', '', '', '[\"Kartu Ujian Basing.pdf\"]', '2025-01-06 07:03:27', 20, 'tester'),
 (20, 'Laporan 1', 'laporan_kemajuan', '', '', '', '', '', NULL, '2025-01-06 07:11:45', NULL, NULL),
 (55, 'Laporan 10', 'laporan_kemajuan', '', '', '', '', '', '[\"Kartu Ujian Basing_2.pdf\"]', '2025-01-06 07:18:53', 20, NULL),
-(56, 'Laporan 3', 'laporan_kemajuan', '', '', '', '', '', NULL, '2025-01-09 08:13:17', 20, NULL);
+(56, 'Laporan 3', 'laporan_kemajuan', '', '', '', '', '', NULL, '2025-01-09 08:13:17', 20, NULL),
+(57, 'Laporan 2', 'Laporan Kemajuan', '', '', '', '', '', NULL, '2025-01-14 07:44:35', 20, NULL),
+(58, 'Laporan 3', 'Laporan Akhir', '', '', '', '', '', NULL, '2025-01-14 07:46:29', 20, NULL),
+(59, 'Laporan 4', 'Laporan Kemajuan', '', '', '', '', '', NULL, '2025-01-14 07:50:20', 20, NULL),
+(60, 'Laporan 1', 'Laporan Kemajuan', 'testeer', 'tester', 'tester', 'tester', 'tester', '[\"0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN (2).pdf\",\"Progres Kerja tanggal 9 Januari 2025 (1402022055).pdf\"]', '2025-01-15 19:58:13', 35, NULL);
 
 -- --------------------------------------------------------
 
@@ -745,9 +765,9 @@ INSERT INTO `log_activity` (`id`, `timestamp`, `username`, `ip_address`, `user_a
 (344, '2024-12-29 11:08:51', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
 (345, '2024-12-29 11:51:05', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
 (346, '2024-12-29 11:51:24', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2024-12-29 11:51:34', ''),
-(347, '2024-12-29 11:51:42', 'muhammad.asril', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', NULL, ''),
+(347, '2024-12-29 11:51:42', 'muhammad.asril', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 06:57:51', ''),
 (348, '2024-12-31 06:15:57', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2024-12-31 06:17:31', ''),
-(349, '2024-12-31 06:16:09', 'muhammad.asril', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', NULL, ''),
+(349, '2024-12-31 06:16:09', 'muhammad.asril', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 06:57:51', ''),
 (350, '2024-12-31 06:16:31', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2024-12-31 06:17:31', ''),
 (351, '2024-12-31 06:17:37', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2024-12-31 06:20:30', ''),
 (352, '2024-12-31 06:20:38', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
@@ -1024,7 +1044,99 @@ INSERT INTO `log_activity` (`id`, `timestamp`, `username`, `ip_address`, `user_a
 (622, '2025-01-10 13:46:34', 'mentor01', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
 (623, '2025-01-10 13:46:34', 'mentor01', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Username tidak ditemukan', NULL, ''),
 (624, '2025-01-10 13:46:47', 'mentor01', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
-(625, '2025-01-10 13:46:47', 'mentor01', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Username tidak ditemukan', NULL, '');
+(625, '2025-01-10 13:46:47', 'mentor01', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Username tidak ditemukan', NULL, ''),
+(626, '2025-01-10 13:52:47', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-10 13:52:49', ''),
+(627, '2025-01-10 13:55:06', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-10 13:55:08', ''),
+(628, '2025-01-10 13:55:21', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(629, '2025-01-10 13:55:33', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(630, '2025-01-11 05:29:51', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(631, '2025-01-11 05:48:47', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(632, '2025-01-11 06:11:11', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(633, '2025-01-11 06:43:47', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(634, '2025-01-11 06:46:55', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(635, '2025-01-11 06:47:45', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(636, '2025-01-11 07:58:55', 'admin3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Tutor', 'Login', '', NULL, ''),
+(637, '2025-01-11 08:04:31', 'admin3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Tutor', 'Login', '', NULL, ''),
+(638, '2025-01-11 08:09:02', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-11 08:09:07', ''),
+(639, '2025-01-11 08:09:21', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', '2025-01-11 08:41:29', ''),
+(640, '2025-01-11 08:09:21', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', '2025-01-11 08:41:29', ''),
+(641, '2025-01-11 08:09:35', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-11 08:41:29', ''),
+(642, '2025-01-11 08:41:36', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(643, '2025-01-11 09:02:19', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(644, '2025-01-11 09:14:24', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(645, '2025-01-13 05:37:04', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 05:37:29', ''),
+(646, '2025-01-13 05:37:54', 'admin3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Tutor', 'Login', '', NULL, ''),
+(647, '2025-01-13 05:44:47', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(648, '2025-01-13 05:53:34', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 06:09:09', ''),
+(649, '2025-01-13 06:09:17', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(650, '2025-01-13 06:10:27', 'bilal.hakkul', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 06:10:47', ''),
+(651, '2025-01-13 06:10:55', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(652, '2025-01-13 06:26:18', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 06:26:25', ''),
+(653, '2025-01-13 06:26:32', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(654, '2025-01-13 06:46:22', 'bilal.hakkul', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 06:53:54', ''),
+(655, '2025-01-13 06:54:01', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 06:54:06', ''),
+(656, '2025-01-13 06:54:11', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 06:56:54', ''),
+(657, '2025-01-13 06:57:05', 'muhammad.asril', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 06:57:51', ''),
+(658, '2025-01-13 06:58:19', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(659, '2025-01-13 07:00:11', 'admin3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
+(660, '2025-01-13 07:01:05', 'admin3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Tutor', 'Login', '', NULL, ''),
+(661, '2025-01-13 07:01:35', 'admin3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Tutor', 'Login', '', NULL, ''),
+(662, '2025-01-13 07:01:58', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 07:20:22', ''),
+(663, '2025-01-13 07:20:35', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(664, '2025-01-13 07:52:47', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 07:55:13', ''),
+(665, '2025-01-13 07:55:19', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(666, '2025-01-13 09:31:37', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(667, '2025-01-13 09:42:55', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-13 09:43:03', ''),
+(668, '2025-01-13 09:43:11', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(669, '2025-01-13 09:57:07', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-14 06:43:00', ''),
+(670, '2025-01-13 15:49:39', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', NULL, ''),
+(671, '2025-01-13 15:51:21', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(672, '2025-01-13 17:28:44', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(673, '2025-01-13 17:34:00', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(674, '2025-01-13 17:39:11', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(675, '2025-01-14 06:41:09', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-14 06:43:00', ''),
+(676, '2025-01-14 06:43:07', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-14 06:53:59', ''),
+(677, '2025-01-14 06:54:06', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(678, '2025-01-14 07:23:59', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-14 07:25:31', ''),
+(679, '2025-01-14 07:25:39', 'muhammad.asril', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', '2025-01-14 07:32:10', ''),
+(680, '2025-01-14 07:26:09', 'muhammad.asril', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-14 07:32:10', ''),
+(681, '2025-01-14 07:32:19', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(682, '2025-01-14 07:55:32', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-14 07:56:19', ''),
+(683, '2025-01-14 07:56:27', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-14 07:57:41', ''),
+(684, '2025-01-14 07:57:47', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-14 08:45:18', ''),
+(685, '2025-01-14 08:47:14', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, '');
+INSERT INTO `log_activity` (`id`, `timestamp`, `username`, `ip_address`, `user_agent`, `status`, `role`, `aksi`, `error_message`, `logout_time`, `session_token`) VALUES
+(686, '2025-01-14 08:52:12', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-15 17:48:28', ''),
+(687, '2025-01-15 05:50:01', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Gagal', 'Unknown', 'Login', 'Password salah', '2025-01-17 09:10:39', ''),
+(688, '2025-01-15 05:50:32', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-17 09:10:39', ''),
+(689, '2025-01-15 17:48:17', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-15 17:48:28', ''),
+(690, '2025-01-15 17:48:38', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(691, '2025-01-15 17:58:48', 'admin3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Tutor', 'Login', '', NULL, ''),
+(692, '2025-01-15 17:59:40', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-15 18:00:31', ''),
+(693, '2025-01-15 18:00:36', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-15 18:44:26', ''),
+(694, '2025-01-15 18:32:50', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-15 18:44:26', ''),
+(695, '2025-01-15 18:44:35', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(696, '2025-01-15 18:48:36', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-15 18:51:09', ''),
+(697, '2025-01-15 18:51:19', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(698, '2025-01-15 18:55:17', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-15 18:59:44', ''),
+(699, '2025-01-15 18:59:52', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(700, '2025-01-15 19:02:10', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-15 19:02:55', ''),
+(701, '2025-01-15 19:03:03', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(702, '2025-01-15 19:04:15', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(703, '2025-01-15 19:07:42', 'akunMntr', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Dosen Pengampu', 'Login', '', NULL, ''),
+(704, '2025-01-15 19:14:02', 'akunAdmin', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Admin', 'Login', '', NULL, ''),
+(705, '2025-01-17 08:57:52', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-17 09:05:25', ''),
+(706, '2025-01-17 09:05:07', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-17 09:05:25', ''),
+(707, '2025-01-17 09:05:47', 'admin3', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Tutor', 'Login', '', NULL, ''),
+(708, '2025-01-17 09:09:03', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-17 09:09:25', ''),
+(709, '2025-01-17 09:09:45', 'einsteins', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-17 09:10:39', ''),
+(710, '2025-01-17 09:10:46', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-17 09:12:48', ''),
+(711, '2025-01-18 06:05:23', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', '2025-01-18 06:05:27', ''),
+(712, '2025-01-18 06:05:47', 'Virgiawan.ardiatno', '::1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1', 'Login Berhasil', 'Mahasiswa', 'Login', '', NULL, ''),
+(713, '2025-01-18 06:07:12', 'Virgiawan.ardiatno', '::1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1', 'Login Berhasil', 'Mahasiswa', 'Login', '', NULL, ''),
+(714, '2025-01-18 06:09:15', 'Virgiawan.ardiatno', '::1', 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1', 'Login Berhasil', 'Mahasiswa', 'Login', '', NULL, ''),
+(715, '2025-01-18 06:09:43', 'Virgiawan.ardiatno', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', NULL, ''),
+(716, '2025-01-18 06:24:09', 'ridho.syahfero', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36', 'Login Berhasil', 'Mahasiswa', 'Login', '', NULL, '');
 
 -- --------------------------------------------------------
 
@@ -1052,18 +1164,18 @@ CREATE TABLE `mahasiswa` (
 INSERT INTO `mahasiswa` (`id`, `user_id`, `nama`, `npm`, `program_studi`, `email`, `contact`, `fakultas`, `id_kelompok`, `alamat`) VALUES
 (4, 8, 'Ruffino Noor', '1402022044', 'Teknik Informatika', 'komangabi@gmail.com', '089765347779', 'Teknik Informasi', 26, NULL),
 (5, 9, 'Sharil Hamza', '1402022060', 'Teknik Informatika', 'akunmllimitbruno@gmail.com', '089637162255', NULL, 26, NULL),
-(6, 10, 'John Doe', '1402023001', 'Teknik Informatika', 'Johndoe@gmail.com', '087654327778', NULL, 20, NULL),
-(9, 19, 'ridho odir', '1402022071', 'Teknik Informatika', 'bcakun71@gmail.com', '0897653617', 'Fakultas Teknologi Informasi', 20, NULL),
-(10, 20, 'fitra rama', '1402022033', 'Teknik Informatika', 'riskyarur@gmail.com', '08963546662', 'Fakultas Teknologi Informasi', 20, NULL),
-(17, 26, 'Ridho Syahfero', '1402022055', '', 'ridhosyahfero35@gmail.com', '089637167773', NULL, 32, 'Jl.Remaja 3 Gg gabus RT.9/RW.8 No.27'),
-(18, 27, 'Muhammad Fadly Abdillah', '1402022040', '', 'ridhosyahfero35@gmail.com', '087828628734', NULL, 32, 'JL Sungai Kapuas IV, Semper Barat, Cilincing, Jakarta Utara'),
+(6, 10, 'John Doe', '1402023001', 'Teknik Informatika', 'Johndoe@gmail.com', '087654327778', NULL, NULL, NULL),
+(9, 19, 'ridho odir', '1402022071', 'Teknik Informatika', 'bcakun71@gmail.com', '0897653617', 'Fakultas Teknologi Informasi', 36, NULL),
+(10, 20, 'fitra rama', '1402022033', 'Teknik Informatika', 'riskyarur@gmail.com', '08963546662', 'Fakultas Teknologi Informasi', NULL, NULL),
+(17, 26, 'Ridho Syahfero', '1402022055', 'Teknik Informatika', 'ridhosyahfero35@gmail.com', '089637167773', 'Fakultas Teknologi Informasi', NULL, 'Jl.Remaja 3 Gg gabus RT.9/RW.8 No.27'),
+(18, 27, 'Muhammad Fadly Abdillah', '1402022040', '', 'ridhosyahfero35@gmail.com', '087828628734', NULL, NULL, 'JL Sungai Kapuas IV, Semper Barat, Cilincing, Jakarta Utara'),
 (21, 32, 'Muhammad Asril Afandhi', '1402022068', 'Teknik Informatika', 'Johndoe@gmail.com', '082113185983', 'Teknologi Informasi', 26, 'KAMP RAWA PASUNG'),
 (22, 33, 'Bilal Hakkul Mubin', '1402022013', 'Teknik Informatika', 'Johndoe@gmail.com', '081317254563', 'Teknologi Informasi', 28, 'Jalan Lagoa Gg1 C1 Terusan No 14'),
 (23, 34, 'Salsha Billa Yunita Sari', '1502022028', 'Ilmu Perpustakaan', 'salsabilla@gmailc.com', '083834155938', 'Teknologi Informasi', NULL, 'Jl. Kalibaru Barat IV No.05'),
 (24, 35, 'I KOMANG ABIMANYU', '1402016053', 'Teknik Informatika', 'komangabi@gmail.com', '089637203833', 'Teknologi Informasi', 28, 'JL.TARNA BARU NO.23 RT/RW:003/010'),
 (25, 36, 'Muhammad Taufiqulhakim Maha', '1402022045', 'Teknik Informatika', 'emailaja@gmail.com', '082111119406', 'Teknologi Informasi', 31, 'Jalan Kelapa Molek IV 42/2 Perumahan Kelapa Gading  Permai'),
 (26, 37, 'Hafizh Vito Pratomo', '1402022022', 'Teknik Informatika', 'Johndoe@gmail.com', '085694311138', 'Teknologi Informasi', 31, 'KAMP RAWA PASUNG'),
-(27, 38, 'Ruffino Ahmad Noor', '1402022070', 'Teknik Informatika', 'eyeryry@gmail.com', '083808959228', 'Teknologi Informasi', NULL, 'rdtrtry');
+(27, 38, 'Ruffino Ahmad Noor', '1402022070', 'Teknik Informatika', 'eyeryry@gmail.com', '083808959228', 'Teknologi Informasi', 36, 'rdtrtry');
 
 -- --------------------------------------------------------
 
@@ -1087,7 +1199,8 @@ INSERT INTO `materi_kewirausahaan` (`id`, `judul`, `file_path`, `deskripsi`, `cr
 (116, 'Konsep Dasar Kewirausahaan', '0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN.pdf', 'Dalam mater ini, Anda akan mempelajari konsep dasar kewirausahaan yang menjadi fondasi penting bagi setiap calon wirausahawan. Kami akan membahas:\r\n\r\nApa itu kewirausahaan? Definisi dan esensi dari menjadi seorang wirausahawan.\r\nKarakteristik seorang wirausahawan sukses seperti inovasi, kreativitas, dan keberanian mengambil risiko.\r\nProses kewirausahaan mulai dari menemukan ide bisnis, memvalidasi pasar, hingga merancang model bisnis.\r\nManfaat kewirausahaan baik secara individu maupun bagi perekonomi', '2025-01-01 07:01:16'),
 (117, 'Konsep Kewirausahaan Kuliah gratis Prof Rhenald Kasali', 'konsep-kewirausahaan-kuliah-gratis-prof-rhenald-kasali-ytshorts.savetube.me.mp4', 'Dalam video ini, Prof. Rhenald Kasali, seorang pakar dan praktisi terkemuka di bidang kewirausahaan, memberikan kuliah gratis yang membahas Konsep Kewirausahaan secara mendalam. Anda akan belajar:\r\n\r\nPengertian kewirausahaan menurut perspektif akademis dan praktis.\r\nPola pikir wirausaha (entrepreneurial mindset) yang mendorong inovasi dan keberanian dalam menghadapi tantangan.\r\nStrategi menemukan peluang bisnis di era perubahan dan disrupsi.\r\nPrinsip dasar membangun bisnis yang berkelanjutan dan rele', '2025-01-01 07:01:16'),
 (118, 'Prospek Kerja Kuliah Jurusan Kewirausahaan', 'prospek-kerja-kuliah-jurusan-kewirausahaan-ytshorts.savetube.me.mp4', 'Apakah Anda penasaran dengan peluang karier setelah lulus dari jurusan Kewirausahaan? Dalam video ini, kami akan membahas berbagai prospek kerja menjanjikan bagi lulusan jurusan Kewirausahaan. Anda akan mengetahui:\r\n\r\nBagaimana lulusan jurusan ini bisa menjadi pengusaha sukses di berbagai bidang.\r\nPeluang bekerja sebagai konsultan bisnis dan membantu perusahaan berkembang.\r\nPeran strategis sebagai Business Development Manager atau pendiri startup inovatif.\r\nKarier di dunia sosial sebagai social entre', '2025-01-01 07:01:16'),
-(119, 'Buku Modul Kuliah Kewirausahaan', 'Buku-Modul-Kuliah-Kewirausahaan.pdf', 'Buku ini merupakan panduan lengkap untuk memahami dan mempraktikkan konsep dasar kewirausahaan dalam dunia nyata. Disusun secara sistematis, modul ini dirancang untuk mendukung mahasiswa dalam mengikuti perkuliahan kewirausahaan dengan materi yang relevan, aplikatif, dan mudah dipahami.\r\n\r\nIsi Buku:\r\nKonsep Dasar Kewirausahaan: Definisi, sejarah, dan pentingnya kewirausahaan.\r\nPola Pikir Wirausaha (Entrepreneurial Mindset): Mengembangkan kreativitas, inovasi, dan keberanian mengambil risiko.\r\nProses ', '2025-01-01 07:01:16');
+(119, 'Buku Modul Kuliah Kewirausahaan', 'Buku-Modul-Kuliah-Kewirausahaan.pdf', 'Buku ini merupakan panduan lengkap untuk memahami dan mempraktikkan konsep dasar kewirausahaan dalam dunia nyata. Disusun secara sistematis, modul ini dirancang untuk mendukung mahasiswa dalam mengikuti perkuliahan kewirausahaan dengan materi yang relevan, aplikatif, dan mudah dipahami.\r\n\r\nIsi Buku:\r\nKonsep Dasar Kewirausahaan: Definisi, sejarah, dan pentingnya kewirausahaan.\r\nPola Pikir Wirausaha (Entrepreneurial Mindset): Mengembangkan kreativitas, inovasi, dan keberanian mengambil risiko.\r\nProses ', '2025-01-01 07:01:16'),
+(124, 'Materi A', 'Progres Kerja tanggal 9 Januari 2025 (1402022055).pdf', 'Materi', '2025-01-15 19:15:26');
 
 -- --------------------------------------------------------
 
@@ -1133,7 +1246,7 @@ CREATE TABLE `proposal_bisnis` (
   `kelompok_id` int(11) NOT NULL,
   `status` enum('menunggu','ditolak','disetujui') DEFAULT 'menunggu',
   `ide_bisnis` varchar(255) DEFAULT NULL,
-  `feedback` varchar(255) DEFAULT NULL,
+  `feedback` varchar(2000) DEFAULT NULL,
   `anggaran` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1142,7 +1255,6 @@ CREATE TABLE `proposal_bisnis` (
 --
 
 INSERT INTO `proposal_bisnis` (`id`, `judul_proposal`, `tahapan_bisnis`, `sdg`, `kategori`, `other_category`, `proposal_pdf`, `kelompok_id`, `status`, `ide_bisnis`, `feedback`, `anggaran`) VALUES
-(35, 'TESTER PROPOSAL', 'Tahapan Bertumbuh', 'mengakhiri_kemiskinan,mengakhiri_kelaparan', 'Bisnis Teknologi atau Digital', '', 'Progres Kerja tanggal 16 December 2024 (1402022055).pdf', 20, 'disetujui', 'TESTER', 'tes', NULL),
 (41, 'PROPOSAL 1', 'Tahapan Awal', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'Bisnis Konstruksi dan Real Estate', '', 'Buku-Modul-Kuliah-Kewirausahaan.pdf', 26, 'disetujui', 'TES', 'Proposal Anda memiliki tujuan yang bagus', NULL),
 (43, 'Proposal 1', 'Tahapan Awal', 'pendidikan_berkualitas,kesetaraan_gender', 'Bisnis Energi dan Lingkungan', '', 'Progres Kerja tanggal 31December 2024 (1402022055).pdf', 31, 'disetujui', 'tes', NULL, 20000);
 
@@ -1198,7 +1310,7 @@ CREATE TABLE `proposal_bisnis_backup` (
   `kelompok_id` int(11) NOT NULL,
   `status` enum('menunggu','ditolak','disetujui') DEFAULT 'menunggu',
   `ide_bisnis` varchar(255) DEFAULT NULL,
-  `feedback` varchar(255) DEFAULT NULL,
+  `feedback` varchar(2000) DEFAULT NULL,
   `anggaran` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1213,7 +1325,8 @@ INSERT INTO `proposal_bisnis_backup` (`id`, `judul_proposal`, `tahapan_bisnis`, 
 (41, 'PROPOSAL 1', 'Tahapan Awal', 'pekerjaan_pertumbuhan_ekonomi,industri_inovasi_infrastruktur', 'Bisnis Konstruksi dan Real Estate', '', 'Buku-Modul-Kuliah-Kewirausahaan.pdf', 26, 'disetujui', 'TES', 'Proposal Anda memiliki tujuan yang bagus', NULL),
 (42, 'proposal 3', 'Tahapan Awal', 'mengakhiri_kemiskinan', 'Bisnis Pariwisata dan Perhotelan', '', 'Progres Kerja tanggal 31December 2024 (1402022055).pdf', 25, 'menunggu', 'Bisnis Kambing', NULL, '20000'),
 (43, 'Proposal 1', 'Tahapan Awal', 'pendidikan_berkualitas,kesetaraan_gender', 'Bisnis Energi dan Lingkungan', '', 'Progres Kerja tanggal 31December 2024 (1402022055).pdf', 31, 'disetujui', 'tes', NULL, '20000'),
-(44, 'sjansdabjbds', 'Tahapan Awal', 'mengakhiri_kemiskinan', 'Bisnis Teknologi atau Digital', '', 'Kartu Ujian Basing (1).pdf', 20, 'menunggu', 'jdbas', NULL, '0');
+(44, 'sjansdabjbds', 'Tahapan Awal', 'mengakhiri_kemiskinan', 'Bisnis Teknologi atau Digital', '', 'Kartu Ujian Basing (1).pdf', 20, 'menunggu', 'jdbas', NULL, '0'),
+(45, 'Proposal 1', 'Tahapan Awal', 'mengakhiri_kelaparan,kesehatan_kesejahteraan', 'Bisnis Dagang (Perdagangan)', '', '0206101221BUKU_3_MODUL_2_KONSEP_DASAR_KEWIRAUSAHAAN (2).pdf', 35, 'disetujui', 'Bisnis Ayam', 'Proposal kelompok anda bagus', '100000');
 
 -- --------------------------------------------------------
 
@@ -1276,7 +1389,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`, `first_login`) VALUES
 (35, 'i.komang', '$2y$10$R.wSoMuXreeaON.8aLKnPOq3QvhtJvgupJHlU6suT9B4tOCFhKZB2', 'Mahasiswa', 0),
 (36, 'muhammad.taufiqulhakim', '$2y$10$gxtr4RRPWerQtKLnZLGoD.P4c0KxXubcqijNwYXPDbaodOtvDGMVe', 'Mahasiswa', 0),
 (37, 'hafizh.vito', '$2y$10$WDaW3x9DLf4Ju9yj50Uq/OIg1g8njJ3MqzfbsRWGUTz/r8aIeVBQ2', 'Mahasiswa', 0),
-(38, 'ruffino.ahmad', '$2y$10$oV3h66ijmcCgk2aqsCJ0IOk97qzCvIYi0RYd.MnRaHR0h6u3d5uRW', 'Mahasiswa', 0);
+(38, 'ruffino.ahmad', '$2y$10$oV3h66ijmcCgk2aqsCJ0IOk97qzCvIYi0RYd.MnRaHR0h6u3d5uRW', 'Mahasiswa', 0),
+(50, 'Virgiawan.ardiatno', '$2y$10$tRUrYSz9PPqVKH6J.yO8TOG70dzB/xg5FymVC.er7WCyn0G8RJsi6', 'Mahasiswa', 1);
 
 --
 -- Indexes for dumped tables
@@ -1371,31 +1485,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `anggota_kelompok`
 --
 ALTER TABLE `anggota_kelompok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT untuk tabel `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT untuk tabel `kelompok_bisnis`
 --
 ALTER TABLE `kelompok_bisnis`
-  MODIFY `id_kelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_kelompok` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT untuk tabel `laporan_bisnis`
 --
 ALTER TABLE `laporan_bisnis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT untuk tabel `log_activity`
 --
 ALTER TABLE `log_activity`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=626;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=717;
 
 --
 -- AUTO_INCREMENT untuk tabel `mahasiswa`
@@ -1407,7 +1521,7 @@ ALTER TABLE `mahasiswa`
 -- AUTO_INCREMENT untuk tabel `materi_kewirausahaan`
 --
 ALTER TABLE `materi_kewirausahaan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=122;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
 
 --
 -- AUTO_INCREMENT untuk tabel `mentor`
@@ -1419,7 +1533,7 @@ ALTER TABLE `mentor`
 -- AUTO_INCREMENT untuk tabel `proposal_bisnis`
 --
 ALTER TABLE `proposal_bisnis`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT untuk tabel `tahun_akademik`
@@ -1431,7 +1545,7 @@ ALTER TABLE `tahun_akademik`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
