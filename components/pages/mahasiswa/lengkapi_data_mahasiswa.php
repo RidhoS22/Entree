@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->query($update_user_query);
 
     // Redirect ke halaman mahasiswa
-    header("Location: /Entree/components/pages/mahasiswa/pagemahasiswa.php");
+    header("Location: /Entree/mahasiswa/dashboard");
     exit;
 }
 ?>

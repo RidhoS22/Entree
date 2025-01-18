@@ -14,11 +14,6 @@ if ($_SESSION['role'] !== 'Mahasiswa') {
     exit;
 }
 
-$user_id = $_SESSION['user_id'];  // ID pengguna dari session
-$query = "SELECT id_kelompok FROM mahasiswa WHERE user_id = '$user_id'";
-$result = mysqli_query($conn, $query);
-$row = mysqli_fetch_assoc($result);
-$_SESSION['id_kelompok'] = $row['id_kelompok'];  // Menyimpan ID Kelompok di session lagi
 $stmt = $conn->prepare("SELECT proposal_bisnis.id, proposal_bisnis.judul_proposal, proposal_bisnis.status 
                         FROM proposal_bisnis 
                         JOIN kelompok_bisnis 

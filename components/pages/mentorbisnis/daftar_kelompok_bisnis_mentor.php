@@ -38,7 +38,7 @@ if ($user_role === 'Tutor') {
     $sql = "
         SELECT * FROM kelompok_bisnis
         WHERE id_mentor = (SELECT id FROM mentor WHERE user_id = ?)
-        AND id_tahun_akademik = ?
+        AND tahun_akademik_id = ?
         AND nama_kelompok LIKE ?
     ";
     
