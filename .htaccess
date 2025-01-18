@@ -1,4 +1,6 @@
 RewriteEngine On
+DirectoryIndex index.php index.html
+Options -Indexes
 RewriteBase /Entree/
 
 # Menghapus ekstensi .php
