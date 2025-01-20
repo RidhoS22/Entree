@@ -311,7 +311,7 @@ $result = $stmt->get_result();
     <script>
         new MultiSelectTag('sdg', {
         rounded: true,    // default true
-        placeholder: 'Search',  // default Search...
+        placeholder: 'Search berdasarkan nomor urutan',  // default Search...
         tagColor: {
             textColor: '#327b2c',
             borderColor: '#92e681',

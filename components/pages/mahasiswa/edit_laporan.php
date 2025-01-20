@@ -78,7 +78,6 @@ if (isset($_POST['kirim'])) {
 
         // Eksekusi query
         if ($stmt->execute()) {
-            echo "Laporan berhasil diperbarui!";
             header("Location: laporan_bisnis"); // Redirect ke halaman daftar laporan setelah berhasil
         } else {
             echo "Terjadi kesalahan: " . $stmt->error;
